@@ -3,6 +3,8 @@ package egovframework.com.survey.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.http.HttpStatus;
@@ -10,12 +12,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import egovframework.com.cmmn.util.FileUtil;
+import egovframework.com.survey.service.SurveyService;
 import egovframework.com.survey.vo.SurveyVo;
 
 @Controller
 @RequestMapping(value="/survey")
 public class SurveyController {
 	protected Log log = LogFactory.getLog(SurveyController.class);
+	
+	@Resource(name="surveyService")
+	private SurveyService surveyService;
+	
+	@Resource(name="fileUtil")
+	private FileUtil fileUtil;
 	
 	@RequestMapping(value="/surveyListPage.do")
 	public String surveyListpage() throws Exception {
@@ -24,11 +34,11 @@ public class SurveyController {
 
 	@RequestMapping(value="/getSurveyList.do")
 	public ResponseEntity<?> getSurveyList(SurveyVo vo) throws Exception {
-		List<Map<String, String>> surveyList = null;
+		List<SurveyVo> surveyList = null;
 		
 		try {
 			log.debug("[설문조사] 설문조사 목록 조회");
-			//surveyList = surveyService.selectSurveyList(vo);
+			surveyList = surveyService.getSurveyList(vo);
 		} catch (Exception e) {
 			log.debug("[설문조사] 설문조사 목록 조회 실패");
 			e.printStackTrace();

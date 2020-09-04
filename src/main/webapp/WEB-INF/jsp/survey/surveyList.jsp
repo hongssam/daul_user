@@ -141,3 +141,34 @@
 		</div>
 	</div>
 </section>
+
+<script type="text/javascript">
+
+	var surveyList = new Array();
+	
+	function getSurveyList() {
+		var request = $.ajax({
+			url: "/survey/getSurveyList.do",
+			method: "get",
+			data: $("#search-form").serialize()
+		});
+		
+		request.done(function(data) {
+			surveyList = data;
+			console.log(surveyList);
+		});
+		
+		request.fail(function(error) {
+			console.log(error);
+		});
+	}
+	
+	$(function() {
+		var today = formatDate(new Date());
+		var preday = formatPreDate(new Date());
+		$("input[name='search_s_date']").val(preday);
+		$("input[name='search_e_date']").val(today);
+		getSurveyList();
+	});
+
+</script>
