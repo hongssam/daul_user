@@ -1,0 +1,29 @@
+
+
+
+
+
+
+
+
+
+
+
+
+.note-btn .note-icon-caret {
+  display: none;
+}
+
+
+
+
+
+.featured_row{
+  border-radius: 8px;
+  background-color: #ffffff;
+  height: 90px;
+  margin-bottom: 60px;
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: -100px;
+}

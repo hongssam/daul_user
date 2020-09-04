@@ -6,11 +6,8 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-
-import egovframework.com.user.vo.UserVo;
 
 public class cmmnInterceptor extends HandlerInterceptorAdapter {
 
@@ -30,12 +27,12 @@ public class cmmnInterceptor extends HandlerInterceptorAdapter {
 		HttpSession httpSession = request.getSession();
 		
 		try {
-			//비로그인 상태시 무조건 로그인페이지로 이동
-			if (httpSession.getAttribute(LOGIN) == null) {
-				log.debug(" =============비로그인==============");
-				response.sendRedirect("/login/loginPage.do");
-				return false;
-			}
+//			//비로그인 상태시 무조건 로그인페이지로 이동
+//			if (httpSession.getAttribute(LOGIN) == null) {
+//				log.debug(" =============비로그인==============");
+//				response.sendRedirect("/login/loginPage.do");
+//				return false;
+//			}
 		} catch (Exception e) {
 			
 		}
