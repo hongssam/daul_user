@@ -16,7 +16,7 @@
 					<span class="icon-bar"></span>
 				</button>
 			</div>
-			<a href="index.html" class="navbar_brand float-left dn-smd">
+			<a href="/main/mainPage.do" class="navbar_brand float-left dn-smd">
 				<img class="logo1 img-fluid" src="${pageContext.request.contextPath}/images/logo.png" alt="header-logo.png" style="width: 180px; margin-top: 10px;">
 				<img class="logo2 img-fluid" src="${pageContext.request.contextPath}/images/logo.png" alt="header-logo.png" style="width: 180px; margin-top: 10px;">
 			</a>
@@ -24,23 +24,23 @@
 			<!--Note: declare the Menu style in the data-menu-style="horizontal" (options: horizontal, vertical, accordion) -->
 			<ul id="respMenu" class="ace-responsive-menu text-center" data-menu-style="horizontal">
 				<li>
-					<a href="intro.html"><span class="title">e-다울마당</span></a>
+					<a href="/board/introPage.do"><span class="title">e-다울마당</span></a>
 					<!-- Level Two-->
 					<ul>
-						<li><a href="intro.html">e-다울마당이란?</a></li>
-						<li><a href="faq.html">자주하는 질문</a></li>
-						<li><a href="notice.html">공지사항</a></li>
-						<li><a href="qa.html">묻고답하기</a></li>
+						<li><a href="/board/introPage.do">e-다울마당이란?</a></li>
+						<li><a href="/board/faqListpage.do">자주하는 질문</a></li>
+						<li><a href="/board/noticeListPage.do">공지사항</a></li>
+						<li><a href="/board/qnaListPage.do">묻고답하기</a></li>
 					</ul>
 				</li>
 				<li>
-					<a href="suggest.html"><span class="title">열린제안</span></a>
+					<a href="/suggestion/suggestionListPage.do"><span class="title">열린제안</span></a>
 					<!-- Level Two-->
 					<ul>
-						<li><a href="suggest-edit.html">제안하기</a></li>
-						<li><a href="suggest.html">열린제안</a></li>
-						<li><a href="suggest.html">공감제안</a></li>
-						<li><a href="suggest.html">종료된제안</a></li>
+						<li><a href="/suggestion/suggestionRegistPage.do">제안하기</a></li>
+						<li><a href="/suggestion/suggestionListPage.do">열린제안</a></li>
+						<li><a href="/suggestion/suggestionListPage.do">공감제안</a></li>
+						<li><a href="/suggestion/suggestionListPage.do">종료된제안</a></li>
 					</ul>
 				</li>
 				<li>
@@ -52,10 +52,10 @@
 					</ul>
 				</li>
 				<li class="last">
-					<a href="contest.html"><span class="title">공모제안</span></a>
+					<a href="/contest/contestListPage.do"><span class="title">공모제안</span></a>
 					<!-- Level Two-->
 					<ul>
-						<li><a href="contest.html">공모제안</a></li>
+						<li><a href="/contest/contestListPage.do">공모제안</a></li>
 						<li><a href="contest-notice.html">공지사항</a></li>
 					</ul>
 				</li>
