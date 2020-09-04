@@ -1,0 +1,705 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="egovframework.com.chatbot.mapper.ChatbotMapper">
+
+	<select id="getIntentListInBtn" resultType="egovframework.com.chatbot.vo.IntentVo">
+		SELECT intent_id,
+			   title,
+			   parent_id,
+			   type,
+			   position,
+			   module	
+		  FROM chatbot_intent_list
+		 WHERE type = 'I' AND del_chk = 'N'
+	  ORDER BY parent_id, intent_id ;
+	</select>
+	
+	<select id="getIntentList" resultType="egovframework.com.chatbot.vo.IntentVo">
+		SELECT 								
+			   intent_id as id,
+			   title as text,
+			   parent_id as parent,
+			   type,
+			   position,
+			   module		    
+		  FROM chatbot_intent_list
+		 WHERE del_chk = 'N'
+	</select>
+
+	<insert id="addScenario">
+		INSERT INTO daul.chatbot_intent_list
+					(
+						intent_id		, 
+						title			, 
+						parent_id		, 
+						`type`			, 
+						`position`		, 
+						module			, 
+						create_user		, 
+						create_date		, 
+						update_user		, 
+						update_date		, 
+						del_chk
+					)
+			VALUES
+					(
+						(select concat('IT-',LPAD(count(*)+1,'4','0')) from chatbot_intent_list a),
+						'시나리오', 
+						'IT-0001',
+						'C',
+						(select (count(*)) from chatbot_intent_list c where c.type = 'C'),
+	    				'2',
+	   					#{create_user}, 
+	   					sysdate(), 
+		   				null, 
+		   				null, 
+		   				'N'
+	 				)
+	</insert>
+	<insert id="addBlock">
+	  INSERT INTO daul.chatbot_intent_list
+	        (
+				 intent_id,
+				 title,
+				 parent_id, 
+				 `type`, 
+				 `position`, 
+				 module, 
+				 create_user, 
+				 create_date, 
+				 update_user, 
+				 update_date, 
+				 del_chk
+			 )
+			VALUES
+			(
+				(select concat('IT-',LPAD(count(*)+1,'4','0')) from chatbot_intent_list a),
+				'블록', 
+				#{id},
+				'I',
+				(select (count(*)) from chatbot_intent_list c where c.type = 'I' and c.parent_id = #{id}),
+			    '2',
+			   	#{create_user}, 
+			   	sysdate(), 
+			    null, 
+			    null, 
+			    'N'
+		   )
+	</insert>   
+	<insert id="registInputText">
+		INSERT INTO daul.chatbot_input
+	        (
+				input_id,
+				intent_id,
+				input_text,
+				create_user,
+				create_date
+			 )
+			VALUES
+			(
+				(select concat('IP-',LPAD(count(*)+1,'4','0')) from chatbot_input b),
+				#{intent_id}, 
+				#{input_text},
+				#{create_user},
+				sysdate()				
+		   )
+	</insert>
+	
+	<update id="deleteCategory">
+		UPDATE daul.chatbot_intent_list
+		   SET del_chk = 'Y'
+		 WHERE intent_id = #{id}
+	
+	</update>
+	
+	<update id="renameCategory">
+		UPDATE daul.chatbot_intent_list
+		   SET title = #{text}
+		 WHERE intent_id = #{id}
+	</update>
+	
+	<select id="check" resultType="int">
+		SELECT count(*)
+		  FROM chatbot_input
+		 WHERE intent_id = #{intent_id}
+	</select>
+	
+	<update id="updateInputText">
+		UPDATE daul.chatbot_input
+		   SET input_text = #{input_text},
+		       update_user = #{update_user},
+		       update_date = sysdate()
+		 WHERE intent_id = #{intent_id}
+	</update>
+	
+	<select id="getInputText" resultType="egovframework.com.chatbot.vo.InputVo">
+		SELECT *
+		  FROM daul.chatbot_input
+		 WHERE intent_id = #{intent_id}
+	</select>
+	
+	
+	<select id="getListId" resultType="String">
+			SELECT  concat('R-',LPAD(
+			                          (SELECT AUTO_INCREMENT
+							             FROM information_schema.tables
+								        WHERE table_name = 'chatbot_respone_list'
+							              AND table_schema = DATABASE( ))
+							         ,'6','0')) AS id
+	</select>
+	
+	<select id="getTextId" resultType="String">
+			SELECT  concat('TT-',LPAD(
+			                          (SELECT AUTO_INCREMENT
+							             FROM information_schema.tables
+								        WHERE table_name = 'chatbot_respone_text_type'
+							              AND table_schema = DATABASE( ))
+							         ,'6','0')) AS id
+	</select>
+	
+	<select id="getListTypeId" resultType="String">
+			SELECT  concat('LT-',LPAD(
+			                          (SELECT AUTO_INCREMENT
+							             FROM information_schema.tables
+								        WHERE table_name = 'chatbot_respone_list_type'
+							              AND table_schema = DATABASE( ))
+							         ,'6','0')) AS id
+	</select>
+	
+	<select id="getListTypeItemId" resultType="String">
+			SELECT  concat('LTI-',LPAD(
+			                          (SELECT AUTO_INCREMENT
+							             FROM information_schema.tables
+								        WHERE table_name = 'chatbot_list_type_item'
+							              AND table_schema = DATABASE( ))
+							         ,'6','0')) AS id
+	</select>
+	
+	<select id="getBtnId" resultType="String">
+			SELECT  concat('TTB-',LPAD(
+			                          (SELECT AUTO_INCREMENT
+							             FROM information_schema.tables
+								        WHERE table_name = 'chatbot_respone_btn'
+							              AND table_schema = DATABASE( ))
+							         ,'6','0')) AS id
+	</select>
+	
+	<select id="getImgTypeId" resultType="String">
+			SELECT  concat('IMG-',LPAD(
+			                          (SELECT AUTO_INCREMENT
+							             FROM information_schema.tables
+								        WHERE table_name = 'chatbot_respone_image_type'
+							              AND table_schema = DATABASE( ))
+							         ,'6','0')) AS id
+	</select>
+	
+	<select id="getCardTypeId" resultType="String">
+			SELECT  concat('CT-',LPAD(
+			                          (SELECT AUTO_INCREMENT
+							             FROM information_schema.tables
+								        WHERE table_name = 'chatbot_respone_card_type'
+							              AND table_schema = DATABASE( ))
+							         ,'6','0')) AS id
+	</select>
+	
+	<select id="getSkillTypeId" resultType="String">
+			SELECT  concat('ST-',LPAD(
+			                          (SELECT AUTO_INCREMENT
+							             FROM information_schema.tables
+								        WHERE table_name = 'chatbot_respone_skill_type'
+							              AND table_schema = DATABASE( ))
+							         ,'6','0')) AS id
+	</select>
+	
+	<select id="getDirectTypeId" resultType="String">
+					SELECT  concat('DT-',LPAD(
+			                          (SELECT AUTO_INCREMENT
+							             FROM information_schema.tables
+								        WHERE table_name = 'chatbot_respone_direct_type'
+							              AND table_schema = DATABASE( ))
+							         ,'6','0')) AS id
+	</select>
+	
+	<select id="getConditionTypeId" resultType="String">
+					SELECT  concat('CDT-',LPAD(
+			                          (SELECT AUTO_INCREMENT
+							             FROM information_schema.tables
+								        WHERE table_name = 'chatbot_respone_condition'
+							              AND table_schema = DATABASE( ))
+							         ,'6','0')) AS id
+	</select>
+	
+	<select id="checkIntentId" resultType="int">
+		SELECT COUNT(*) FROM chatbot_respone_list
+		WHERE intent_id = #{intent_id}
+	</select>
+	
+		
+	<delete id="deleteResponeList">
+		DELETE 
+		FROM chatbot_respone_list
+		WHERE intent_id = #{intent_id}
+	</delete>
+	
+	<delete id="deleteResponeTextType">
+		DELETE 
+		FROM chatbot_respone_text_type
+		WHERE intent_id = #{intent_id}
+	</delete>
+	
+	<delete id="deleteResponeImageType">
+		DELETE 
+		FROM chatbot_respone_image_type
+		WHERE intent_id = #{intent_id}
+	</delete>
+	
+	<delete id="deleteResponeCardType">
+		DELETE 
+		FROM chatbot_respone_card_type
+		WHERE intent_id = #{intent_id}
+	</delete>
+	
+	<delete id="deleteResponeListType">
+		DELETE 
+		FROM chatbot_respone_list_type
+		WHERE intent_id = #{intent_id}
+	</delete>
+	
+	<delete id="deleteResponeSkillType">
+		DELETE 
+		FROM chatbot_respone_skill_type
+		WHERE intent_id = #{intent_id}
+	</delete>
+	
+	<delete id="deleteResponeConditionType">
+		DELETE 
+		FROM chatbot_respone_condition
+		WHERE intent_id = #{intent_id}
+	</delete>
+	
+	<delete id="deleteResponeDirectType">
+		DELETE 
+		FROM chatbot_respone_direct_type
+		WHERE intent_id = #{intent_id}
+	</delete>
+	
+	<delete id="deleteResponeBtn">
+		DELETE 
+		FROM chatbot_respone_btn
+		WHERE intent_id = #{intent_id}
+	</delete>
+	
+	<delete id="deleteResponeSkillTypeItem">
+		DELETE 
+		FROM chatbot_skill_type_item
+		WHERE intent_id = #{intent_id}
+	</delete>
+	
+	<delete id="deleteResponeListTypeItem">
+		DELETE 
+		FROM chatbot_list_type_item
+		WHERE intent_id = #{intent_id}
+	</delete>
+	
+	
+	<insert id="registResponeList">
+		
+		insert into chatbot_respone_list(
+			list_id,
+			intent_id,
+			type,
+			trans_type,
+			position,
+			create_user,
+			create_date
+			
+		)
+		values
+		(
+			#{list_id},
+			#{intent_id},
+			#{type},
+			#{trans_type},
+			#{position},
+			#{create_user},
+			sysdate()			
+		)
+
+	</insert>
+	
+	<insert id="registTextTypeList" >
+		
+			insert into chatbot_respone_text_type(
+				text_id,
+				list_id,
+				content,
+				position,
+				intent_id
+			)
+			values
+			(
+				#{text_id},
+				#{list_id},
+				#{content},
+				#{position},
+				#{intent_id}		
+			)
+		
+	</insert>
+	
+	<insert id="registListTypeList">
+			insert into chatbot_respone_list_type(
+				list_type_id,
+				list_id,
+				title,
+				position,
+				intent_id
+			)values
+		
+			(
+				#{list_type_id},
+				#{list_id},
+				#{title},
+				#{position},
+				#{intent_id}			
+			)
+		
+	</insert>
+	
+	<insert id="registListTypeItemList" >
+		insert into chatbot_list_type_item(
+			list_item_id,
+			list_type_id,
+			title,
+			content,
+			position,
+			intent_id,
+			img_attach_id
+		)values
+		
+		(
+			#{list_item_id},
+			#{list_type_id},
+			#{title},
+			#{content},
+			#{position},
+			#{intent_id},
+			#{img_attach_id}
+		)
+	</insert>
+	<insert id="registBtn" >
+		insert into chatbot_respone_btn(
+			btn_id,
+			parent_id,
+			name,
+			position,
+			function1,
+			function2,
+			intent_id
+		)
+		values
+		(
+			#{btn_id},
+			#{parent_id},
+			#{name},
+			#{position},
+			#{function1},
+			#{function2},
+			#{intent_id}		
+		)
+	</insert>
+	<insert id="registImgTypeList" >
+		insert into chatbot_respone_image_type(
+			img_id,
+			list_id,
+			position,
+			intent_id,
+			img_attach_id
+		)
+		values
+		(
+			#{img_id},
+			#{list_id},
+			#{position},
+			#{intent_id},
+			#{img_attach_id}			
+		)
+	</insert>
+	<insert id="registCardTypeList" >
+		insert into chatbot_respone_card_type(
+			card_id,
+			list_id,
+			title,
+			content,
+			position,
+			intent_id,
+			img_attach_id
+		)
+		values
+		(
+			#{card_id},
+			#{list_id},
+			#{title},
+			#{content},
+			#{position},
+			#{intent_id},
+			#{img_attach_id}			
+		)
+	</insert>
+	
+	<insert id="registSkillTypeList" >
+		insert into chatbot_respone_skill_type(
+			skill_id,
+			list_id,
+			position,
+			skill_item_id,
+			intent_id
+		)
+		values
+		(
+			#{skill_id},
+			#{list_id},
+			#{position},
+			#{skill_item_id},
+			#{intent_id}			
+		)
+	</insert>
+	
+	<insert id="registDirectTypeList" >
+		insert into chatbot_respone_direct_type(
+			direct_btn_id,
+			list_id,
+			position,
+			intent_id
+		)
+		values
+		(
+			#{direct_btn_id},
+			#{list_id},
+			#{position},
+			#{intent_id}			
+		)
+	</insert>
+	
+	<insert id="registConditionTypeList" >
+		insert into chatbot_respone_condition(
+			condition_id,
+			list_id,
+			position,
+			condition_item_id,
+			intent_id
+		)
+		values
+		(
+			#{condition_id},
+			#{list_id},
+			#{position},
+			#{condition_item_id},
+			#{intent_id}			
+		)
+	</insert>
+	
+	<select id="getResponeListVoList" resultType="Map">
+		SELECT list_id,
+		       intent_id,
+		       type,
+		       trans_type,
+		       position
+		 FROM chatbot_respone_list
+		WHERE intent_id = #{intent_id}
+	</select>
+	
+	<select id="getTextTypeCardList" parameterType="String" resultType="Map">
+		SELECT text_id,
+			   list_id,
+			   content,
+			   position
+		  FROM chatbot_respone_text_type
+		 WHERE list_id = #{list_id}
+	</select>
+	
+	<select id="getTextTypeCardBtnList" parameterType="String" resultType="Map">
+		SELECT btn_id,
+			   parent_id,
+			   name,
+			   position,
+			   function1,
+			   function2
+		  FROM chatbot_respone_btn
+		 WHERE parent_id = #{text_id}
+	</select>
+	
+	<select id="getImgTypeCardList" parameterType="String" resultType="Map">
+		SELECT a.img_id,
+			   a.list_id,
+			   a.position,
+			   a.img_attach_id,
+			   b.seq
+		  FROM chatbot_respone_image_type a
+     LEFT JOIN chatbot_respone_attach b
+	    	ON a.img_attach_id = b.parent_id 
+		 WHERE list_id = #{list_id}
+	</select>
+	
+	<select id="getCardTypeCardList" parameterType="String" resultType="Map">
+		SELECT a.card_id,
+			   a.list_id,
+			   a.title,
+			   a.content,
+			   a.position,
+			   a.img_attach_id,
+			   b.seq
+	      FROM chatbot_respone_card_type a
+     LEFT JOIN chatbot_respone_attach b
+		 ON a.img_attach_id = b.parent_id 
+		 WHERE list_id = #{list_id}
+	</select>
+	
+	<select id="getCardTypeCardBtnList" parameterType="String" resultType="Map">
+		SELECT btn_id,
+			   parent_id,
+			   name,
+			   position,
+			   function1,
+			   function2
+		  FROM chatbot_respone_btn
+		 WHERE parent_id = #{card_id}
+	</select>
+		
+	<select id="getListTypeCardList" parameterType="String" resultType="Map">
+		SELECT list_type_id,
+			   list_id,
+			   title,
+			   position
+		  FROM chatbot_respone_list_type
+		 WHERE list_id = #{list_id}
+	</select>	
+	
+	<select id="getListTypeCardItemList" parameterType="String" resultType="Map">
+		SELECT a.list_item_id,
+			   a.list_type_id,
+			   a.title,
+			   a.content,
+			   a.position,
+			   a.img_attach_id,
+			   b.seq 
+		  FROM chatbot_list_type_item a
+     LEFT JOIN chatbot_respone_attach b
+		    ON a.img_attach_id = b.parent_id 
+		 WHERE list_type_id = #{list_type_id}
+	</select>
+	
+	<select id="getListTypeCardBtnList" parameterType="String" resultType="Map">
+		SELECT btn_id,
+			   parent_id,
+			   name,
+			   position,
+			   function1,
+			   function2
+		  FROM chatbot_respone_btn
+		 WHERE parent_id = #{list_type_id}
+	</select>
+		
+		<select id="getSkillTypeCardList" parameterType="String" resultType="Map">
+		SELECT skill_id,
+			   list_id,
+			   position,
+			   skill_item_id
+		  FROM chatbot_respone_skill_type
+		 WHERE list_id = #{list_id}
+	</select>	
+	<select id="getConditionTypeCardList" parameterType="String" resultType="Map">
+		SELECT condition_id,
+			   list_id,
+			   position,
+			   condition_item_id
+		  FROM chatbot_respone_condition
+		 WHERE list_id = #{list_id}
+	</select>	
+	<select id="getDirectTypeCardList" parameterType="String" resultType="Map">
+		SELECT direct_btn_id,
+			   list_id,
+			   position
+		  FROM chatbot_respone_direct_type
+		 WHERE list_id = #{list_id}
+	</select>	
+	
+	<select id="getSkillTypeCardItemList" parameterType="String" resultType="Map">
+		SELECT skill_item_id,
+			   skill_id,
+			   name,
+			   function_name
+		  FROM chatbot_skill_type_item
+		 WHERE skill_id = #{skill_id}
+	</select>
+	
+	<select id="getDirectTypeCardBtnList" parameterType="String" resultType="Map">
+		SELECT btn_id,
+			   parent_id,
+			   name,
+			   position,
+			   function1,
+			   function2
+		  FROM chatbot_respone_btn
+		 WHERE parent_id = #{direct_id}
+	</select>
+	
+	<update id="deleteImageFile">
+		DELETE FROM daul.chatbot_respone_attach
+		 WHERE intent_id = #{intent_id}
+	</update>
+	
+	<select id="selectImageFile" resultType="hashmap">
+		SELECT *
+		  FROM daul.chatbot_respone_attach
+		 WHERE parent_id = #{img_attach_id}
+	</select>
+	
+	<insert id="insertImageFile">
+		INSERT INTO daul.chatbot_respone_attach
+			 (
+			   parent_id
+			 , org_file_name
+			 , save_file_name
+			 , file_size
+			 , del_chk
+			 , attach_type
+			 , intent_id
+			 )
+		VALUES
+			 (
+			   #{idx}
+			 , #{org_file_name}
+			 , #{save_file_name}
+			 , #{file_size}
+			 , 'N'
+			 , #{attach_type}
+			 , #{intent_id}
+			 )
+	</insert>
+	
+	<select id="selectSkillList" resultType="egovframework.com.chatbot.vo.SkillVo">
+		SELECT seq,
+		       title,
+		       function,
+		       del_chk
+		  FROM chatbot_skill_list
+		 WHERE del_chk = 'N'
+	</select>
+	<select id="selectConditionList" resultType="egovframework.com.chatbot.vo.ConditionVo">
+		SELECT seq,
+		       title,
+		       function,
+		       del_chk
+		  FROM chatbot_condition_list
+		 WHERE del_chk = 'N'
+	</select>
+	<select id = "checkIntentName" resultType="int">
+		SELECT COUNT(*) 
+		  FROM chatbot_intent_list 
+		 WHERE title = #{title}
+		   AND del_chk = 'N'
+		   AND type = 'I'
+	</select>
+	
+</mapper> 

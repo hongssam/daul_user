@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+    <context:component-scan base-package="egovframework">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+    </context:component-scan>
+
+	<mvc:annotation-driven />
+	
+    <!-- AspectJ라이브러리를 이용한 Proxy 객체를 생성 -->
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+		
+	<!-- XML 방식으로 AOP 기능을 설정할 때 사용 : 이 예제에는 어노테이션을 사용하므로 필요없긴 하다.-->
+	<aop:config></aop:config>
+	
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="webBindingInitializer">
+            <bean class="egovframework.com.cmmn.web.EgovBindingInitializer"/>
+        </property>
+        <!-- @ResponseBody application/json 으로 변경 -->
+        <property name="messageConverters">
+        	<list>
+        		<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+            </list>
+        </property>
+    </bean>
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+        <property name="interceptors">
+            <list>
+                <ref bean="localeChangeInterceptor" />
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver" />
+    <!-- 쿠키를 이용한 Locale 이용시 <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver"/> -->
+    <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+        <property name="paramName" value="language" />
+    </bean>
+
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="defaultErrorView" value="cmmn/egovError"/>
+        <property name="exceptionMappings">
+            <props>
+                <prop key="org.springframework.dao.DataAccessException">cmmn/dataAccessFailure</prop>
+                <prop key="org.springframework.transaction.TransactionException">cmmn/transactionFailure</prop>
+                <prop key="egovframework.rte.fdl.cmmn.exception.EgovBizException">cmmn/egovError</prop>
+                <prop key="org.springframework.security.AccessDeniedException">cmmn/egovError</prop>
+            </props>
+        </property>
+    </bean>
+
+	<bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView"/>
+		<property name="order" value="1"/>
+	</bean>
+	<!-- tiles 3 configurer -->
+	<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+		<property name="definitions">
+			<list>
+				<value>/WEB-INF/tiles/default-layout.xml</value>
+			</list>
+		</property>
+	</bean>
+
+    <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" p:order="2"
+	    p:viewClass="org.springframework.web.servlet.view.JstlView"
+	    p:prefix="/WEB-INF/jsp/" p:suffix=".jsp"/>
+
+    <!-- For Pagination Tag -->
+    <bean id="imageRenderer" class="egovframework.com.cmmn.web.EgovImgPaginationRenderer"/>
+
+    <bean id="paginationManager" class="egovframework.rte.ptl.mvc.tags.ui.pagination.DefaultPaginationManager">
+        <property name="rendererType">
+            <map>
+                <entry key="image" value-ref="imageRenderer"/>
+            </map>
+        </property>
+    </bean>
+    
+  
+	
+
+	<!-- /For Pagination Tag -->
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="/WEB-INF/config/config.properties"/>
+        <property name="fileEncoding" value="UTF-8" />
+    </bean>
+
+
+    <mvc:view-controller path="/cmmn/validator.do" view-name="cmmn/validator"/>
+    
+    <mvc:interceptors>
+       <mvc:interceptor>
+           <mvc:mapping path="/**"/>
+           <mvc:exclude-mapping path="/log*/*.do"/>
+           <mvc:exclude-mapping path="/user/signUp*.do"/>
+           <bean  class="egovframework.com.cmmn.interceptor.cmmnInterceptor"/>
+           
+       </mvc:interceptor>
+    </mvc:interceptors>
+
+    <mvc:interceptors>
+       <mvc:interceptor>
+           <mvc:mapping path="/login/login.do"/>
+           <bean  class="egovframework.com.cmmn.interceptor.LoginInterceptor"/>
+       </mvc:interceptor>
+    </mvc:interceptors>
+    
+    
+    <beans profile="local1">   
+		<bean id="ProfileCls" class="egovframework.com.cmmn.util.ProfileCls">
+			<property name="rootPath" value="/Users/a1/attach/"/>
+		</bean>
+	</beans>
+	<beans profile="local2">   
+		<bean id="ProfileCls" class="egovframework.com.cmmn.util.ProfileCls">
+			<property name="rootPath" value="/Users/a2/attach/"/>
+		</bean>
+	</beans>
+	<beans profile="prod">   
+		<bean id="ProfileCls" class="egovframework.com.cmmn.util.ProfileCls">
+			<property name="rootPath" value="/home/tababa/imageServer/imageServer-tomcat/webapps/ROOT/images/"/>
+		</bean>
+	</beans>
+
+
+
+</beans>
