@@ -4,7 +4,7 @@
     
 <div class="page">
 <!-- 
-
+test
 <form id="form"> 
 	<input type="text" name="intent_id" value="IT-0037"/> 
 	<input type="text" name="cardList[0][type]" value="text"/> 
