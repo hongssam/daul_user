@@ -41,14 +41,11 @@
 				</div>
 			</div>
 		</div>
-	
-    
-	       
    	
 		<div class="grid-list row">
 			<c:forEach var="list" items="${surveyList}" varStatus="idx">
 				<div class="grid-item col-12">
-					<div class="feat_property list" onclick="location.href='${pageContext.request.contextPath}/survey/surveyDetailPage.do'">
+					<div class="feat_property list" onclick="location.href='${pageContext.request.contextPath}/survey/surveyDetailPage.do?survey_idx=${list.survey_idx }'">
 						<div class="thumb">
 							<img class="img-whp" src="${pageContext.request.contextPath}/images/property/fp1.jpg" alt="fp1.jpg">
 						</div>
