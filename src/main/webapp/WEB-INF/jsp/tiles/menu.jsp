@@ -60,11 +60,11 @@
 					</ul>
 				</li>
 				<li class="list-inline-item list_s pull-right nav-item-account">
-					<a href="register-term.html" class="btn" style="margin-top: 1px">
+					<a href="/user/userRegistTermPage.do" class="btn" style="margin-top: 1px">
 						<span class="dn-lg">| 회원가입</span></a>
 				</li>
 				<li class="list-inline-item list_s pull-right nav-item-account">
-					<a href="login.html" class="btn flaticon-user">
+					<a href="/login/loginPage.do" class="btn flaticon-user">
 						<span class="dn-lg">로그인</span></a>
 				</li>
 			</ul>
@@ -120,8 +120,8 @@
 				</ul>
 			</li>
 			<li><a href="guide.html">이용안내</a></li>
-			<li><a href="page-login.html"><span class="flaticon-user"></span> Login</a></li>
-			<li><a href="page-register.html"><span class="flaticon-edit"></span> Register</a></li>
+			<li><a href="/login/loginPage.do"><span class="flaticon-user"></span> Login</a></li>
+			<li><a href="/user/userRegistTermPage.do"><span class="flaticon-edit"></span> Register</a></li>
 		</ul>
 	</nav>
 </div>

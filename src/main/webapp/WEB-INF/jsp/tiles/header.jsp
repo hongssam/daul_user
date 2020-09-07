@@ -43,8 +43,6 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/progressbar.js"></script>
 
 <script type="text/javascript">
-	Breakpoints();
-
 	function getParameterByName(name) {
 		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
 		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");

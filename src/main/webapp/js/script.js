@@ -379,46 +379,48 @@
     }
 
     /*  Testimonial-Slider-Owl-carousel  */
-    if($('.testimonial_grid_slider').length){
-        $('.testimonial_grid_slider').owlCarousel({
-            loop:true,
-            margin:15,
-            dots:true,
-            nav:false,
-            rtl:false,
-            autoplayHoverPause:false,
-            autoplay: false,
-            singleItem: true,
-            smartSpeed: 1200,
-            navText: [
-              '<i class="fa fa-arrow-left"></i>',
-              '<i class="fa fa-arrow-right"></i>'
-            ],
-            responsive: {
-                0: {
-                    items: 1,
-                    center: false
-                },
-                480:{
-                    items:1,
-                    center: false
-                },
-                600: {
-                    items: 1,
-                    center: false
-                },
-                768: {
-                    items: 1
-                },
-                992: {
-                    items: 1
-                },
-                1200: {
-                    items: 1
-                }
-            }
-        })
-    }
+    $(function() {
+    	if($('.testimonial_grid_slider').length){
+    		$('.testimonial_grid_slider').owlCarousel({
+    			loop:true,
+    			margin:15,
+    			dots:true,
+    			nav:false,
+    			rtl:false,
+    			autoplayHoverPause:false,
+    			autoplay: false,
+    			singleItem: true,
+    			smartSpeed: 1200,
+    			navText: [
+    				'<i class="fa fa-arrow-left"></i>',
+    				'<i class="fa fa-arrow-right"></i>'
+    				],
+    				responsive: {
+    					0: {
+    						items: 1,
+    						center: false
+    					},
+    					480:{
+    						items:1,
+    						center: false
+    					},
+    					600: {
+    						items: 1,
+    						center: false
+    					},
+    					768: {
+    						items: 1
+    					},
+    					992: {
+    						items: 1
+    					},
+    					1200: {
+    						items: 1
+    					}
+    				}
+    		})
+    	}
+    });
 
     /*  Team-Slider-Owl-carousel  */
     if($('.team_slider').length){
