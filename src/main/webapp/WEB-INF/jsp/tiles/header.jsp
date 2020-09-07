@@ -50,7 +50,6 @@
 		return results == null ? "" : decodeURIComponent(results[1].replace(
 				/\+/g, " "));
 	}
-	
 
 	function formatDate(date) { 
 		var d = new Date(date), 
@@ -70,5 +69,17 @@
 		if (month.length < 2) month = '0' + month; 
 		if (day.length < 2) day = '0' + day; 
 		return [year, month, day].join('-'); 
+	}
+	
+	function submitConfirm($type) {
+		var type = $type.text();
+		var title = $type.data("title");
+		var msg = "";
+		
+		if (title !== undefined) msg += title + "을(를) ";
+		msg += type + "하시겠습니까?";
+		
+		if (!confirm(msg)) return false;
+		else return true;
 	}
 </script>

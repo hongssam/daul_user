@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="egovframework.com.suggestion.mapper.SuggestionMapper">
+	<select id="selectSuggestionIdx" resultType="String">
+		SELECT CONCAT('SG-',LPAD(count(*)+1,'6','0')) as 'suggestion_idx'
+		FROM suggestion_main 
+	</select>
+	
+	<insert id="registSuggestion">
+		INSERT INTO daul.suggestion_main
+		     (
+		       suggestion_idx
+		     , title
+		     , content
+		     , create_user
+		     , create_date
+		     , del_chk
+		     )
+		VALUES 
+			 (
+			   #{suggestion_idx}
+		     , #{title}
+		     , #{content}
+		     , #{create_user}
+		     , SYSDATE()
+		     , 'N'
+			 )
+	</insert>
+	
+	<insert id="insertFile">
+		INSERT INTO suggestion_attach
+		     (
+		       suggestion_idx
+		     , org_file_name
+		     , save_file_name
+		     , file_size
+		     , create_user
+		     , del_chk
+		     , create_date
+		     , attach_type
+		     )
+		VALUES
+		     (
+		       #{idx}
+		     , #{org_file_name}
+		     , #{save_file_name}
+		     , #{file_size}
+		     , #{create_user}
+		     , 'N'
+		     , SYSDATE()
+		     , #{attach_type}
+		     )
+	</insert>
+</mapper>                  
