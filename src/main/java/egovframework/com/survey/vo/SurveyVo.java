@@ -19,9 +19,16 @@ public class SurveyVo extends SearchVo{
 	private String del_chk;
 	private int opinion_count;
 	private int participation_count;
+	private String ing;
 	
 	
 
+	public String getIng() {
+		return ing;
+	}
+	public void setIng(String ing) {
+		this.ing = ing;
+	}
 	public int getOpinion_count() {
 		return opinion_count;
 	}

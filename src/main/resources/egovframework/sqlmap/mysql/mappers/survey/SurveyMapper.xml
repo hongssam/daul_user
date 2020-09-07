@@ -2,7 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="egovframework.com.survey.mapper.SurveyMapper">
 	<select id="getSurveyList" resultType = "egovframework.com.survey.vo.SurveyVo">
-		SELECT *
-		  FROM survey_main
+		SELECT @rownum:=@rownum+1 					AS num
+				 , a.survey_idx
+				 , (
+				    SELECT count(*) 
+				      FROM survey_opinion 
+				     WHERE survey_idx = a.survey_idx
+				   ) AS opinion_count
+				 , (
+				    SELECT count(*) 
+				      FROM survey_participation 
+				     WHERE survey_idx = a.survey_idx
+				   ) AS participation_count
+				 , a.title
+				 , a.content
+				 , DATE_FORMAT(a.s_date, '%Y-%m-%d') 		AS s_date
+				 , DATE_FORMAT(a.e_date, '%Y-%m-%d') 		AS e_date
+				 , a.survey_type
+				 , a.create_user
+				 , DATE_FORMAT(a.create_date, '%Y-%m-%d') AS create_date
+				 <![CDATA[
+				 , case when e_date < SYSDATE() then '투표완료'
+					  when s_date > SYSDATE() then '투표전'
+	 	              when e_date > SYSDATE() and SYSDATE() > s_date then '투표중'
+	 	         ]]>
+	             end as ing	
+			  FROM daul.survey_main a
+			     , (SELECT @rownum:=0) TMP
 	</select>
-</mapper>
+</mapper>                  
