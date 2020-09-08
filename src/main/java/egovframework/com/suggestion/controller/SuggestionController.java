@@ -76,7 +76,7 @@ public class SuggestionController {
 	}
 	
 	@RequestMapping(value="/suggestionRegist.do", method=RequestMethod.POST)
-	public String createSuggestion(SuggestionVo vo, HttpServletRequest request, BindingResult bindingResult) throws Exception {
+	public String createSuggestion(SuggestionVo vo, HttpServletRequest request, BindingResult bindingResult, HttpSession session) throws Exception {
 		try {
 			SuggestionValidator suggestionValidator = new SuggestionValidator();
 			suggestionValidator.validate(vo, bindingResult);
@@ -89,6 +89,9 @@ public class SuggestionController {
 			String suggestionIdx = suggestionService.selectSuggestionIdx();
 			vo.setSuggestion_idx(suggestionIdx);
 			
+			UserVo userVo = (UserVo) session.getAttribute("login");
+			vo.setCreate_user(userVo.getUser_id());
+			
 			log.debug("[열린제안] 열린제안 등록");
 			int result = suggestionService.registSuggestion(vo);
 			log.debug("suggestion insert result : " + result);
@@ -99,7 +102,6 @@ public class SuggestionController {
 				fileVo.setCreate_user(vo.getCreate_user());
 				fileVo.setIdx(vo.getSuggestion_idx());
 				
-				//List<FileVo> fileList = fileUtil.parseFileInfo(fileVo, publicFile, repFile);
 				List<FileVo> fileList = fileUtil.parseFileInfo(fileVo, request);
 
 				log.debug("[열린제안] 열린제안 파일 등록");
@@ -108,9 +110,11 @@ public class SuggestionController {
 				}
 			}
 		} catch (Exception e) {
+			log.debug("[열린제안] 열린제안 등록 실패");
 			e.printStackTrace();
 		}
 		
+		log.debug("[열린제안] 열린제안 등록 완료");
 		return "redirect:/suggestion/suggestionListPage.do";
 	}
 	
@@ -121,11 +125,12 @@ public class SuggestionController {
 		try {
 			log.debug("[열린제안] 열린제안 의견 목록 조회");
 			suggestionOpinionList = suggestionService.selectSuggestionOpinionList(suggestion_idx);
-			log.debug("[열린제안] 열린제안 의견 목록 : " + suggestionOpinionList);
 		} catch (Exception e) {
+			log.debug("[열린제안] 열린제안 의견 목록 조회 실패");
 			e.printStackTrace();
 		}
 		
+		log.debug("[열린제안] 열린제안 의견 목록 조회 완료");
 		return new ResponseEntity<>(suggestionOpinionList, HttpStatus.OK);
 	}
 	
@@ -173,9 +178,11 @@ public class SuggestionController {
 				suggestionService.insertSuggestionOpinion(vo);
 			}
 		} catch (Exception e) {
+			log.debug("[열린제안] 열린제안 댓글 등록 실패");
 			e.printStackTrace();
 		}
 		
+		log.debug("[열린제안] 열린제안 댓글 등록 완료");
 		return new ResponseEntity<>("success", HttpStatus.OK);
 	}
 }
