@@ -44,4 +44,15 @@ public class SurveyServiceImpl extends EgovAbstractServiceImpl implements Survey
 		return surveyMapper.getSurveyQuestionList(vo);
 	}
 
+	@Override
+	public void insertVote(Map<String, Object> map) throws Exception {
+		surveyMapper.insertVote(map);
+		
+	}
+
+	@Override
+	public List<Map<String, String>> getSurveyResult(SurveyVo vo) throws Exception {
+		return surveyMapper.getSurveyResult(vo);
+	}
+
 }

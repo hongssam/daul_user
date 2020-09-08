@@ -168,14 +168,16 @@
 			</div>
 			<div class="modal-body">
 				<h4 class="title">${surveyVo.title }</h4>
-       			<hr>
-       			<div class="survey-box shortcode_widget_radiobox" id="survey-box">
-       			</div>
-				<hr>
-				<div class="survey-box bottom">
-					<button type="submit" class="btn btn-primary">등록</button>
-					<button type="button" class="btn btn-default">취소</button>
-				</div>
+       			<form:form method="post" modelAttribute="surveyVo">
+       				<input type="hidden" name="survey_idx" value="${surveyVo.survey_idx }">
+	      			<div class="survey-box shortcode_widget_radiobox" id="survey-box">
+	      			</div>
+					<hr>
+					<div class="survey-box bottom">
+						<button type="submit" class="btn btn-primary" formaction="/survey/vote.do">등록</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">취소</span></button>
+					</div>
+				</form:form>
 			</div>
 		</div>
 	</div>
@@ -191,70 +193,8 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			</div>
 			<div class="modal-body">
-				<h4 class="title">Business 테마 관광콘텐츠 활용방안</h4>
-       			<hr>
-				<div class="survey-result-box">
-					<h5 class="mb20">1. 코로나19로 경제가 침체되어 재원이 부족할 경우, 어떤 대책이 필요하다고 생각하십니까?</h5>
-					<div class="item">
-						<label>세출구조조정을 통한 절감 재원으로 세입재원 확보</label>
-						<span class="float-right">231표 <span class="color-red">(10.3%)</span></span>
-						<div class="bar-graph-bg">
-							<div class="bar-graph-fr" style="width:25%"></div>
-						</div>
-					</div>
-					<div class="item">
-						<label>신규사업 제한</label>
-						<span class="float-right">231표 <span class="color-red">(10.3%)</span></span>
-						<div class="bar-graph-bg">
-							<div class="bar-graph-fr" style="width:35%"></div>
-						</div>
-					</div>
-					<div class="item">
-						<label>지방채 발행 등을 통한 확장적 재정운용</label>
-						<span class="float-right">231표 <span class="color-red">(10.3%)</span></span>
-						<div class="bar-graph-bg">
-							<div class="bar-graph-fr" style="width:10%"></div>
-						</div>
-					</div>
-					<div class="item">
-						<label>모름</label>
-						<span class="float-right">231표 <span class="color-red">(10.3%)</span></span>
-						<div class="bar-graph-bg">
-							<div class="bar-graph-fr" style="width:30%"></div>
-						</div>
-					</div>
-				</div>
-				<hr>
-				<div class="survey-result-box">
-					<h5 class="mb20">2. 세출 구조조정을 하는 경우, 투자 축소가 가장 필요한 분야는 무엇이라고 생각하십니까?</h5>
-					<div class="item">
-						<label>축제․행사성 경비</label>
-						<span class="float-right">231표 <span class="color-red">(10.3%)</span></span>
-						<div class="bar-graph-bg">
-							<div class="bar-graph-fr" style="width:25%"></div>
-						</div>
-					</div>
-					<div class="item">
-						<label>민간지원 보조금</label>
-						<span class="float-right">231표 <span class="color-red">(10.3%)</span></span>
-						<div class="bar-graph-bg">
-							<div class="bar-graph-fr" style="width:35%"></div>
-						</div>
-					</div>
-					<div class="item">
-						<label>SOC사업(도로, 철도, 항만 등) 투자</label>
-						<span class="float-right">231표 <span class="color-red">(10.3%)</span></span>
-						<div class="bar-graph-bg">
-							<div class="bar-graph-fr" style="width:10%"></div>
-						</div>
-					</div>
-					<div class="item">
-						<label>조직운영에 필요한 경상적 경비</label>
-						<span class="float-right">231표 <span class="color-red">(10.3%)</span></span>
-						<div class="bar-graph-bg">
-							<div class="bar-graph-fr" style="width:30%"></div>
-						</div>
-					</div>
+				<h4 class="title">${surveyVo.title }</h4>
+				<div class="survey-result-box" id="result-box">
 				</div>
 				<hr>
 			</div>
@@ -263,75 +203,135 @@
 </div>
 
 <script type="text/javascript">
-
-function getQuestionList() {
-	var survey_idx = $("#survey_idx").val();
-	var request = $.ajax({
-		url : "/survey/getQuestionList.do?survey_idx="+survey_idx,
-		method : "get"
-	});
-
-	request.done(function(data) {
-		console.log(data);
-		makeQuestion(data);
-	});
-
-	request.fail(function(error) {
-		console.log(error);
-	});
-}
-
-function makeQuestion(data){
 	
-	var TList = new Array();
-	var QList = new Array();
+	function getQuestionList() {
+		var survey_idx = $("#survey_idx").val();
+		var request = $.ajax({
+			url : "/survey/getQuestionList.do?survey_idx="+survey_idx,
+			method : "get"
+		});
 	
-	for (var result of data){
-		if(result.type === "T"){
-			TList.push(result);
-		}
+		request.done(function(data) {
+			makeQuestion(data);
+		});
+	
+		request.fail(function(error) {
+			console.log(error);
+		});
 	}
 	
-	for (var result2 of data){
-		if(result2.type === "Q"){
-			QList.push(result2);
+	function makeQuestion(data){
+		
+		var TList = new Array();
+		var QList = new Array();
+		
+		for (var result of data){
+			if(result.type === "T"){
+				TList.push(result);
+			}
+		}
+		
+		for (var result2 of data){
+			if(result2.type === "Q"){
+				QList.push(result2);
+			}
+		}
+		
+		for(var i = 0; i < TList.length; i++){
+				var str;
+				if(TList[i].select_type === "S"){
+				    str = '<hr><h5 class="mb20">'+(i+1)+'. '+TList[i].question_content+'</h5>'
+						+	'<div class="ui_kit_radiobox" id="radiobox_'+TList[i].ref+'">'
+						+	'</div>';
+				}else{
+					 str = '<hr><h5 class="mb20">'+(i+1)+'. '+TList[i].question_content+'</h5>'
+						+	'<div class="ui_kit_checkbox" id="checkbox_'+TList[i].ref+'">'
+				}
+				$("#survey-box").append(str);
+		}
+		for(var j = 0; j < QList.length; j++){
+			console.log(QList[j].ref);
+				var str2;
+				if(QList[j].select_type === "P"){
+				    str2 =     '   <div class="item custom-control custom-checkbox">'
+							+  '		<input type="checkbox" class="custom-control-input" value="'+QList[j].question_idx+'" name="answer" id="cb'+j+'">'
+							+  '		<label class="custom-control-label" for="cb'+j+'">'+QList[j].question_content+'</label>'
+							+  '	</div>';
+					var id = "checkbox_" + QList[j].ref;
+					console.log(id);
+					$("#" + id).append(str2);		
+				}else{
+					 str2 =     '   <div class="radio item">'
+							+  '		<input type="radio" name="answer" value="'+QList[j].question_idx+'" id="radio'+j+'">'
+							+  '		<label for="radio'+j+'"><span class="radio-label"></span>'+QList[j].question_content+'</label>'
+							+  '	</div>';
+					$("#radiobox_"+QList[j].ref).append(str2);		
+				}
 		}
 	}
+
+
+	function getSurveyResult() {
+		var survey_idx = $("#survey_idx").val();
+		var request = $.ajax({
+			url : "/survey/getSurveyResult.do?survey_idx="+survey_idx,
+			method : "get"
+		});
 	
-	for(var i = 0; i < TList.length; i++){
-			var str;
-			if(TList[i].select_type === "S"){
-			    str = '<h5 class="mb20">'+(i+1)+'. '+TList[i].question_content+'</h5>'
-					+	'<div class="ui_kit_radiobox" id="radiobox_'+TList[i].ref+'">'
+		request.done(function(data) {
+			makeSurveyResult(data);
+		});
+	
+		request.fail(function(error) {
+			console.log(error);
+		});
+	}
+
+	function makeSurveyResult(data){
+		console.log("makeSurveyResult = " +data);
+		var ResultTitleList = new Array();
+		var ResultQuestionList = new Array();
+		var ResultSum = 0;
+		for (var result of data){
+			if(result.type === "T"){
+				ResultTitleList.push(result);
+			}
+		}
+		
+		for (var result2 of data){
+			if(result2.type === "Q"){
+				ResultQuestionList.push(result2);
+			}
+		}
+		
+		for (var result of ResultQuestionList) {
+			ResultSum += parseInt(result.question_count);
+		}
+		
+		for(var i = 0; i < ResultTitleList.length; i++){
+			var str = '<hr><h5 class="mb20">'+(i+1)+'. '+ResultTitleList[i].question_content+'</h5>'
+				  	+	'<div id="result_'+ResultTitleList[i].ref+'">'
 					+	'</div>';
-			}else{
-				 str = '<h5 class="mb20">'+(i+1)+'. '+TList[i].question_content+'</h5>'
-					+	'<div class="ui_kit_checkbox" id="checkbox_'+TList[i].ref+'">'
-			}
-			$("#survey-box").append(str);
+			$("#result-box").append(str);
+		}
+		
+		for(var j = 0; j < ResultQuestionList.length; j++){
+			var per = (ResultQuestionList[j].question_count/ResultSum) * 100 ;
+			var str = 	  '<div class="item">'
+						+ '	<label>'+ ResultQuestionList[j].question_content +'</label>'
+						+ '	<span class="float-right">'+ ResultQuestionList[j].question_count +'<span class="color-red">('+ per.toFixed(1) +' %)</span></span>'
+						+ '	<div class="bar-graph-bg">'
+						+ '		<div class="bar-graph-fr" style="width:'+ per.toFixed(1) +'%"></div>'
+						+ '	</div>'
+						+ '</div>';
+			var id = "result_" + ResultQuestionList[j].ref;			
+			$("#"+id).append(str);
+		}
 	}
-	for(var j = 0; j < QList.length; j++){
-		console.log(QList[j].ref);
-			var str2;
-			if(QList[j].select_type === "P"){
-			    str2 =     '   <div class="item custom-control custom-checkbox">'
-						+  '		<input type="checkbox" class="custom-control-input" id="cb'+j+'">'
-						+  '		<label class="custom-control-label" for="cb'+j+'">'+QList[j].question_content+'</label>'
-						+  '	</div>';
-				var id = "checkbox_" + QList[j].ref;
-				console.log(id);
-				$("#" + id).append(str2);		
-			}else{
-				 str2 =     '   <div class="radio item">'
-						+  '		<input type="radio" name="radio" id="radio'+j+'">'
-						+  '		<label for="radio'+j+'"><span class="radio-label"></span>'+QList[j].question_content+'</label>'
-						+  '	</div>';
-				$("#radiobox_"+QList[j].ref).append(str2);		
-			}
-	}
-}
-$(function() {
-	getQuestionList();
-});
+	
+	$(function() {
+		getQuestionList();
+		getSurveyResult();
+	});
 
 </script>

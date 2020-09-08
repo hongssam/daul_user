@@ -1,10 +1,13 @@
 package egovframework.com.survey.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -12,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +25,7 @@ import egovframework.com.cmmn.util.FileUtil;
 import egovframework.com.survey.service.SurveyService;
 import egovframework.com.survey.vo.SurveyOpinionVo;
 import egovframework.com.survey.vo.SurveyVo;
+import egovframework.com.user.vo.UserVo;
 
 @Controller
 @RequestMapping(value="/survey")
@@ -90,7 +96,6 @@ public class SurveyController {
 	
 	@RequestMapping(value="/getQuestionList.do")
 	public ResponseEntity<?> getParticipationList( @RequestParam("survey_idx") String survey_idx) throws Exception{
-		
 		List<Map<String,String>> surveyQuestionList = null;
 		SurveyVo surveyVo = new SurveyVo();
 		surveyVo.setSurvey_idx(survey_idx);
@@ -98,6 +103,53 @@ public class SurveyController {
 		
 		return new ResponseEntity<>(surveyQuestionList, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value="/vote.do", method=RequestMethod.POST)
+	public String vote(HttpSession session, @ModelAttribute  SurveyVo vo, BindingResult bindingResult, HttpServletRequest request) throws Exception{
+		String question_idx;
+		String survey_idx;
+	    List<Map<String, Object>> answerList = new ArrayList<Map<String, Object>>();
+	    
+		try {
+			//UserVo userVo = (UserVo) session.getAttribute("login");
+		  //  vo.setCreate_user(userVo.getUser_id());
+			String answer_arr = vo.getAnswer();
+			String[] answerArr = answer_arr.split(",");
+			survey_idx = vo.getSurvey_idx();
+			
+			for(int i = 0; i < answerArr.length; i++) {
+				question_idx = answerArr[i];
+				
+				Map<String,Object> answerInfo = new HashMap<String,Object>();
+				
+				answerInfo.put("survey_idx", survey_idx);
+				answerInfo.put("question_idx", question_idx);
+				answerInfo.put("participation_user", "admin");
+				answerList.add(answerInfo);
+			}
+			for(int answerListCnt = 0; answerListCnt < answerList.size(); answerListCnt++) {
+				System.out.println(answerList.get(answerListCnt));
+				surveyService.insertVote(answerList.get(answerListCnt));
+				
+			}
+			
+		}catch(Exception e){
+			
+		}
+			
+		return "redirect:/survey/surveyDetailPage.do?survey_idx="+vo.getSurvey_idx();
+	}
+	
+	@RequestMapping(value="/getSurveyResult.do")
+	public ResponseEntity<?> getSurveyResult( @RequestParam("survey_idx") String survey_idx) throws Exception{
+		List<Map<String,String>> surveyResult = null;
+		SurveyVo surveyVo = new SurveyVo();
+		surveyVo.setSurvey_idx(survey_idx);
+		surveyResult = surveyService.getSurveyResult(surveyVo);
+		
+		return new ResponseEntity<>(surveyResult, HttpStatus.OK);
+	}
+	
 }
 
 

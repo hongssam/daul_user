@@ -100,5 +100,30 @@
 		ORDER BY ref , question_idx ;
 	</select>
 	
+	<insert id="insertVote" parameterType = "hashmap">
+		INSERT INTO daul.survey_participation 
+		(
+			question_idx,
+			survey_idx,
+			participation_user,
+			create_date
+		)
+		VALUES
+		(
+			#{question_idx},
+			#{survey_idx},
+			#{participation_user},
+			sysdate()
+		)
+	</insert>
 	
+	<select id="getSurveyResult" resultType="Map">
+		SELECT a.question_idx, a.question_content, count(b.question_idx) as question_count, a.type, a.ref
+		  FROM survey_question a
+		  LEFT JOIN survey_participation b 
+		    ON a.question_idx = b.question_idx
+		 WHERE a.survey_idx = #{survey_idx}
+		 GROUP BY a.question_content,a.question_idx 
+		 ORDER BY question_idx
+	</select>
 </mapper>                  

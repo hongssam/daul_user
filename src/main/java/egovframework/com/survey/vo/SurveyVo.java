@@ -20,9 +20,16 @@ public class SurveyVo extends SearchVo{
 	private int opinion_count;
 	private int participation_count;
 	private String ing;
+	private String answer;
 	
 	
 
+	public String getAnswer() {
+		return answer;
+	}
+	public void setAnswer(String answer) {
+		this.answer = answer;
+	}
 	public String getIng() {
 		return ing;
 	}
@@ -147,15 +154,18 @@ public class SurveyVo extends SearchVo{
 	public void setNum(int num) {
 		this.num = num;
 	}
-	
 	@Override
 	public String toString() {
-		return "SurveyVo [survey_idx=" + survey_idx + ", title=" + title + ", content=" + content + ", survey_type="
-				+ survey_type + ", s_date=" + s_date + ", e_date=" + e_date + ", create_user=" + create_user
-				+ ", create_date=" + create_date + ", update_user=" + update_user + ", update_date=" + update_date
-				+ ", del_chk=" + del_chk + ", question_content=" + question_content + ", q_seq="
-				+ q_seq + ", surveyFile= " + surveyFile +"]";
+		return "SurveyVo [survey_idx=" + survey_idx + ", question_idx=" + question_idx + ", title=" + title
+				+ ", content=" + content + ", survey_type=" + survey_type + ", s_date=" + s_date + ", e_date=" + e_date
+				+ ", create_user=" + create_user + ", create_date=" + create_date + ", update_user=" + update_user
+				+ ", update_date=" + update_date + ", del_chk=" + del_chk + ", opinion_count=" + opinion_count
+				+ ", participation_count=" + participation_count + ", ing=" + ing + ", answer=" + answer
+				+ ", question_content=" + question_content + ", surveyFile=" + surveyFile + ", q_seq=" + q_seq
+				+ ", num=" + num + "]";
 	}
+	
+
 
 	
 }
