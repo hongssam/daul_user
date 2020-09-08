@@ -51,4 +51,114 @@
 		     , #{attach_type}
 		     )
 	</insert>
+	
+	<select id="selectSuggestionList" resultType="egovframework.com.suggestion.vo.SuggestionVo">
+		SELECT * 
+		  FROM (
+				SELECT 
+			       @rownum:=@rownum+1 AS num,
+			       c.suggestion_idx,
+			       c.title, 
+			       c.content, 
+			       c.like_count,     
+			       c.create_user,
+			       DATE_FORMAT(c.create_date, '%Y-%m-%d') as create_date,
+				   (SELECT count(*) FROM suggestion_opinion a WHERE a.suggestion_idx = c.suggestion_idx) AS opinion_cnt
+			FROM suggestion_main c, (SELECT @rownum:=0) TMP   
+			WHERE c.del_chk != 'Y'
+			   <if test="search_type == 'title'">
+			   		AND c.title like concat('%', #{search}, '%')
+			   </if>
+			   <if test="search_type == 'content'">
+			   		AND c.content like concat('%', #{search}, '%')
+			   </if>
+			   <if test="search_type == 'create_user'">
+			   		AND c.create_user like concat('%', #{search}, '%')
+			   </if>
+			   <if test="search_s_date != null and search_s_date != ''">
+				   <![CDATA[
+				   AND c.create_date >= date_format(concat(#{search_s_date}, ' 00:00:00'), '%Y-%m-%d %H:%i:%s')
+				   ]]>
+			   </if>
+			   <if test="search_e_date != null and search_e_date != ''">
+				   <![CDATA[
+				   AND c.create_date <= date_format(concat(#{search_e_date}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
+				   ]]>
+			   </if>
+			  
+		) sub
+		ORDER BY sub.num DESC
+	</select>
+	
+	<select id="selectSuggestion" resultType="egovframework.com.suggestion.vo.SuggestionVo">
+		SELECT sm.*
+			 , (SELECT COUNT(*) FROM daul.suggestion_opinion so WHERE so.suggestion_idx = sm.suggestion_idx) AS opinion_cnt
+		  FROM daul.suggestion_main sm
+		 WHERE del_chk != 'Y'
+		   AND suggestion_idx = #{suggestion_idx}
+	</select>
+	
+	<select id="selectSuggestionOpinionList" resultType="egovframework.com.suggestion.vo.SuggestionOpinionVo">
+		SELECT @rownum:=@rownum+1 AS num
+			 , so.*
+		     , u.auth_type 
+		  FROM daul.suggestion_opinion so
+		  LEFT JOIN daul.user u ON so.create_user = u.user_id 
+		  INNER JOIN (SELECT @rownum:=0) TMP
+		 <!-- WHERE so.del_chk != 'Y' --> 
+		 WHERE so.suggestion_idx = #{suggestion_idx}
+		 ORDER BY so.suggestion_ref
+		        , so.suggestion_step
+	</select>
+	
+	<select id="selectParentSuggestionOpinion" resultType="egovframework.com.suggestion.vo.SuggestionOpinionVo">
+		SELECT suggestion_ref
+		     , suggestion_indent
+		     , suggestion_step
+		  FROM daul.suggestion_opinion
+		 WHERE opinion_idx = #{opinion_idx}
+	</select>
+	
+	<update id="updateChildSuggestionOpinion">
+		UPDATE daul.suggestion_opinion
+		   SET suggestion_step = suggestion_step + 1
+		 WHERE suggestion_ref = #{suggestion_ref}
+		   <![CDATA[
+		   AND suggestion_step > #{suggestion_step}
+		   ]]>
+	</update>
+	
+	<select id="selectSuggestionOpinionIdx" resultType="String">
+		SELECT CONCAT('SG-OP-',LPAD(count(*)+1,'6','0')) as 'opinion_idx'
+		FROM daul.suggestion_opinion 
+	</select>
+	
+	<insert id="insertSuggestionOpinion">
+		INSERT INTO daul.suggestion_opinion
+		     (
+		       opinion_idx
+             , suggestion_idx
+             , opinion_content
+             , like_count
+             , create_user
+             , create_date
+             , del_chk
+             , suggestion_ref
+             , suggestion_indent
+             , suggestion_step
+		     )
+		VALUES
+		     (
+		       #{opinion_idx}
+             , #{suggestion_idx}
+             , #{opinion_content}
+             , #{like_count}
+             , #{create_user}
+             , SYSDATE()
+             , 'N'
+             , #{suggestion_ref}
+             , #{suggestion_indent}
+             , #{suggestion_step}
+		     )
+	</insert>
 </mapper>                  

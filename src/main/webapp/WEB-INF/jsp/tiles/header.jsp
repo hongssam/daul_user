@@ -82,4 +82,6 @@
 		if (!confirm(msg)) return false;
 		else return true;
 	}
+	
+	var login_user_id = "${login.user_id}";
 </script>
