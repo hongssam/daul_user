@@ -16,7 +16,7 @@
 					<span class="icon-bar"></span>
 				</button>
 			</div>
-			<a href="/main/mainPage.do" class="navbar_brand float-left dn-smd">
+			<a href="/main/main.do" class="navbar_brand float-left dn-smd">
 				<img class="logo1 img-fluid" src="${pageContext.request.contextPath}/images/logo.png" alt="header-logo.png" style="width: 180px; margin-top: 10px;">
 				<img class="logo2 img-fluid" src="${pageContext.request.contextPath}/images/logo.png" alt="header-logo.png" style="width: 180px; margin-top: 10px;">
 			</a>

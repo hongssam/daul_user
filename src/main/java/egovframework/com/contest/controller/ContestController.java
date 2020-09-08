@@ -1,6 +1,7 @@
 package egovframework.com.contest.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -9,6 +10,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import egovframework.com.cmmn.util.CmmnUtil;
 import egovframework.com.cmmn.util.FileUtil;
@@ -39,7 +41,6 @@ public class ContestController {
 			contestList = contestService.getContestList(vo);
 			System.out.println(contestList);
 			
-			
 			model.addAttribute("contestList",contestList);
 			
 		}catch(Exception e) {
@@ -49,7 +50,40 @@ public class ContestController {
 	}
 	
 	@RequestMapping(value="/contestDetailPage.do")
-	public String contestDetailPage() throws Exception {
+	public String contestDetailPage(ModelMap model, @RequestParam("admin_contest_idx") String admin_contest_idx) throws Exception {
+		ContestVo contestVo = new ContestVo();
+		List<Map<String, String>> fileList = null;
+		try {
+			contestVo.setAdmin_contest_idx(admin_contest_idx);
+			contestVo = contestService.getAdminContest(contestVo);
+			fileList = contestService.selectContestFile(contestVo);
+		}catch(Exception e) {
+			
+		}
+		System.out.println("fileList = " + fileList.size());
+		model.addAttribute("contestVo", contestVo);
+		model.addAttribute("fileList", fileList);
+		
 		return "contest/contestDetail";
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

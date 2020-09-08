@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 
 <!-- Subpage Nav Tabs -->
 <div class="nav-tabs style2 bgc-fa">
@@ -41,64 +42,45 @@
 			</div>
 		</div>
 		<div class="grid-list row">
-			<div class="grid-item col-12">
-				<div class="feat_property list style2" onclick="location.href='${pageContext.request.contextPath}/contest/contestDetailPage.do'">
-					<div class="thumb">
-						<img class="img-whp" src="${pageContext.request.contextPath}/images/property/fp1.jpg" alt="fp1.jpg">
-					</div>
-					<div class="details">
-						<div class="tc_content">
-							<div class="dtls_headr">
-								<span class="status_tag outline-primary">공모진행중</span>
-							</div>
-							<h4>“코로나19 우리 함께 이겨내요”</h4>
-							<p class="content">제4차 전라북도 종합계획(2021~2040)은 국가의 최상위 국토계획인 ‘제5차 국토종합계획 (2020~2040)’에서 제시한 국토관리 전략 및 정책방향을 따르면서 지역의 특성 및 여건을 반영하여 전라북도의 특성화된 발전을 유도하기 위한 장기발전계획입니다. 여러분이 생각하는 전라북도 적극행정 우수사례 2건을 직접 골라주세요! (도 1건, 시군 1건 선택)</p>
-							<p class="date">
-								<b>공모기간</b> | 2020.05.07 ~2020.05.21
-							</p>
-							<p class="date">
-								<b>접수기간</b> | 2020.05.07 ~2020.05.21
-							</p>
-
-							<div class="bottom">
-								<span class="item">
-									<span class="icon flaticon-user"></span>
-									참여 15
-								</span>
+			<c:forEach var="list" items="${contestList}" varStatus="idx">
+				<div class="grid-item col-12">
+					<div class="feat_property list style2" onclick="location.href='${pageContext.request.contextPath}/contest/contestDetailPage.do?admin_contest_idx=${list.admin_contest_idx}'">
+						<div class="thumb">
+							<img class="img-whp" src="${pageContext.request.contextPath}/images/property/fp1.jpg" alt="fp1.jpg">
+						</div>
+						<div class="details">
+							<div class="tc_content">
+								<div class="dtls_headr">
+									<c:if test="${list.ing eq '공모진행중' }">
+										<span class="status_tag outline-primary">${list.ing }</span>
+									</c:if>
+									<c:if test="${list.ing eq '공모전' }">
+										<span class="status_tag default">${list.ing }</span>
+									</c:if>
+									<c:if test="${list.ing eq '공모종료' }">
+										<span class="status_tag default">${list.ing }</span>
+									</c:if>
+								</div>
+								<h4>${list.title}</h4>
+								<p class="content">${list.content}</p>
+								<p class="date">
+									<b>공모기간</b> | ${list.contest_s_date} ~${list.contest_e_date}
+								</p>
+								<p class="date">
+									<b>접수기간</b> | ${list.submit_s_date} ~${list.submit_e_date}
+								</p>
+								<div class="bottom">
+									<span class="item">
+										<span class="icon flaticon-user"></span>
+										참여 ${list.user_contest_cnt }
+									</span>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="grid-item col-12">
-				<div class="feat_property list style2" onclick="location.href='${pageContext.request.contextPath}/contest/contestDetailPage.do'">
-					<div class="thumb">
-						<img class="img-whp" src="${pageContext.request.contextPath}/images/property/fp1.jpg" alt="fp1.jpg">
-					</div>
-					<div class="details">
-						<div class="tc_content">
-							<div class="dtls_headr">
-								<span class="status_tag default">공모종료</span>
-							</div>
-							<h4>“코로나19 우리 함께 이겨내요”</h4>
-							<p class="content">제4차 전라북도 종합계획(2021~2040)은 국가의 최상위 국토계획인 ‘제5차 국토종합계획 (2020~2040)’에서 제시한 국토관리 전략 및 정책방향을 따르면서 지역의 특성 및 여건을 반영하여 전라북도의 특성화된 발전을 유도하기 위한 장기발전계획입니다. 여러분이 생각하는 전라북도 적극행정 우수사례 2건을 직접 골라주세요! (도 1건, 시군 1건 선택)</p>
-							<p class="date">
-								<b>공모기간</b> | 2020.05.07 ~2020.05.21
-							</p>
-							<p class="date">
-								<b>접수기간</b> | 2020.05.07 ~2020.05.21
-							</p>
-
-							<div class="bottom">
-								<span class="item">
-									<span class="icon flaticon-user"></span>
-									참여 15
-								</span>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+			</c:forEach>
+			
 			<div class="col-lg-12 mt20">
 				<ul class="page-navigation">
 					<li class="page-item disabled">

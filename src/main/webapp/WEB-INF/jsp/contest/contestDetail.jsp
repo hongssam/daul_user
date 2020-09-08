@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
 
 <!-- Subpage Nav Tabs -->
 <div class="nav-tabs style2 bgc-fa">
@@ -22,32 +24,29 @@
 				<div class="ed-content">
 					<div class="title">
 						<div class="tag">
-							<span class="status_tag outline-primary">공모진행중</span>
-							<span class="status_tag default">공모종료</span>
+							<c:if test="${contestVo.ing eq '공모진행중' }">
+								<span class="status_tag outline-primary">${contestVo.ing }</span>
+							</c:if>
+							<c:if test="${contestVo.ing eq '공모전' }">
+								<span class="status_tag default">${contestVo.ing }</span>
+							</c:if>
+							<c:if test="${contestVo.ing eq '공모종료' }">
+								<span class="status_tag default">${contestVo.ing }</span>
+							</c:if>
 						</div>
-						<h4>“코로나19 우리 함께 이겨내요”</h4>
+						<h4>${contestVo.title}</h4>
 						<p class="date">
-							<b>공모기간</b> | 2020.05.07 ~2020.05.21
+							<b>공모기간</b> | ${contestVo.contest_s_date} ~${contestVo.contest_e_date}
 						</p>
 						<p class="date">
-							<b>접수기간</b> | 2020.05.07 ~2020.05.21
+							<b>접수기간</b> | ${contestVo.submit_s_date} ~${contestVo.submit_e_date}
 						</p>
 					</div>
 					<hr />
 					<div class="content">
-						<p>지방정부의 관광산업이 침체된 것은 콘텐츠의 부족이 아닙니다.</p>
-						<p>지방정부에서 이미 갖추고 있는 특성화 사업과 특산품 가공 및 기술에 대한 비즈니스 기반은 해외관광객 유치를 위한 테마관광 콘텐츠 개발이 가능합니다. 우수기업의 방문,견학을 통한 비즈니스 상담과 기술제휴 등 지역의 특성화 상품개발과 제조과정 및 유통까지를 포함하는 경제 중심 테마관광 콘텐츠의 개발과 활용을 기대합니다.</p>
+						<p>${contestVo.content}</p>
 					</div>
-					<div class="files">
-						<a href="#">
-							<span class="fa-file-o mr10"></span>
-							미리보는 전라북도 2030.pdf
-						</a>
-						<br>
-						<a href="#">
-							<span class="fa-file-o mr10"></span>
-							미리보는 전라북도 2030.pdf
-						</a>
+					<div class="files" id="file-list">
 					</div>
 					<div class="bottom">
 						<button class="btn btn-primary btn-survey" data-toggle="modal" data-target=".contest-edit-modal">
@@ -224,3 +223,43 @@
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+	var fileList = new Array();
+	
+	<c:forEach var="file" items="${fileList}">
+		var file = {};
+		file.contest_idx 	= "${file.admin_contest_idx}";
+		file.org_file_name 	= "${file.org_file_name}";
+		file.save_file_name = "${file.save_file_name}";
+		file.file_size 		= "${file.file_size}";
+		file.create_user 	= "${file.create_user}";
+		file.del_chk 		= "${file.del_chk}";
+		file.attach_type 	= "${file.attach_type}";
+		fileList.push(file);
+	</c:forEach>	
+	
+	console.log(fileList);
+	
+	if (fileList.length > 0) {
+		for (var file of fileList) {
+			if (file.attach_type.indexOf("contest") > -1) {
+				var str = 	'<a href="#">'
+						+	'	<span class="fa-file-o mr10"></span>'
+						+	file.org_file_name
+						+	'</a>'
+						+   '<br>';
+				$("#file-list").append(str);
+			} else if (file.attach_type.indexOf("prop") > -1) {
+				var str =	'<a href="#">'
+						+	'	<span class="fa-file-o mr10"></span>'
+						+	file.org_file_name
+						+	'</a>'
+						+   '<br>';
+				$("#file-list").append(str);
+			} else if (file.attach_type.indexOf("rep") > -1){
+			}
+		}
+	}
+	
+</script>

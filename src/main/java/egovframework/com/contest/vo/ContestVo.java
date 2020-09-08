@@ -1,6 +1,8 @@
 package egovframework.com.contest.vo;
 
-public class ContestVo {
+import egovframework.com.cmmn.util.SearchVo;
+
+public class ContestVo extends SearchVo {
 	private String admin_contest_idx;
 	private String contest_topic;
 	private String title;
@@ -14,7 +16,24 @@ public class ContestVo {
 	private String update_user;
 	private String update_date;
 	private String del_chk;
+	private int user_contest_cnt;
+	private String ing;
+
 	private int num;
+	
+	
+	public String getIng() {
+		return ing;
+	}
+	public void setIng(String ing) {
+		this.ing = ing;
+	}
+	public int getUser_contest_cnt() {
+		return user_contest_cnt;
+	}
+	public void setUser_contest_cnt(int user_contest_cnt) {
+		this.user_contest_cnt = user_contest_cnt;
+	}
 	public String getAdmin_contest_idx() {
 		return admin_contest_idx;
 	}
@@ -98,6 +117,15 @@ public class ContestVo {
 	}
 	public void setNum(int num) {
 		this.num = num;
+	}
+	@Override
+	public String toString() {
+		return "ContestVo [admin_contest_idx=" + admin_contest_idx + ", contest_topic=" + contest_topic + ", title="
+				+ title + ", content=" + content + ", contest_s_date=" + contest_s_date + ", contest_e_date="
+				+ contest_e_date + ", submit_s_date=" + submit_s_date + ", submit_e_date=" + submit_e_date
+				+ ", create_user=" + create_user + ", create_date=" + create_date + ", update_user=" + update_user
+				+ ", update_date=" + update_date + ", del_chk=" + del_chk + ", user_contest_cnt=" + user_contest_cnt
+				+ ", ing=" + ing + ", num=" + num + "]";
 	}
 	
 	

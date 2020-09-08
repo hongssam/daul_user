@@ -111,8 +111,8 @@ public class SurveyController {
 	    List<Map<String, Object>> answerList = new ArrayList<Map<String, Object>>();
 	    
 		try {
-			//UserVo userVo = (UserVo) session.getAttribute("login");
-		  //  vo.setCreate_user(userVo.getUser_id());
+			UserVo userVo = (UserVo) session.getAttribute("login");
+		    vo.setCreate_user(userVo.getUser_id());
 			String answer_arr = vo.getAnswer();
 			String[] answerArr = answer_arr.split(",");
 			survey_idx = vo.getSurvey_idx();
@@ -124,7 +124,7 @@ public class SurveyController {
 				
 				answerInfo.put("survey_idx", survey_idx);
 				answerInfo.put("question_idx", question_idx);
-				answerInfo.put("participation_user", "admin");
+				answerInfo.put("participation_user", vo.getCreate_user());
 				answerList.add(answerInfo);
 			}
 			for(int answerListCnt = 0; answerListCnt < answerList.size(); answerListCnt++) {

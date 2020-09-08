@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="egovframework.com.contest.mapper.ContestMapper">
+	
+	<select id="getContestList" resultType="egovframework.com.contest.vo.ContestVo">
+		SELECT * 
+	      FROM (
+				SELECT @rownum:=@rownum+1 						AS num,
+					   (
+					    SELECT count(*) 
+					      FROM contest_user 
+					     WHERE user_contest_idx = a.admin_contest_idx
+					   ) AS user_contest_cnt,
+					   admin_contest_idx,
+					   create_user,
+					   title,
+					   content,
+					   DATE_FORMAT(contest_s_date, '%Y-%m-%d') 	AS contest_s_date,
+					   DATE_FORMAT(contest_e_date, '%Y-%m-%d') 	AS contest_e_date,
+					   DATE_FORMAT(submit_s_date, '%Y-%m-%d')  	AS submit_s_date,
+					   DATE_FORMAT(submit_e_date, '%Y-%m-%d')  	AS submit_e_date,
+					   DATE_FORMAT(create_date, '%Y-%m-%d')    	AS create_date,
+					   <![CDATA[
+						case when contest_e_date < SYSDATE() then '공모종료'
+							 when contest_s_date > SYSDATE() then '공모전'
+			 	             when contest_e_date > SYSDATE() and SYSDATE() > contest_s_date then '공모진행중'
+			 	       ]]>
+		 	         end as ing
+				 FROM daul.contest_admin a
+				     , (SELECT @rownum:=0) TMP
+				 WHERE del_chk != 'Y'
+				 <if test="search_type == 'title'">
+				 	AND title like concat('%',#{search},'%')
+				 </if>
+		 		 <if test="search_type == 'content'">
+				 	AND content like concat('%',#{search},'%')
+				 </if>
+		 		 <if test="search_type == 'create_user'">
+				 	AND create_user like concat('%',#{search},'%')
+				 </if>
+			 	 <if test="search_s_date != null and search_s_date != ''">
+			 	 	<![CDATA[
+			     	AND create_date >= date_format(concat(#{search_s_date}, ' 00:00:00'), '%Y-%m-%d %H:%i:%s')
+			     	]]>
+			     </if>
+			      <if test="search_e_date != null and search_e_date != ''">
+			 	 	<![CDATA[
+			     	AND create_date <= date_format(concat(#{search_e_date}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
+			     	]]>
+			     </if>
+				ORDER BY create_date ASC
+			) sub
+		ORDER BY sub.num DESC    
+	</select>
+	
+	<select id="getAdminContest" resultType="egovframework.com.contest.vo.ContestVo">
+		SELECT admin_contest_idx
+		     , title
+		     , content
+		     , DATE_FORMAT(contest_s_date, '%Y-%m-%d') as contest_s_date
+		     , DATE_FORMAT(contest_e_date, '%Y-%m-%d') as contest_e_date
+		     , DATE_FORMAT(submit_s_date, '%Y-%m-%d')  as submit_s_date
+		     , DATE_FORMAT(submit_e_date, '%Y-%m-%d')  as submit_e_date
+		     , DATE_FORMAT(create_date, '%Y-%m-%d')    as create_date
+			 , create_user
+		     <![CDATA[
+		  	 ,case when contest_e_date < SYSDATE() then '공모종료'
+	      	 	   when contest_s_date > SYSDATE() then '공모전'
+ 	               when contest_e_date > SYSDATE() and SYSDATE() > contest_s_date then '공모진행중'
+ 	         ]]>
+	         end as ing
+		  FROM daul.contest_admin
+		 WHERE admin_contest_idx = #{admin_contest_idx}
+	</select>
+	
+	<select id = "selectContestFile" resultType = "Map">
+		SELECT 
+			admin_contest_idx,
+			org_file_name,
+			save_file_name,
+			attach_type,
+			ROUND(file_size/1024,1) AS file_size
+		FROM daul.contest_admin_attach
+		WHERE admin_contest_idx = #{admin_contest_idx}
+		  AND del_chk = 'N'
+	</select>
+	
+</mapper>
