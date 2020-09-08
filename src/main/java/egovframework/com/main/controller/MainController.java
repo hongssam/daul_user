@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "/main")
 public class MainController {
 
-	@RequestMapping(value = "/mainPage.do")
+	@RequestMapping(value = "/main.do")
 	public String maingPage() throws Exception{
 		return "main/main";
 	}

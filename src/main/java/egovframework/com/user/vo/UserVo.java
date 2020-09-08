@@ -21,6 +21,19 @@ public class UserVo {
 	private int suggestion_cnt;
 	private int participation_cnt;
 	private int opinion_cnt;
+	
+
+	private String key = "daul";
+	
+	private int num;
+	
+	
+	public int getNum() {
+		return num;
+	}
+	public void setNum(int num) {
+		this.num = num;
+	}
 	public String getUser_id() {
 		return user_id;
 	}
@@ -123,6 +136,16 @@ public class UserVo {
 	public void setOpinion_cnt(int opinion_cnt) {
 		this.opinion_cnt = opinion_cnt;
 	}
-	
+
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+	public String getPwKey() {
+		return getPw() + getKey();
+	}
 	
 }

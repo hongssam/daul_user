@@ -6,12 +6,12 @@
 		<div class="row">
 			<div class="col-sm-12 col-lg-6 offset-lg-3">
 				<div class="login_form inner_page">
-					<form action="#">
+					<form id="login-form">
 						<div class="form-group">
-							<input type="email" class="form-control" id="exampleInputEmail3" placeholder="아이디">
+							<input type="text" class="form-control" id="user_id" name="user_id" placeholder="아이디">
 						</div>
 						<div class="form-group">
-							<input type="password" class="form-control" id="exampleInputPassword4" placeholder="비밀번호">
+							<input type="password" class="form-control" id="pw" name="pw" placeholder="비밀번호">
 						</div>
 						<div class="form-group custom-control">
 							<a class=" " href="#">아이디 찾기</a>
@@ -21,7 +21,7 @@
 							<a class=" " href="register-term.html">회원가입</a>
 						</div>
 						<div class="form-group mb20">
-							<button type="submit" class="btn btn-block btn-primary">로그인</button>
+							<button type="button" class="btn btn-block btn-primary" id="login-btn">로그인</button>
 						</div>
 						<div class="form-group">
 							<button type="submit" class="btn btn-block btn-kakao">카카오 로그인</button>
@@ -32,3 +32,34 @@
 		</div>
 	</div>
 </section>
+
+<script type="text/javascript">
+	
+	$("#login-btn").click(function() {
+		login();
+	});
+	
+	
+	function login() {
+		var request = $.ajax({ url : "/login/login.do", method : "post", data : $("#login-form").serialize() });
+		request.done(function(data) {
+			console.log(data);
+			console.log("request done");
+	
+			if (data === "success") {
+				location.href = "${pageContext.request.contextPath}/main/main.do";
+			} else {
+				$("#chk-error").text(data);
+			}
+		});
+		request.fail(function(error) {
+			console.log(error);
+			console.log("request fail");
+		});
+	}
+	
+	$("#user_id").val("admin");
+	$("#pw").val("1234qwer");
+	
+	//$("#login-btn").trigger("click");
+</script>

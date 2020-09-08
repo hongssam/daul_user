@@ -59,14 +59,28 @@
 						<li><a href="contest-notice.html">공지사항</a></li>
 					</ul>
 				</li>
-				<li class="list-inline-item list_s pull-right nav-item-account">
-					<a href="/user/userRegistTermPage.do" class="btn" style="margin-top: 1px">
-						<span class="dn-lg">| 회원가입</span></a>
-				</li>
-				<li class="list-inline-item list_s pull-right nav-item-account">
-					<a href="/login/loginPage.do" class="btn flaticon-user">
-						<span class="dn-lg">로그인</span></a>
-				</li>
+				<c:choose>
+					<c:when test = "${login.name ne '' && not empty login.name }">
+					<li class="list-inline-item list_s pull-right nav-item-account">
+							<a href="/login/logout.do" class="btn" style="margin-top: 1px">
+								<span class="dn-lg">| 로그아웃</span></a>
+						</li>
+						<li class="list-inline-item list_s pull-right nav-item-account">
+							<a href="#" class="flaticon-user" style="cursor:default" >
+								<span class="dn-lg">${login.name}</span></a>
+						</li>
+					</c:when>
+					<c:otherwise>
+						<li class="list-inline-item list_s pull-right nav-item-account">
+							<a href="/user/userRegistTermPage.do" class="btn" style="margin-top: 1px">
+								<span class="dn-lg">| 회원가입</span></a>
+						</li>
+						<li class="list-inline-item list_s pull-right nav-item-account">
+							<a href="/login/loginPage.do" class="btn flaticon-user">
+								<span class="dn-lg">로그인</span></a>
+						</li>
+					</c:otherwise>
+				</c:choose>
 			</ul>
 		</nav>
 	</div>
