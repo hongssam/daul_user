@@ -47,7 +47,7 @@
 						<p>${sgst.content}</p>
 					</div>
 					<div class="files">
-						<a href="#">
+						<!-- <a href="#">
 							<span class="fa-file-o mr10"></span>
 							미리보는 전라북도 2030.pdf
 						</a>
@@ -55,7 +55,7 @@
 						<a href="#">
 							<span class="fa-file-o mr10"></span>
 							미리보는 전라북도 2030.pdf
-						</a>
+						</a> -->
 					</div>
 					<div class="bottom">
 						<button class="btn btn-like">
@@ -162,8 +162,6 @@
 		});
 		
 		request.done(function(data) {
-			console.log("suggestionOpinionList success");
-			
 			var parent_opn = [];
 			var child_opn = [];
 			
@@ -187,24 +185,47 @@
 				reviews.append(div);
 				
 				if (login_user_id !== "") {
+					var div_top = document.getElementById(opn.opinion_idx);
+
 					// 의견등록 버튼 이벤트
-					let btn_sub_opn_reg = document.getElementById(opn.opinion_idx).querySelector("button.btn-sub-opn-add");
-					
+					let btn_sub_opn_reg = div_top.querySelector("button.btn-sub-opn-add");
 					btn_sub_opn_reg.addEventListener("click", function() {
 						addSubOpinionElement(btn_sub_opn_reg, opn);
 					});
+					
+					// 삭제 버튼 이벤트
+					if (login_user_id === opn.create_user) {
+						let btn_opn_del = div_top.querySelector("button.btn-opn-del");
+						btn_opn_del.addEventListener("click", function() {
+							deleteSuggestionOpinion(btn_opn_del, opn);
+						});
+					}
 				}
 			}
 			
 			for (var j = 0; j < child_opn.length; j++) {
-				var div = createOpinionElement("child", child_opn[j]);
+				let opn = child_opn[j];
 				
-				document.getElementById(child_opn[j].suggestion_ref).after(div);
+				var div = createOpinionElement("child", opn);
+				
+				document.getElementById(opn.suggestion_ref).after(div);
+				
+				if (login_user_id !== "" && login_user_id === opn.create_user) {
+					var div_top = document.getElementById(opn.opinion_idx);
+					
+					let btn_sub_opn_del = div_top.querySelector("button.btn-sub-opn-del");
+					btn_sub_opn_del.addEventListener("click", function() {
+						deleteSuggestionOpinion(btn_sub_opn_del, opn);
+					});
+				}
 			}
 		});
 	}
 	
 	function createOpinionElement(type, data) {
+		var opinion_content = data.opinion_content;
+		if (data.del_chk === "Y") opinion_content = "삭제된 댓글입니다.";
+		
 		var div = document.createElement("div");
 		div.classList.add("item");
 		if (type === "child") div.classList.add("reply");
@@ -223,7 +244,7 @@
 				'</ul>' +
 			'</div>' +
 			'<div class="content">' +
-				'<p>' + data.opinion_content + '</p>' +
+				'<p>' + opinion_content + '</p>' +
 			'</div>';
 		div.innerHTML = html;
 		
@@ -236,10 +257,10 @@
 				
 				if (login_user_id === data.create_user) {
 					html_button = 
-						'<button type="button" class="btn btn-like btn-del">삭제</button>' +
-						'<button type="button" class="btn btn-like btn-sub-opn-add">의견등록</button>';
+						'<button type="button" class="btn btn-like btn-opn-del" data-title="댓글">삭제 </button>' +
+						'<button type="button" class="btn btn-like btn-sub-opn-add">의견등록 </button>';
 				} else {
-					html_button = '<button type="button" class="btn btn-like btn-sub-opn-add">의견등록</button>'; 
+					html_button = '<button type="button" class="btn btn-like btn-sub-opn-add">의견등록 </button>'; 
 				}
 
 				div_bottom.innerHTML = html_button;
@@ -251,7 +272,7 @@
 					li.classList.add("list-inline-item", "float-right");
 					
 					var html_button =
-						'<button type="button" class="btn btn-like btn-del">삭제</button>';
+						'<button type="button" class="btn btn-like btn-sub-opn-del" data-title="댓글">삭제 </button>';
 					
 					li.innerHTML = html_button;
 						
@@ -304,6 +325,8 @@
 	}
 	
 	function registSuggestionOpinion(target) {
+		if (!confirm("댓글을(를) 등록 하시겠습니까?")) return false;
+		
 		var form = target.closest("form");
 		
 		var request = $.ajax({
@@ -313,11 +336,10 @@
 		});
 		
 		request.done(function(data) {
-			
 			if (data === "success"){
 				form.querySelector("textarea[name='opinion_content']").value = "";
 				getSuggestionOpinionList();
-			}else{
+			} else {
 				//$("#chk-error-regist").text(data);
 			}
 		
@@ -325,6 +347,24 @@
 		
 		request.fail(function(error) {
 			console.log("request fail", error)
+		});
+	}
+	
+	function deleteSuggestionOpinion(target, opn) {
+		if (!submitConfirm($(target))) return false;
+		
+		var request = $.ajax({
+			url: "/suggestion/suggestionOpinionDelete.do",
+			method: "post",
+			data: opn
+		});
+		
+		request.done(function(data) {
+			if (data === "success") {
+				getSuggestionOpinionList();
+			} else {
+				
+			}
 		});
 	}
 </script>

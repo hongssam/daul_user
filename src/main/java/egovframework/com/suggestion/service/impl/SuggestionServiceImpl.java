@@ -69,4 +69,9 @@ public class SuggestionServiceImpl extends EgovAbstractServiceImpl implements Su
 		suggestionMapper.insertSuggestionOpinion(vo);
 	}
 
+	@Override
+	public void deleteSuggestionOpinion(SuggestionOpinionVo vo) throws Exception {
+		suggestionMapper.deleteSuggestionOpinion(vo);
+	}
+
 }

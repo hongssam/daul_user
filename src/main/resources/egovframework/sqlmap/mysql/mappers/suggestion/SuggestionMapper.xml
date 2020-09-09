@@ -161,4 +161,10 @@
              , #{suggestion_step}
 		     )
 	</insert>
+	
+	<update id="deleteSuggestionOpinion">
+		UPDATE daul.suggestion_opinion
+		   SET del_chk = 'Y'
+		 WHERE opinion_idx = #{opinion_idx}
+	</update>
 </mapper>                  

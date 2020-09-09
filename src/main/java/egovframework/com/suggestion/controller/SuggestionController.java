@@ -76,7 +76,7 @@ public class SuggestionController {
 	}
 	
 	@RequestMapping(value="/suggestionRegist.do", method=RequestMethod.POST)
-	public String createSuggestion(SuggestionVo vo, HttpServletRequest request, BindingResult bindingResult, HttpSession session) throws Exception {
+	public String suggestionRegist(SuggestionVo vo, HttpServletRequest request, BindingResult bindingResult, HttpSession session) throws Exception {
 		try {
 			SuggestionValidator suggestionValidator = new SuggestionValidator();
 			suggestionValidator.validate(vo, bindingResult);
@@ -185,4 +185,19 @@ public class SuggestionController {
 		log.debug("[열린제안] 열린제안 댓글 등록 완료");
 		return new ResponseEntity<>("success", HttpStatus.OK);
 	}
+	
+	@RequestMapping(value="/suggestionOpinionDelete", method=RequestMethod.POST)
+	public ResponseEntity<?> suggestionOpinionDelete(SuggestionOpinionVo vo) throws Exception {
+		try {
+			log.debug("[열린제안] 열린제안 댓글 삭제");
+			suggestionService.deleteSuggestionOpinion(vo);
+		} catch (Exception e) {
+			log.debug("[열린제안] 열린제안 댓글 삭제 실패");
+			e.printStackTrace();
+		}
+		
+		log.debug("[열린제안] 열린제안 댓글 삭제 완료");
+		return new ResponseEntity<>("success", HttpStatus.OK);
+	}
+	
 }

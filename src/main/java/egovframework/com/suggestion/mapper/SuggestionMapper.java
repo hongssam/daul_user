@@ -29,4 +29,6 @@ public interface SuggestionMapper {
 	String selectSuggestionOpinionIdx() throws Exception;
 
 	void insertSuggestionOpinion(SuggestionOpinionVo vo) throws Exception;
+
+	void deleteSuggestionOpinion(SuggestionOpinionVo vo) throws Exception;
 }
