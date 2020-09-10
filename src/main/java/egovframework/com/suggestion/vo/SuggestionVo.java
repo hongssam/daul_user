@@ -22,6 +22,7 @@ public class SuggestionVo extends SearchVo{
 	private int opinion_cnt;
 
 	private boolean like_flag;
+	private int like_per;
 
 	public String getSuggestion_idx() {
 		return suggestion_idx;
@@ -151,12 +152,21 @@ public class SuggestionVo extends SearchVo{
 		this.like_flag = like_flag;
 	}
 
+	public int getLike_per() {
+		return like_per;
+	}
+
+	public void setLike_per(int like_per) {
+		this.like_per = like_per;
+	}
+
 	@Override
 	public String toString() {
 		return "SuggestionVo [num=" + num + ", suggestion_idx=" + suggestion_idx + ", title=" + title + ", content="
 				+ content + ", view_count=" + view_count + ", like_count=" + like_count + ", create_user=" + create_user
 				+ ", create_date=" + create_date + ", update_user=" + update_user + ", update_date=" + update_date
 				+ ", del_chk=" + del_chk + ", pro_cnt=" + pro_cnt + ", public_cnt=" + public_cnt + ", admin_cnt="
-				+ admin_cnt + ", opinion_cnt=" + opinion_cnt + ", like_flag=" + like_flag + "]";
+				+ admin_cnt + ", opinion_cnt=" + opinion_cnt + ", like_flag=" + like_flag + ", like_per=" + like_per
+				+ "]";
 	}
 }

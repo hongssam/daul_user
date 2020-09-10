@@ -34,13 +34,13 @@
 					</ul>
 				</li>
 				<li>
-					<a href="/suggestion/suggestionListPage.do"><span class="title">열린제안</span></a>
+					<a href="/suggestion/suggestionListPage.do?order=1"><span class="title">열린제안</span></a>
 					<!-- Level Two-->
 					<ul>
 						<li><a href="/suggestion/suggestionRegistPage.do">제안하기</a></li>
-						<li><a href="/suggestion/suggestionListPage.do">열린제안</a></li>
-						<li><a href="/suggestion/suggestionListPage.do">공감제안</a></li>
-						<li><a href="/suggestion/suggestionListPage.do">종료된제안</a></li>
+						<li><a href="/suggestion/suggestionListPage.do?order=1">열린제안</a></li>
+						<li><a href="/suggestion/suggestionListPage.do?order=1">공감제안</a></li>
+						<li><a href="/suggestion/suggestionListPage.do?order=1">종료된제안</a></li>
 					</ul>
 				</li>
 				<li>

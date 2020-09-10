@@ -38,4 +38,8 @@ public interface SuggestionService {
 	int selectSuggestionLikeCount(String suggestion_idx) throws Exception;
 
 	void deleteSuggestionUserLike(Map<String, String> params) throws Exception;
+
+	List<Map<String, String>> selectSuggestionFileList(Map<String, String> params) throws Exception;
+
+	FileVo selectSuggestionDownloadFile(FileVo fileVo) throws Exception;
 }

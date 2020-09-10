@@ -9,13 +9,13 @@
 				<a href="/suggestion/suggestionRegistPage.do">제안하기</a>
 			</div>
 			<div class="wizard-item active">
-				<a href="/suggestion/suggestionListPage.do">열린 제안</a>
+				<a href="/suggestion/suggestionListPage.do?order=1">열린 제안</a>
 			</div>
 			<div class="wizard-item">
-				<a href="/suggestion/suggestionListPage.do">공감 제안</a>
+				<a href="/suggestion/suggestionListPage.do?order=1">공감 제안</a>
 			</div>
 			<div class="wizard-item last">
-				<a href="/suggestion/suggestionListPage.do">종료된 제안</a>
+				<a href="/suggestion/suggestionListPage.do?order=1">종료된 제안</a>
 			</div>
 		</div>
 	</div>
@@ -27,23 +27,26 @@
 		<div class="grid-list-header row">
 			<div class="col-lg-6">
 				<ul class="sort-type text-left">
-					<li class="active">최신 순</li>
-					<li>공감 높은 순</li>
-					<li>의견 많은 순</li>
+					<!-- <li data-order="1">최신 순</li> -->
+					<li data-order="1"><a href="/suggestion/suggestionListPage.do?order=1">최신 순</a></li>
+					<li data-order="2"><a href="/suggestion/suggestionListPage.do?order=2">공감 높은 순</a></li>
+					<li data-order="3"><a href="/suggestion/suggestionListPage.do?order=3">의견 많은 순</a></li>
 				</ul>
 			</div>
 			<div class="col-lg-6">
 				<div class="candidate_revew_select text-right">
-					<div class="select-search-type">
-						<select class="selectpicker show-tick" data-width="100%">
-							<option>제목</option>
-							<option>작성자</option>
-						</select>
-					</div>
-					<div class="input-search">
-						<i class="icon input-search-close flaticon-magnifying-glass" aria-hidden="true"></i>
-						<input type="text" class="form-control" name="" placeholder="검색...">
-					</div>
+					<form id="search_form">
+						<div class="select-search-type">
+							<select class="selectpicker show-tick" name="search_type" data-width="100%">
+								<option value="title">제목</option>
+								<option value="create_user">작성자</option>
+							</select>
+						</div>
+						<div class="input-search">
+							<i class="icon input-search-close flaticon-magnifying-glass btn" id="search_sgst_btn" aria-hidden="true"></i>
+							<input type="text" class="form-control" name="search" id="search" placeholder="검색...">
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
@@ -72,7 +75,7 @@
 							<div class="content">
 								<span class="like-cnt">
 									<span class="icon flaticon-heart"></span>
-									공감 ${like_count}
+									공감 ${sgst.like_count}
 								</span>
 								<span class="reply-cnt">
 									<span class="icon flaticon-chat"></span>
@@ -80,7 +83,7 @@
 								</span>
 							</div>
 							<div class="bar-graph-bg">
-								<div class="bar-graph-fr" style="width: 35%"></div>
+								<div class="bar-graph-fr" style="width: ${sgst.like_per}%"></div>
 							</div>
 						</div>
 					</div>
@@ -122,3 +125,52 @@
 		</div>
 	</div>
 </section>
+
+<script type="text/javascript">
+	var ul = document.querySelector("ul.sort-type.text-left");
+	var search_arr = window.location.search.split("&");
+	var order;
+	
+	for (var i = 0; i < search_arr.length; i++) {
+		var search = search_arr[i];
+		
+		if (search.indexOf("order") > -1) {
+			var order_arr = search.split("=");
+			order = order_arr[order_arr.length - 1];
+			
+			var ul_children = ul.children;
+			
+			for (var j = 0; j < ul_children.length; j++) {
+				var li = ul_children[j];
+				
+				if (order === li.dataset.order) {
+					if (!li.classList.contains("active"))	li.classList.add("active");
+				} else {
+					li.classList.remove("active");
+				}
+			}
+		}
+	}
+	
+	var btn_search_sgst = document.getElementById("search_sgst_btn");
+	
+	btn_search_sgst.addEventListener("click", function() {
+		searchSgstList();
+	});
+	
+	var input_search = document.getElementById("search");
+	
+	input_search.addEventListener("keydown", function(e) {
+		if (e.keyCode === 13) {
+			event.preventDefault();
+	
+			searchSgstList();
+		}
+	});
+	
+	function searchSgstList() {
+		var search_value = $("#search_form").serialize();
+		
+		location.href = "${pageContext.request.contextPath}/suggestion/suggestionListPage.do?order=" + order + "&" + search_value;
+	}
+</script>
