@@ -4,18 +4,25 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import egovframework.com.cmmn.util.CmmnUtil;
 import egovframework.com.cmmn.util.FileUtil;
+import egovframework.com.cmmn.util.FileVo;
 import egovframework.com.contest.service.ContestService;
 import egovframework.com.contest.vo.ContestVo;
+import egovframework.com.user.vo.UserVo;
 
 @Controller
 @RequestMapping(value="/contest")
@@ -50,22 +57,85 @@ public class ContestController {
 	}
 	
 	@RequestMapping(value="/contestDetailPage.do")
-	public String contestDetailPage(ModelMap model, @RequestParam("admin_contest_idx") String admin_contest_idx) throws Exception {
+	public String contestDetailPage(ModelMap model, @RequestParam("admin_contest_idx") String admin_contest_idx, HttpSession session ) throws Exception {
 		ContestVo contestVo = new ContestVo();
 		List<Map<String, String>> fileList = null;
+		List<Map<String, String>> userFileList = null;
+		List<Map<String, String>> userContest = null;
+		ContestVo userContestVo = new ContestVo();
+		
+		int chk=0;
 		try {
+			UserVo userVo = (UserVo) session.getAttribute("login");
+		    String user_id = userVo.getUser_id();
 			contestVo.setAdmin_contest_idx(admin_contest_idx);
 			contestVo = contestService.getAdminContest(contestVo);
 			fileList = contestService.selectContestFile(contestVo);
+			
+			//해당유저가 공모에 참여했는지 유무chk
+			chk = contestService.checkSubmit(contestVo);
+			
+			if(chk > 0) {
+				//작성한 글 가져오기
+				userContestVo = contestService.getUserContest(contestVo);
+				userFileList = contestService.selectUserFileList(userContestVo);
+			}
 		}catch(Exception e) {
 			
 		}
 		System.out.println("fileList = " + fileList.size());
 		model.addAttribute("contestVo", contestVo);
 		model.addAttribute("fileList", fileList);
+		model.addAttribute("userFileList", userFileList);
+		model.addAttribute("checkSubmit",chk);
+		model.addAttribute("userContestVo",userContestVo);
 		
 		return "contest/contestDetail";
 	}
+	
+
+	@RequestMapping(value = "/downloadFile.do", method = RequestMethod.GET)
+	public void downloadFile(HttpServletResponse response, @RequestParam("save_file_name") String save_file_name) throws Exception {
+		try {
+			FileVo fileVo = new FileVo();
+			fileVo.setIdx(save_file_name);
+			fileVo = contestService.selectDownloadFile(fileVo);
+			
+			log.debug("[나눔공모] 나눔공모 첨부파일 다운로드");
+			fileUtil.downloadFile(response, fileVo);
+		} catch (Exception e) {
+			log.debug("[나눔공모] 나눔공모 첨부파일 다운로드 실패");
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping(value="/contestUserRegist.do", method=RequestMethod.POST)
+	public String contestUserRegist(HttpSession session, ContestVo vo, HttpServletRequest request, BindingResult bindingResult) throws Exception{
+		try {
+			String user_contest_idx = contestService.selectUserContestIdx();
+			vo.setUser_contest_idx(user_contest_idx);
+			UserVo userVo = (UserVo) session.getAttribute("login");
+		    vo.setCreate_user(userVo.getUser_id());
+
+		    int result = contestService.registUserContest(vo);
+		    
+		    
+			FileVo fileVo =  new FileVo();
+			
+			fileVo.setCreate_user(vo.getCreate_user());
+			fileVo.setIdx(vo.getUser_contest_idx());
+			
+			List<FileVo> fileList = fileUtil.parseFileInfo(fileVo, request);
+			
+			for(int i = 0; i < fileList.size(); i++) {
+				contestService.insertFile(fileList.get(i));
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return "redirect:/contest/contestDetailPage.do?admin_contest_idx="+vo.getAdmin_contest_idx();
+	}
+	
 }
 
 

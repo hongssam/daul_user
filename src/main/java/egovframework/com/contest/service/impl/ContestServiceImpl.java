@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import egovframework.com.cmmn.util.FileVo;
 import egovframework.com.contest.mapper.ContestMapper;
 import egovframework.com.contest.service.ContestService;
 import egovframework.com.contest.vo.ContestVo;
@@ -33,4 +34,54 @@ public class ContestServiceImpl extends EgovAbstractServiceImpl implements Conte
 		return contestMapper.selectContestFile(vo);
 	}
 
+	@Override
+	public FileVo selectDownloadFile(FileVo vo) throws Exception {
+		return contestMapper.selectDownloadFile(vo);
+	}
+
+	@Override
+	public String selectUserContestIdx() throws Exception {
+		return contestMapper.selectUserContestIdx();
+	}
+
+	@Override
+	public void insertFile(FileVo fileVo) throws Exception {
+		contestMapper.insertFile(fileVo);
+	}
+
+	@Override
+	public int registUserContest(ContestVo vo) throws Exception {
+		return contestMapper.registUserContest(vo);
+	}
+
+	@Override
+	public int checkSubmit(ContestVo vo) throws Exception {
+		return contestMapper.checkSubmit(vo);
+	}
+
+	@Override
+	public ContestVo getUserContest(ContestVo vo) throws Exception {
+		return contestMapper.getUserContest(vo);
+	}
+	
+	@Override
+	public List<Map<String, String>> selectUserFileList(ContestVo vo) throws Exception {
+		return contestMapper.selectUserFileList(vo);
+	}
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

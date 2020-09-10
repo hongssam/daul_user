@@ -9,7 +9,7 @@
           <p>Page Not Found !</p>
         </header>
         <p class="error-advise">YOU SEEM TO BE TRYING TO FIND HIS WAY HOME</p>
-        <a class="btn btn-primary btn-round" href="/index.jsp">GO TO HOME PAGE</a>
+        <a class="btn btn-primary btn-round" href="/main/main.do">GO TO HOME PAGE</a>
 
         <footer class="page-copyright">
           <p>WEBSITE BY Creation Studio</p>

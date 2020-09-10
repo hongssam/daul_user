@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!-- Subpage Nav Tabs -->
 <div class="nav-tabs style2 bgc-fa">
@@ -49,14 +50,20 @@
 					<div class="files" id="file-list">
 					</div>
 					<div class="bottom">
-						<button class="btn btn-primary btn-survey" data-toggle="modal" data-target=".contest-edit-modal">
-							<i class="fa-comments-o"></i>
-							공모 참여하기
-						</button>
-						<button class="btn btn-dark btn-survey" data-toggle="modal" data-target=".contest-edit-modal">
-							<i class="fa-edit"></i>
-							내 제안 보기
-						</button>
+						<c:choose>
+							<c:when test = "${checkSubmit eq 0 }">
+								<button class="btn btn-primary btn-survey" data-toggle="modal" data-target=".contest-edit-modal">
+									<i class="fa-comments-o"></i>
+									공모 참여하기
+								</button>
+							</c:when>
+							<c:otherwise>
+								<button class="btn btn-dark btn-survey" data-toggle="modal" data-target=".contest-update-modal">
+									<i class="fa-edit"></i>
+									내 제안 보기
+								</button>
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</div>
 			</div>
@@ -145,7 +152,7 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<h4 class="title">“코로나19 우리 함께 이겨내요”</h4>
+				<h4 class="title">${contestVo.title}</h4>
 				<hr>
 				<div class="board-detail-table edit-style">
 					<div class="caption">
@@ -165,68 +172,145 @@
 							</li>
 						</ul>
 					</div>
-					<div class="table-responsive mt0">
-						<table class="table">
-							<tbody>
-								<tr>
-									<td class="text-left board-content">
-										<div class="form-group row">
-											<div class="col-lg-2">
-												<label>제목<span class="color-red ml5">*</span></label>
+					<form:form method="post" modelAttribute="contestVo" enctype="multipart/form-data">
+						<div class="table-responsive mt0">
+						<form:input type="hidden" path="admin_contest_idx" value="${contestVo.admin_contest_idx}"/>
+							<table class="table">
+								<tbody>
+									<tr>
+										<td class="text-left board-content">
+											<div class="form-group row">
+												<div class="col-lg-2">
+													<label>제목<span class="color-red ml5">*</span></label>
+												</div>
+												<div class="col-lg-10">
+													<form:input type="text" class="form-control" path="user_title" placeholder=""/>
+													<form:errors style="color:red" path="user_title"/>
+												</div>
 											</div>
-											<div class="col-lg-10">
-												<input type="text" class="form-control" placeholder="">
+										</td>
+									</tr>
+									<tr>
+										<td class="text-left board-file">
+											<div class="form-group row">
+												<div class="col-lg-2">
+													<label>제안서<span class="color-red ml5">*</span></label>
+												</div>
+												<div class="col-lg-10">
+													<span class="color-red ml5">※ 반드시 공모신청서 양식을 다운로드 받아 작성하여 올려주세요.</span>
+													<input type="file" class="form-control" multiple="multiple" id="contestFile" name="contestFile">
+												</div>
 											</div>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td class="text-left board-file">
-										<div class="form-group row">
-											<div class="col-lg-2">
-												<label>제안서<span class="color-red ml5">*</span></label>
-											</div>
-											<div class="col-lg-10">
-												<span class="color-red ml5">※ 반드시 공모신청서 양식을 다운로드 받아 작성하여 올려주세요.</span>
-												<input type="file" class="form-control" placeholder="">
-												<p class="first">
-													<a href="#">
-														<span class="fa-file-o mr10"></span>
-														미리보는 전라북도 2030.pdf
-													</a>
-													<button class="btn btn-pure">
-														<span class="fa-trash-o"></span>
-													</button>
-												</p>
-												<p>
-													<a href="#">
-														<span class="fa-file-o mr10"></span>
-														미리보는 전라북도 전라북도 2030.pdf
-													</a>
-													<button class="btn btn-pure">
-														<span class="fa-trash-o"></span>
-													</button>
-												</p>
-											</div>
-										</div>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<div class="board-btns text-center">
-						<button type="submit" class="btn btn-primary">등록</button>
-						<button type="button" class="btn btn-default">취소</button>
-					</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="board-btns text-center">
+							<button type="submit" class="btn btn-primary" id="contestRegistBtn" data-title="공모제안" formaction="/contest/contestUserRegist.do">등록</button>
+							<button type="button" class="btn btn-default"  data-dismiss="modal" aria-label="Close">취소</button>
+						</div>
+					</form:form>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 
+
+
+<!-- Contest Modal -->
+<div class="contest-update-modal modal fade " tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<p>공모제안 수정</p>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<h4 class="title">${contestVo.title }</h4>
+				<hr>
+				<div class="board-detail-table edit-style">
+					<div class="caption">
+						<ul>
+							<li>
+								<i>&#149;</i>
+								공모신청서 양식을 다운로드하지 않으신 분은 다운받아 작성하시기 바랍니다.
+							</li>
+							<li>
+								<i>&#149;</i>
+								제안 제시기준에 맞지 않는 부적절한 게시물은 이동 또는 삭제 조치됩니다.
+							</li>
+							<li>
+								<i>&#149;</i>
+								<span class="color-red ml5">*</span>
+								표시는 필수 입력입니다.
+							</li>
+						</ul>
+					</div>
+					<form:form method="post" modelAttribute="userContestVo" enctype="multipart/form-data">
+						<div class="table-responsive mt0">
+							<table class="table">
+								<tbody>
+									<tr>
+										<td class="text-left board-content">
+											<div class="form-group row">
+												<div class="col-lg-2">
+													<label>제목<span class="color-red ml5">*</span></label>
+												</div>
+												<div class="col-lg-10">
+													<form:input type="text" class="form-control" path="title" placeholder=""/>
+													<form:errors style="color:red" path="title"/>
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td class="text-left board-file">
+											<div class="form-group row">
+												<div class="col-lg-2">
+													<label>제안서<span class="color-red ml5">*</span></label>
+												</div>
+												<div class="col-lg-10">
+													<span class="color-red ml5">※ 반드시 공모신청서 양식을 다운로드 받아 작성하여 올려주세요.</span>
+													<input type="file" class="form-control" multiple="multiple" id="userFile-list" name="contestFile">
+												</div>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="board-btns text-center">
+							<button type="submit" class="btn btn-primary" id="contestRegistBtn" data-title="공모제안" formaction="/contest/contestUserUpdate.do">수정</button>
+							<button type="button" class="btn btn-default"  data-dismiss="modal" aria-label="Close">취소</button>
+						</div>
+					</form:form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
 <script type="text/javascript">
 	var fileList = new Array();
-	
+	var userFileList = new Array();
+  	$(document).ready(function(){
+		$("a[name='file']").on("click",function(e){
+			e.preventDefault();
+			fn_downloadFile($(this));
+		});
+   	});
+   
+  	function fn_downloadFile(obj){
+		var save_file_name = obj.parent().find("input[name='save_file_name']").val();
+		console.log(save_file_name);
+		location.href = "${pageContext.request.contextPath}/contest/downloadFile.do?save_file_name=" + save_file_name;
+  	}
+  	
 	<c:forEach var="file" items="${fileList}">
 		var file = {};
 		file.contest_idx 	= "${file.admin_contest_idx}";
@@ -244,14 +328,16 @@
 	if (fileList.length > 0) {
 		for (var file of fileList) {
 			if (file.attach_type.indexOf("contest") > -1) {
-				var str = 	'<a href="#">'
-						+	'	<span class="fa-file-o mr10"></span>'
+				var str = 	'<a href="#this" name="file">'
+						+   '<input type="hidden" name="save_file_name" value="' + file.save_file_name + '">'
+						+	'	<span class="fa-file-o mr10" ></span>'
 						+	file.org_file_name
 						+	'</a>'
 						+   '<br>';
 				$("#file-list").append(str);
 			} else if (file.attach_type.indexOf("prop") > -1) {
-				var str =	'<a href="#">'
+				var str =	'<a href="#this" name="file">'
+						+   '<input type="hidden" name="save_file_name" value="' + file.save_file_name + '">'
 						+	'	<span class="fa-file-o mr10"></span>'
 						+	file.org_file_name
 						+	'</a>'
@@ -262,4 +348,110 @@
 		}
 	}
 	
+	var input_file = document.getElementById("contestFile");
+	
+	input_file.addEventListener("change", function() {
+		contestFileChange();
+	});
+	
+	var contestFileList = new Array();
+	
+	function contestFileChange() {
+		var fileValue = input_file.files;
+		
+		if(fileValue.length > 0){
+			for(var i = 0; i < fileValue.length; i++ ){
+				var exist = false;
+				
+				for(var k = 0; k < contestFileList.length; k++){
+					if(fileValue[i].name === contestFileList[k].name){
+						console.log("this file is already exist", fileValue[i].name);
+						exist = true;
+						break;
+					}
+				}
+				
+				if(!exist){
+					contestFileList.push(fileValue[i]);
+					var p = document.createElement("p");
+					
+					var str =
+						'<input type="hidden" name="save_file_name" value="' + fileValue[i].name + '">' +
+						'<a href="#">' +
+							'<span class="fa-file-o mr10"></span> (new) ' + fileValue[i].name +
+						'</a>' +
+						'<button class="btn btn-pure" type="button" name="newFileDelBtn" onclick="newFileDel(this)">' +
+							'<span class="fa-trash-o"></span>' +
+						'</button>';
+						
+					p.innerHTML = str;
+					
+					input_file.after(p);
+				}
+			}
+		}
+	}
+	
+	function newFileDel(_this) {
+		var fileName = _this.parentElement.firstElementChild.value;
+		
+		for (var i = 0; i < contestFileList.length; i++) {
+			if (fileName === contestFileList[i].name) {
+				contestFileList.splice(i, 1);
+				
+				_this.parentElement.remove();
+			}
+		}
+	}
+	
+	var contestRegistBtn = document.getElementById("contestRegistBtn");
+	
+	contestRegistBtn.addEventListener("click", function() {
+		if (!submitConfirm($(contestRegistBtn))) return false;
+	})
+	
+	<c:forEach var="userFile" items="${userFileList}">
+		var userFile = {};
+		userFile.contest_idx 	= "${userFile.user_contest_idx}";
+		userFile.org_file_name 	= "${userFile.org_file_name}";
+		userFile.save_file_name = "${userFile.save_file_name}";
+		userFile.file_size 		= "${userFile.file_size}";
+		userFile.create_user 	= "${userFile.create_user}";
+		userFile.del_chk 		= "${userFile.del_chk}";
+		userFile.attach_type 	= "${userFile.attach_type}";
+		userFileList.push(userFile);
+	</c:forEach>	
+	
+	console.log(userFileList);
+	
+	if (userFileList.length > 0) {
+		for (var file of userFileList) {
+				var str = 	'<a href="#this" name="file">'
+						+   '<input type="hidden" name="save_file_name" value="' + file.save_file_name + '">'
+						+	'	<span class="fa-file-o mr10" ></span>'
+						+	file.org_file_name
+						+	'</a>'
+						+   '<br>'
+						;
+				$("#userFile-list").append(str);
+				console.log("1111");
+			
+		}
+	}
+	
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

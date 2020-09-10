@@ -4,6 +4,7 @@ import egovframework.com.cmmn.util.SearchVo;
 
 public class ContestVo extends SearchVo {
 	private String admin_contest_idx;
+	private String user_contest_idx;
 	private String contest_topic;
 	private String title;
 	private String content;
@@ -18,10 +19,23 @@ public class ContestVo extends SearchVo {
 	private String del_chk;
 	private int user_contest_cnt;
 	private String ing;
-
+	private String user_title;
 	private int num;
 	
 	
+	
+	public String getUser_title() {
+		return user_title;
+	}
+	public void setUser_title(String user_title) {
+		this.user_title = user_title;
+	}
+	public String getUser_contest_idx() {
+		return user_contest_idx;
+	}
+	public void setUser_contest_idx(String user_contest_idx) {
+		this.user_contest_idx = user_contest_idx;
+	}
 	public String getIng() {
 		return ing;
 	}

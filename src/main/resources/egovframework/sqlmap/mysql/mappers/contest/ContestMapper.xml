@@ -3,6 +3,11 @@
 <mapper
 	namespace="egovframework.com.contest.mapper.ContestMapper">
 	
+	<select id="selectUserContestIdx" resultType="String">
+		SELECT CONCAT('UC-',LPAD(count(*)+1,'6','0')) as 'user_contest_idx'
+		FROM contest_user 
+	</select>
+	
 	<select id="getContestList" resultType="egovframework.com.contest.vo.ContestVo">
 		SELECT * 
 	      FROM (
@@ -86,4 +91,90 @@
 		  AND del_chk = 'N'
 	</select>
 	
+		<select id = "selectUserFileList" resultType = "Map">
+		SELECT 
+			user_contest_idx,
+			org_file_name,
+			save_file_name,
+			attach_type,
+			ROUND(file_size/1024,1) AS file_size
+		FROM daul.contest_user_attach
+		WHERE user_contest_idx = #{user_contest_idx}
+		  AND del_chk = 'N'
+	</select>
+	
+	<select id="selectDownloadFile" resultType="egovframework.com.cmmn.util.FileVo">
+		SELECT 
+			ORG_FILE_NAME,
+			SAVE_FILE_NAME
+		FROM daul.contest_admin_attach
+		WHERE save_file_name  = #{idx}
+	</select>
+	
+	<insert id="insertFile">
+		INSERT INTO contest_user_attach
+		     (
+		       user_contest_idx
+		     , org_file_name
+		     , save_file_name
+		     , file_size
+		     , create_user
+		     , del_chk
+		     , create_date
+		     , attach_type
+		     )
+		VALUES
+		     (
+		       #{idx}
+		     , #{org_file_name}
+		     , #{save_file_name}
+		     , #{file_size}
+		     , #{create_user}
+		     , 'N'
+		     , SYSDATE()
+		     , #{attach_type}
+		     )
+	</insert>
+	
+	<insert id = "registUserContest">
+		INSERT INTO contest_user
+		(
+			user_contest_idx,
+			admin_contest_idx,
+			title,
+			content,
+			create_user,
+			create_date,
+			del_chk
+		)
+		VALUES
+		(
+			#{user_contest_idx},
+			#{admin_contest_idx},
+			#{user_title},
+			'공모제안입니다.',
+			#{create_user},
+			sysdate(),
+			'N'
+		)
+	</insert>
+	
+	<select id="checkSubmit" resultType="int">
+		SELECT COUNT(*)
+		  FROM contest_user
+		 WHERE create_user = #{create_user} 
+		   AND admin_contest_idx = #{admin_contest_idx}
+		   AND del_chk = 'N'
+	</select>
+	
+	<select id="getUserContest" resultType="egovframework.com.contest.vo.ContestVo">
+		SELECT user_contest_idx,
+			   admin_contest_idx,
+		       title,
+		       content
+		  FROM contest_user 
+		 WHERE create_user = #{create_user} 
+		   AND admin_contest_idx = #{admin_contest_idx}
+		   AND del_chk = 'N'
+	</select>
 </mapper>
