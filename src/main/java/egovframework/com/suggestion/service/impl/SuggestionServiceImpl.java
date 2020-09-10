@@ -95,4 +95,14 @@ public class SuggestionServiceImpl extends EgovAbstractServiceImpl implements Su
 		suggestionMapper.deleteSuggestionUserLike(params);
 	}
 
+	@Override
+	public List<Map<String, String>> selectSuggestionFileList(Map<String, String> params) throws Exception {
+		return suggestionMapper.selectSuggestionFileList(params);
+	}
+
+	@Override
+	public FileVo selectSuggestionDownloadFile(FileVo fileVo) throws Exception {
+		return suggestionMapper.selectSuggestionDownloadFile(fileVo);
+	}
+
 }

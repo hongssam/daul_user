@@ -9,13 +9,13 @@
 				<a href="/suggestion/suggestionRegistPage.do">제안하기</a>
 			</div>
 			<div class="wizard-item active">
-				<a href="/suggestion/suggestionListPage.do">열린 제안</a>
+				<a href="/suggestion/suggestionListPage.do?order=1">열린 제안</a>
 			</div>
 			<div class="wizard-item">
-				<a href="/suggestion/suggestionListPage.do">공감 제안</a>
+				<a href="/suggestion/suggestionListPage.do?order=1">공감 제안</a>
 			</div>
 			<div class="wizard-item last">
-				<a href="/suggestion/suggestionListPage.do">종료된 제안</a>
+				<a href="/suggestion/suggestionListPage.do?order=1">종료된 제안</a>
 			</div>
 		</div>
 	</div>
@@ -127,6 +127,51 @@
 </section>
 
 <script type="text/javascript">
+	var fileList = new Array();
+	
+	<c:forEach var="file" items="${fileList}">
+		var file = {};
+		file["suggestion_idx"] = "${file.suggestion_idx}";
+		file.org_file_name 	= "${file.org_file_name}";
+		file.save_file_name = "${file.save_file_name}";
+		file.file_size 		= "${file.file_size}";
+		file.create_user 	= "${file.create_user}";
+		file.del_chk 		= "${file.del_chk}";
+		file.attach_type 	= "${file.attach_type}";
+		fileList.push(file);
+	</c:forEach>
+	
+	if (fileList.length > 0) {
+		var div_files = document.querySelector("div.files");
+		
+		for (var i = 0; i < fileList.length; i++) {
+			var file = fileList[i];
+			
+			if (file.attach_type.indexOf("rep") > -1) {
+			} else if (file.attach_type.indexOf("sgst") > -1) {
+				let a = document.createElement("a");
+				a.href = "#this";
+				
+				var html = 
+					'<span class="fa-file-o mr10"></span>' + file.org_file_name +
+					'<input type="hidden" name="save_file_name" value="' + file.save_file_name + '"/>';
+				
+				a.innerHTML = html;
+				div_files.appendChild(a);
+				
+				var br = document.createElement("br");
+				div_files.appendChild(br);
+				
+				a.addEventListener("click", function() {
+					var save_file_name = a.querySelector("input[name='save_file_name']").value;
+					
+					location.href = "${pageContext.request.contextPath}/suggestion/downloadFile.do?save_file_name=" + save_file_name;
+				});
+			}
+		}
+	}
+	
+
 	var reviews = document.querySelector("div.reviews");
 	
 	getSuggestionOpinionList();
@@ -372,7 +417,11 @@
 	var btn_like = document.querySelector("button.btn.btn-like.heart");
 	
 	btn_like.addEventListener("click", function(e) {
-		changeUserLike();
+		if (login_user_id !== "") {
+			changeUserLike();
+		} else {
+			if (!confirm("로그인이 필요한 기능입니다.\n로그인 페이지로 이동하시겠습니까?")) return false;
+		}
 	});
 	
 	function changeUserLike() {

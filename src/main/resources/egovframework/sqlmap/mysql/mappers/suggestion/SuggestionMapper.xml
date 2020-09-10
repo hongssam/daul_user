@@ -53,40 +53,53 @@
 	</insert>
 	
 	<select id="selectSuggestionList" resultType="egovframework.com.suggestion.vo.SuggestionVo">
-		SELECT * 
+		SELECT @rownum:=@rownum+1 AS num
+  		     , sub.* 
 		  FROM (
-				SELECT 
-			       @rownum:=@rownum+1 AS num,
-			       c.suggestion_idx,
-			       c.title, 
-			       c.content, 
-			       (SELECT COUNT(*) FROM daul.user_like where parent_idx = c.suggestion_idx) AS like_count,     
-			       c.create_user,
-			       DATE_FORMAT(c.create_date, '%Y-%m-%d') as create_date,
-				   (SELECT count(*) FROM suggestion_opinion a WHERE a.suggestion_idx = c.suggestion_idx) AS opinion_cnt
-			FROM suggestion_main c, (SELECT @rownum:=0) TMP   
-			WHERE c.del_chk != 'Y'
-			   <if test="search_type == 'title'">
-			   		AND c.title like concat('%', #{search}, '%')
-			   </if>
-			   <if test="search_type == 'content'">
-			   		AND c.content like concat('%', #{search}, '%')
-			   </if>
-			   <if test="search_type == 'create_user'">
-			   		AND c.create_user like concat('%', #{search}, '%')
-			   </if>
-			   <if test="search_s_date != null and search_s_date != ''">
-				   <![CDATA[
-				   AND c.create_date >= date_format(concat(#{search_s_date}, ' 00:00:00'), '%Y-%m-%d %H:%i:%s')
-				   ]]>
-			   </if>
-			   <if test="search_e_date != null and search_e_date != ''">
-				   <![CDATA[
-				   AND c.create_date <= date_format(concat(#{search_e_date}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
-				   ]]>
-			   </if>
-		) sub
-		ORDER BY sub.num DESC
+		  		SELECT sm.*
+		  		     , CASE WHEN (like_count / 50 * 100) >= 100 THEN 100 ELSE (like_count / 50 * 100) END AS like_per
+		  		  FROM (
+						SELECT suggestion_idx
+							 , title
+							 , content
+							 , (SELECT COUNT(*) FROM daul.user_like where parent_idx = s.suggestion_idx) AS like_count
+							 , create_user
+							 , DATE_FORMAT(create_date, '%Y-%m-%d') as create_date
+							 , (SELECT count(*) FROM suggestion_opinion a WHERE a.suggestion_idx = s.suggestion_idx) AS opinion_cnt
+						  FROM suggestion_main s
+						 WHERE del_chk != 'Y'
+						   <if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'title')">
+						   AND title like concat('%', #{search}, '%')
+						   </if>
+						   <if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'content')">
+						   AND content like concat('%', #{search}, '%')
+						   </if>
+						   <if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'create_user')">
+						   AND create_user like concat('%', #{search}, '%')
+						   </if>
+						   <if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(search_s_date)">
+						   <![CDATA[
+						   AND create_date >= date_format(concat(#{search_s_date}, ' 00:00:00'), '%Y-%m-%d %H:%i:%s')
+						   ]]>
+						   </if>
+						   <if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(search_e_date)">
+						   <![CDATA[
+						   AND create_date <= date_format(concat(#{search_e_date}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
+						   ]]>
+						   </if>
+		  		  	   ) sm
+		  		 <if test="@egovframework.com.cmmn.util.StringUtil@equals(order, '1')">
+		  		 ORDER BY sm.create_date
+		  		 </if>
+		  		 <if test="@egovframework.com.cmmn.util.StringUtil@equals(order, '2')">
+		  		 ORDER BY sm.like_count, sm.create_date
+		  		 </if>
+		  		 <if test="@egovframework.com.cmmn.util.StringUtil@equals(order, '3')">
+		  		 ORDER BY sm.opinion_cnt, sm.create_date
+		  		 </if>
+		       ) sub
+		     , (SELECT @rownum:=0) TMP
+		 ORDER BY num DESC
 	</select>
 	
 	<select id="selectSuggestion" resultType="egovframework.com.suggestion.vo.SuggestionVo">
@@ -201,4 +214,21 @@
 		 WHERE parent_idx = #{suggestion_idx}
 		   AND user_id = #{user_id}
 	</delete>
+	
+	<select id="selectSuggestionFileList" resultType="map">
+		SELECT *
+		  FROM daul.suggestion_attach
+		 WHERE del_chk != 'Y'
+		   AND suggestion_idx = #{suggestion_idx}
+		   <if test="attach_type != null and attach_type != ''">
+		   AND attach_type = #{attach_type}
+		   </if>
+	</select>
+	
+	<select id="selectSuggestionDownloadFile" resultType="egovframework.com.cmmn.util.FileVo">
+		SELECT org_file_name
+		     , save_file_name
+		  FROM daul.suggestion_attach
+		 WHERE save_file_name = #{save_file_name}
+	</select>
 </mapper>                  

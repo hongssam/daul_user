@@ -9,13 +9,13 @@
 				<a href="/suggestion/suggestionRegistPage.do">제안하기</a>
 			</div>
 			<div class="wizard-item">
-				<a href="/suggestion/suggestionListPage.do">열린 제안</a>
+				<a href="/suggestion/suggestionListPage.do?order=1">열린 제안</a>
 			</div>
 			<div class="wizard-item">
-				<a href="/suggestion/suggestionListPage.do">공감 제안</a>
+				<a href="/suggestion/suggestionListPage.do?order=1">공감 제안</a>
 			</div>
 			<div class="wizard-item last">
-				<a href="/suggestion/suggestionListPage.do">종료된 제안</a>
+				<a href="/suggestion/suggestionListPage.do?order=1">종료된 제안</a>
 			</div>
 		</div>
 	</div>

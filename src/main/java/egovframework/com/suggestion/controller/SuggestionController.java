@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
@@ -40,8 +41,10 @@ public class SuggestionController {
 	@RequestMapping(value="/suggestionListPage.do")
 	public String suggestionListPage(SuggestionVo vo, ModelMap model) throws Exception {
 		try {
+			log.debug("[열린제안] 열린제안 목록 vo : " + vo.getOrder());
 			log.debug("[열린제안] 열린제안 목록 조회");
 			List<SuggestionVo> suggestionList = suggestionService.selectSuggestionList(vo);
+			log.debug("[열린제안] 열린제안 목록 조회 : " + suggestionList);
 			
 			model.addAttribute("sgstList", suggestionList);
 		} catch (Exception e) {
@@ -63,11 +66,13 @@ public class SuggestionController {
 			if (userVo != null) params.put("user_id", userVo.getUser_id());
 			
 			log.debug("[열린제안] 열린제안 상세 조회");
-			//SuggestionVo suggestion = suggestionService.selectSuggestion(suggestion_idx);
 			SuggestionVo suggestion = suggestionService.selectSuggestion(params);
-			log.debug("[열린제안] 열린제안 상세 조회 : " + suggestion);
+			log.debug("[열린제안] 열린제안 상세 파일 조회");
+			List<Map<String, String>> fileList = suggestionService.selectSuggestionFileList(params);
+			log.debug("[열린제안] 열린제안 상세 파일 조회 : " + fileList);
 			
 			model.addAttribute("sgst", suggestion);
+			model.addAttribute("fileList", fileList);
 		} catch (Exception e) {
 			log.debug("[열린제안] 열린제안 상세 조회 실패");
 			e.printStackTrace();
@@ -242,5 +247,21 @@ public class SuggestionController {
 		
 		log.debug("[열린제안] 열린제안 공감 등록 완료");
 		return new ResponseEntity<>(likeCount, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/downloadFile.do")
+	public void downloadFile(HttpServletResponse response, @RequestParam("save_file_name") String save_file_name) throws Exception {
+		try {
+			FileVo fileVo = new FileVo();
+			fileVo.setSave_file_name(save_file_name);
+			
+			fileVo = suggestionService.selectSuggestionDownloadFile(fileVo);
+			
+			log.debug("[열린제안] 열린제안 첨부파일 다운로드");
+			fileUtil.downloadFile(response, fileVo);
+		} catch (Exception e) {
+			log.debug("[열린제안] 열린제안 첨부파일 다운로드 실패");
+			e.printStackTrace();
+		}
 	}
 }
