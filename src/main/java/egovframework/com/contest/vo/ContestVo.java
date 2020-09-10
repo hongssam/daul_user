@@ -21,9 +21,17 @@ public class ContestVo extends SearchVo {
 	private String ing;
 	private String user_title;
 	private int num;
+	private String user_name;
 	
 	
 	
+	
+	public String getUser_name() {
+		return user_name;
+	}
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
 	public String getUser_title() {
 		return user_title;
 	}

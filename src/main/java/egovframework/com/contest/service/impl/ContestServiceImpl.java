@@ -69,6 +69,21 @@ public class ContestServiceImpl extends EgovAbstractServiceImpl implements Conte
 		return contestMapper.selectUserFileList(vo);
 	}
 
+	@Override
+	public int updateUserContest(ContestVo vo) throws Exception {
+		return contestMapper.updateUserContest(vo);
+	}
+
+	@Override
+	public void userContestFileDelete(FileVo fileVo) throws Exception {
+		contestMapper.userContestFileDelete(fileVo);
+	}
+
+	@Override
+	public List<Map<String, String>> getUserContestList(ContestVo vo) throws Exception {
+		return contestMapper.getUserContestList(vo);
+	}
+
 }
 
 

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!-- Subpage Nav Tabs -->
 <div class="nav-tabs style2 bgc-fa">
 	<div class="container">
@@ -22,36 +22,51 @@
 		<div class="row">
 			<div class="col-lg-10 offset-lg-1">
 				<div class="ed-content">
-						<div class="title">
-							<div class="tag">
-								<c:if test="${surveyVo.ing eq '투표중' }">
-									<span class="status_tag outline-primary">${surveyVo.ing }</span>
-								</c:if>
-								<c:if test="${surveyVo.ing eq '투표전' }">
-									<span class="status_tag default">${surveyVo.ing }</span>
-								</c:if>
-								<c:if test="${surveyVo.ing eq '투표완료' }">
-									<span class="status_tag default">${surveyVo.ing }</span>
-								</c:if>
-							</div>
-							<input type="hidden" id="survey_idx" value="${surveyVo.survey_idx }"/>
-							<h4>${surveyVo.title}</h4>
-							<p class="date"><b>투표기간</b> | ${surveyVo.s_date} ~${surveyVo.e_date}</p>
+					<div class="title">
+						<div class="tag">
+							<c:if test="${surveyVo.ing eq '투표중' }">
+								<span class="status_tag outline-primary">${surveyVo.ing }</span>
+							</c:if>
+							<c:if test="${surveyVo.ing eq '투표전' }">
+								<span class="status_tag default">${surveyVo.ing }</span>
+							</c:if>
+							<c:if test="${surveyVo.ing eq '투표완료' }">
+								<span class="status_tag default">${surveyVo.ing }</span>
+							</c:if>
 						</div>
-						<hr />
-						<div class="content">
-							<p>[제안이유]</p>
-							<p>${surveyVo.content}</p>
-						</div>
-						<div class="files">
-							<a href="#"><span class="fa-file-o mr10"></span>미리보는 전라북도 2030.pdf</a><br>
-							<a href="#"><span class="fa-file-o mr10"></span>미리보는 전라북도 2030.pdf</a>
-						</div>
-						<div class="bottom">
-							<button class="btn btn-primary btn-survey" data-toggle="modal" data-target=".survey-modal"><i class="fa-check-square-o"></i>참여하기</button>
-							<button class="btn btn-dark btn-survey" data-toggle="modal" data-target=".survey-result-modal"><i class="fa-pie-chart"></i>결과보기</button>
-	
-						</div>
+						<input type="hidden" id="survey_idx" value="${surveyVo.survey_idx }" />
+						<h4>${surveyVo.title}</h4>
+						<p class="date">
+							<b>투표기간</b> | ${surveyVo.s_date} ~${surveyVo.e_date}
+						</p>
+					</div>
+					<hr />
+					<div class="content">
+						<p>[제안이유]</p>
+						<p>${surveyVo.content}</p>
+					</div>
+					<div class="files">
+						<a href="#">
+							<span class="fa-file-o mr10"></span>
+							미리보는 전라북도 2030.pdf
+						</a>
+						<br>
+						<a href="#">
+							<span class="fa-file-o mr10"></span>
+							미리보는 전라북도 2030.pdf
+						</a>
+					</div>
+					<div class="bottom">
+						<button class="btn btn-primary btn-survey" data-toggle="modal" data-target=".survey-modal">
+							<i class="fa-check-square-o"></i>
+							참여하기
+						</button>
+						<button class="btn btn-dark btn-survey" data-toggle="modal" data-target=".survey-result-modal">
+							<i class="fa-pie-chart"></i>
+							결과보기
+						</button>
+
+					</div>
 				</div>
 			</div>
 			<div class="col-lg-10 offset-lg-1">
@@ -82,7 +97,7 @@
 												<img src="${pageContext.request.contextPath}/images/user.png" alt="user.png">
 											</li>
 											<li class="list-inline-item">
-												<p>${list.name} </p>
+												<p>${list.name}</p>
 												<p class="date">${list.create_date}</p>
 											</li>
 										</ul>
@@ -95,17 +110,7 @@
 										<button type="submit" class="btn btn-like">의견등록</button>
 									</div>
 								</div>
-								</c:if>
-							<!-- <div class="item reply">
-								<div class="reply-write">
-									<div class="form-group">
-										<textarea class="form-control" rows="2" placeholder="의견을 작성해주세요."></textarea>
-									</div>
-									<div class="form-group text-right">
-										<button type="submit" class="btn btn-primary">등록</button>
-									</div>
-								</div>
-							</div> -->
+							</c:if>
 							<c:if test="${list.survey_indent ne '0' }">
 								<div class="item reply">
 									<div class="meta">
@@ -131,10 +136,14 @@
 					</c:forEach>
 					<ul class="page-navigation mt20">
 						<li class="page-item disabled">
-							<a class="page-link" href="#"><span class="fa-angle-double-left"></span></a>
+							<a class="page-link" href="#">
+								<span class="fa-angle-double-left"></span>
+							</a>
 						</li>
 						<li class="page-item disabled">
-							<a class="page-link" href="#"><span class="fa-angle-left"></span></a>
+							<a class="page-link" href="#">
+								<span class="fa-angle-left"></span>
+							</a>
 						</li>
 						<li class="page-item text">
 							<a class="page-link" href="#">1</a>
@@ -146,10 +155,14 @@
 							<a class="page-link" href="#">3</a>
 						</li>
 						<li class="page-item">
-							<a class="page-link" href="#"><span class="fa-angle-right"></span></a>
+							<a class="page-link" href="#">
+								<span class="fa-angle-right"></span>
+							</a>
 						</li>
 						<li class="page-item">
-							<a class="page-link" href="#"><span class="fa-angle-double-right"></span></a>
+							<a class="page-link" href="#">
+								<span class="fa-angle-double-right"></span>
+							</a>
 						</li>
 					</ul>
 				</div>
@@ -164,18 +177,21 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<p>설문조사</p>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
 			</div>
 			<div class="modal-body">
 				<h4 class="title">${surveyVo.title }</h4>
-       			<form:form method="post" modelAttribute="surveyVo">
-       				<input type="hidden" name="survey_idx" value="${surveyVo.survey_idx }">
-	      			<div class="survey-box shortcode_widget_radiobox" id="survey-box">
-	      			</div>
+				<form:form method="post" modelAttribute="surveyVo">
+					<input type="hidden" name="survey_idx" value="${surveyVo.survey_idx }">
+					<div class="survey-box shortcode_widget_radiobox" id="survey-box"></div>
 					<hr>
 					<div class="survey-box bottom">
 						<button type="submit" class="btn btn-primary" formaction="/survey/vote.do">등록</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">취소</span></button>
+						<button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">취소</span>
+						</button>
 					</div>
 				</form:form>
 			</div>
@@ -190,12 +206,13 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<p>설문조사 결과</p>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
 			</div>
 			<div class="modal-body">
 				<h4 class="title">${surveyVo.title }</h4>
-				<div class="survey-result-box" id="result-box">
-				</div>
+				<div class="survey-result-box" id="result-box"></div>
 				<hr>
 			</div>
 		</div>

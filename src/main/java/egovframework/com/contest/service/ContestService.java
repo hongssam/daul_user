@@ -17,5 +17,8 @@ public interface ContestService {
 	int checkSubmit(ContestVo vo) throws Exception;
 	ContestVo getUserContest(ContestVo vo) throws Exception;
 	List<Map<String, String>> selectUserFileList(ContestVo vo) throws Exception;
+	int updateUserContest(ContestVo vo) throws Exception;
+	void userContestFileDelete(FileVo fileVo) throws Exception;
+	List<Map<String, String>> getUserContestList(ContestVo vo) throws Exception;
 	
 }
