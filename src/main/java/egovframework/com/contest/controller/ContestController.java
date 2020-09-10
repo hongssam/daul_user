@@ -10,6 +10,8 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -61,7 +63,7 @@ public class ContestController {
 		ContestVo contestVo = new ContestVo();
 		List<Map<String, String>> fileList = null;
 		List<Map<String, String>> userFileList = null;
-		List<Map<String, String>> userContest = null;
+		List<Map<String, String>> userContestList = null;
 		ContestVo userContestVo = new ContestVo();
 		
 		int chk=0;
@@ -71,7 +73,7 @@ public class ContestController {
 			contestVo.setAdmin_contest_idx(admin_contest_idx);
 			contestVo = contestService.getAdminContest(contestVo);
 			fileList = contestService.selectContestFile(contestVo);
-			
+			userContestList = contestService.getUserContestList(contestVo);
 			//해당유저가 공모에 참여했는지 유무chk
 			chk = contestService.checkSubmit(contestVo);
 			
@@ -83,12 +85,12 @@ public class ContestController {
 		}catch(Exception e) {
 			
 		}
-		System.out.println("fileList = " + fileList.size());
 		model.addAttribute("contestVo", contestVo);
 		model.addAttribute("fileList", fileList);
 		model.addAttribute("userFileList", userFileList);
 		model.addAttribute("checkSubmit",chk);
 		model.addAttribute("userContestVo",userContestVo);
+		model.addAttribute("userContestList",userContestList);
 		
 		return "contest/contestDetail";
 	}
@@ -134,6 +136,46 @@ public class ContestController {
 			e.printStackTrace();
 		}
 		return "redirect:/contest/contestDetailPage.do?admin_contest_idx="+vo.getAdmin_contest_idx();
+	}
+	
+	@RequestMapping(value="/contestUserUpdate.do", method=RequestMethod.POST)
+	public String contestUserUpdate(HttpSession session, ContestVo vo, HttpServletRequest request, BindingResult bindingResult) throws Exception{
+		try{
+			System.out.println(vo);
+			UserVo userVo = (UserVo) session.getAttribute("login");
+		    vo.setUpdate_user(userVo.getUser_id());
+			
+		    int result = contestService.updateUserContest(vo);
+		    
+		    FileVo fileVo =  new FileVo();
+			
+			fileVo.setCreate_user(vo.getCreate_user());
+			fileVo.setIdx(vo.getUser_contest_idx());
+			
+			List<FileVo> fileList = fileUtil.parseFileInfo(fileVo, request);
+			
+			for(int i = 0; i < fileList.size(); i++) {
+				contestService.insertFile(fileList.get(i));
+			}
+			
+		}catch(Exception e){
+			
+		}
+		return "redirect:/contest/contestDetailPage.do?admin_contest_idx="+vo.getAdmin_contest_idx();
+	}
+	
+	@RequestMapping(value="/userContestFileDelete.do", method=RequestMethod.POST)
+	public ResponseEntity<?> userContestFileDelete(HttpServletRequest request) throws Exception {
+		String s_file_name = request.getParameter("file_name");
+		FileVo fileVo = new FileVo();
+		try {
+			fileVo.setSave_file_name(s_file_name);
+			
+			contestService.userContestFileDelete(fileVo);
+		}catch(Exception e) {
+			
+		}
+		return new ResponseEntity<>("success", HttpStatus.OK);
 	}
 	
 }

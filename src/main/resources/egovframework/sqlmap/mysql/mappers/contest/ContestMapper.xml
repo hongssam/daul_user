@@ -91,7 +91,7 @@
 		  AND del_chk = 'N'
 	</select>
 	
-		<select id = "selectUserFileList" resultType = "Map">
+	<select id = "selectUserFileList" resultType = "Map">
 		SELECT 
 			user_contest_idx,
 			org_file_name,
@@ -177,4 +177,27 @@
 		   AND admin_contest_idx = #{admin_contest_idx}
 		   AND del_chk = 'N'
 	</select>
+	
+	<update id="updateUserContest">
+		UPDATE contest_user 
+		   SET title = #{title}, update_user = #{update_user}, update_date = sysdate()
+		 WHERE user_contest_idx = #{user_contest_idx}
+	</update>
+	
+	<update id="userContestFileDelete">
+		UPDATE daul.contest_user_attach
+		   SET del_chk = 'Y'
+		 WHERE save_file_name = #{save_file_name}
+		   AND del_chk != 'Y'
+	</update>
+	
+	<select id="getUserContestList" resultType="Map">
+		SELECT a.create_user, a.title,  DATE_FORMAT( a.create_date, '%Y-%m-%d') AS create_date, CONCAT(substring(b.name,1,1),'oo') AS user_name 
+		  FROM contest_user a
+		  LEFT JOIN user b 
+		    ON a.create_user = b.user_id 
+		 WHERE admin_contest_idx = #{admin_contest_idx}	
+	</select>
+	
+	
 </mapper>
