@@ -8,14 +8,14 @@
 			<div class="wizard-item first">
 				<a href="/suggestion/suggestionRegistPage.do">제안하기</a>
 			</div>
-			<div class="wizard-item active">
-				<a href="/suggestion/suggestionListPage.do?order=1">열린 제안</a>
+			<div class="wizard-item" data-type="normal">
+				<a href="/suggestion/suggestionListPage.do?order=1&type=normal">열린 제안</a>
 			</div>
-			<div class="wizard-item">
-				<a href="/suggestion/suggestionListPage.do?order=1">공감 제안</a>
+			<div class="wizard-item" data-type="like">
+				<a href="/suggestion/suggestionListPage.do?order=1&type=like">공감 제안</a>
 			</div>
-			<div class="wizard-item last">
-				<a href="/suggestion/suggestionListPage.do?order=1">종료된 제안</a>
+			<div class="wizard-item last" data-type="end">
+				<a href="/suggestion/suggestionListPage.do?order=1&type=end">종료된 제안</a>
 			</div>
 		</div>
 	</div>
@@ -28,9 +28,9 @@
 			<div class="col-lg-6">
 				<ul class="sort-type text-left">
 					<!-- <li data-order="1">최신 순</li> -->
-					<li data-order="1"><a href="/suggestion/suggestionListPage.do?order=1">최신 순</a></li>
-					<li data-order="2"><a href="/suggestion/suggestionListPage.do?order=2">공감 높은 순</a></li>
-					<li data-order="3"><a href="/suggestion/suggestionListPage.do?order=3">의견 많은 순</a></li>
+					<li data-order="1"><a href="/suggestion/suggestionListPage.do?order=1&type=normal">최신 순</a></li>
+					<li data-order="2"><a href="/suggestion/suggestionListPage.do?order=2&type=normal">공감 높은 순</a></li>
+					<li data-order="3"><a href="/suggestion/suggestionListPage.do?order=3&type=normal">의견 많은 순</a></li>
 				</ul>
 			</div>
 			<div class="col-lg-6">
@@ -128,8 +128,9 @@
 
 <script type="text/javascript">
 	var ul = document.querySelector("ul.sort-type.text-left");
+	var div_wizard = document.querySelector("div.wizard");
 	var search_arr = window.location.search.split("&");
-	var order;
+	var order, type;
 	
 	for (var i = 0; i < search_arr.length; i++) {
 		var search = search_arr[i];
@@ -138,15 +139,30 @@
 			var order_arr = search.split("=");
 			order = order_arr[order_arr.length - 1];
 			
-			var ul_children = ul.children;
+			var ul_child = ul.children;
 			
-			for (var j = 0; j < ul_children.length; j++) {
-				var li = ul_children[j];
+			for (var j = 0; j < ul_child.length; j++) {
+				var li = ul_child[j];
 				
 				if (order === li.dataset.order) {
 					if (!li.classList.contains("active"))	li.classList.add("active");
 				} else {
 					li.classList.remove("active");
+				}
+			}
+		} else if (search.indexOf("type") > -1) {
+			var type_arr = search.split("=");
+			type = type_arr[type_arr.length - 1];
+			
+			var div_wizard_child = div_wizard.children;
+			
+			for (var j = 0; j < div_wizard_child.length; j++) {
+				var div = div_wizard_child[j];
+				
+				if (type === div.dataset.type) {
+					if (!div.classList.contains("active"))	div.classList.add("active");
+				} else {
+					div.classList.remove("active");
 				}
 			}
 		}
@@ -171,6 +187,6 @@
 	function searchSgstList() {
 		var search_value = $("#search_form").serialize();
 		
-		location.href = "${pageContext.request.contextPath}/suggestion/suggestionListPage.do?order=" + order + "&" + search_value;
+		location.href = "${pageContext.request.contextPath}/suggestion/suggestionListPage.do?order=" + order + "&type=" + type + "&" + search_value;
 	}
 </script>

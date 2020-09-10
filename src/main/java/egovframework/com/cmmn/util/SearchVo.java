@@ -6,6 +6,7 @@ public class SearchVo {
 	private String search_type;
 	private String search;
 	private String order;
+	private String type;
 	
 	public String getSearch_s_date() {
 		return search_s_date;
@@ -37,10 +38,16 @@ public class SearchVo {
 	public void setOrder(String order) {
 		this.order = order;
 	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
 	
 	@Override
 	public String toString() {
 		return "SearchVo [search_s_date=" + search_s_date + ", search_e_date=" + search_e_date + ", search_type="
-				+ search_type + ", search=" + search + ", order=" + order + "]";
+				+ search_type + ", search=" + search + ", order=" + order + ", type=" + type + "]";
 	}
 }

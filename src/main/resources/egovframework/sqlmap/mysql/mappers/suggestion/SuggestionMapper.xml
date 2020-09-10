@@ -99,6 +99,10 @@
 		  		 </if>
 		       ) sub
 		     , (SELECT @rownum:=0) TMP
+		 WHERE 1=1
+		   <if test="@egovframework.com.cmmn.util.StringUtil@equals(type, 'like')">
+		   <![CDATA[AND sub.like_per >= 100]]>
+		   </if>
 		 ORDER BY num DESC
 	</select>
 	
