@@ -1,6 +1,7 @@
 package egovframework.com.suggestion.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import egovframework.com.cmmn.util.FileVo;
 import egovframework.com.suggestion.vo.SuggestionOpinionVo;
@@ -18,7 +19,7 @@ public interface SuggestionMapper {
 
 	List<SuggestionVo> selectSuggestionList(SuggestionVo vo) throws Exception;
 	
-	SuggestionVo selectSuggestion(String suggestion_idx) throws Exception;
+	SuggestionVo selectSuggestion(Map<String, String> params) throws Exception;
 
 	List<SuggestionOpinionVo> selectSuggestionOpinionList(String suggestion_idx) throws Exception;
 
@@ -31,4 +32,12 @@ public interface SuggestionMapper {
 	void insertSuggestionOpinion(SuggestionOpinionVo vo) throws Exception;
 
 	void deleteSuggestionOpinion(SuggestionOpinionVo vo) throws Exception;
+
+	Map<String, String> selectSuggestionUserLike(Map<String, String> params) throws Exception;
+
+	void insertSuggestionUserLike(Map<String, String> params) throws Exception;
+
+	int selectSuggestionLikeCount(String suggestion_idx) throws Exception;
+
+	void deleteSuggestionUserLike(Map<String, String> params) throws Exception;
 }

@@ -60,7 +60,7 @@
 			       c.suggestion_idx,
 			       c.title, 
 			       c.content, 
-			       c.like_count,     
+			       (SELECT COUNT(*) FROM daul.user_like where parent_idx = c.suggestion_idx) AS like_count,     
 			       c.create_user,
 			       DATE_FORMAT(c.create_date, '%Y-%m-%d') as create_date,
 				   (SELECT count(*) FROM suggestion_opinion a WHERE a.suggestion_idx = c.suggestion_idx) AS opinion_cnt
@@ -85,7 +85,6 @@
 				   AND c.create_date <= date_format(concat(#{search_e_date}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
 				   ]]>
 			   </if>
-			  
 		) sub
 		ORDER BY sub.num DESC
 	</select>
@@ -93,7 +92,10 @@
 	<select id="selectSuggestion" resultType="egovframework.com.suggestion.vo.SuggestionVo">
 		SELECT sm.*
 			 , (SELECT COUNT(*) FROM daul.suggestion_opinion so WHERE so.suggestion_idx = sm.suggestion_idx) AS opinion_cnt
+			 , (SELECT COUNT(*) FROM daul.user_like where parent_idx = #{suggestion_idx}) AS like_count
+	 		 , (CASE WHEN ul.user_id IS NOT NULL THEN TRUE ELSE FALSE END) AS like_flag
 		  FROM daul.suggestion_main sm
+		  LEFT JOIN daul.user_like ul ON ul.parent_idx = sm.suggestion_idx AND ul.user_id = #{user_id}
 		 WHERE del_chk != 'Y'
 		   AND suggestion_idx = #{suggestion_idx}
 	</select>
@@ -167,4 +169,36 @@
 		   SET del_chk = 'Y'
 		 WHERE opinion_idx = #{opinion_idx}
 	</update>
+	
+	<select id="selectSuggestionUserLike" resultType="Map">
+		SELECT *
+		  FROM daul.user_like
+		 WHERE parent_idx = #{suggestion_idx}
+		   AND user_id = #{user_id}
+	</select>
+	
+	<insert id="insertSuggestionUserLike">
+		INSERT INTO daul.user_like
+			 (
+			   user_id
+			 , parent_idx
+			 )
+		VALUES
+			 (
+			   #{user_id}
+			 , #{suggestion_idx}
+			 )
+	</insert>
+	
+	<select id="selectSuggestionLikeCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM daul.user_like
+		 WHERE parent_idx = #{suggestion_idx}
+	</select>
+	
+	<delete id="deleteSuggestionUserLike">
+		DELETE FROM daul.user_like
+		 WHERE parent_idx = #{suggestion_idx}
+		   AND user_id = #{user_id}
+	</delete>
 </mapper>                  

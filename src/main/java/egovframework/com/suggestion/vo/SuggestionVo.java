@@ -4,6 +4,7 @@ import egovframework.com.cmmn.util.SearchVo;
 
 public class SuggestionVo extends SearchVo{
 
+	private int num;
 	private String 	suggestion_idx;
 	private String 	title;
 	private String 	content;
@@ -19,8 +20,8 @@ public class SuggestionVo extends SearchVo{
 	private int public_cnt;
 	private int admin_cnt;
 	private int opinion_cnt;
-	
-	private int num;
+
+	private boolean like_flag;
 
 	public String getSuggestion_idx() {
 		return suggestion_idx;
@@ -142,12 +143,20 @@ public class SuggestionVo extends SearchVo{
 		this.num = num;
 	}
 
+	public boolean isLike_flag() {
+		return like_flag;
+	}
+
+	public void setLike_flag(boolean like_flag) {
+		this.like_flag = like_flag;
+	}
+
 	@Override
 	public String toString() {
-		return "SuggestionVo [suggestion_idx=" + suggestion_idx + ", title=" + title + ", content=" + content
-				+ ", view_count=" + view_count + ", like_count=" + like_count + ", create_user=" + create_user
+		return "SuggestionVo [num=" + num + ", suggestion_idx=" + suggestion_idx + ", title=" + title + ", content="
+				+ content + ", view_count=" + view_count + ", like_count=" + like_count + ", create_user=" + create_user
 				+ ", create_date=" + create_date + ", update_user=" + update_user + ", update_date=" + update_date
 				+ ", del_chk=" + del_chk + ", pro_cnt=" + pro_cnt + ", public_cnt=" + public_cnt + ", admin_cnt="
-				+ admin_cnt + ", opinion_cnt=" + opinion_cnt + ", num=" + num + "]";
+				+ admin_cnt + ", opinion_cnt=" + opinion_cnt + ", like_flag=" + like_flag + "]";
 	}
 }

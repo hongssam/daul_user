@@ -1,6 +1,8 @@
 package egovframework.com.suggestion.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -52,11 +54,18 @@ public class SuggestionController {
 	}
 	
 	@RequestMapping(value="/suggestionDetailPage.do")
-	public String suggestionDetailPage(@RequestParam("suggestion_idx") String suggestion_idx, ModelMap model) throws Exception {
+	public String suggestionDetailPage(@RequestParam("suggestion_idx") String suggestion_idx, ModelMap model, HttpSession session) throws Exception {
 		try {
+			UserVo userVo = (UserVo) session.getAttribute("login");
+			
+			Map<String, String> params = new HashMap<>();
+			params.put("suggestion_idx", suggestion_idx);
+			if (userVo != null) params.put("user_id", userVo.getUser_id());
+			
 			log.debug("[열린제안] 열린제안 상세 조회");
-			SuggestionVo suggestion = suggestionService.selectSuggestion(suggestion_idx);
-			log.debug("[열린제안] 열린제안 상세 : " + suggestion);
+			//SuggestionVo suggestion = suggestionService.selectSuggestion(suggestion_idx);
+			SuggestionVo suggestion = suggestionService.selectSuggestion(params);
+			log.debug("[열린제안] 열린제안 상세 조회 : " + suggestion);
 			
 			model.addAttribute("sgst", suggestion);
 		} catch (Exception e) {
@@ -133,7 +142,7 @@ public class SuggestionController {
 		log.debug("[열린제안] 열린제안 의견 목록 조회 완료");
 		return new ResponseEntity<>(suggestionOpinionList, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value="/suggestionOpinionRegist.do", method=RequestMethod.POST, produces = "application/text; charset=utf8")
 	public ResponseEntity<?> suggestionOpinionRegist(SuggestionOpinionVo vo, BindingResult bindingResult, HttpSession session) throws Exception {
 		try {
@@ -173,7 +182,7 @@ public class SuggestionController {
 				opinionIdx = suggestionService.selectSuggestionOpinionIdx();
 				vo.setOpinion_idx(opinionIdx);
 				vo.setSuggestion_ref(opinionIdx);
-				
+
 				log.debug("[열린제안] 열린제안 댓글 등록");
 				suggestionService.insertSuggestionOpinion(vo);
 			}
@@ -200,4 +209,38 @@ public class SuggestionController {
 		return new ResponseEntity<>("success", HttpStatus.OK);
 	}
 	
+	@RequestMapping(value="/suggestionUserLikeChange.do")
+	public ResponseEntity<?> suggestionUserLikeChange(@RequestParam Map<String, String> params, HttpSession session) throws Exception {
+		int likeCount = 0;
+		
+		try {
+			UserVo userVo = (UserVo) session.getAttribute("login");
+			
+			params.put("user_id", userVo.getUser_id());
+			
+			log.debug("[열린제안] 열린제안 공감 조회");
+			Map<String, String> result = suggestionService.selectSuggestionUserLike(params); 
+			
+			if (result == null) {
+				if ("reg".equals(params.get("method_type"))) {
+					log.debug("[열린제안] 열린제안 공감 등록");
+					suggestionService.insertSuggestionUserLike(params);
+				}
+			} else {
+				if ("del".equals(params.get("method_type"))) {
+					log.debug("[열린제안] 열린제안 공감 삭제");
+					suggestionService.deleteSuggestionUserLike(params);
+				}
+			}
+			
+			log.debug("[열린제안] 열린제안 공감 카운트 조회");
+			likeCount = suggestionService.selectSuggestionLikeCount(params.get("suggestion_idx"));
+		} catch (Exception e) {
+			log.debug("[열린제안] 열린제안 공감 실패");
+			e.printStackTrace();
+		}
+		
+		log.debug("[열린제안] 열린제안 공감 등록 완료");
+		return new ResponseEntity<>(likeCount, HttpStatus.OK);
+	}
 }

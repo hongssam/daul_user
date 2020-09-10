@@ -58,8 +58,9 @@
 						</a> -->
 					</div>
 					<div class="bottom">
-						<button class="btn btn-like">
-							<i class="fa-heart-o mr10"></i>
+						<button type="button" class="btn btn-like heart">
+							<c:if test="${sgst.like_flag eq true}"><i class="fa-heart mr10"></i></c:if>
+							<c:if test="${sgst.like_flag eq false}"><i class="fa-heart-o mr10"></i></c:if>
 							공감 ${sgst.like_count}
 						</button>
 					</div>
@@ -365,6 +366,43 @@
 			} else {
 				
 			}
+		});
+	}
+
+	var btn_like = document.querySelector("button.btn.btn-like.heart");
+	
+	btn_like.addEventListener("click", function(e) {
+		changeUserLike();
+	});
+	
+	function changeUserLike() {
+		var type = "";
+		var li_heart = btn_like.firstElementChild;
+		
+		if (li_heart.classList.contains("fa-heart-o"))		type = "reg";
+		else if (li_heart.classList.contains("fa-heart"))	type = "del";
+		
+		var request = $.ajax({
+			url: "/suggestion/suggestionUserLikeChange.do",
+			method: "get",
+			data: {
+				suggestion_idx: "${sgst.suggestion_idx}",
+				method_type: type
+			}
+		});
+		
+		request.done(function(data) {
+			var li = "";
+			
+			if (type === "reg")	li = '<i class="fa-heart mr10"></i>';
+			else				li = '<i class="fa-heart-o mr10"></i>';
+			
+			btn_like.innerHTML = li + " 공감 " + data;
+			
+		});
+		
+		request.fail(function(error) {
+			console.log("suggestionLike.do fail", error);
 		});
 	}
 </script>
