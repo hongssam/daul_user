@@ -104,38 +104,46 @@
 			<li><span>e-다울마당</span>
 				<!-- Level Two-->
 				<ul>
-					<li><a href="intro.html">e-다울마당이란?</a></li>
-					<li><a href="faq.html">자주하는 질문</a></li>
-					<li><a href="notice.html">공지사항</a></li>
-					<li><a href="qa.html">묻고답하기</a></li>
+					<li><a href="/board/introPage.do">e-다울마당이란?</a></li>
+					<li><a href="/board/faqListpage.do">자주하는 질문</a></li>
+					<li><a href="/board/noticeListPage.do">공지사항</a></li>
+					<li><a href="/board/qnaListPage.do">묻고답하기</a></li>
 				</ul>
 			</li>
 			<li><span>열린제안</span>
 				<!-- Level Two-->
 				<ul>
-					<li><a href="suggest-edit.html">제안하기</a></li>
-					<li><a href="suggest.html">열린제안</a></li>
-					<li><a href="suggest.html">공감제안</a></li>
-					<li><a href="suggest.html">종료된제안</a></li>
+					<li><a href="/suggestion/suggestionRegistPage.do">제안하기</a></li>
+					<li><a href="/suggestion/suggestionListPage.do?order=1&type=normal">열린제안</a></li>
+					<li><a href="/suggestion/suggestionListPage.do?order=1&type=like">공감제안</a></li>
+					<li><a href="/suggestion/suggestionListPage.do?order=1&type=end">종료된제안</a></li>
 				</ul>
 			</li>
 			<li><span>설문조사</span>
 				<!-- Level Two-->
 				<ul>
-					<li><a href="survey.html">설문조사</a></li>
+					<li><a href="/survey/surveyListPage.do">설문조사</a></li>
 					<li><a href="survey-notice.html">공지사항</a></li>
 				</ul>
 			</li>
 			<li><span>공모제안</span>
 				<!-- Level Two-->
 				<ul>
-					<li><a href="contest.html">공모제안</a></li>
+					<li><a href="/contest/contestListPage.do">공모제안</a></li>
 					<li><a href="contest-notice.html">공지사항</a></li>
 				</ul>
 			</li>
 			<li><a href="guide.html">이용안내</a></li>
-			<li><a href="/login/loginPage.do"><span class="flaticon-user"></span> Login</a></li>
-			<li><a href="/user/userRegistTermPage.do"><span class="flaticon-edit"></span> Register</a></li>
+			<c:choose>
+					<c:when test = "${login.name ne '' && not empty login.name }">
+						<li><a href="#"><span class="flaticon-user"></span>&nbsp; ${login.name}</a></li>
+						<li><a href="/login/logout.do"><span class="flaticon-logout"></span>&nbsp; Logout</a></li>
+					</c:when>
+					<c:otherwise>
+						<li><a href="/login/loginPage.do"><span class="flaticon-user"></span> Login</a></li>
+						<li><a href="/user/userRegistTermPage.do"><span class="flaticon-edit"></span> Register</a></li>
+					</c:otherwise>
+				</c:choose>
 		</ul>
 	</nav>
 </div>

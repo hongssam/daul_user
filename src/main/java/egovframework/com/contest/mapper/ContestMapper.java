@@ -21,6 +21,7 @@ public interface ContestMapper {
 	List<Map<String,String>> selectUserFileList(ContestVo vo) throws Exception;
 	int updateUserContest(ContestVo vo) throws Exception;
 	void userContestFileDelete(FileVo fileVo) throws Exception;
-	List<Map<String,String>> getUserContestList(ContestVo vo) throws Exception;
+	List<ContestVo> getUserContestList(ContestVo vo) throws Exception;
 	int getContestListCnt(ContestVo vo) throws Exception;
+	int getUserContestListCnt(ContestVo vo) throws Exception;
 }

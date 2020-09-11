@@ -216,13 +216,22 @@
 		   AND del_chk != 'Y'
 	</update>
 	
-	<select id="getUserContestList" resultType="Map">
+	<select id="getUserContestList" resultType="egovframework.com.contest.vo.ContestVo">
 		SELECT a.create_user, a.title,  DATE_FORMAT( a.create_date, '%Y-%m-%d') AS create_date, CONCAT(substring(b.name,1,1),'oo') AS user_name 
 		  FROM contest_user a
 		  LEFT JOIN user b 
 		    ON a.create_user = b.user_id 
 		 WHERE admin_contest_idx = #{admin_contest_idx}	
+		 LIMIT #{startIndex},#{cntPerPage}
 	</select>
 	
+	<select id="getUserContestListCnt" resultType="int">
+		SELECT COUNT(*)
+		  FROM contest_user a
+		  LEFT JOIN user b 
+		    ON a.create_user = b.user_id 
+		 WHERE admin_contest_idx = #{admin_contest_idx}	
+		 
+	</select>
 	
 </mapper>

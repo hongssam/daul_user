@@ -20,6 +20,7 @@
 <!-- Suggest Detail Section -->
 <section class="suggest-detail-section bgc-fa">
 	<div class="container">
+		<input type="hidden" id="admin_contest_idx" value="${contestVo.admin_contest_idx }"/>
 		<div class="row">
 			<div class="col-lg-10 offset-lg-1">
 				<div class="ed-content">
@@ -91,41 +92,7 @@
 							</tbody>
 						</table>
 					</div>
-					
-					<div class="table-nav">
-						<ul class="page-navigation">
-							<li class="page-item disabled">
-								<a class="page-link" href="#">
-									<span class="fa-angle-double-left"></span>
-								</a>
-							</li>
-							<li class="page-item disabled">
-								<a class="page-link" href="#">
-									<span class="fa-angle-left"></span>
-								</a>
-							</li>
-							<li class="page-item text">
-								<a class="page-link" href="#">1</a>
-							</li>
-							<li class="page-item text active" aria-current="page">
-								<a class="page-link" href="#">2</a>
-							</li>
-							<li class="page-item text">
-								<a class="page-link" href="#">3</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">
-									<span class="fa-angle-right"></span>
-								</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">
-									<span class="fa-angle-double-right"></span>
-								</a>
-							</li>
-						</ul>
-					</div>
-				</div>
+				 <%@ include file="../common/pagination.jsp" %>
 			</div>
 		</div>
 	</div>
@@ -291,11 +258,14 @@
 <script type="text/javascript">
 	var fileList = new Array();
 	var userFileList = new Array();
+	
   	$(document).ready(function(){
 		$("a[name='file']").on("click",function(e){
 			e.preventDefault();
 			fn_downloadFile($(this));
 		});
+		
+		
    	});
    
   	function fn_downloadFile(obj){
@@ -528,6 +498,10 @@
 		});
 	});
 	
+	function fn_paging(pageNum) {
+		var idx = $("#admin_contest_idx").val();
+		location.href = '${pageContext.request.contextPath}/contest/contestDetailPage.do?admin_contest_idx='+idx+'&curPage=' + pageNum;
+	}
 	
 </script>
 
