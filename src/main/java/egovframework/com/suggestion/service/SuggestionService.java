@@ -19,7 +19,8 @@ public interface SuggestionService {
 
 	SuggestionVo selectSuggestion(Map<String, String> params) throws Exception;
 
-	List<SuggestionOpinionVo> selectSuggestionOpinionList(String suggestion_idx) throws Exception;
+	//List<SuggestionOpinionVo> selectSuggestionOpinionList(String suggestion_idx) throws Exception;
+	List<Map<String, String>> selectSuggestionOpinionList(String suggestion_idx) throws Exception;
 
 	SuggestionOpinionVo selectParentSuggestionOpinion(SuggestionOpinionVo vo) throws Exception;
 	

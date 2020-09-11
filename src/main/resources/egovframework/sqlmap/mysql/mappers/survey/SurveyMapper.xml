@@ -60,20 +60,20 @@
 		   WHERE a.survey_idx = #{survey_idx} 
 	</select>
 	
-	<select id = "getSurveyOpinionList" resultType="egovframework.com.survey.vo.SurveyOpinionVo">
+	<select id = "getSurveyOpinionList" resultType="map">
 			SELECT * 
 			  FROM (		
-				SELECT @rownum:=@rownum+1 AS num
+				SELECT @rownum:=@rownum+1 								AS num
 					 , so.opinion_idx
-					 , so.survey_idx
+					 , so.survey_idx									AS idx
 					 , so.opinion_content
 					 , so.create_user
 					 , so.update_user
-					 , DATE_FORMAT(so.create_date, '%Y-%m-%d %H:%i') 		AS create_date
-					 , DATE_FORMAT(so.update_date, '%Y-%m-%d %H:%i') 		AS update_date
+					 , DATE_FORMAT(so.create_date, '%Y-%m-%d %H:%i') 	AS create_date
+					 , DATE_FORMAT(so.update_date, '%Y-%m-%d %H:%i') 	AS update_date
 					 , so.del_chk
-					 , so.survey_ref
-					 , so.survey_indent
+					 , so.survey_ref									AS ref
+					 , so.survey_indent									AS indent
 				     , u.auth_type 
 				     , u.name
 				  FROM daul.survey_opinion so

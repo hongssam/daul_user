@@ -171,35 +171,10 @@
 			}
 		}
 	}
-	
 
 	var reviews = document.querySelector("div.reviews");
 	
 	getSuggestionOpinionList();
-	
-	/* var opn_reg_btn = document.getElementById("opn_reg_btn");
-	
-	opn_reg_btn.addEventListener("click", function() {
-		if (login_user_id === "") {
-			gotoLoginPage();
-		} else {
-			registOpinion(opn_reg_btn);
-		}
-	}); */
-	
-	/* var opinion_content = document.getElementById("opinion_content");
-	
-	opinion_content.addEventListener("click", function() {
-		if (login_user_id === "") {
-			gotoLoginPage();
-		}
-	}); */
-	
-	/* function gotoLoginPage() {
-		if (!confirm("로그인이 필요한 기능입니다.\n로그인 페이지로 이동하시겠습니까?")) return false;
-		
-		location.href="${pageContext.request.contextPath}/login/loginPage.do";
-	} */
 	
 	function getSuggestionOpinionList() {
 		var request = $.ajax({
@@ -209,167 +184,9 @@
 		});
 		
 		request.done(function(data) {
-			var parent_opn = [];
-			var child_opn = [];
-			
-			for (var i = 0; i < data.length; i++) {
-				if (data[i].suggestion_ref === data[i].opinion_idx) {
-					parent_opn.push(data[i]);
-				} else {
-					child_opn.push(data[i]);
-				}
-			}
-			
-			while (reviews.hasChildNodes()) {
-				reviews.removeChild(reviews.childNodes[0]);
-			}
-			
-			for (var i = 0; i < parent_opn.length; i++) {
-				let opn = parent_opn[i];
-				
-				var div = createOpinionElement("parent", opn);				
-				
-				reviews.append(div);
-				
-				if (login_user_id !== "") {
-					var div_top = document.getElementById(opn.opinion_idx);
-
-					// 의견등록 버튼 이벤트
-					let btn_sub_opn_reg = div_top.querySelector("button.btn-sub-opn-add");
-					btn_sub_opn_reg.addEventListener("click", function() {
-						addSubOpinionElement(btn_sub_opn_reg, opn);
-					});
-					
-					// 삭제 버튼 이벤트
-					if (login_user_id === opn.create_user) {
-						let btn_opn_del = div_top.querySelector("button.btn-opn-del");
-						btn_opn_del.addEventListener("click", function() {
-							deleteSuggestionOpinion(btn_opn_del, opn);
-						});
-					}
-				}
-			}
-			
-			for (var j = 0; j < child_opn.length; j++) {
-				let opn = child_opn[j];
-				
-				var div = createOpinionElement("child", opn);
-				
-				document.getElementById(opn.suggestion_ref).after(div);
-				
-				if (login_user_id !== "" && login_user_id === opn.create_user) {
-					var div_top = document.getElementById(opn.opinion_idx);
-					
-					let btn_sub_opn_del = div_top.querySelector("button.btn-sub-opn-del");
-					btn_sub_opn_del.addEventListener("click", function() {
-						deleteSuggestionOpinion(btn_sub_opn_del, opn);
-					});
-				}
-			}
+			setOpinionList(data);
 		});
 	}
-	
-	/* function createOpinionElement(type, data) {
-		var opinion_content = data.opinion_content;
-		if (data.del_chk === "Y") opinion_content = "삭제된 댓글입니다.";
-		
-		var div = document.createElement("div");
-		div.classList.add("item");
-		if (type === "child") div.classList.add("reply");
-		div.id = data.opinion_idx;
-		
-		var html = 
-			'<div class="meta">' +
-				'<ul class="fp_meta">' +
-					'<li class="list-inline-item float-left">' +
-						'<img src="${pageContext.request.contextPath}/images/user.png" alt="user.png">' +
-					'</li>' +
-					'<li class="list-inline-item">' +
-						'<p>' + data.create_user + '</p>' +
-						'<p class="date">' + data.create_date + '</p>' +
-					'</li>' +
-				'</ul>' +
-			'</div>' +
-			'<div class="content">' +
-				'<p>' + opinion_content + '</p>' +
-			'</div>';
-		div.innerHTML = html;
-		
-		if (login_user_id !== "") {
-			if (type === "parent") {
-				var div_bottom = document.createElement("div");
-				div_bottom.classList.add("bottom");
-				
-				var html_button = "";
-				
-				if (login_user_id === data.create_user) {
-					html_button = 
-						'<button type="button" class="btn btn-like btn-opn-del" data-title="댓글">삭제 </button>' +
-						'<button type="button" class="btn btn-like btn-sub-opn-add">의견등록 </button>';
-				} else {
-					html_button = '<button type="button" class="btn btn-like btn-sub-opn-add">의견등록 </button>'; 
-				}
-
-				div_bottom.innerHTML = html_button;
-				
-				div.querySelector("div.content").after(div_bottom);
-			} else {
-				if (login_user_id === data.create_user) {
-					var li = document.createElement("li");
-					li.classList.add("list-inline-item", "float-right");
-					
-					var html_button =
-						'<button type="button" class="btn btn-like btn-sub-opn-del" data-title="댓글">삭제 </button>';
-					
-					li.innerHTML = html_button;
-						
-					div.querySelector("ul.fp_meta").appendChild(li);
-				}
-			}
-		}
-		
-		return div;
-	} */
-	
-	/* function addSubOpinionElement(target, data) {
-		var div_regist = reviews.querySelector("div.item.reply.regist");
-		var input_sgst_ref = "";
-		
-		if (div_regist) {
-			input_sgst_ref = div_regist.querySelector("input[name='opinion_idx']").value;
-			
-			div_regist.remove();
-		}
-		
-		if (input_sgst_ref !== data.opinion_idx) {
-			var div = document.createElement("div");
-			div.classList.add("item", "reply", "regist");
-			
-			var html = 
-				'<div class="reply-write">' +
-					'<form id="sub_opn_form">' +
-						'<div class="form-group">' +
-							'<textarea class="form-control" rows="2" name="opinion_content" placeholder="의견을 작성해주세요."></textarea>' +
-							'<input type="hidden" name="suggestion_idx" value="${sgst.suggestion_idx}"/>' +
-							'<input type="hidden" name="opinion_idx" value="' + data.opinion_idx + '"/>' +
-						'</div>' +
-						'<div class="form-group text-right">' +
-							'<button type="button" class="btn btn-primary" id="sub_opn_reg_btn">등록</button>' +
-						'</div>' +
-					'</form>' +
-				'</div>';
-				
-			div.innerHTML = html;
-			
-			target.closest("div.item").after(div);
-			
-			var sub_opn_reg_btn = document.getElementById("sub_opn_reg_btn");
-			
-			sub_opn_reg_btn.addEventListener("click", function() {
-				registOpinion(sub_opn_reg_btn);
-			});
-		}
-	} */
 	
 	function registOpinion(target) {
 		if (!confirm("댓글을(를) 등록 하시겠습니까?")) return false;
@@ -395,7 +212,7 @@
 		});
 	}
 	
-	function deleteSuggestionOpinion(target, opn) {
+	function deleteOpinion(target, opn) {
 		if (!submitConfirm($(target))) return false;
 		
 		var request = $.ajax({

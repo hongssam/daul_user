@@ -117,7 +117,34 @@
 		   AND suggestion_idx = #{suggestion_idx}
 	</select>
 	
-	<select id="selectSuggestionOpinionList" resultType="egovframework.com.suggestion.vo.SuggestionOpinionVo">
+	<select id="selectSuggestionOpinionList" resultType="map">
+		SELECT *
+		  FROM (
+				SELECT @rownum:=@rownum+1 								AS num
+					 , so.opinion_idx
+					 , so.suggestion_idx								AS idx
+					 , so.opinion_content
+					 , so.create_user
+					 , so.update_user
+					 , DATE_FORMAT(so.create_date, '%Y-%m-%d %H:%i')	AS create_date
+					 , DATE_FORMAT(so.update_date, '%Y-%m-%d %H:%i') 	AS update_date
+					 , so.del_chk
+					 , so.suggestion_ref								AS ref
+					 , so.suggestion_indent								AS indent
+					 , so.suggestion_step								AS step
+				     , u.auth_type 
+				     , u.name
+				  FROM daul.suggestion_opinion so
+				  LEFT JOIN daul.user u ON so.create_user = u.user_id 
+				  INNER JOIN (SELECT @rownum:=0) TMP
+				 <!-- WHERE so.del_chk != 'Y' --> 
+				 WHERE so.suggestion_idx = #{suggestion_idx}
+				 ORDER BY so.suggestion_ref
+				        , so.suggestion_step DESC
+		  	   ) sub
+		 ORDER BY sub.num DESC
+	</select>
+<!-- 	<select id="selectSuggestionOpinionList" resultType="egovframework.com.suggestion.vo.SuggestionOpinionVo">
 		SELECT *
 		  FROM (
 				SELECT @rownum:=@rownum+1 AS num
@@ -137,13 +164,13 @@
 				  FROM daul.suggestion_opinion so
 				  LEFT JOIN daul.user u ON so.create_user = u.user_id 
 				  INNER JOIN (SELECT @rownum:=0) TMP
-				 <!-- WHERE so.del_chk != 'Y' --> 
+				 WHERE so.del_chk != 'Y' 
 				 WHERE so.suggestion_idx = #{suggestion_idx}
 				 ORDER BY so.suggestion_ref
 				        , so.suggestion_step DESC
 		  	   ) sub
 		 ORDER BY sub.num DESC
-	</select>
+	</select> -->
 	
 	<select id="selectParentSuggestionOpinion" resultType="egovframework.com.suggestion.vo.SuggestionOpinionVo">
 		SELECT suggestion_ref

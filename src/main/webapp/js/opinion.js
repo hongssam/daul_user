@@ -1,3 +1,64 @@
+function setOpinionList(data) {
+	var parent_opn = [];
+	var child_opn = [];
+	
+	for (var i = 0; i < data.length; i++) {
+		if (data[i].ref === data[i].opinion_idx) {
+			parent_opn.push(data[i]);
+		} else {
+			child_opn.push(data[i]);
+		}
+	}
+	
+	while (reviews.hasChildNodes()) {
+		reviews.removeChild(reviews.childNodes[0]);
+	}
+	
+	for (var i = 0; i < parent_opn.length; i++) {
+		let opn = parent_opn[i];
+		
+		var div = createOpinionElement("parent", opn);				
+		
+		reviews.append(div);
+		
+		if (login_user_id !== "" && opn.del_chk !== "Y") {
+			var div_top = document.getElementById(opn.opinion_idx);
+
+			// 의견등록 버튼 이벤트
+			let btn_sub_opn_reg = div_top.querySelector("button.btn-sub-opn-add");
+			btn_sub_opn_reg.addEventListener("click", function() {
+				addSubOpinionRegistElement(btn_sub_opn_reg, opn);
+			});
+			
+			// 삭제 버튼 이벤트
+			if (login_user_id === opn.create_user) {
+				let btn_opn_del = div_top.querySelector("button.btn-opn-del");
+				btn_opn_del.addEventListener("click", function() {
+					deleteOpinion(btn_opn_del, opn);
+				});
+			}
+		}
+	}
+	
+	for (var j = 0; j < child_opn.length; j++) {
+		let opn = child_opn[j];
+		
+		var div = createOpinionElement("child", opn);
+		
+		document.getElementById(opn.ref).after(div);
+		
+		// 삭제 버튼 이벤트
+		if (login_user_id !== "" && login_user_id === opn.create_user && opn.del_chk !== "Y") {
+			var div_top = document.getElementById(opn.opinion_idx);
+			
+			let btn_sub_opn_del = div_top.querySelector("button.btn-sub-opn-del");
+			btn_sub_opn_del.addEventListener("click", function() {
+				deleteOpinion(btn_sub_opn_del, opn);
+			});
+		}
+	}
+}
+
 function createOpinionElement(type, data) {
 	var opinion_content = data.opinion_content;
 	if (data.del_chk === "Y") opinion_content = "삭제된 댓글입니다.";
@@ -20,11 +81,11 @@ function createOpinionElement(type, data) {
 			'</ul>' +
 		'</div>' +
 		'<div class="content">' +
-			'<p>' + opinion_content + '</p>' +
+			'<p style="white-space: pre-wrap">' + opinion_content + '</p>' +
 		'</div>';
 	div.innerHTML = html;
 	
-	if (login_user_id !== "") {
+	if (login_user_id !== "" && data.del_chk !== "Y") {
 		if (type === "parent") {
 			var div_bottom = document.createElement("div");
 			div_bottom.classList.add("bottom");
@@ -60,12 +121,12 @@ function createOpinionElement(type, data) {
 	return div;
 }
 
-function addSubOpinionElement(target, data) {
+function addSubOpinionRegistElement(target, data) {
 	var div_regist = reviews.querySelector("div.item.reply.regist");
 	var input_sgst_ref = "";
 	
 	var opinion_idx = data.opinion_idx;
-	var idx, name_idx;
+	var idx = data.idx;
 	
 	if (div_regist) {
 		input_sgst_ref = div_regist.querySelector("input[name='opinion_idx']").value;
@@ -74,11 +135,11 @@ function addSubOpinionElement(target, data) {
 	}
 	
 	if (input_sgst_ref !== opinion_idx) {
+		var name_idx;
+		
 		if (opinion_idx.indexOf("SG") > -1) {
-			idx = data.suggestion_idx;
 			name_idx = "suggestion_idx";
 		} else if (opinion_idx.indexOf("SV") > -1) {
-			idx = data.survey_idx;
 			name_idx = "survey_idx";
 		}
 		

@@ -319,64 +319,7 @@
 		});
 		
 		request.done(function(data) {
-			var parent_opn = [];
-			var child_opn = [];
-			console.log("surveyOpinionList", data);
-			
-			for (var i = 0; i < data.length; i++) {
-				if (data[i].survey_ref === data[i].opinion_idx) {
-					parent_opn.push(data[i]);
-				} else {
-					child_opn.push(data[i]);
-				}
-			}
-			
-			while (reviews.hasChildNodes()) {
-				reviews.removeChild(reviews.childNodes[0]);
-			}
-			
-			for (var i = 0; i < parent_opn.length; i++) {
-				let opn = parent_opn[i];
-				
-				var div = createOpinionElement("parent", opn);				
-				
-				reviews.append(div);
-				
-				if (login_user_id !== "") {
-					var div_top = document.getElementById(opn.opinion_idx);
-
-					// 의견등록 버튼 이벤트
-					let btn_sub_opn_reg = div_top.querySelector("button.btn-sub-opn-add");
-					btn_sub_opn_reg.addEventListener("click", function() {
-						addSubOpinionElement(btn_sub_opn_reg, opn);
-					});
-					
-					// 삭제 버튼 이벤트
-					if (login_user_id === opn.create_user) {
-						let btn_opn_del = div_top.querySelector("button.btn-opn-del");
-						btn_opn_del.addEventListener("click", function() {
-							deleteOpinion(btn_opn_del, opn);
-						});
-					}
-				}
-			}
-			
-			for (var j = 0; j < child_opn.length; j++) {
-				let opn = child_opn[j];
-				
-				var div = createOpinionElement("child", opn);
-				
-				document.getElementById(opn.survey_ref).after(div);
-				
-				if (login_user_id !== "" && login_user_id === opn.create_user) {
-					var div_top = document.getElementById(opn.opinion_idx);
-					
-					let btn_sub_opn_del = div_top.querySelector("button.btn-sub-opn-del");
-					btn_sub_opn_del.addEventListener("click", function() {
-						deleteOpinion(btn_sub_opn_del, opn);
-					});
-				}
-			}
+			setOpinionList(data);
 		});
 	}
 

@@ -81,21 +81,22 @@ public class SurveyController {
 		try {
 			vo.setSurvey_idx(survey_idx);
 			vo = surveyService.getSurveyDetail(vo);
-			surveyOpinionList = surveyService.getSurveyOpinionList(vo);
+			//surveyOpinionList = surveyService.getSurveyOpinionList(vo);
 			//surveyQuestionList = surveyService.getSurveyQuestionList(vo);
 		}catch(Exception e) {
 			log.debug("[설문조사] 설문조사 상세보기 조회 실패");
 		}
 		
 		model.addAttribute("surveyVo", vo);
-		model.addAttribute("surveyOpinionList",surveyOpinionList);
+		//model.addAttribute("surveyOpinionList",surveyOpinionList);
 		
 		return "survey/surveyDetail";
 	}
 	
 	@RequestMapping(value="/surveyOpinionList.do")
 	public ResponseEntity<?> surveyOpinionList(@RequestParam("survey_idx") String survey_idx) throws Exception {
-		List<SurveyOpinionVo> surveyOpinionList = null;
+		//List<SurveyOpinionVo> surveyOpinionList = null;
+		List<Map<String, String>> surveyOpinionList = null;
 		
 		try {
 			SurveyVo vo = new SurveyVo();

@@ -46,9 +46,13 @@ public class SuggestionServiceImpl extends EgovAbstractServiceImpl implements Su
 	}
 
 	@Override
-	public List<SuggestionOpinionVo> selectSuggestionOpinionList(String suggestion_idx) throws Exception {
+	public List<Map<String, String>> selectSuggestionOpinionList(String suggestion_idx) throws Exception {
 		return suggestionMapper.selectSuggestionOpinionList(suggestion_idx);
 	}
+//	@Override
+//	public List<SuggestionOpinionVo> selectSuggestionOpinionList(String suggestion_idx) throws Exception {
+//		return suggestionMapper.selectSuggestionOpinionList(suggestion_idx);
+//	}
 
 	@Override
 	public SuggestionOpinionVo selectParentSuggestionOpinion(SuggestionOpinionVo vo) throws Exception {

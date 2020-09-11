@@ -134,7 +134,8 @@ public class SuggestionController {
 	
 	@RequestMapping(value="/suggestionOpinionList.do")
 	public ResponseEntity<?> suggestionOpinionList(@RequestParam("suggestion_idx") String suggestion_idx) throws Exception {
-		List<SuggestionOpinionVo> suggestionOpinionList = null;
+		//List<SuggestionOpinionVo> suggestionOpinionList = null;
+		List<Map<String, String>> suggestionOpinionList = null;
 		
 		try {
 			log.debug("[열린제안] 열린제안 의견 목록 조회");

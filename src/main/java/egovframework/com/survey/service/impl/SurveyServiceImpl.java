@@ -33,10 +33,13 @@ public class SurveyServiceImpl extends EgovAbstractServiceImpl implements Survey
 		return surveyMapper.getSurveyDetail(vo);
 	}
 
+//	@Override
+//	public List<SurveyOpinionVo> getSurveyOpinionList(SurveyVo vo) throws Exception {
+//		return surveyMapper.getSurveyOpinionList(vo);
+//	}
 	@Override
-	public List<SurveyOpinionVo> getSurveyOpinionList(SurveyVo vo) throws Exception {
+	public List<Map<String, String>> getSurveyOpinionList(SurveyVo vo) throws Exception {
 		return surveyMapper.getSurveyOpinionList(vo);
-		
 	}
 
 	@Override
