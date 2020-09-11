@@ -44,4 +44,6 @@ public interface SuggestionMapper {
 	List<Map<String, String>> selectSuggestionFileList(Map<String, String> params) throws Exception;
 
 	FileVo selectSuggestionDownloadFile(FileVo fileVo) throws Exception;
+
+	String selectSuggestionOpinionCount(SuggestionOpinionVo vo) throws Exception;
 }

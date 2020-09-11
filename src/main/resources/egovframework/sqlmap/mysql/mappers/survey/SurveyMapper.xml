@@ -69,8 +69,8 @@
 					 , so.opinion_content
 					 , so.create_user
 					 , so.update_user
-					 , DATE_FORMAT(so.create_date, '%m/%d/%Y %H:%i') 		AS create_date
-					 , DATE_FORMAT(so.update_date, '%m/%d/%Y %H:%i') 		AS update_date
+					 , DATE_FORMAT(so.create_date, '%Y-%m-%d %H:%i') 		AS create_date
+					 , DATE_FORMAT(so.update_date, '%Y-%m-%d %H:%i') 		AS update_date
 					 , so.del_chk
 					 , so.survey_ref
 					 , so.survey_indent
@@ -125,5 +125,66 @@
 		 WHERE a.survey_idx = #{survey_idx}
 		 GROUP BY a.question_content,a.question_idx 
 		 ORDER BY question_idx
+	</select>
+	
+	<select id="selectParentSurveyOpinion" resultType="egovframework.com.survey.vo.SurveyOpinionVo">
+		SELECT survey_ref
+		     , survey_indent
+		     , survey_step
+		  FROM daul.survey_opinion
+		 WHERE opinion_idx = #{opinion_idx}
+	</select>
+	
+	<update id="updateChildSurveyOpinion">
+		UPDATE daul.survey_opinion
+		   SET survey_step = survey_step + 1
+		 WHERE survey_ref = #{survey_ref}
+		   <![CDATA[
+		   AND survey_step > #{survey_step}
+		   ]]>
+	</update>
+	
+	<select id="selectSurveyOpinionIdx" resultType="String">
+		SELECT CONCAT('SV-OP-',LPAD(count(*)+1,'6','0')) as 'opinion_idx'
+		FROM daul.survey_opinion 
+	</select>
+	
+	<insert id="insertSurveyOpinion">
+		INSERT INTO daul.survey_opinion
+		     (
+		       opinion_idx
+             , survey_idx
+             , opinion_content
+             , create_user
+             , create_date
+             , del_chk
+             , survey_ref
+             , survey_indent
+             , survey_step
+		     )
+		VALUES
+		     (
+		       #{opinion_idx}
+             , #{survey_idx}
+             , #{opinion_content}
+             , #{create_user}
+             , SYSDATE()
+             , 'N'
+             , #{survey_ref}
+             , #{survey_indent}
+             , #{survey_step}
+		     )
+	</insert>
+	
+	<update id="deleteSurveyOpinion">
+		UPDATE daul.survey_opinion
+		   SET del_chk = 'Y'
+		 WHERE opinion_idx = #{opinion_idx}
+	</update>
+	
+	<select id="selectSurveyOpinionCount" resultType="String">
+		SELECT COUNT(*)
+		  FROM daul.survey_opinion
+		 WHERE survey_idx = #{survey_idx}
 	</select>
 </mapper>                  

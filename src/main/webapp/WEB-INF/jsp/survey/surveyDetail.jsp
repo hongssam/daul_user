@@ -71,69 +71,26 @@
 			</div>
 			<div class="col-lg-10 offset-lg-1">
 				<div class="ed-content-reivew-write mt20 bgc-f1">
-					<form class="comments_form">
+					<form class="comments_form" id="opn_form">
 						<div class="form-group ">
-							<textarea class="form-control" rows="3" placeholder="의견을 작성해주세요."></textarea>
+							<textarea class="form-control" rows="3" name="opinion_content" id="opinion_content" placeholder="의견을 작성해주세요."></textarea>
+							<input type="hidden" name="survey_idx" value="${surveyVo.survey_idx}"/>
+							<input type="hidden" name="opinion_idx" value=""/>
 						</div>
 						<div class="form-group text-right ">
-							<button type="submit" class="btn btn-primary">등록</button>
+							<button type="button" class="btn btn-primary" id="opn_reg_btn">등록</button>
 						</div>
 					</form>
 				</div>
 			</div>
 			<div class="col-lg-10 offset-lg-1">
 				<div class="ed-content-reivew">
-					<div class="top">
-						<p>총 ${fn:length(surveyOpinionList)}개의 의견이 있습니다.</p>
+					<div class="top opn-cnt">
+						<p>총 ${surveyVo.opinion_count}개의 의견이 있습니다.</p>
 						<hr>
 					</div>
-					<c:forEach var="list" items="${surveyOpinionList}" varStatus="idx">
-						<div class="reviews">
-							<c:if test="${list.survey_indent eq '0' }">
-								<div class="item">
-									<div class="meta">
-										<ul class="fp_meta">
-											<li class="list-inline-item float-left">
-												<img src="${pageContext.request.contextPath}/images/user.png" alt="user.png">
-											</li>
-											<li class="list-inline-item">
-												<p>${list.name}</p>
-												<p class="date">${list.create_date}</p>
-											</li>
-										</ul>
-									</div>
-									<div class="content">
-										<p>${list.opinion_content}</p>
-									</div>
-									<div class="bottom">
-										<button type="submit" class="btn btn-like">삭제</button>
-										<button type="submit" class="btn btn-like">의견등록</button>
-									</div>
-								</div>
-							</c:if>
-							<c:if test="${list.survey_indent ne '0' }">
-								<div class="item reply">
-									<div class="meta">
-										<ul class="fp_meta">
-											<li class="list-inline-item float-left">
-												<img src="${pageContext.request.contextPath}/images/user.png" alt="user.png">
-											</li>
-											<li class="list-inline-item">
-												<p>${list.name}</p>
-												<p class="date">${list.create_date}</p>
-											</li>
-											<li class="list-inline-item float-right">
-												<button class="btn btn-like">삭제</button>
-											</li>
-										</ul>
-									</div>
-									<div class="content">
-										<p>${list.opinion_content}</p>
-									</div>
-								</div>
-							</c:if>
-						</div>
-					</c:forEach>
+					<div class="reviews">
+					</div>
 					<ul class="page-navigation mt20">
 						<li class="page-item disabled">
 							<a class="page-link" href="#">
@@ -219,8 +176,8 @@
 	</div>
 </div>
 
+<script src="${pageContext.request.contextPath}/js/opinion.js"></script>
 <script type="text/javascript">
-	
 	function getQuestionList() {
 		var survey_idx = $("#survey_idx").val();
 		var request = $.ajax({
@@ -349,6 +306,119 @@
 	$(function() {
 		getQuestionList();
 		getSurveyResult();
+		getSurveyOpinionList();
 	});
+	
+	var reviews = document.querySelector("div.reviews");
+	
+	function getSurveyOpinionList() {
+		var request = $.ajax({
+			url: "/survey/surveyOpinionList.do",
+			method: "get",
+			data: {survey_idx: "${surveyVo.survey_idx}"}
+		});
+		
+		request.done(function(data) {
+			var parent_opn = [];
+			var child_opn = [];
+			console.log("surveyOpinionList", data);
+			
+			for (var i = 0; i < data.length; i++) {
+				if (data[i].survey_ref === data[i].opinion_idx) {
+					parent_opn.push(data[i]);
+				} else {
+					child_opn.push(data[i]);
+				}
+			}
+			
+			while (reviews.hasChildNodes()) {
+				reviews.removeChild(reviews.childNodes[0]);
+			}
+			
+			for (var i = 0; i < parent_opn.length; i++) {
+				let opn = parent_opn[i];
+				
+				var div = createOpinionElement("parent", opn);				
+				
+				reviews.append(div);
+				
+				if (login_user_id !== "") {
+					var div_top = document.getElementById(opn.opinion_idx);
 
+					// 의견등록 버튼 이벤트
+					let btn_sub_opn_reg = div_top.querySelector("button.btn-sub-opn-add");
+					btn_sub_opn_reg.addEventListener("click", function() {
+						addSubOpinionElement(btn_sub_opn_reg, opn);
+					});
+					
+					// 삭제 버튼 이벤트
+					if (login_user_id === opn.create_user) {
+						let btn_opn_del = div_top.querySelector("button.btn-opn-del");
+						btn_opn_del.addEventListener("click", function() {
+							deleteOpinion(btn_opn_del, opn);
+						});
+					}
+				}
+			}
+			
+			for (var j = 0; j < child_opn.length; j++) {
+				let opn = child_opn[j];
+				
+				var div = createOpinionElement("child", opn);
+				
+				document.getElementById(opn.survey_ref).after(div);
+				
+				if (login_user_id !== "" && login_user_id === opn.create_user) {
+					var div_top = document.getElementById(opn.opinion_idx);
+					
+					let btn_sub_opn_del = div_top.querySelector("button.btn-sub-opn-del");
+					btn_sub_opn_del.addEventListener("click", function() {
+						deleteOpinion(btn_sub_opn_del, opn);
+					});
+				}
+			}
+		});
+	}
+
+	function registOpinion(target) {
+		if (!confirm("댓글을(를) 등록 하시겠습니까?")) return false;
+		
+		var form = target.closest("form");
+		
+		var request = $.ajax({
+			url: "/survey/surveyOpinionRegist.do",
+			method: "post",
+			data: $(form).serialize()
+		});
+		
+		request.done(function(data) {
+			form.querySelector("textarea[name='opinion_content']").value = "";
+			
+			document.querySelector("div.top.opn-cnt").firstElementChild.innerText = "총 " + data + "개의 의견이 있습니다.";
+			
+			getSurveyOpinionList();
+		});
+		
+		request.fail(function(error) {
+			console.log("request fail", error)
+		});
+	}
+	
+	function deleteOpinion(target, opn) {
+		if (!submitConfirm($(target))) return false;
+		
+		var request = $.ajax({
+			url: "/survey/surveyOpinionDelete.do",
+			method: "post",
+			data: opn
+		});
+		
+		request.done(function(data) {
+			if (data === "success") {
+				getSurveyOpinionList();
+			} else {
+				
+			}
+		});
+	}
 </script>

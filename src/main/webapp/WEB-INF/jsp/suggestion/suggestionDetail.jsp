@@ -83,7 +83,7 @@
 			</div>
 			<div class="col-lg-10 offset-lg-1">
 				<div class="ed-content-reivew">
-					<div class="top">
+					<div class="top opn-cnt">
 						<p>총 ${sgst.opinion_cnt}개의 의견이 있습니다.</p>
 						<hr>
 					</div>
@@ -126,6 +126,7 @@
 	</div>
 </section>
 
+<script src="${pageContext.request.contextPath}/js/opinion.js"></script>
 <script type="text/javascript">
 	var fileList = new Array();
 	
@@ -176,29 +177,29 @@
 	
 	getSuggestionOpinionList();
 	
-	var opn_reg_btn = document.getElementById("opn_reg_btn");
+	/* var opn_reg_btn = document.getElementById("opn_reg_btn");
 	
 	opn_reg_btn.addEventListener("click", function() {
 		if (login_user_id === "") {
 			gotoLoginPage();
 		} else {
-			registSuggestionOpinion(opn_reg_btn);
+			registOpinion(opn_reg_btn);
 		}
-	});
+	}); */
 	
-	var opinion_content = document.getElementById("opinion_content");
+	/* var opinion_content = document.getElementById("opinion_content");
 	
 	opinion_content.addEventListener("click", function() {
 		if (login_user_id === "") {
 			gotoLoginPage();
 		}
-	});
+	}); */
 	
-	function gotoLoginPage() {
+	/* function gotoLoginPage() {
 		if (!confirm("로그인이 필요한 기능입니다.\n로그인 페이지로 이동하시겠습니까?")) return false;
 		
 		location.href="${pageContext.request.contextPath}/login/loginPage.do";
-	}
+	} */
 	
 	function getSuggestionOpinionList() {
 		var request = $.ajax({
@@ -268,7 +269,7 @@
 		});
 	}
 	
-	function createOpinionElement(type, data) {
+	/* function createOpinionElement(type, data) {
 		var opinion_content = data.opinion_content;
 		if (data.del_chk === "Y") opinion_content = "삭제된 댓글입니다.";
 		
@@ -328,14 +329,14 @@
 		}
 		
 		return div;
-	}
+	} */
 	
-	function addSubOpinionElement(target, data) {
+	/* function addSubOpinionElement(target, data) {
 		var div_regist = reviews.querySelector("div.item.reply.regist");
 		var input_sgst_ref = "";
 		
 		if (div_regist) {
-			var input_sgst_ref = div_regist.querySelector("input[name='opinion_idx']").value;
+			input_sgst_ref = div_regist.querySelector("input[name='opinion_idx']").value;
 			
 			div_regist.remove();
 		}
@@ -365,12 +366,12 @@
 			var sub_opn_reg_btn = document.getElementById("sub_opn_reg_btn");
 			
 			sub_opn_reg_btn.addEventListener("click", function() {
-				registSuggestionOpinion(sub_opn_reg_btn);
+				registOpinion(sub_opn_reg_btn);
 			});
 		}
-	}
+	} */
 	
-	function registSuggestionOpinion(target) {
+	function registOpinion(target) {
 		if (!confirm("댓글을(를) 등록 하시겠습니까?")) return false;
 		
 		var form = target.closest("form");
@@ -382,13 +383,11 @@
 		});
 		
 		request.done(function(data) {
-			if (data === "success"){
-				form.querySelector("textarea[name='opinion_content']").value = "";
-				getSuggestionOpinionList();
-			} else {
-				//$("#chk-error-regist").text(data);
-			}
-		
+			form.querySelector("textarea[name='opinion_content']").value = "";
+			
+			document.querySelector("div.top.opn-cnt").firstElementChild.innerText = "총 " + data + "개의 의견이 있습니다.";
+			
+			getSuggestionOpinionList();
 		});
 		
 		request.fail(function(error) {

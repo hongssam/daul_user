@@ -118,16 +118,31 @@
 	</select>
 	
 	<select id="selectSuggestionOpinionList" resultType="egovframework.com.suggestion.vo.SuggestionOpinionVo">
-		SELECT @rownum:=@rownum+1 AS num
-			 , so.*
-		     , u.auth_type 
-		  FROM daul.suggestion_opinion so
-		  LEFT JOIN daul.user u ON so.create_user = u.user_id 
-		  INNER JOIN (SELECT @rownum:=0) TMP
-		 <!-- WHERE so.del_chk != 'Y' --> 
-		 WHERE so.suggestion_idx = #{suggestion_idx}
-		 ORDER BY so.suggestion_ref
-		        , so.suggestion_step
+		SELECT *
+		  FROM (
+				SELECT @rownum:=@rownum+1 AS num
+					 , so.opinion_idx
+					 , so.suggestion_idx
+					 , so.opinion_content
+					 , so.create_user
+					 , so.update_user
+					 , DATE_FORMAT(so.create_date, '%Y-%m-%d %H:%i') 		AS create_date
+					 , DATE_FORMAT(so.update_date, '%Y-%m-%d %H:%i') 		AS update_date
+					 , so.del_chk
+					 , so.suggestion_ref
+					 , so.suggestion_indent
+					 , so.suggestion_step
+				     , u.auth_type 
+				     , u.name
+				  FROM daul.suggestion_opinion so
+				  LEFT JOIN daul.user u ON so.create_user = u.user_id 
+				  INNER JOIN (SELECT @rownum:=0) TMP
+				 <!-- WHERE so.del_chk != 'Y' --> 
+				 WHERE so.suggestion_idx = #{suggestion_idx}
+				 ORDER BY so.suggestion_ref
+				        , so.suggestion_step DESC
+		  	   ) sub
+		 ORDER BY sub.num DESC
 	</select>
 	
 	<select id="selectParentSuggestionOpinion" resultType="egovframework.com.suggestion.vo.SuggestionOpinionVo">
@@ -234,5 +249,11 @@
 		     , save_file_name
 		  FROM daul.suggestion_attach
 		 WHERE save_file_name = #{save_file_name}
+	</select>
+	
+	<select id="selectSuggestionOpinionCount" resultType="String">
+		SELECT COUNT(*)
+		  FROM daul.suggestion_opinion
+		 WHERE suggestion_idx = #{suggestion_idx}
 	</select>
 </mapper>                  
