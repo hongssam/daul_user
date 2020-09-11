@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!-- Subpage Nav Tabs -->
 <div class="nav-tabs style2 bgc-fa">
@@ -80,40 +80,14 @@
 					</div>
 				</div>
 			</c:forEach>
-			
-			<div class="col-lg-12 mt20">
-				<ul class="page-navigation">
-					<li class="page-item disabled">
-						<a class="page-link" href="#">
-							<span class="fa-angle-double-left"></span>
-						</a>
-					</li>
-					<li class="page-item disabled">
-						<a class="page-link" href="#">
-							<span class="fa-angle-left"></span>
-						</a>
-					</li>
-					<li class="page-item text">
-						<a class="page-link" href="#">1</a>
-					</li>
-					<li class="page-item text active" aria-current="page">
-						<a class="page-link" href="#">2</a>
-					</li>
-					<li class="page-item text">
-						<a class="page-link" href="#">3</a>
-					</li>
-					<li class="page-item">
-						<a class="page-link" href="#">
-							<span class="fa-angle-right"></span>
-						</a>
-					</li>
-					<li class="page-item">
-						<a class="page-link" href="#">
-							<span class="fa-angle-double-right"></span>
-						</a>
-					</li>
-				</ul>
-			</div>
+
+		 <%@ include file="../common/pagination.jsp" %>
 		</div>
 	</div>
 </section>
+
+<script type="text/javascript">
+	function fn_paging(pageNum) {
+		location.href = '${pageContext.request.contextPath}/contest/contestListPage.do?curPage=' + pageNum;
+	}
+</script>

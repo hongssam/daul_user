@@ -7,6 +7,30 @@
 		SELECT CONCAT('UC-',LPAD(count(*)+1,'6','0')) as 'user_contest_idx'
 		FROM contest_user 
 	</select>
+	<select id="getContestListCnt" resultType="int">
+				SELECT COUNT(*)
+				 FROM daul.contest_admin a
+				 WHERE del_chk != 'Y'
+				 <if test="search_type == 'title'">
+				 	AND title like concat('%',#{search},'%')
+				 </if>
+		 		 <if test="search_type == 'content'">
+				 	AND content like concat('%',#{search},'%')
+				 </if>
+		 		 <if test="search_type == 'create_user'">
+				 	AND create_user like concat('%',#{search},'%')
+				 </if>
+			 	 <if test="search_s_date != null and search_s_date != ''">
+			 	 	<![CDATA[
+			     	AND create_date >= date_format(concat(#{search_s_date}, ' 00:00:00'), '%Y-%m-%d %H:%i:%s')
+			     	]]>
+			     </if>
+			      <if test="search_e_date != null and search_e_date != ''">
+			 	 	<![CDATA[
+			     	AND create_date <= date_format(concat(#{search_e_date}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
+			     	]]>
+			     </if>
+	</select>
 	
 	<select id="getContestList" resultType="egovframework.com.contest.vo.ContestVo">
 		SELECT * 
@@ -57,6 +81,7 @@
 				ORDER BY create_date ASC
 			) sub
 		ORDER BY sub.num DESC    
+		LIMIT #{startIndex},#{cntPerPage}
 	</select>
 	
 	<select id="getAdminContest" resultType="egovframework.com.contest.vo.ContestVo">

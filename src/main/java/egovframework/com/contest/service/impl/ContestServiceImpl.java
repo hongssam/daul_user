@@ -84,6 +84,11 @@ public class ContestServiceImpl extends EgovAbstractServiceImpl implements Conte
 		return contestMapper.getUserContestList(vo);
 	}
 
+	@Override
+	public int getContestListCnt(ContestVo vo) throws Exception {
+		return contestMapper.getContestListCnt(vo);
+	}
+
 }
 
 

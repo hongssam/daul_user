@@ -1,5 +1,6 @@
 package egovframework.com.cmmn.util;
 
+
 public class SearchVo {
 	private String search_s_date;
 	private String search_e_date;

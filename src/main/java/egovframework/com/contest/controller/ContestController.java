@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import egovframework.com.cmmn.paging.Pagination;
 import egovframework.com.cmmn.util.CmmnUtil;
 import egovframework.com.cmmn.util.FileUtil;
 import egovframework.com.cmmn.util.FileVo;
@@ -41,16 +42,20 @@ public class ContestController {
 	private CmmnUtil cmmnUtil;
 	
 	@RequestMapping(value="/contestListPage.do")
-	public String contestListPage(ModelMap model) throws Exception {
+	public String contestListPage(ModelMap model, @RequestParam(defaultValue="1") int curPage) throws Exception {
 		List<ContestVo> contestList = null;
 		ContestVo vo = new ContestVo();
 		
 		try {
 			log.debug("[공모제안] 공모제안 목록 조회");
+			int listCnt = contestService.getContestListCnt(vo);
+			Pagination pagination = new Pagination(listCnt, curPage);
+			vo.setStartIndex(pagination.getStartIndex());	
+			vo.setCntPerPage(pagination.getPageSize());
+			System.out.println(vo);
 			contestList = contestService.getContestList(vo);
-			System.out.println(contestList);
-			
 			model.addAttribute("contestList",contestList);
+			model.addAttribute("pagination", pagination);
 			
 		}catch(Exception e) {
 			log.debug("[설문조사] 설문조사 목록 조회 실패");

@@ -91,6 +91,7 @@
 							</tbody>
 						</table>
 					</div>
+					
 					<div class="table-nav">
 						<ul class="page-navigation">
 							<li class="page-item disabled">

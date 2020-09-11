@@ -23,9 +23,25 @@ public class ContestVo extends SearchVo {
 	private int num;
 	private String user_name;
 	
+	//페이징
+	private int startIndex;
+	private int cntPerPage;
 	
 	
 	
+	
+	public int getStartIndex() {
+		return startIndex;
+	}
+	public void setStartIndex(int startIndex) {
+		this.startIndex = startIndex;
+	}
+	public int getCntPerPage() {
+		return cntPerPage;
+	}
+	public void setCntPerPage(int cntPerPage) {
+		this.cntPerPage = cntPerPage;
+	}
 	public String getUser_name() {
 		return user_name;
 	}
@@ -142,13 +158,14 @@ public class ContestVo extends SearchVo {
 	}
 	@Override
 	public String toString() {
-		return "ContestVo [admin_contest_idx=" + admin_contest_idx + ", contest_topic=" + contest_topic + ", title="
-				+ title + ", content=" + content + ", contest_s_date=" + contest_s_date + ", contest_e_date="
-				+ contest_e_date + ", submit_s_date=" + submit_s_date + ", submit_e_date=" + submit_e_date
-				+ ", create_user=" + create_user + ", create_date=" + create_date + ", update_user=" + update_user
-				+ ", update_date=" + update_date + ", del_chk=" + del_chk + ", user_contest_cnt=" + user_contest_cnt
-				+ ", ing=" + ing + ", num=" + num + "]";
+		return "ContestVo [admin_contest_idx=" + admin_contest_idx + ", user_contest_idx=" + user_contest_idx
+				+ ", contest_topic=" + contest_topic + ", title=" + title + ", content=" + content + ", contest_s_date="
+				+ contest_s_date + ", contest_e_date=" + contest_e_date + ", submit_s_date=" + submit_s_date
+				+ ", submit_e_date=" + submit_e_date + ", create_user=" + create_user + ", create_date=" + create_date
+				+ ", update_user=" + update_user + ", update_date=" + update_date + ", del_chk=" + del_chk
+				+ ", user_contest_cnt=" + user_contest_cnt + ", ing=" + ing + ", user_title=" + user_title + ", num="
+				+ num + ", user_name=" + user_name + ", startIndex=" + startIndex + ", cntPerPage=" + cntPerPage + "]";
 	}
-	
+
 	
 }
