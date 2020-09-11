@@ -1,5 +1,27 @@
 package egovframework.com.faq.service.impl;
 
-public class FaqServiceImpl {
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import egovframework.com.faq.mapper.FaqMapper;
+import egovframework.com.faq.service.FaqService;
+import egovframework.com.faq.vo.FaqVo;
+import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
+
+@Service("faqService")
+public class FaqServiceImpl  extends EgovAbstractServiceImpl implements FaqService{
+	
+	@Resource(name="faqMapper")
+	private FaqMapper faqMapper;
+
+	@Override
+	public List<FaqVo> getFaqList() throws Exception {
+		return faqMapper.getFaqList();
+	}
+	
+	
 
 }

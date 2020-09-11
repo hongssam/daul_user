@@ -1,5 +1,9 @@
 package egovframework.com.faq.service;
 
-public interface FaqService {
+import java.util.List;
 
+import egovframework.com.faq.vo.FaqVo;
+
+public interface FaqService {
+	List<FaqVo> getFaqList() throws Exception;
 }
