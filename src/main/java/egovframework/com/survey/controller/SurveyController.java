@@ -77,7 +77,7 @@ public class SurveyController {
 	public String surveyDetailpage(ModelMap model, @RequestParam("survey_idx") String survey_idx) throws Exception {
 		SurveyVo vo = new SurveyVo();
 		List<SurveyOpinionVo> surveyOpinionList = null;
-		List<Map<String,String>> surveyQuestionList = null; 
+		
 		try {
 			vo.setSurvey_idx(survey_idx);
 			vo = surveyService.getSurveyDetail(vo);
@@ -89,10 +89,92 @@ public class SurveyController {
 		
 		model.addAttribute("surveyVo", vo);
 		model.addAttribute("surveyOpinionList",surveyOpinionList);
-		//model.addAttribute("surveyQuestionList",surveyQuestionList);
+		
 		return "survey/surveyDetail";
 	}
 	
+	@RequestMapping(value="/surveyOpinionList.do")
+	public ResponseEntity<?> surveyOpinionList(@RequestParam("survey_idx") String survey_idx) throws Exception {
+		List<SurveyOpinionVo> surveyOpinionList = null;
+		
+		try {
+			SurveyVo vo = new SurveyVo();
+			vo.setSurvey_idx(survey_idx);
+			
+			log.debug("[설문조사] 설문조사 의견 목록 조회");
+			surveyOpinionList = surveyService.getSurveyOpinionList(vo);
+		} catch (Exception e) {
+			log.debug("[설문조사] 설문조사 의견 목록 조회 실패");
+			e.printStackTrace();
+		}
+		
+		log.debug("[설문조사] 설문조사 의견 목록 조회 완료");
+		return new ResponseEntity<>(surveyOpinionList, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/surveyOpinionRegist.do", method=RequestMethod.POST, produces="application/text;chartset=utf8")
+	public ResponseEntity<?> surveyOpinionRegist(SurveyOpinionVo vo, BindingResult bindingResult, HttpSession session) throws Exception {
+		String opinionCount = "";
+		
+		try {
+			SurveyOpinionValidator surveyOpinionValidator = new SurveyOpinionValidator();
+			surveyOpinionValidator.validate(vo, bindingResult);
+			
+			if(bindingResult.hasErrors()) {
+				return new ResponseEntity<>(bindingResult.getFieldError().getDefaultMessage(), HttpStatus.OK);
+			}
+			
+			log.debug("SurveyOpinionVo : " + vo);
+			String opinionIdx = vo.getOpinion_idx();
+			
+			UserVo userVo = (UserVo) session.getAttribute("login");
+			vo.setCreate_user(userVo.getUser_id());
+			
+			if (!"".equals(opinionIdx) && opinionIdx != null) {
+				// opinionIdx가 있는 경우 -> 댓글의 댓글~~~들을 등록
+				// 등록하고자 하는 댓글의 최상위 댓글 ref, indent, step 정보
+				SurveyOpinionVo topOpnVo = surveyService.selectParentSurveyOpinion(vo);
+				log.debug("[설문조사] 설문조사 상위댓글 indent 수정");
+				// 등록하고자 하는 댓글과 최상위 댓글 사이에 있는 댓글들의 indent를 수정하여 depth 설정
+				surveyService.updateChildSurveyOpinion(topOpnVo);
+				
+				opinionIdx = surveyService.selectSurveyOpinionIdx();
+				vo.setOpinion_idx(opinionIdx);
+				vo.setSurvey_ref(topOpnVo.getSurvey_ref());
+				vo.setSurvey_indent(topOpnVo.getSurvey_indent() + 1);
+				vo.setSurvey_step(topOpnVo.getSurvey_step() + 1);
+				
+				log.debug("[설문조사] 설문조사 대댓글 등록");
+				surveyService.insertSurveyOpinion(vo);
+			} else {
+				// opinionIdx가 없는 경우 -> 제안의 댓글을 등록
+				opinionIdx = surveyService.selectSurveyOpinionIdx();
+				vo.setOpinion_idx(opinionIdx);
+				vo.setSurvey_ref(opinionIdx);
+				
+				log.debug("[설문조사] 설문조사 댓글 등록");
+				surveyService.insertSurveyOpinion(vo);
+			}
+			
+			opinionCount = surveyService.selectSurveyOpinionCount(vo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return new ResponseEntity<>(opinionCount, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/surveyOpinionDelete.do", method=RequestMethod.POST)
+	public ResponseEntity<?> surveyOpinionDelete(SurveyOpinionVo vo) throws Exception {
+		try {
+			log.debug("[설문조사] 설문조사 댓글 삭제");
+			surveyService.deleteSurveyOpinion(vo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return new ResponseEntity<>("success", HttpStatus.OK);
+	}
 	
 	@RequestMapping(value="/getQuestionList.do")
 	public ResponseEntity<?> getParticipationList( @RequestParam("survey_idx") String survey_idx) throws Exception{

@@ -14,5 +14,11 @@ public interface SurveyService {
 	List<Map<String,String>> getSurveyQuestionList(SurveyVo vo) throws Exception;
 	void insertVote(Map<String,Object> map) throws Exception;
 	List<Map<String,String>> getSurveyResult(SurveyVo vo) throws Exception;
+	SurveyOpinionVo selectParentSurveyOpinion(SurveyOpinionVo vo) throws Exception;
+	void updateChildSurveyOpinion(SurveyOpinionVo topOpnVo) throws Exception;
+	String selectSurveyOpinionIdx() throws Exception;
+	void insertSurveyOpinion(SurveyOpinionVo vo) throws Exception;
+	void deleteSurveyOpinion(SurveyOpinionVo vo) throws Exception;
+	String selectSurveyOpinionCount(SurveyOpinionVo vo) throws Exception;
 
 }

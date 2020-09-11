@@ -105,4 +105,9 @@ public class SuggestionServiceImpl extends EgovAbstractServiceImpl implements Su
 		return suggestionMapper.selectSuggestionDownloadFile(fileVo);
 	}
 
+	@Override
+	public String selectSuggestionOpinionCount(SuggestionOpinionVo vo) throws Exception {
+		return suggestionMapper.selectSuggestionOpinionCount(vo);
+	}
+
 }

@@ -150,6 +150,8 @@ public class SuggestionController {
 
 	@RequestMapping(value="/suggestionOpinionRegist.do", method=RequestMethod.POST, produces = "application/text; charset=utf8")
 	public ResponseEntity<?> suggestionOpinionRegist(SuggestionOpinionVo vo, BindingResult bindingResult, HttpSession session) throws Exception {
+		String opinionCount = "";
+		
 		try {
 			log.debug("SuggestionOpinionVo : " + vo);
 			
@@ -191,13 +193,15 @@ public class SuggestionController {
 				log.debug("[열린제안] 열린제안 댓글 등록");
 				suggestionService.insertSuggestionOpinion(vo);
 			}
+			
+			opinionCount = suggestionService.selectSuggestionOpinionCount(vo);
 		} catch (Exception e) {
 			log.debug("[열린제안] 열린제안 댓글 등록 실패");
 			e.printStackTrace();
 		}
 		
 		log.debug("[열린제안] 열린제안 댓글 등록 완료");
-		return new ResponseEntity<>("success", HttpStatus.OK);
+		return new ResponseEntity<>(opinionCount, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/suggestionOpinionDelete", method=RequestMethod.POST)

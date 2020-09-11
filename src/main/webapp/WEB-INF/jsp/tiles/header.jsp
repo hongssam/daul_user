@@ -84,4 +84,10 @@
 	}
 	
 	var login_user_id = "${login.user_id}";
+	
+	function gotoLoginPage() {
+		if (!confirm("로그인이 필요한 기능입니다.\n로그인 페이지로 이동하시겠습니까?")) return false;
+		
+		location.href="${pageContext.request.contextPath}/login/loginPage.do";
+	}
 </script>

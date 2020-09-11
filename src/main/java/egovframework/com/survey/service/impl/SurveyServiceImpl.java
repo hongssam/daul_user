@@ -55,4 +55,34 @@ public class SurveyServiceImpl extends EgovAbstractServiceImpl implements Survey
 		return surveyMapper.getSurveyResult(vo);
 	}
 
+	@Override
+	public SurveyOpinionVo selectParentSurveyOpinion(SurveyOpinionVo vo) throws Exception {
+		return surveyMapper.selectParentSurveyOpinion(vo);
+	}
+
+	@Override
+	public void updateChildSurveyOpinion(SurveyOpinionVo topOpnVo) throws Exception {
+		surveyMapper.updateChildSurveyOpinion(topOpnVo);
+	}
+
+	@Override
+	public String selectSurveyOpinionIdx() throws Exception {
+		return surveyMapper.selectSurveyOpinionIdx();
+	}
+
+	@Override
+	public void insertSurveyOpinion(SurveyOpinionVo vo) throws Exception {
+		surveyMapper.insertSurveyOpinion(vo);
+	}
+
+	@Override
+	public void deleteSurveyOpinion(SurveyOpinionVo vo) throws Exception {
+		surveyMapper.deleteSurveyOpinion(vo);
+	}
+
+	@Override
+	public String selectSurveyOpinionCount(SurveyOpinionVo vo) throws Exception {
+		return surveyMapper.selectSurveyOpinionCount(vo);
+	}
+
 }
