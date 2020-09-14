@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.com.cmmn.util.FileUtil;
+import egovframework.com.notice.vo.NoticeVo;
 import egovframework.com.survey.mapper.SurveyMapper;
 import egovframework.com.survey.service.SurveyService;
 import egovframework.com.survey.vo.SurveyOpinionVo;
@@ -86,6 +87,21 @@ public class SurveyServiceImpl extends EgovAbstractServiceImpl implements Survey
 	@Override
 	public String selectSurveyOpinionCount(SurveyOpinionVo vo) throws Exception {
 		return surveyMapper.selectSurveyOpinionCount(vo);
+	}
+
+	@Override
+	public List<NoticeVo> getSurveyNoticeList(SurveyVo vo) throws Exception {
+		return surveyMapper.getSurveyNoticeList(vo);
+	}
+
+	@Override
+	public NoticeVo getSurveyNoticeDetail(NoticeVo vo) throws Exception {
+		return surveyMapper.getSurveyNoticeDetail(vo);
+	}
+
+	@Override
+	public int getSurveyListCnt(SurveyVo vo) throws Exception {
+		return surveyMapper.getSurveyListCnt(vo);
 	}
 
 }

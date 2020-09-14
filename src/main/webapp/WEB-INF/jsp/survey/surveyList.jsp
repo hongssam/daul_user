@@ -6,10 +6,10 @@
 	<div class="container">
 		<div class="wizard">
 			<div class="wizard-item first active">
-				<a href="survey.html">설문하기</a>
+				<a href="/survey/surveyListPage.do?order=1">설문하기</a>
 			</div>
 			<div class="wizard-item last">
-				<a href="survey-notice.html">공지사항</a>
+				<a href="/survey/surveyNoticeListPage.do">공지사항</a>
 			</div>
 		</div>
 	</div>
@@ -28,16 +28,18 @@
 			</div>
 			<div class="col-lg-6">
 				<div class="candidate_revew_select text-right">
-					<div class="select-search-type">
-						<select class="selectpicker show-tick" data-width="100%">
-							<option>제목</option>
-							<option>작성자</option>
-						</select>
-					</div>
-					<div class="input-search">
-						<i class="icon input-search-close flaticon-magnifying-glass" aria-hidden="true"></i>
-						<input type="text" class="form-control" name="" placeholder="검색...">
-					</div>
+					<form id="search_form">
+						<div class="select-search-type">
+							<select class="selectpicker show-tick" name="search_type" data-width="100%">
+								<option value="title">제목</option>
+								<option value="create_user">작성자</option>
+							</select>
+						</div>
+						<div class="input-search">
+							<i class="icon input-search-close flaticon-magnifying-glass" id="search_btn" aria-hidden="true"></i>
+							<input type="text" class="form-control" name="search" id="search" placeholder="검색...">
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
@@ -77,31 +79,7 @@
 					</div>
 				</div>
 			</c:forEach>
-			<div class="col-lg-12 mt20">
-				<ul class="page-navigation">
-					<li class="page-item disabled">
-						<a class="page-link" href="#"><span class="fa-angle-double-left"></span></a>
-					</li>
-					<li class="page-item disabled">
-						<a class="page-link" href="#"><span class="fa-angle-left"></span></a>
-					</li>
-					<li class="page-item text">
-						<a class="page-link" href="#">1</a>
-					</li>
-					<li class="page-item text active" aria-current="page">
-						<a class="page-link" href="#">2</a>
-					</li>
-					<li class="page-item text">
-						<a class="page-link" href="#">3</a>
-					</li>
-					<li class="page-item">
-						<a class="page-link" href="#"><span class="fa-angle-right"></span></a>
-					</li>
-					<li class="page-item">
-						<a class="page-link" href="#"><span class="fa-angle-double-right"></span></a>
-					</li>
-				</ul>
-			</div>
+			  <%@ include file="../common/pagination.jsp" %>
 		</div>
 	</div>
 </section>
@@ -119,7 +97,6 @@
 		
 		request.done(function(data) {
 			surveyList = data;
-			console.log(surveyList);
 		});
 		
 		request.fail(function(error) {
@@ -135,4 +112,74 @@
 		getSurveyList();
 	})
 
+	var ul = document.querySelector("ul.sort-type.text-left");
+	var div_wizard = document.querySelector("div.wizard");
+	var search_arr = window.location.search.split("&");
+	var order, type;
+	
+	for (var i = 0; i < search_arr.length; i++) {
+		var search = search_arr[i];
+		
+		if (search.indexOf("order") > -1) {
+			var order_arr = search.split("=");
+			order = order_arr[order_arr.length - 1];
+			
+			var ul_child = ul.children;
+			
+			for (var j = 0; j < ul_child.length; j++) {
+				var li = ul_child[j];
+				
+				if (order === li.dataset.order) {
+					if (!li.classList.contains("active"))	li.classList.add("active");
+				} else {
+					li.classList.remove("active");
+				}
+			}
+		} else if (search.indexOf("type") > -1) {
+			var type_arr = search.split("=");
+			type = type_arr[type_arr.length - 1];
+			
+			var div_wizard_child = div_wizard.children;
+			
+			for (var j = 0; j < div_wizard_child.length; j++) {
+				var div = div_wizard_child[j];
+				
+				if (type === div.dataset.type) {
+					if (!div.classList.contains("active"))	div.classList.add("active");
+				} else {
+					div.classList.remove("active");
+				}
+			}
+		}
+	}
+	
+	
+	
+	var btn_search = document.getElementById("search_btn");
+	
+	btn_search.addEventListener("click", function() {
+		searchSurveyList();
+	});
+	
+	var input_search = document.getElementById("search");
+	
+	input_search.addEventListener("keydown", function(e) {
+		if (e.keyCode === 13) {
+			event.preventDefault();
+	
+			searchSurveyList();
+		}
+	});
+	
+	function searchSurveyList() {
+		var search_value = $("#search_form").serialize();
+		location.href = "${pageContext.request.contextPath}/survey/surveyListPage.do?order=" + order + "&" + search_value;
+	}
+	
+	function fn_paging(pageNum) {
+		location.href = '${pageContext.request.contextPath}/survey/surveyListPage.do?order=' + order + '&' + 'curPage=' + pageNum;
+	}
+	
+	
+	
 </script>

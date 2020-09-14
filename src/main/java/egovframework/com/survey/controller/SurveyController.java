@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import egovframework.com.cmmn.util.FileUtil;
+import egovframework.com.notice.vo.NoticeVo;
 import egovframework.com.survey.service.SurveyService;
 import egovframework.com.survey.vo.SurveyOpinionVo;
 import egovframework.com.survey.vo.SurveyVo;
@@ -39,22 +40,53 @@ public class SurveyController {
 	private FileUtil fileUtil;
 	
 	@RequestMapping(value="/surveyListPage.do")
-	public String surveyListpage(SurveyVo surveyVo, ModelMap model) throws Exception {
+	public String surveyListpage(SurveyVo surveyVo, ModelMap model, @RequestParam(defaultValue = "1") int curPage) throws Exception {
 		List<SurveyVo> surveyList = null;
-		System.out.println(surveyVo.getOrder());
 		
 		try {
 			log.debug("[설문조사] 설문조사 목록 조회");
-			surveyList = surveyService.getSurveyList(surveyVo);
-			System.out.println(surveyList);
+			int listCnt = surveyService.getSurveyListCnt(surveyVo);
 			
+			surveyVo.setPagination(listCnt, curPage);
+			
+			surveyList = surveyService.getSurveyList(surveyVo);
 			
 			model.addAttribute("surveyList",surveyList);
+			model.addAttribute("pagination",surveyVo);
 			
 		}catch(Exception e) {
 			log.debug("[설문조사] 설문조사 목록 조회 실패");
 		}
 		return "survey/surveyList";
+	}
+	
+	@RequestMapping(value="/surveyNoticeListPage.do")
+	public String surveyNoticeListPage(SurveyVo surveyVo, ModelMap model) throws Exception {
+		List<NoticeVo> surveyNoticeList = null;
+		try {
+			log.debug("[설문조사] 설문조사 목록 조회");
+			surveyNoticeList = surveyService.getSurveyNoticeList(surveyVo);
+			
+			model.addAttribute("surveyNoticeList",surveyNoticeList);
+			
+		}catch(Exception e) {
+			log.debug("[설문조사] 설문조사 목록 조회 실패");
+		}
+		return "survey/surveyNotice";
+	}
+	
+	@RequestMapping(value="/surveyNoticeDetail.do", method=RequestMethod.GET)
+	public String surveyNoticeDetail(ModelMap model, @RequestParam("notice_idx") String notice_idx) throws Exception {
+		NoticeVo vo = new NoticeVo();
+		
+		try {
+			vo.setNotice_idx(notice_idx);
+			vo = surveyService.getSurveyNoticeDetail(vo);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+			model.addAttribute("surveyNoticeVo", vo);
+		return "survey/surveyNoticeDetail";
 	}
 	
 

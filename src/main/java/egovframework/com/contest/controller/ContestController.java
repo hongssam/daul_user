@@ -49,12 +49,12 @@ public class ContestController {
 		try {
 			log.debug("[공모제안] 공모제안 목록 조회");
 			int listCnt = contestService.getContestListCnt(vo);
-			Pagination pagination = new Pagination(listCnt, curPage);
-			vo.setStartIndex(pagination.getStartIndex());
-			vo.setCntPerPage(pagination.getPageSize());
+			
+			vo.setPagination(listCnt, curPage);
+			
 			contestList = contestService.getContestList(vo);
 			model.addAttribute("contestList", contestList);
-			model.addAttribute("pagination", pagination);
+			model.addAttribute("pagination",vo);
 
 		} catch (Exception e) {
 			log.debug("[설문조사] 설문조사 목록 조회 실패");
@@ -71,7 +71,6 @@ public class ContestController {
 		List<Map<String, String>> userFileList = null;
 		List<ContestVo> userContestList = null;
 		ContestVo userContestVo = new ContestVo();
-		Pagination pagination = null;
 		int chk = 0;
 		try {
 			UserVo userVo = (UserVo) session.getAttribute("login");
@@ -80,11 +79,9 @@ public class ContestController {
 			contestVo = contestService.getAdminContest(contestVo);
 
 			int UserlistCnt = contestService.getUserContestListCnt(contestVo);
-			pagination = new Pagination(UserlistCnt, curPage);
-			pagination.setPageSize(10);
-			
-			contestVo.setStartIndex(pagination.getStartIndex());
-			contestVo.setCntPerPage(pagination.getPageSize());
+
+			contestVo.setPagination(UserlistCnt, curPage);
+			contestVo.setPageSize(10);
 			
 			fileList = contestService.selectContestFile(contestVo);
 			userContestList = contestService.getUserContestList(contestVo);
@@ -105,7 +102,7 @@ public class ContestController {
 		model.addAttribute("checkSubmit", chk);
 		model.addAttribute("userContestVo", userContestVo);
 		model.addAttribute("userContestList", userContestList);
-		model.addAttribute("pagination", pagination);
+		model.addAttribute("pagination", contestVo);
 
 		return "contest/contestDetail";
 	}

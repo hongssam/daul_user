@@ -81,7 +81,7 @@
 				ORDER BY create_date ASC
 			) sub
 		ORDER BY sub.num DESC    
-		LIMIT #{startIndex},#{cntPerPage}
+		LIMIT #{startIndex},#{pageSize}
 	</select>
 	
 	<select id="getAdminContest" resultType="egovframework.com.contest.vo.ContestVo">
@@ -222,7 +222,7 @@
 		  LEFT JOIN user b 
 		    ON a.create_user = b.user_id 
 		 WHERE admin_contest_idx = #{admin_contest_idx}	
-		 LIMIT #{startIndex},#{cntPerPage}
+		 LIMIT #{startIndex},#{pageSize}
 	</select>
 	
 	<select id="getUserContestListCnt" resultType="int">

@@ -3,12 +3,14 @@ package egovframework.com.survey.service;
 import java.util.List;
 import java.util.Map;
 
+import egovframework.com.notice.vo.NoticeVo;
 import egovframework.com.survey.vo.SurveyOpinionVo;
 import egovframework.com.survey.vo.SurveyVo;
 
 public interface SurveyService {
 
 	List<SurveyVo> getSurveyList(SurveyVo vo) throws Exception;
+	List<NoticeVo> getSurveyNoticeList(SurveyVo vo) throws Exception;
 	SurveyVo getSurveyDetail(SurveyVo vo) throws Exception;
 	//List<SurveyOpinionVo> getSurveyOpinionList(SurveyVo vo) throws Exception;
 	List<Map<String, String>> getSurveyOpinionList(SurveyVo vo) throws Exception;
@@ -21,5 +23,7 @@ public interface SurveyService {
 	void insertSurveyOpinion(SurveyOpinionVo vo) throws Exception;
 	void deleteSurveyOpinion(SurveyOpinionVo vo) throws Exception;
 	String selectSurveyOpinionCount(SurveyOpinionVo vo) throws Exception;
+	NoticeVo getSurveyNoticeDetail(NoticeVo vo) throws Exception;
+	int getSurveyListCnt(SurveyVo vo) throws Exception;
 
 }
