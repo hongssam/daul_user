@@ -100,4 +100,9 @@ public class SurveyServiceImpl extends EgovAbstractServiceImpl implements Survey
 		return surveyMapper.getSurveyListCnt(vo);
 	}
 
+	@Override
+	public void increaseViewCount(String notice_idx) throws Exception {
+		surveyMapper.increaseViewCount(notice_idx);
+	}
+
 }

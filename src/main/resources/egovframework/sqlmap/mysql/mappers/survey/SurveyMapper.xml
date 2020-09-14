@@ -280,4 +280,13 @@
 		  FROM daul.survey_opinion
 		 WHERE survey_idx = #{survey_idx}
 	</select>
+	
+	<update id = "increaseViewCount">
+		UPDATE daul.daul_notice
+		   SET view_count = view_count + 1
+		 WHERE notice_idx = #{notice_idx}
+	</update>
+	
+	
+	
 </mapper>                  

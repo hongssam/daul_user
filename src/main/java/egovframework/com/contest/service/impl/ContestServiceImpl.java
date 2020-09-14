@@ -11,6 +11,7 @@ import egovframework.com.cmmn.util.FileVo;
 import egovframework.com.contest.mapper.ContestMapper;
 import egovframework.com.contest.service.ContestService;
 import egovframework.com.contest.vo.ContestVo;
+import egovframework.com.notice.vo.NoticeVo;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 
 @Service("contestService")
@@ -92,6 +93,21 @@ public class ContestServiceImpl extends EgovAbstractServiceImpl implements Conte
 	@Override
 	public int getUserContestListCnt(ContestVo vo) throws Exception{
 		return contestMapper.getUserContestListCnt(vo);
+	}
+
+	@Override
+	public List<NoticeVo> getContestNoticeList(ContestVo vo) throws Exception {
+		return contestMapper.getContestNoticeList(vo);
+	}
+
+	@Override
+	public NoticeVo getContestNoticeDetail(NoticeVo vo) throws Exception {
+		return contestMapper.getContestNoticeDetail(vo);
+	}
+
+	@Override
+	public void increaseViewCount(String notice_idx) throws Exception {
+		contestMapper.increaseViewCount(notice_idx);
 	}
 
 }

@@ -20,7 +20,7 @@
 <!-- Suggest Detail Section -->
 <section class="suggest-detail-section bgc-fa">
 	<div class="container">
-		<input type="hidden" id="admin_contest_idx" value="${contestVo.admin_contest_idx }"/>
+		<input type="hidden" id="admin_contest_idx" value="${contestVo.admin_contest_idx }" />
 		<div class="row">
 			<div class="col-lg-10 offset-lg-1">
 				<div class="ed-content">
@@ -92,7 +92,8 @@
 							</tbody>
 						</table>
 					</div>
-				 <%@ include file="../common/pagination.jsp" %>
+					<%@ include file="../common/pagination.jsp"%>
+				</div>
 			</div>
 		</div>
 	</div>
