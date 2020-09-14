@@ -43,9 +43,6 @@
 	function login() {
 		var request = $.ajax({ url : "/login/login.do", method : "post", data : $("#login-form").serialize() });
 		request.done(function(data) {
-			console.log(data);
-			console.log("request done");
-	
 			if (data === "success") {
 				location.href = "${pageContext.request.contextPath}/main/main.do";
 			} else {
