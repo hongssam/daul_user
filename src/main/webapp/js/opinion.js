@@ -1,38 +1,37 @@
 function setOpinionList(data) {
-	console.log("sgstOpnList", data);
 	var parent_opn = [];
 	var child_opn = [];
 	
-	for (var i = 0; i < data.length; i++) {
-		if (data[i].ref === data[i].opinion_idx) {
-			parent_opn.push(data[i]);
-		} else {
-			child_opn.push(data[i]);
-		}
-	}
-	
-	console.log("parentOpn", parent_opn);
-	console.log("childOpn", child_opn);
+//	for (var i = 0; i < data.length; i++) {
+//		if (data[i].ref === data[i].opinion_idx) {
+//			parent_opn.push(data[i]);
+//		} else {
+//			child_opn.push(data[i]);
+//		}
+//	}
 	
 	while (reviews.hasChildNodes()) {
 		reviews.removeChild(reviews.childNodes[0]);
 	}
 	
-	for (var i = 0; i < parent_opn.length; i++) {
-		let opn = parent_opn[i];
+	for (var i = 0; i < data.length; i++) {
+		let opn = data[i];
+		var type = opn.ref === opn.opinion_idx ? "parent" : "child";
 		
-		var div = createOpinionElement("parent", opn);				
+		var div = createOpinionElement(type, opn);
 		
 		reviews.append(div);
 		
 		if (login_user_id !== "" && opn.del_chk !== "Y") {
 			var div_top = document.getElementById(opn.opinion_idx);
-
-			// 의견등록 버튼 이벤트
-			let btn_sub_opn_reg = div_top.querySelector("button.btn-sub-opn-add");
-			btn_sub_opn_reg.addEventListener("click", function() {
-				addSubOpinionRegistElement(btn_sub_opn_reg, opn);
-			});
+			
+			if (type === "parent") {
+				// 의견등록 버튼 이벤트
+				let btn_sub_opn_reg = div_top.querySelector("button.btn-sub-opn-add");
+				btn_sub_opn_reg.addEventListener("click", function() {
+					addSubOpinionRegistElement(btn_sub_opn_reg, opn);
+				});
+			}
 			
 			// 삭제 버튼 이벤트
 			if (login_user_id === opn.create_user) {
@@ -44,23 +43,49 @@ function setOpinionList(data) {
 		}
 	}
 	
-	for (var j = 0; j < child_opn.length; j++) {
-		let opn = child_opn[j];
-		
-		var div = createOpinionElement("child", opn);
-		
-		document.getElementById(opn.ref).after(div);
-		
-		// 삭제 버튼 이벤트
-		if (login_user_id !== "" && login_user_id === opn.create_user && opn.del_chk !== "Y") {
-			var div_top = document.getElementById(opn.opinion_idx);
-			
-			let btn_sub_opn_del = div_top.querySelector("button.btn-sub-opn-del");
-			btn_sub_opn_del.addEventListener("click", function() {
-				deleteOpinion(btn_sub_opn_del, opn);
-			});
-		}
-	}
+//	for (var i = 0; i < parent_opn.length; i++) {
+//		let opn = parent_opn[i];
+//		
+//		var div = createOpinionElement("parent", opn);				
+//		
+//		reviews.append(div);
+//		
+//		if (login_user_id !== "" && opn.del_chk !== "Y") {
+//			var div_top = document.getElementById(opn.opinion_idx);
+//
+//			// 의견등록 버튼 이벤트
+//			let btn_sub_opn_reg = div_top.querySelector("button.btn-sub-opn-add");
+//			btn_sub_opn_reg.addEventListener("click", function() {
+//				addSubOpinionRegistElement(btn_sub_opn_reg, opn);
+//			});
+//			
+//			// 삭제 버튼 이벤트
+//			if (login_user_id === opn.create_user) {
+//				let btn_opn_del = div_top.querySelector("button.btn-opn-del");
+//				btn_opn_del.addEventListener("click", function() {
+//					deleteOpinion(btn_opn_del, opn);
+//				});
+//			}
+//		}
+//	}
+//	
+//	for (var j = 0; j < child_opn.length; j++) {
+//		let opn = child_opn[j];
+//		
+//		var div = createOpinionElement("child", opn);
+//		
+//		document.getElementById(opn.ref).after(div);
+//		
+//		// 삭제 버튼 이벤트
+//		if (login_user_id !== "" && login_user_id === opn.create_user && opn.del_chk !== "Y") {
+//			var div_top = document.getElementById(opn.opinion_idx);
+//			
+//			let btn_sub_opn_del = div_top.querySelector("button.btn-sub-opn-del");
+//			btn_sub_opn_del.addEventListener("click", function() {
+//				deleteOpinion(btn_sub_opn_del, opn);
+//			});
+//		}
+//	}
 }
 
 function createOpinionElement(type, data) {
@@ -113,7 +138,7 @@ function createOpinionElement(type, data) {
 				li.classList.add("list-inline-item", "float-right");
 				
 				var html_button =
-					'<button type="button" class="btn btn-like btn-sub-opn-del" data-title="댓글">삭제 </button>';
+					'<button type="button" class="btn btn-like btn-opn-del" data-title="댓글">삭제 </button>';
 				
 				li.innerHTML = html_button;
 					
