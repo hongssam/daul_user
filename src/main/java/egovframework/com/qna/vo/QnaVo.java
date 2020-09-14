@@ -17,6 +17,25 @@ public class QnaVo extends SearchVo {
 	private String auth_type;
 	private int indent;
 	private int num;
+	
+	
+	//페이징
+	private int startIndex;
+	private int cntPerPage;
+	
+	
+	public int getStartIndex() {
+		return startIndex;
+	}
+	public void setStartIndex(int startIndex) {
+		this.startIndex = startIndex;
+	}
+	public int getCntPerPage() {
+		return cntPerPage;
+	}
+	public void setCntPerPage(int cntPerPage) {
+		this.cntPerPage = cntPerPage;
+	}
 	public String getQna_idx() {
 		return qna_idx;
 	}

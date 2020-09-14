@@ -52,7 +52,6 @@ public class ContestController {
 			Pagination pagination = new Pagination(listCnt, curPage);
 			vo.setStartIndex(pagination.getStartIndex());
 			vo.setCntPerPage(pagination.getPageSize());
-			System.out.println(vo);
 			contestList = contestService.getContestList(vo);
 			model.addAttribute("contestList", contestList);
 			model.addAttribute("pagination", pagination);

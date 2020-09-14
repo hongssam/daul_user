@@ -3,4 +3,70 @@
 <mapper 
 	namespace="egovframework.com.qna.mapper.QnaMapper">
 	
+	<select id="getQnaList" resultType="egovframework.com.qna.vo.QnaVo">
+	SELECT * 
+	  FROM (	
+		SELECT  @rownum:=@rownum+1 						AS num,
+				qna_idx,
+				question,
+				content,
+				ref,
+				view_count,
+				create_user,
+				parent_qna_idx,
+				DATE_FORMAT(create_date, '%Y-%m-%d') as create_date,
+				del_chk,
+				(select auth_type from `user` where user_id = create_user ) as auth_type 
+			FROM daul.daul_qna, (SELECT @rownum:=0) TMP
+			WHERE del_chk = 'N'
+			<if test="search_type == 'title'">
+				AND question like concat('%',#{search},'%')
+			</if>
+	 		<if test="search_type == 'content'">
+				AND content like concat('%',#{search},'%')
+			</if>
+	 		<if test="search_type == 'create_user'">
+				AND create_user like concat('%',#{search},'%')
+			</if>
+		 	<if test="search_s_date != null and search_s_date != ''">
+		 		<![CDATA[
+		    	AND create_date >= date_format(concat(#{search_s_date}, ' 00:00:00'), '%Y-%m-%d %H:%i:%s')
+		    	]]>
+		    </if>
+		    <if test="search_e_date != null and search_e_date != ''">
+		 		<![CDATA[
+		    	AND create_date <= date_format(concat(#{search_e_date}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
+		    	]]>
+		    </if>
+			ORDER BY ref ASC, indent DESC
+		) sub
+	ORDER BY sub.num DESC
+	LIMIT  #{startIndex},#{cntPerPage}
+	</select>
+	
+	
+	<select id="getQnaListCnt" resultType="int">
+		SELECT COUNT(*)
+			FROM daul.daul_qna
+			WHERE del_chk = 'N'
+			<if test="search_type == 'title'">
+				AND question like concat('%',#{search},'%')
+			</if>
+	 		<if test="search_type == 'content'">
+				AND content like concat('%',#{search},'%')
+			</if>
+	 		<if test="search_type == 'create_user'">
+				AND create_user like concat('%',#{search},'%')
+			</if>
+		 	<if test="search_s_date != null and search_s_date != ''">
+		 		<![CDATA[
+		    	AND create_date >= date_format(concat(#{search_s_date}, ' 00:00:00'), '%Y-%m-%d %H:%i:%s')
+		    	]]>
+		    </if>
+		    <if test="search_e_date != null and search_e_date != ''">
+		 		<![CDATA[
+		    	AND create_date <= date_format(concat(#{search_e_date}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
+		    	]]>
+		    </if>
+	</select>
 </mapper>
