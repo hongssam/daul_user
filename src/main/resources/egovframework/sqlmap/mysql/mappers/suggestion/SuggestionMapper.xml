@@ -138,6 +138,9 @@
 		   <if test="@egovframework.com.cmmn.util.StringUtil@equals(type, 'like')">
 		   <![CDATA[AND sub.like_per >= 100]]>
 		   </if>
+		   <if test="@egovframework.com.cmmn.util.StringUtil@equals(type, 'end')">
+		   <![CDATA[AND DATE_FORMAT(DATE_SUB(SYSDATE(), INTERVAL 1 MONTH), '%Y-%m-%d') > sub.create_date]]>
+		   </if>
 		 ORDER BY num DESC
 		 LIMIT #{startIndex}, #{pageSize}
 	</select>
