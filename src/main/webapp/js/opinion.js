@@ -1,4 +1,5 @@
 function setOpinionList(data) {
+	console.log("sgstOpnList", data);
 	var parent_opn = [];
 	var child_opn = [];
 	
@@ -9,6 +10,9 @@ function setOpinionList(data) {
 			child_opn.push(data[i]);
 		}
 	}
+	
+	console.log("parentOpn", parent_opn);
+	console.log("childOpn", child_opn);
 	
 	while (reviews.hasChildNodes()) {
 		reviews.removeChild(reviews.childNodes[0]);

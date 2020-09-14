@@ -52,9 +52,30 @@
 		     )
 	</insert>
 	
-	<select id="selectSuggestionList" resultType="egovframework.com.suggestion.vo.SuggestionVo">
-		SELECT @rownum:=@rownum+1 AS num
-  		     , sub.* 
+	<sql id="whereBySuggestion">
+		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'title')">
+			AND title like concat('%', #{search}, '%')
+		</if>
+		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'content')">
+			AND content like concat('%', #{search}, '%')
+		</if>
+		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'create_user')">
+			AND create_user like concat('%', #{search}, '%')
+		</if>
+		<if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(search_s_date)">
+			<![CDATA[
+			AND create_date >= date_format(concat(#{search_s_date}, ' 00:00:00'), '%Y-%m-%d %H:%i:%s')
+			]]>
+		</if>
+		<if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(search_e_date)">
+			<![CDATA[
+			AND create_date <= date_format(concat(#{search_e_date}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
+			]]>
+		</if>
+	</sql>
+	
+	<select id="selectSuggestionListCnt" resultType="int">
+		SELECT COUNT(*) 
 		  FROM (
 		  		SELECT sm.*
 		  		     , CASE WHEN (like_count / 50 * 100) >= 100 THEN 100 ELSE (like_count / 50 * 100) END AS like_per
@@ -68,25 +89,39 @@
 							 , (SELECT count(*) FROM suggestion_opinion a WHERE a.suggestion_idx = s.suggestion_idx) AS opinion_cnt
 						  FROM suggestion_main s
 						 WHERE del_chk != 'Y'
-						   <if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'title')">
-						   AND title like concat('%', #{search}, '%')
-						   </if>
-						   <if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'content')">
-						   AND content like concat('%', #{search}, '%')
-						   </if>
-						   <if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'create_user')">
-						   AND create_user like concat('%', #{search}, '%')
-						   </if>
-						   <if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(search_s_date)">
-						   <![CDATA[
-						   AND create_date >= date_format(concat(#{search_s_date}, ' 00:00:00'), '%Y-%m-%d %H:%i:%s')
-						   ]]>
-						   </if>
-						   <if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(search_e_date)">
-						   <![CDATA[
-						   AND create_date <= date_format(concat(#{search_e_date}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
-						   ]]>
-						   </if>
+						   <include refid="whereBySuggestion"/>
+		  		  	   ) sm
+		       ) sub
+		 WHERE 1=1
+		   <if test="@egovframework.com.cmmn.util.StringUtil@equals(type, 'like')">
+		   <![CDATA[AND sub.like_per >= 100]]>
+		   </if>
+	</select>
+	
+	<select id="selectSuggestionList" resultType="egovframework.com.suggestion.vo.SuggestionVo">
+		SELECT @rownum:=@rownum+1 AS num
+  		     , sub.suggestion_idx
+  		     , sub.title
+  		     , sub.content
+  		     , sub.like_count
+  		     , sub.create_user
+  		     , DATE_FORMAT(sub.create_date, '%Y-%m-%d') as create_date
+  		     , sub.opinion_cnt
+  		     , sub.like_per
+		  FROM (
+		  		SELECT sm.*
+		  		     , CASE WHEN (like_count / 50 * 100) >= 100 THEN 100 ELSE (like_count / 50 * 100) END AS like_per
+		  		  FROM (
+						SELECT suggestion_idx
+							 , title
+							 , content
+							 , (SELECT COUNT(*) FROM daul.user_like where parent_idx = s.suggestion_idx) AS like_count
+							 , create_user
+							 , create_date
+							 , (SELECT count(*) FROM suggestion_opinion a WHERE a.suggestion_idx = s.suggestion_idx) AS opinion_cnt
+						  FROM suggestion_main s
+						 WHERE del_chk != 'Y'
+						   <include refid="whereBySuggestion"/>
 		  		  	   ) sm
 		  		 <if test="@egovframework.com.cmmn.util.StringUtil@equals(order, '1')">
 		  		 ORDER BY sm.create_date
@@ -104,6 +139,7 @@
 		   <![CDATA[AND sub.like_per >= 100]]>
 		   </if>
 		 ORDER BY num DESC
+		 LIMIT #{startIndex}, #{pageSize}
 	</select>
 	
 	<select id="selectSuggestion" resultType="egovframework.com.suggestion.vo.SuggestionVo">
@@ -143,34 +179,8 @@
 				        , so.suggestion_step DESC
 		  	   ) sub
 		 ORDER BY sub.num DESC
+		 LIMIT #{startIndex}, #{pageSize}
 	</select>
-<!-- 	<select id="selectSuggestionOpinionList" resultType="egovframework.com.suggestion.vo.SuggestionOpinionVo">
-		SELECT *
-		  FROM (
-				SELECT @rownum:=@rownum+1 AS num
-					 , so.opinion_idx
-					 , so.suggestion_idx
-					 , so.opinion_content
-					 , so.create_user
-					 , so.update_user
-					 , DATE_FORMAT(so.create_date, '%Y-%m-%d %H:%i') 		AS create_date
-					 , DATE_FORMAT(so.update_date, '%Y-%m-%d %H:%i') 		AS update_date
-					 , so.del_chk
-					 , so.suggestion_ref
-					 , so.suggestion_indent
-					 , so.suggestion_step
-				     , u.auth_type 
-				     , u.name
-				  FROM daul.suggestion_opinion so
-				  LEFT JOIN daul.user u ON so.create_user = u.user_id 
-				  INNER JOIN (SELECT @rownum:=0) TMP
-				 WHERE so.del_chk != 'Y' 
-				 WHERE so.suggestion_idx = #{suggestion_idx}
-				 ORDER BY so.suggestion_ref
-				        , so.suggestion_step DESC
-		  	   ) sub
-		 ORDER BY sub.num DESC
-	</select> -->
 	
 	<select id="selectParentSuggestionOpinion" resultType="egovframework.com.suggestion.vo.SuggestionOpinionVo">
 		SELECT suggestion_ref

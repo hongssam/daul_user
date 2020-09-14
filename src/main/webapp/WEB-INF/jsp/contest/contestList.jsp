@@ -81,7 +81,7 @@
 				</div>
 			</c:forEach>
 
-		 <%@ include file="../common/pagination.jsp" %>
+		    <%@ include file="../common/pagination.jsp" %>
 		</div>
 	</div>
 </section>

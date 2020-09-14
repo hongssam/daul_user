@@ -21,8 +21,7 @@ public interface SuggestionMapper {
 	
 	SuggestionVo selectSuggestion(Map<String, String> params) throws Exception;
 
-	//List<SuggestionOpinionVo> selectSuggestionOpinionList(String suggestion_idx) throws Exception;
-	List<Map<String, String>> selectSuggestionOpinionList(String suggestion_idx) throws Exception;
+	List<Map<String, String>> selectSuggestionOpinionList(SuggestionOpinionVo vo) throws Exception;
 
 	SuggestionOpinionVo selectParentSuggestionOpinion(SuggestionOpinionVo vo) throws Exception;
 	
@@ -47,4 +46,6 @@ public interface SuggestionMapper {
 	FileVo selectSuggestionDownloadFile(FileVo fileVo) throws Exception;
 
 	String selectSuggestionOpinionCount(SuggestionOpinionVo vo) throws Exception;
+
+	int selectSuggestionListCnt(SuggestionVo vo) throws Exception;
 }

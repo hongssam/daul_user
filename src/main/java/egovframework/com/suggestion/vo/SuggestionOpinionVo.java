@@ -1,8 +1,8 @@
 package egovframework.com.suggestion.vo;
 
-import egovframework.com.user.vo.UserVo;
+import egovframework.com.cmmn.paging.Pagination;
 
-public class SuggestionOpinionVo extends UserVo{
+public class SuggestionOpinionVo extends Pagination{
 	private String opinion_idx;
 	private String suggestion_idx;
 	private String parent_opinion_idx;

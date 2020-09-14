@@ -39,14 +39,20 @@ public class SuggestionController {
 	private SuggestionService suggestionService;
 
 	@RequestMapping(value="/suggestionListPage.do")
-	public String suggestionListPage(SuggestionVo vo, ModelMap model) throws Exception {
+	public String suggestionListPage(SuggestionVo vo, @RequestParam(defaultValue = "1") int curPage, ModelMap model) throws Exception {
 		try {
-			log.debug("[열린제안] 열린제안 목록 vo : " + vo.getOrder());
+			log.debug("[열린제안] 열린제안 목록 카운트 조회");
+			int listCnt = suggestionService.selectSuggestionListCnt(vo);
+			
+			vo.setPagination(listCnt, curPage);
+			
 			log.debug("[열린제안] 열린제안 목록 조회");
 			List<SuggestionVo> suggestionList = suggestionService.selectSuggestionList(vo);
 			log.debug("[열린제안] 열린제안 목록 조회 : " + suggestionList);
 			
 			model.addAttribute("sgstList", suggestionList);
+			model.addAttribute("pagination", vo);
+			model.addAttribute("type", vo.getType());
 		} catch (Exception e) {
 			log.debug("[열린제안] 열린제안 목록 조회 실패");
 			e.printStackTrace();
@@ -133,20 +139,32 @@ public class SuggestionController {
 	}
 	
 	@RequestMapping(value="/suggestionOpinionList.do")
-	public ResponseEntity<?> suggestionOpinionList(@RequestParam("suggestion_idx") String suggestion_idx) throws Exception {
-		//List<SuggestionOpinionVo> suggestionOpinionList = null;
+	public ResponseEntity<?> suggestionOpinionList(@RequestParam("suggestion_idx") String suggestion_idx, @RequestParam(defaultValue = "1") int curPage) throws Exception {
+		Map<String, Object> resMap = new HashMap<>();
 		List<Map<String, String>> suggestionOpinionList = null;
 		
 		try {
+			SuggestionOpinionVo vo = new SuggestionOpinionVo();
+			vo.setSuggestion_idx(suggestion_idx);
+			
+			log.debug("[열린제안] 열린제안 의견 목록 카운트 조회");
+			String listCnt = suggestionService.selectSuggestionOpinionCount(vo);
+			
+			vo.setPageSize(10);
+			vo.setPagination(Integer.valueOf(listCnt), curPage);
+			
 			log.debug("[열린제안] 열린제안 의견 목록 조회");
-			suggestionOpinionList = suggestionService.selectSuggestionOpinionList(suggestion_idx);
+			suggestionOpinionList = suggestionService.selectSuggestionOpinionList(vo);
+			
+			resMap.put("sgstOpnList", suggestionOpinionList);
+			resMap.put("pagination", vo);
 		} catch (Exception e) {
 			log.debug("[열린제안] 열린제안 의견 목록 조회 실패");
 			e.printStackTrace();
 		}
 		
 		log.debug("[열린제안] 열린제안 의견 목록 조회 완료");
-		return new ResponseEntity<>(suggestionOpinionList, HttpStatus.OK);
+		return new ResponseEntity<>(resMap, HttpStatus.OK);
 	}
 
 	@RequestMapping(value="/suggestionOpinionRegist.do", method=RequestMethod.POST, produces = "application/text; charset=utf8")

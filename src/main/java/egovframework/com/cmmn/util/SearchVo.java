@@ -1,7 +1,8 @@
 package egovframework.com.cmmn.util;
 
+import egovframework.com.cmmn.paging.Pagination;
 
-public class SearchVo {
+public class SearchVo extends Pagination{
 	private String search_s_date;
 	private String search_e_date;
 	private String search_type;

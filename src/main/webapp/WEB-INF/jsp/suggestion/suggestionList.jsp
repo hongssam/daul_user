@@ -28,9 +28,9 @@
 			<div class="col-lg-6">
 				<ul class="sort-type text-left">
 					<!-- <li data-order="1">최신 순</li> -->
-					<li data-order="1"><a href="/suggestion/suggestionListPage.do?order=1&type=normal">최신 순</a></li>
-					<li data-order="2"><a href="/suggestion/suggestionListPage.do?order=2&type=normal">공감 높은 순</a></li>
-					<li data-order="3"><a href="/suggestion/suggestionListPage.do?order=3&type=normal">의견 많은 순</a></li>
+					<li data-order="1"><a href="/suggestion/suggestionListPage.do?order=1&type=${type}">최신 순</a></li>
+					<li data-order="2"><a href="/suggestion/suggestionListPage.do?order=2&type=${type}">공감 높은 순</a></li>
+					<li data-order="3"><a href="/suggestion/suggestionListPage.do?order=3&type=${type}">의견 많은 순</a></li>
 				</ul>
 			</div>
 			<div class="col-lg-6">
@@ -89,39 +89,8 @@
 					</div>
 				</div>
 			</c:forEach>
-			<div class="col-lg-12 mt20">
-				<ul class="page-navigation">
-					<li class="page-item disabled">
-						<a class="page-link" href="#">
-							<span class="fa-angle-double-left"></span>
-						</a>
-					</li>
-					<li class="page-item disabled">
-						<a class="page-link" href="#">
-							<span class="fa-angle-left"></span>
-						</a>
-					</li>
-					<li class="page-item text">
-						<a class="page-link" href="#">1</a>
-					</li>
-					<li class="page-item text active" aria-current="page">
-						<a class="page-link" href="#">2</a>
-					</li>
-					<li class="page-item text">
-						<a class="page-link" href="#">3</a>
-					</li>
-					<li class="page-item">
-						<a class="page-link" href="#">
-							<span class="fa-angle-right"></span>
-						</a>
-					</li>
-					<li class="page-item">
-						<a class="page-link" href="#">
-							<span class="fa-angle-double-right"></span>
-						</a>
-					</li>
-				</ul>
-			</div>
+			
+			<%@ include file="../common/pagination.jsp" %>
 		</div>
 	</div>
 </section>
@@ -184,9 +153,15 @@
 		}
 	});
 	
+	var url_param = "order=" + order + "&type=" + type;
+	
 	function searchSgstList() {
 		var search_value = $("#search_form").serialize();
 		
-		location.href = "${pageContext.request.contextPath}/suggestion/suggestionListPage.do?order=" + order + "&type=" + type + "&" + search_value;
+		location.href = "${pageContext.request.contextPath}/suggestion/suggestionListPage.do?" + url_param + "&" + search_value;
+	}
+	
+	function fn_paging(pageNum) {
+		location.href = "${pageContext.request.contextPath}/suggestion/suggestionListPage.do?curPage=" + pageNum + "&" + url_param;
 	}
 </script>

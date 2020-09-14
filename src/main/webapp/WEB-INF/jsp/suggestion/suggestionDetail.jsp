@@ -90,35 +90,6 @@
 					<div class="reviews">
 					</div>
 					<ul class="page-navigation mt20">
-						<li class="page-item disabled">
-							<a class="page-link" href="#">
-								<span class="fa-angle-double-left"></span>
-							</a>
-						</li>
-						<li class="page-item disabled">
-							<a class="page-link" href="#">
-								<span class="fa-angle-left"></span>
-							</a>
-						</li>
-						<li class="page-item text">
-							<a class="page-link" href="#">1</a>
-						</li>
-						<li class="page-item text active" aria-current="page">
-							<a class="page-link" href="#">2</a>
-						</li>
-						<li class="page-item text">
-							<a class="page-link" href="#">3</a>
-						</li>
-						<li class="page-item">
-							<a class="page-link" href="#">
-								<span class="fa-angle-right"></span>
-							</a>
-						</li>
-						<li class="page-item">
-							<a class="page-link" href="#">
-								<span class="fa-angle-double-right"></span>
-							</a>
-						</li>
 					</ul>
 				</div>
 			</div>
@@ -127,6 +98,7 @@
 </section>
 
 <script src="${pageContext.request.contextPath}/js/opinion.js"></script>
+<script src="${pageContext.request.contextPath}/js/pagination-opinion.js"></script>
 <script type="text/javascript">
 	var fileList = new Array();
 	
@@ -174,17 +146,21 @@
 
 	var reviews = document.querySelector("div.reviews");
 	
-	getSuggestionOpinionList();
+	getSuggestionOpinionList(1);
 	
-	function getSuggestionOpinionList() {
+	function getSuggestionOpinionList(curPage) {
 		var request = $.ajax({
 			url: "/suggestion/suggestionOpinionList.do",
 			method: "get",
-			data: {suggestion_idx: "${sgst.suggestion_idx}"}
+			data: {
+				suggestion_idx: "${sgst.suggestion_idx}",
+				curPage: curPage
+			}
 		});
 		
 		request.done(function(data) {
-			setOpinionList(data);
+			setOpinionList(data.sgstOpnList);
+			setPaginationInit(data.pagination);
 		});
 	}
 	
@@ -204,7 +180,7 @@
 			
 			document.querySelector("div.top.opn-cnt").firstElementChild.innerText = "총 " + data + "개의 의견이 있습니다.";
 			
-			getSuggestionOpinionList();
+			getSuggestionOpinionList(1);
 		});
 		
 		request.fail(function(error) {
@@ -223,7 +199,7 @@
 		
 		request.done(function(data) {
 			if (data === "success") {
-				getSuggestionOpinionList();
+				getSuggestionOpinionList(1);
 			} else {
 				
 			}
@@ -236,7 +212,7 @@
 		if (login_user_id !== "") {
 			changeUserLike();
 		} else {
-			if (!confirm("로그인이 필요한 기능입니다.\n로그인 페이지로 이동하시겠습니까?")) return false;
+			gotoLoginPage();
 		}
 	});
 	
@@ -269,5 +245,9 @@
 		request.fail(function(error) {
 			console.log("suggestionLike.do fail", error);
 		});
+	}
+	
+	function fn_paging(curPage) {
+		getSuggestionOpinionList(curPage);
 	}
 </script>
