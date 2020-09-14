@@ -39,7 +39,7 @@
 					   (
 					    SELECT count(*) 
 					      FROM contest_user 
-					     WHERE user_contest_idx = a.admin_contest_idx
+					     WHERE admin_contest_idx = a.admin_contest_idx
 					   ) AS user_contest_cnt,
 					   admin_contest_idx,
 					   create_user,
@@ -80,7 +80,12 @@
 			     </if>
 				ORDER BY create_date ASC
 			) sub
-		ORDER BY sub.num DESC    
+		<if test="@egovframework.com.cmmn.util.StringUtil@equals(order, '1')">
+			ORDER BY create_date desc
+		</if>
+		 <if test="@egovframework.com.cmmn.util.StringUtil@equals(order, '2')">
+			ORDER BY user_contest_cnt DESC, create_date desc  
+			</if>
 		LIMIT #{startIndex},#{pageSize}
 	</select>
 	
@@ -231,7 +236,45 @@
 		  LEFT JOIN user b 
 		    ON a.create_user = b.user_id 
 		 WHERE admin_contest_idx = #{admin_contest_idx}	
-		 
 	</select>
+	
+		<select id="getContestNoticeList" resultType="egovframework.com.notice.vo.NoticeVo">
+		  SELECT    a.notice_idx
+			       ,a.title
+			       ,a.content
+			       ,a.notice_type
+			       ,a.view_count
+			       ,a.create_user
+			       , DATE_FORMAT(a.create_date, '%Y-%m-%d') 		AS create_date
+			       ,b.name 
+		  FROM daul.daul_notice a
+		  LEFT JOIN daul.user b
+		    ON a.create_user = b.user_id 
+		 WHERE del_chk = 'N' 
+		   AND notice_type='contest'
+		 ORDER BY create_date desc
+	</select>
+	
+	<select id="getContestNoticeDetail" resultType="egovframework.com.notice.vo.NoticeVo">
+		   SELECT  a.notice_idx
+		       ,a.title
+		       ,a.content
+		       ,a.notice_type
+		       ,a.view_count
+		       ,a.create_user
+		       , DATE_FORMAT(a.create_date, '%Y-%m-%d') 		AS create_date
+		       ,b.name 
+		  FROM daul.daul_notice a
+		  LEFT JOIN daul.user b
+		  ON a.create_user = b.user_id 
+		 WHERE del_chk = 'N' 
+		   AND notice_idx=#{notice_idx}
+	</select>
+	
+	<update id = "increaseViewCount">
+		UPDATE daul.daul_notice
+		   SET view_count = view_count + 1
+		 WHERE notice_idx = #{notice_idx}
+	</update>
 	
 </mapper>

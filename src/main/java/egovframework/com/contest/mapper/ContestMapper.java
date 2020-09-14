@@ -5,6 +5,7 @@ import java.util.Map;
 
 import egovframework.com.cmmn.util.FileVo;
 import egovframework.com.contest.vo.ContestVo;
+import egovframework.com.notice.vo.NoticeVo;
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
 @Mapper("contestMapper")
@@ -24,4 +25,7 @@ public interface ContestMapper {
 	List<ContestVo> getUserContestList(ContestVo vo) throws Exception;
 	int getContestListCnt(ContestVo vo) throws Exception;
 	int getUserContestListCnt(ContestVo vo) throws Exception;
+	List<NoticeVo> getContestNoticeList(ContestVo vo) throws Exception;
+	NoticeVo getContestNoticeDetail(NoticeVo vo) throws Exception;
+	void increaseViewCount(String notice_idx) throws Exception;
 }

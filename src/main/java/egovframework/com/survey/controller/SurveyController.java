@@ -82,6 +82,9 @@ public class SurveyController {
 		try {
 			vo.setNotice_idx(notice_idx);
 			vo = surveyService.getSurveyNoticeDetail(vo);
+			
+			surveyService.increaseViewCount(vo.getNotice_idx());
+			
 		}catch(Exception e){
 			e.printStackTrace();
 		}

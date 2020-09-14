@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import egovframework.com.cmmn.paging.Pagination;
 import egovframework.com.cmmn.util.CmmnUtil;
 import egovframework.com.cmmn.util.FileUtil;
 import egovframework.com.cmmn.util.FileVo;
 import egovframework.com.contest.service.ContestService;
 import egovframework.com.contest.vo.ContestVo;
+import egovframework.com.notice.vo.NoticeVo;
 import egovframework.com.user.vo.UserVo;
 
 @Controller
@@ -42,19 +42,19 @@ public class ContestController {
 	private CmmnUtil cmmnUtil;
 
 	@RequestMapping(value = "/contestListPage.do")
-	public String contestListPage(ModelMap model, @RequestParam(defaultValue = "1") int curPage) throws Exception {
+	public String contestListPage(ContestVo contestvo, ModelMap model, @RequestParam(defaultValue = "1") int curPage) throws Exception {
 		List<ContestVo> contestList = null;
-		ContestVo vo = new ContestVo();
 
 		try {
 			log.debug("[공모제안] 공모제안 목록 조회");
-			int listCnt = contestService.getContestListCnt(vo);
 			
-			vo.setPagination(listCnt, curPage);
+			int listCnt = contestService.getContestListCnt(contestvo);
 			
-			contestList = contestService.getContestList(vo);
+			contestvo.setPagination(listCnt, curPage);
+			
+			contestList = contestService.getContestList(contestvo);
 			model.addAttribute("contestList", contestList);
-			model.addAttribute("pagination",vo);
+			model.addAttribute("pagination",contestvo);
 
 		} catch (Exception e) {
 			log.debug("[설문조사] 설문조사 목록 조회 실패");
@@ -71,10 +71,12 @@ public class ContestController {
 		List<Map<String, String>> userFileList = null;
 		List<ContestVo> userContestList = null;
 		ContestVo userContestVo = new ContestVo();
+		
 		int chk = 0;
 		try {
 			UserVo userVo = (UserVo) session.getAttribute("login");
 			String user_id = userVo.getUser_id();
+			
 			contestVo.setAdmin_contest_idx(admin_contest_idx);
 			contestVo = contestService.getAdminContest(contestVo);
 
@@ -107,6 +109,37 @@ public class ContestController {
 		return "contest/contestDetail";
 	}
 
+	@RequestMapping(value="/contestNoticeListPage")
+	public String contestNoticeListPage(ContestVo vo, ModelMap model) throws Exception{
+		List<NoticeVo> contestNoticeList = null;
+		try {
+			contestNoticeList = contestService.getContestNoticeList(vo);
+			model.addAttribute("contestNoticeList", contestNoticeList);
+		}catch(Exception e) {
+			
+		}
+		return "contest/contestNotice";
+	}
+	
+	@RequestMapping(value="contestNoticeDetail.do", method=RequestMethod.GET)
+	public String contestNoticeDetail(ModelMap model, @RequestParam("notice_idx") String notice_idx) throws Exception{
+		NoticeVo vo = new NoticeVo();
+		
+		try {
+			vo.setNotice_idx(notice_idx);
+			vo = contestService.getContestNoticeDetail(vo);
+			
+			contestService.increaseViewCount(vo.getNotice_idx());
+			
+		}catch(Exception e) {
+			
+		}
+		
+		model.addAttribute("contestNoticeVo", vo);
+		
+		return "contest/contestNoticeDetail";
+	}
+	
 	@RequestMapping(value = "/downloadFile.do", method = RequestMethod.GET)
 	public void downloadFile(HttpServletResponse response, @RequestParam("save_file_name") String save_file_name)
 			throws Exception {

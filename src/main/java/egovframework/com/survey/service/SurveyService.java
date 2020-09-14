@@ -25,5 +25,6 @@ public interface SurveyService {
 	String selectSurveyOpinionCount(SurveyOpinionVo vo) throws Exception;
 	NoticeVo getSurveyNoticeDetail(NoticeVo vo) throws Exception;
 	int getSurveyListCnt(SurveyVo vo) throws Exception;
+	void increaseViewCount(String notice_idx) throws Exception;
 
 }
