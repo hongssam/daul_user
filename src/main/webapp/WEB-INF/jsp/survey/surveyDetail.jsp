@@ -45,17 +45,6 @@
 						<p>[제안이유]</p>
 						<p>${surveyVo.content}</p>
 					</div>
-					<div class="files">
-						<a href="#">
-							<span class="fa-file-o mr10"></span>
-							미리보는 전라북도 2030.pdf
-						</a>
-						<br>
-						<a href="#">
-							<span class="fa-file-o mr10"></span>
-							미리보는 전라북도 2030.pdf
-						</a>
-					</div>
 					<div class="bottom">
 						<button class="btn btn-primary btn-survey" data-toggle="modal" data-target=".survey-modal">
 							<i class="fa-check-square-o"></i>
