@@ -28,9 +28,9 @@
 					<!-- Level Two-->
 					<ul>
 						<li><a href="/board/introPage.do">e-다울마당이란?</a></li>
-						<li><a href="/board/faqListpage.do">자주하는 질문</a></li>
-						<li><a href="/board/noticeListPage.do">공지사항</a></li>
-						<li><a href="/board/qnaListPage.do">묻고답하기</a></li>
+						<li><a href="/faq/faqListpage.do">자주하는 질문</a></li>
+						<li><a href="/notice/noticeListPage.do">공지사항</a></li>
+						<li><a href="/qna/qnaListPage.do">묻고답하기</a></li>
 					</ul>
 				</li>
 				<li>

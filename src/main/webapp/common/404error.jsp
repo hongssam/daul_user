@@ -1,4 +1,3 @@
-
  <%@ include file="/WEB-INF/jsp/tiles/header.jsp" %>
  
     <!-- Page -->
