@@ -61,16 +61,25 @@ public class SurveyController {
 	}
 	
 	@RequestMapping(value="/surveyNoticeListPage.do")
-	public String surveyNoticeListPage(SurveyVo surveyVo, ModelMap model) throws Exception {
+	public String surveyNoticeListPage(SurveyVo surveyVo, ModelMap model, @RequestParam(defaultValue = "1") int curPage) throws Exception {
 		List<NoticeVo> surveyNoticeList = null;
 		try {
-			log.debug("[설문조사] 설문조사 목록 조회");
+			log.debug("[설문조사] 설문조사공지사항 목록 조회");
+			
+			System.out.println(surveyVo.getSearch() + "," + surveyVo.getSearch_type());
+			
+			int NoticeListCnt = surveyService.getSurveyNoticeListCnt(surveyVo);
+			System.out.println("NoticeListCnt = " + NoticeListCnt);
+
+			surveyVo.setPageSize(10);
+			surveyVo.setPagination(NoticeListCnt, curPage);
 			surveyNoticeList = surveyService.getSurveyNoticeList(surveyVo);
 			
 			model.addAttribute("surveyNoticeList",surveyNoticeList);
+			model.addAttribute("pagination",surveyVo);
 			
 		}catch(Exception e) {
-			log.debug("[설문조사] 설문조사 목록 조회 실패");
+			log.debug("[설문조사] 설문조사공지사항 목록 조회 실패");
 		}
 		return "survey/surveyNotice";
 	}
@@ -274,6 +283,23 @@ public class SurveyController {
 		return new ResponseEntity<>(surveyResult, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value="/getBeforeNotice.do")
+	public ResponseEntity<?> getBeforeNotice( @RequestParam("notice_idx") String notice_idx) throws Exception{
+		NoticeVo vo = new NoticeVo();
+		vo.setNotice_idx(notice_idx);
+		vo = surveyService.getBeforeNotice(vo);
+		
+		return new ResponseEntity<>(vo, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/getAfterNotice.do")
+	public ResponseEntity<?> getAfterNotice( @RequestParam("notice_idx") String notice_idx) throws Exception{
+		NoticeVo vo = new NoticeVo();
+		vo.setNotice_idx(notice_idx);
+		vo = surveyService.getAfterNotice(vo);
+		
+		return new ResponseEntity<>(vo, HttpStatus.OK);
+	}
 }
 
 

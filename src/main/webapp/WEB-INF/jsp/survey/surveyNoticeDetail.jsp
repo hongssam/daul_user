@@ -24,6 +24,7 @@
 			<div class="col-lg-10 offset-lg-1">
 				<div class="board-detail-table">
 					<div class="table-responsive mt0">
+						<input type="hidden" id="notice_idx" value=${surveyNoticeVo.notice_idx }/>
 						<table class="table">
 							<thead class="thead-light">
 								<tr>
@@ -78,3 +79,45 @@
 		</div>
 	</div>
 </section>
+
+<script type="text/javascript">
+	$(function() {
+		getBeforeNotice();
+	});
+	
+
+	var idx = $("#notice_idx").val();
+	
+	
+	function getBeforeNotice() {
+		
+		var request = $.ajax({
+			url: "/survey/getBeforeNotice.do?notice_idx="+idx,
+			method: "get",
+		});
+		
+		request.done(function(data) {
+			console.log(data);
+			getAfterNotice();
+		});
+		
+		request.fail(function(error) {
+			console.log(error);
+		});
+	}
+	
+	function getAfterNotice() {
+		var request = $.ajax({
+			url: "/survey/getAfterNotice.do?notice_idx="+idx,
+			method: "get",
+		});
+		
+		request.done(function(data) {
+			console.log(data);
+		});
+		
+		request.fail(function(error) {
+			console.log(error);
+		});
+	} 
+</script>

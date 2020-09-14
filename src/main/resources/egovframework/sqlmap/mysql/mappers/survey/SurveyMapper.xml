@@ -79,8 +79,35 @@
 		    ON a.create_user = b.user_id 
 		 WHERE del_chk = 'N' 
 		   AND notice_type='survey'
+		   <if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'title')">
+			 AND title like concat('%', #{search}, '%')
+		</if>
+		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'content')">
+			 AND content like concat('%', #{search}, '%')
+		</if>
+		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'create_user')">
+			 AND create_user like concat('%', #{search}, '%')
+		</if>
 		 ORDER BY create_date desc
+		 LIMIT #{startIndex}, #{pageSize}
 	</select>
+	
+	<select id="getSurveyNoticeListCnt" resultType="int">
+		  SELECT   COUNT(*)
+		  FROM daul.daul_notice
+		 WHERE del_chk = 'N' 
+		   AND notice_type='survey'
+		   <if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'title')">
+			 AND title like concat('%', #{search}, '%')
+		</if>
+		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'content')">
+			 AND content like concat('%', #{search}, '%')
+		</if>
+		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'create_user')">
+			 AND create_user like concat('%', #{search}, '%')
+		</if>
+	</select>
+	
 	
 	<select id="getSurveyNoticeDetail" resultType="egovframework.com.notice.vo.NoticeVo">
 		   SELECT  a.notice_idx
@@ -287,6 +314,24 @@
 		 WHERE notice_idx = #{notice_idx}
 	</update>
 	
-	
-	
+	<select id="getBeforeNotice" resultType="egovframework.com.notice.vo.NoticeVo">
+		SELECT * 
+		  FROM daul_notice
+		 WHERE del_chk = 'N'
+		 <![CDATA[
+		   AND notice_idx < #{notice_idx}
+		 ]]>
+		 ORDER BY notice_idx desc
+		 LIMIT 0 , 1;
+	</select>
+		<select id="getAfterNotice" resultType="egovframework.com.notice.vo.NoticeVo">
+		SELECT * 
+		  FROM daul_notice
+		 WHERE del_chk = 'N'
+		 <![CDATA[
+		   AND notice_idx > #{notice_idx}
+		 ]]>
+		 ORDER BY notice_idx
+		 LIMIT 0 , 1;
+	</select>
 </mapper>                  

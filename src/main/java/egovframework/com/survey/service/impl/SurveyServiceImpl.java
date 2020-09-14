@@ -105,4 +105,17 @@ public class SurveyServiceImpl extends EgovAbstractServiceImpl implements Survey
 		surveyMapper.increaseViewCount(notice_idx);
 	}
 
+	@Override
+	public int getSurveyNoticeListCnt(SurveyVo vo) throws Exception {
+		return surveyMapper.getSurveyNoticeListCnt(vo);
+	}
+
+	@Override
+	public NoticeVo getBeforeNotice(NoticeVo vo) throws Exception {
+		return surveyMapper.getBeforeNotice(vo);
+	}
+	@Override
+	public NoticeVo getAfterNotice(NoticeVo vo) throws Exception {
+		return surveyMapper.getAfterNotice(vo);
+	}
 }

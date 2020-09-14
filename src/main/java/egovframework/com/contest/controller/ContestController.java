@@ -81,9 +81,9 @@ public class ContestController {
 			contestVo = contestService.getAdminContest(contestVo);
 
 			int UserlistCnt = contestService.getUserContestListCnt(contestVo);
-
-			contestVo.setPagination(UserlistCnt, curPage);
 			contestVo.setPageSize(10);
+			contestVo.setPagination(UserlistCnt, curPage);
+			
 			
 			fileList = contestService.selectContestFile(contestVo);
 			userContestList = contestService.getUserContestList(contestVo);

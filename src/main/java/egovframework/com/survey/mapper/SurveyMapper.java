@@ -27,4 +27,7 @@ public interface SurveyMapper {
 	NoticeVo getSurveyNoticeDetail(NoticeVo vo) throws Exception;
 	int getSurveyListCnt(SurveyVo vo) throws Exception;
 	void increaseViewCount(String notice_idx) throws Exception;
+	int getSurveyNoticeListCnt(SurveyVo vo) throws Exception;
+	NoticeVo getBeforeNotice(NoticeVo vo) throws Exception;
+	NoticeVo getAfterNotice(NoticeVo vo) throws Exception;
 }
