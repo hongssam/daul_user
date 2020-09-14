@@ -1,6 +1,8 @@
 package egovframework.com.survey.vo;
 
-public class SurveyOpinionVo {
+import egovframework.com.cmmn.paging.Pagination;
+
+public class SurveyOpinionVo extends Pagination{
 	private String opinion_idx;
 	private String survey_idx;
 	private String parent_opinion_idx;

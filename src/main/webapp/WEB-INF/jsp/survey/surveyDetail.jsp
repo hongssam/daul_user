@@ -81,35 +81,6 @@
 					<div class="reviews">
 					</div>
 					<ul class="page-navigation mt20">
-						<li class="page-item disabled">
-							<a class="page-link" href="#">
-								<span class="fa-angle-double-left"></span>
-							</a>
-						</li>
-						<li class="page-item disabled">
-							<a class="page-link" href="#">
-								<span class="fa-angle-left"></span>
-							</a>
-						</li>
-						<li class="page-item text">
-							<a class="page-link" href="#">1</a>
-						</li>
-						<li class="page-item text active" aria-current="page">
-							<a class="page-link" href="#">2</a>
-						</li>
-						<li class="page-item text">
-							<a class="page-link" href="#">3</a>
-						</li>
-						<li class="page-item">
-							<a class="page-link" href="#">
-								<span class="fa-angle-right"></span>
-							</a>
-						</li>
-						<li class="page-item">
-							<a class="page-link" href="#">
-								<span class="fa-angle-double-right"></span>
-							</a>
-						</li>
 					</ul>
 				</div>
 			</div>
@@ -166,6 +137,7 @@
 </div>
 
 <script src="${pageContext.request.contextPath}/js/opinion.js"></script>
+<script src="${pageContext.request.contextPath}/js/pagination-opinion.js"></script>
 <script type="text/javascript">
 	function getQuestionList() {
 		var survey_idx = $("#survey_idx").val();
@@ -295,20 +267,24 @@
 	$(function() {
 		getQuestionList();
 		getSurveyResult();
-		getSurveyOpinionList();
+		getSurveyOpinionList(1);
 	});
 	
 	var reviews = document.querySelector("div.reviews");
 	
-	function getSurveyOpinionList() {
+	function getSurveyOpinionList(curPage) {
 		var request = $.ajax({
 			url: "/survey/surveyOpinionList.do",
 			method: "get",
-			data: {survey_idx: "${surveyVo.survey_idx}"}
+			data: {
+				survey_idx: "${surveyVo.survey_idx}",
+				curPage : curPage
+			}
 		});
 		
 		request.done(function(data) {
-			setOpinionList(data);
+			setOpinionList(data.surveyOpnList);
+			setPaginationInit(data.pagination);
 		});
 	}
 
@@ -328,7 +304,7 @@
 			
 			document.querySelector("div.top.opn-cnt").firstElementChild.innerText = "총 " + data + "개의 의견이 있습니다.";
 			
-			getSurveyOpinionList();
+			getSurveyOpinionList(1);
 		});
 		
 		request.fail(function(error) {
@@ -347,10 +323,14 @@
 		
 		request.done(function(data) {
 			if (data === "success") {
-				getSurveyOpinionList();
+				getSurveyOpinionList(1);
 			} else {
 				
 			}
 		});
+	}
+	
+	function fn_paging(curPage) {
+		getSurveyOpinionList(curPage);
 	}
 </script>

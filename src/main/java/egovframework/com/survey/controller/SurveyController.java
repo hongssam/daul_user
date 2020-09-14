@@ -108,7 +108,6 @@ public class SurveyController {
 	@RequestMapping(value="/surveyDetailPage.do", method=RequestMethod.GET)
 	public String surveyDetailpage(ModelMap model, @RequestParam("survey_idx") String survey_idx) throws Exception {
 		SurveyVo vo = new SurveyVo();
-		List<SurveyOpinionVo> surveyOpinionList = null;
 		
 		try {
 			vo.setSurvey_idx(survey_idx);
@@ -120,29 +119,36 @@ public class SurveyController {
 		}
 		
 		model.addAttribute("surveyVo", vo);
-		//model.addAttribute("surveyOpinionList",surveyOpinionList);
 		
 		return "survey/surveyDetail";
 	}
 	
 	@RequestMapping(value="/surveyOpinionList.do")
-	public ResponseEntity<?> surveyOpinionList(@RequestParam("survey_idx") String survey_idx) throws Exception {
-		//List<SurveyOpinionVo> surveyOpinionList = null;
+	public ResponseEntity<?> surveyOpinionList(@RequestParam("survey_idx") String survey_idx, @RequestParam(defaultValue = "1") int curPage) throws Exception {
+		Map<String, Object> resMap = new HashMap<>();
 		List<Map<String, String>> surveyOpinionList = null;
 		
 		try {
-			SurveyVo vo = new SurveyVo();
+			SurveyOpinionVo vo = new SurveyOpinionVo();
 			vo.setSurvey_idx(survey_idx);
+			log.debug("[설문조사] 설문조사 의견 목록 카운트 조회");
+			String opnListCnt = surveyService.selectSurveyOpinionCount(vo);
+			
+			vo.setPageSize(10);
+			vo.setPagination(Integer.valueOf(opnListCnt), curPage);
 			
 			log.debug("[설문조사] 설문조사 의견 목록 조회");
 			surveyOpinionList = surveyService.getSurveyOpinionList(vo);
+			
+			resMap.put("surveyOpnList", surveyOpinionList);
+			resMap.put("pagination", vo);
 		} catch (Exception e) {
 			log.debug("[설문조사] 설문조사 의견 목록 조회 실패");
 			e.printStackTrace();
 		}
 		
 		log.debug("[설문조사] 설문조사 의견 목록 조회 완료");
-		return new ResponseEntity<>(surveyOpinionList, HttpStatus.OK);
+		return new ResponseEntity<>(resMap, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/surveyOpinionRegist.do", method=RequestMethod.POST, produces="application/text;chartset=utf8")

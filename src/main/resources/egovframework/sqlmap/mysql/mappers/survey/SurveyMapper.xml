@@ -176,7 +176,8 @@
 				 ORDER BY so.survey_ref
 				        , so.survey_step DESC
 				) sub
-			ORDER BY sub.num DESC;
+			ORDER BY sub.num DESC
+			LIMIT #{startIndex}, #{pageSize}
 	</select>
 
 	<select id="getSurveyQuestionList" resultType="Map">

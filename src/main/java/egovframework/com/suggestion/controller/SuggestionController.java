@@ -148,10 +148,10 @@ public class SuggestionController {
 			vo.setSuggestion_idx(suggestion_idx);
 			
 			log.debug("[열린제안] 열린제안 의견 목록 카운트 조회");
-			String listCnt = suggestionService.selectSuggestionOpinionCount(vo);
+			String opnListCnt = suggestionService.selectSuggestionOpinionCount(vo);
 			
 			vo.setPageSize(10);
-			vo.setPagination(Integer.valueOf(listCnt), curPage);
+			vo.setPagination(Integer.valueOf(opnListCnt), curPage);
 			
 			log.debug("[열린제안] 열린제안 의견 목록 조회");
 			suggestionOpinionList = suggestionService.selectSuggestionOpinionList(vo);
