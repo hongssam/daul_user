@@ -39,13 +39,13 @@ public class SurveyController {
 	private FileUtil fileUtil;
 	
 	@RequestMapping(value="/surveyListPage.do")
-	public String surveyListpage(ModelMap model) throws Exception {
+	public String surveyListpage(SurveyVo surveyVo, ModelMap model) throws Exception {
 		List<SurveyVo> surveyList = null;
-		SurveyVo vo = new SurveyVo();
+		System.out.println(surveyVo.getOrder());
 		
 		try {
 			log.debug("[설문조사] 설문조사 목록 조회");
-			surveyList = surveyService.getSurveyList(vo);
+			surveyList = surveyService.getSurveyList(surveyVo);
 			System.out.println(surveyList);
 			
 			

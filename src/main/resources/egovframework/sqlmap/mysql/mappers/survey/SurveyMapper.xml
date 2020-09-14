@@ -29,6 +29,15 @@
 	             end as ing	
 			  FROM daul.survey_main a
 			     , (SELECT @rownum:=0) TMP
+			   <if test="@egovframework.com.cmmn.util.StringUtil@equals(order, '1')">
+		  		 ORDER BY create_date desc
+		  		 </if>
+		  		 <if test="@egovframework.com.cmmn.util.StringUtil@equals(order, '2')">
+		  		 ORDER BY participation_count DESC, create_date desc
+		  		 </if>
+		  		 <if test="@egovframework.com.cmmn.util.StringUtil@equals(order, '3')">
+		  		 ORDER BY opinion_count DESC, create_date desc
+		  		 </if>
 	</select>
 	
 	<select id = "getSurveyDetail" resultType="egovframework.com.survey.vo.SurveyVo">

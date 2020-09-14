@@ -21,9 +21,9 @@
 		<div class="grid-list-header row">
 			<div class="col-lg-6">
 				<ul class="sort-type text-left">
-					<li class="active">최신 순</li>
-					<li>참여자 많은 순</li>
-					<li>의견 많은 순</li>
+					<li data-order="1"><a href="/survey/surveyListPage.do?order=1">최신 순</a></li>
+					<li data-order="2"><a href="/survey/surveyListPage.do?order=2">참여 많은 순</a></li>
+					<li data-order="3"><a href="/survey/surveyListPage.do?order=3">의견 많은 순</a></li>
 				</ul>
 			</div>
 			<div class="col-lg-6">

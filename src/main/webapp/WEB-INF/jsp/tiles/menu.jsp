@@ -47,7 +47,7 @@
 					<a href="/survey/surveyListPage.do"><span class="title">설문조사</span></a>
 					<!-- Level Two-->
 					<ul>
-						<li><a href="/survey/surveyListPage.do">설문조사</a></li>
+						<li><a href="/survey/surveyListPage.do?order=1">설문조사</a></li>
 						<li><a href="survey-notice.html">공지사항</a></li>
 					</ul>
 				</li>
