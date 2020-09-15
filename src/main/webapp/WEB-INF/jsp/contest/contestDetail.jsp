@@ -11,7 +11,7 @@
 				<a href="/contest/conestListPage.do">공모제안</a>
 			</div>
 			<div class="wizard-item last">
-				<a href="">공지사항</a>
+				<a href="/contest/contestNoticeListPage.do">공지사항</a>
 			</div>
 		</div>
 	</div>
@@ -265,8 +265,6 @@
 			e.preventDefault();
 			fn_downloadFile($(this));
 		});
-		
-		
    	});
    
   	function fn_downloadFile(obj){
@@ -286,8 +284,6 @@
 		file.attach_type 	= "${file.attach_type}";
 		fileList.push(file);
 	</c:forEach>	
-	
-	console.log(fileList);
 	
 	if (fileList.length > 0) {
 		for (var file of fileList) {

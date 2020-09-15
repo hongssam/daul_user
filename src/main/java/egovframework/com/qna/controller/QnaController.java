@@ -33,12 +33,11 @@ public class QnaController {
 		QnaVo vo = new QnaVo();
 		try {
 			int listCnt = qnaService.getQnaListCnt(vo);
-			Pagination pagination = new Pagination(listCnt, curPage);
-			vo.setStartIndex(pagination.getStartIndex());
-			vo.setCntPerPage(pagination.getPageSize());
+			vo.setPagination(listCnt, curPage);
+			
 			qnaList = qnaService.getQnaList(vo);
 			model.addAttribute("qnaList",qnaList);
-			model.addAttribute("pagination", pagination);
+			model.addAttribute("pagination", vo);
 		}catch(Exception e) {
 			log.debug("QnaController > /getQnaPage.do > Exception");
 		}

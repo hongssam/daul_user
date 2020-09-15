@@ -126,8 +126,8 @@ public class ContestController {
 		NoticeVo vo = new NoticeVo();
 		
 		try {
-			vo.setNotice_idx(notice_idx);
 			vo = contestService.getContestNoticeDetail(vo);
+			vo.setNotice_idx(notice_idx);
 			
 			contestService.increaseViewCount(vo.getNotice_idx());
 			

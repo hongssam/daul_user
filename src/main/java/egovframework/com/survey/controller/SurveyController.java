@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import egovframework.com.cmmn.util.FileUtil;
+import egovframework.com.cmmn.util.FileVo;
 import egovframework.com.notice.vo.NoticeVo;
 import egovframework.com.survey.service.SurveyService;
 import egovframework.com.survey.vo.SurveyOpinionVo;
@@ -87,17 +89,24 @@ public class SurveyController {
 	@RequestMapping(value="/surveyNoticeDetail.do", method=RequestMethod.GET)
 	public String surveyNoticeDetail(ModelMap model, @RequestParam("notice_idx") String notice_idx) throws Exception {
 		NoticeVo vo = new NoticeVo();
+		List<Map<String, String>> fileList = null;
 		
 		try {
 			vo.setNotice_idx(notice_idx);
+
+			surveyService.increaseViewCount(vo.getNotice_idx());
 			vo = surveyService.getSurveyNoticeDetail(vo);
 			
-			surveyService.increaseViewCount(vo.getNotice_idx());
+			fileList = surveyService.getSurveyNoticeFile(vo);
+			
+			
 			
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 			model.addAttribute("surveyNoticeVo", vo);
+			model.addAttribute("fileList", fileList);
+			
 		return "survey/surveyNoticeDetail";
 	}
 	
@@ -299,6 +308,22 @@ public class SurveyController {
 		vo = surveyService.getAfterNotice(vo);
 		
 		return new ResponseEntity<>(vo, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/downloadSurveyNoticeFile.do", method = RequestMethod.GET)
+	public void downloadFile(HttpServletResponse response, @RequestParam("save_file_name") String save_file_name)
+			throws Exception {
+		try {
+			FileVo fileVo = new FileVo();
+			fileVo.setIdx(save_file_name);
+			fileVo = surveyService.selectDownloadFile(fileVo);
+
+			log.debug("[설문조사공지사항] 설문조사공지사항 첨부파일 다운로드");
+			fileUtil.downloadFile(response, fileVo);
+		} catch (Exception e) {
+			log.debug("[설문조사공지사항] 설문조사공지사항 첨부파일 다운로드 실패");
+			e.printStackTrace();
+		}
 	}
 }
 

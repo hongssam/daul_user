@@ -318,20 +318,44 @@
 		SELECT * 
 		  FROM daul_notice
 		 WHERE del_chk = 'N'
+		   AND notice_type='survey'
 		 <![CDATA[
 		   AND notice_idx < #{notice_idx}
 		 ]]>
 		 ORDER BY notice_idx desc
 		 LIMIT 0 , 1;
 	</select>
-		<select id="getAfterNotice" resultType="egovframework.com.notice.vo.NoticeVo">
+	
+	<select id="getAfterNotice" resultType="egovframework.com.notice.vo.NoticeVo">
 		SELECT * 
 		  FROM daul_notice
 		 WHERE del_chk = 'N'
+		   AND notice_type='survey'
 		 <![CDATA[
 		   AND notice_idx > #{notice_idx}
 		 ]]>
 		 ORDER BY notice_idx
 		 LIMIT 0 , 1;
 	</select>
+	
+	<select id = "getSurveyNoticeFile" resultType = "Map">
+		SELECT 
+			notice_idx,
+			org_file_name,
+			save_file_name,
+			attach_type,
+			ROUND(file_size/1024,1) AS file_size
+		FROM daul.daul_notice_attach
+		WHERE notice_idx = #{notice_idx}
+		  AND del_chk = 'N'
+	</select>
+	
+	<select id="selectDownloadFile" resultType="egovframework.com.cmmn.util.FileVo">
+		SELECT 
+			ORG_FILE_NAME,
+			SAVE_FILE_NAME
+		FROM daul.daul_notice_attach
+		WHERE save_file_name  = #{idx}
+	</select>
+	
 </mapper>                  

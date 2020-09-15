@@ -10,7 +10,7 @@
 				<a href="/survey/surveyListPage.do?order=1">설문하기</a>
 			</div>
 			<div class="wizard-item last">
-				<a href="survey-notice.html">공지사항</a>
+				<a href="/survey/surveyNoticeListPage.do">공지사항</a>
 			</div>
 		</div>
 	</div>

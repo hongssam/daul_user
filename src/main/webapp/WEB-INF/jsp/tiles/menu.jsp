@@ -48,7 +48,7 @@
 					<!-- Level Two-->
 					<ul>
 						<li><a href="/survey/surveyListPage.do?order=1">설문조사</a></li>
-						<li><a href="survey-notice.html">공지사항</a></li>
+						<li><a href="/survey/surveyNoticeListPage.do">공지사항</a></li>
 					</ul>
 				</li>
 				<li class="last">
@@ -56,7 +56,7 @@
 					<!-- Level Two-->
 					<ul>
 						<li><a href="/contest/contestListPage.do">공모제안</a></li>
-						<li><a href="contest-notice.html">공지사항</a></li>
+						<li><a href="/contest/contestNoticeListPage.do">공지사항</a></li>
 					</ul>
 				</li>
 				<c:choose>
@@ -123,14 +123,14 @@
 				<!-- Level Two-->
 				<ul>
 					<li><a href="/survey/surveyListPage.do?order=1">설문조사</a></li>
-					<li><a href="survey-notice.html">공지사항</a></li>
+					<li><a href="/survey/surveyNoticeListPage.do">공지사항</a></li>
 				</ul>
 			</li>
 			<li><span>공모제안</span>
 				<!-- Level Two-->
 				<ul>
 					<li><a href="/contest/contestListPage.do">공모제안</a></li>
-					<li><a href="contest-notice.html">공지사항</a></li>
+					<li><a href="/contest/contestNoticeListPage.do">공지사항</a></li>
 				</ul>
 			</li>
 			<li><a href="guide.html">이용안내</a></li>

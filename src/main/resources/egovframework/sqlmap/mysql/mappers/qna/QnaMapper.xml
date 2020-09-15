@@ -41,7 +41,7 @@
 			ORDER BY ref ASC, indent DESC
 		) sub
 	ORDER BY sub.num DESC
-	LIMIT  #{startIndex},#{cntPerPage}
+	LIMIT  #{startIndex},#{pageSize}
 	</select>
 	
 	

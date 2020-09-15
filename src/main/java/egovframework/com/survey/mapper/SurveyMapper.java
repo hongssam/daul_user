@@ -3,6 +3,7 @@ package egovframework.com.survey.mapper;
 import java.util.List;
 import java.util.Map;
 
+import egovframework.com.cmmn.util.FileVo;
 import egovframework.com.notice.vo.NoticeVo;
 import egovframework.com.survey.vo.SurveyOpinionVo;
 import egovframework.com.survey.vo.SurveyVo;
@@ -30,4 +31,6 @@ public interface SurveyMapper {
 	int getSurveyNoticeListCnt(SurveyVo vo) throws Exception;
 	NoticeVo getBeforeNotice(NoticeVo vo) throws Exception;
 	NoticeVo getAfterNotice(NoticeVo vo) throws Exception;
+	List<Map<String,String>> getSurveyNoticeFile(NoticeVo vo) throws Exception;
+	FileVo selectDownloadFile(FileVo vo) throws Exception;
 }

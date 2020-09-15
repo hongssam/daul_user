@@ -8,6 +8,8 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.com.cmmn.util.FileUtil;
+import egovframework.com.cmmn.util.FileVo;
+import egovframework.com.contest.vo.ContestVo;
 import egovframework.com.notice.vo.NoticeVo;
 import egovframework.com.survey.mapper.SurveyMapper;
 import egovframework.com.survey.service.SurveyService;
@@ -117,5 +119,15 @@ public class SurveyServiceImpl extends EgovAbstractServiceImpl implements Survey
 	@Override
 	public NoticeVo getAfterNotice(NoticeVo vo) throws Exception {
 		return surveyMapper.getAfterNotice(vo);
+	}
+
+	@Override
+	public List<Map<String, String>> getSurveyNoticeFile(NoticeVo vo) throws Exception {
+		return surveyMapper.getSurveyNoticeFile(vo);
+	}
+
+	@Override
+	public FileVo selectDownloadFile(FileVo vo) throws Exception {
+		return  surveyMapper.selectDownloadFile(vo);
 	}
 }

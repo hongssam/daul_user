@@ -24,12 +24,12 @@
 			<div class="col-lg-10 offset-lg-1">
 				<div class="board-detail-table">
 					<div class="table-responsive mt0">
-						<input type="hidden" id="notice_idx" value=${surveyNoticeVo.notice_idx }/>
+						<input type="hidden" id="notice_idx" value=${surveyNoticeVo.notice_idx }>
 						<table class="table">
 							<thead class="thead-light">
 								<tr>
 									<th scope="col" class="text-left">${surveyNoticeVo.title}</th>
-									<th scope="col" class="text-right board-info">${surveyNoticeVo.name} | ${surveyNoticeVo.create_date} | 조회 ${surveyNoticeVo.view_count}</th>
+									<th scope="col" class="text-right board-info">${surveyNoticeVo.name}| ${surveyNoticeVo.create_date} | 조회 ${surveyNoticeVo.view_count}</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -43,21 +43,12 @@
 									</td>
 								</tr>
 								<tr>
-									<td class="text-left board-file" colspan="2">
-										<a href="#">
-											<span class="fa-file-o mr10"></span>
-											미리보는 전라북도 2030.pdf
-										</a>
-										<br>
-										<a href="#">
-											<span class="fa-file-o mr10"></span>
-											미리보는 전라북도 2030.pdf
-										</a>
+									<td class="text-left board-file" id="file-list" colspan="2">
 									</td>
 								</tr>
 								<tr>
-									<td class="text-left board-nav" colspan="2">
-										<a href="#">
+									<td class="text-left board-nav" id="before-after-notice" colspan="2">
+										<!-- <a href="#">
 											<span class="fa-caret-up mr10">&nbsp;&nbsp;&nbsp;윗글</span>
 											미리보는 전라북도 2030.pdf
 										</a>
@@ -65,7 +56,7 @@
 										<a href="#">
 											<span class="fa-caret-down mr10">&nbsp;&nbsp;&nbsp;아래글</span>
 											'20년 폭염대책 효과적인 지원방안 설문참여 당첨자 안내
-										</a>
+										</a> -->
 									</td>
 								</tr>
 							</tbody>
@@ -99,6 +90,7 @@
 		request.done(function(data) {
 			console.log(data);
 			getAfterNotice();
+			drawBeforeNotice(data);
 		});
 		
 		request.fail(function(error) {
@@ -114,10 +106,101 @@
 		
 		request.done(function(data) {
 			console.log(data);
+			drawAfterNotice(data);
 		});
 		
 		request.fail(function(error) {
 			console.log(error);
 		});
 	} 
+	
+	function drawBeforeNotice(data){
+		var before_notice_idx = data.notice_idx;
+		var before_notice_title = data.title;
+		var str;
+		
+		if(typeof before_notice_title == "undefined" || before_notice_title == null || before_notice_title == ''){
+			str = 	'<a href="#">'
+			+	'<span class="fa-caret-up mr10">&nbsp;&nbsp;&nbsp;윗글</span>'
+			+	'이전 게시물이 없습니다.'
+			+'</a>'
+			+'<hr>';
+		}else{
+			str = 	'<a href="/survey/surveyNoticeDetail.do?notice_idx='+before_notice_idx+'">'
+			+	'<span class="fa-caret-up mr10">&nbsp;&nbsp;&nbsp;윗글</span>'
+			+	before_notice_title
+			+'</a>'
+			+'<hr>';
+		}
+		
+					
+		$("#before-after-notice").append(str);
+		
+	}
+	
+	function drawAfterNotice(data){
+		var after_notice_idx = data.notice_idx;
+		var after_notice_title = data.title;
+		var str;
+		if(typeof after_notice_title == "undefined" || after_notice_title == null || after_notice_title == ''){
+			str = 	'<a href="#">' 
+			+	'<span class="fa-caret-down mr10">&nbsp;&nbsp;&nbsp;아랫글</span>'
+			+	'다음 게시물이 없습니다.'
+			+'</a>'
+			+'<hr>';
+		}else{
+			str = 	'<a href="/survey/surveyNoticeDetail.do?notice_idx='+after_notice_idx+'">' 
+			+	'<span class="fa-caret-down mr10">&nbsp;&nbsp;&nbsp;아랫글</span>'
+			+	after_notice_title
+			+'</a>'
+			+'<hr>';
+		}
+	
+					
+		$("#before-after-notice").append(str);
+		
+	}
+	
+	
+	var fileList = new Array();
+
+	<c:forEach var="file" items="${fileList}">
+		var file = {};
+		file.contest_idx 	= "${file.admin_contest_idx}";
+		file.org_file_name 	= "${file.org_file_name}";
+		file.save_file_name = "${file.save_file_name}";
+		file.file_size 		= "${file.file_size}";
+		file.create_user 	= "${file.create_user}";
+		file.del_chk 		= "${file.del_chk}";
+		file.attach_type 	= "${file.attach_type}";
+		fileList.push(file);
+	</c:forEach>	
+	
+	if (fileList.length > 0) {
+		for (var file of fileList) {
+			var str = 		'<a href="#this" name="file">'
+						+   '<input type="hidden" name="save_file_name" value="' + file.save_file_name + '">'
+						+	'	<span class="fa-file-o mr10"></span>'
+						+	file.org_file_name
+						+	'</a>'
+						+	'<br>';
+			
+			$("#file-list").append(str);
+		}
+	}
+	
+	$(document).ready(function(){
+		$("a[name='file']").on("click",function(e){
+			e.preventDefault();
+			fn_downloadFile($(this));
+		});
+   	});
+	
+  	function fn_downloadFile(obj){
+		var save_file_name = obj.parent().find("input[name='save_file_name']").val();
+		console.log(save_file_name);
+		location.href = "${pageContext.request.contextPath}/survey/downloadSurveyNoticeFile.do?save_file_name=" + save_file_name;
+  	}
+	
+	
 </script>

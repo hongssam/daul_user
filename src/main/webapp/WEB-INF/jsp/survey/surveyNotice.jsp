@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <!-- Subpage Nav Tabs -->
 <div class="nav-tabs style2 bgc-fa">
@@ -21,7 +22,7 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="board-table">
-					<p>총 19건의 게시물이 있습니다.</p>
+					<p>총 ${fn:length(surveyNoticeList)}건의 게시물이 있습니다.</p>
 					<div class="table-responsive mt0">
 						<table class="table">
 							<thead class="thead-light">
