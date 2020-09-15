@@ -68,6 +68,16 @@
 				</div>
 			</div>
 		</div>
-
 	</div>
 </section>
+
+<script src="${pageContext.request.contextPath}/js/kakao-login.js"></script>
+<script type="text/javascript">
+	var kakao_reg = document.querySelector("div.auth-btn.kakao");
+
+	kakao_reg.addEventListener("click", function() {
+		kakaoLogin();
+	});
+	
+	
+</script>

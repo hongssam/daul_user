@@ -42,7 +42,13 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/chartist.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/progressbar.js"></script>
 
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+
 <script type="text/javascript">
+	var CTX = "${pageContext.request.contextPath}";
+	
+	Kakao.init('972ec73374a2119054f2120585980a8a');
+	
 	function getParameterByName(name) {
 		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
 		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");

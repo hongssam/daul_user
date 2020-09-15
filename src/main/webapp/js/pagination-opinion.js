@@ -1,5 +1,3 @@
-//<ul class="page-navigation mt20">
-//</ul>
 var ul_page = document.querySelector("ul.page-navigation");
 
 function setPaginationInit(data) {

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="egovframework.com.user.mapper.UserMapper">
+	
+	<select id="selectKakaoAccount" resultType="int">
+		SELECT COUNT(*)
+		  FROM daul.user
+		 WHERE channel = 'kakao'
+		   AND kakao_key = #{id}
+	</select>
+	
+	<insert id="insertKakaoUser">
+		INSERT INTO daul.user
+			 (
+			   user_id
+			 , name
+			 , pw
+			 , email
+			 , phone
+			 , channel
+			 , reg_date
+			 , last_login_date
+			 <if test="email_chk != null and email_chk != ''">
+			 , email_chk 
+			 </if>
+			 <if test="talk_chk != null and talk_chk != ''">
+			 , talk_chk 
+			 </if>
+			 <if test="sms_chk != null and sms_chk != ''">
+			 , sms_chk 
+			 </if>
+			 , auth_type
+			 , kakao_key
+			 )
+		VALUES 
+			 (
+			   #{user_id}
+			 , #{name}
+			 , #{pw}
+			 , #{email}
+			 , #{phone}
+			 , #{channel}
+			 , SYSDATE()
+			 , SYSDATE()
+			 <if test="email_chk != null and email_chk != ''">
+			 , #{email_chk} 
+			 </if>
+			 <if test="talk_chk != null and talk_chk != ''">
+			 , #{talk_chk} 
+			 </if>
+			 <if test="sms_chk != null and sms_chk != ''">
+			 , #{sms_chk} 
+			 </if>
+			 , #{auth_type}
+			 , #{kakao_key}
+			 )
+	</insert>
+</mapper>

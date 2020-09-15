@@ -24,7 +24,7 @@
 							<button type="button" class="btn btn-block btn-primary" id="login-btn">로그인</button>
 						</div>
 						<div class="form-group">
-							<button type="submit" class="btn btn-block btn-kakao">카카오 로그인</button>
+							<button type="button" class="btn btn-block btn-kakao" id="kakao_login_btn">카카오 로그인</button>
 						</div>
 					</form>
 				</div>
@@ -33,15 +33,19 @@
 	</div>
 </section>
 
+<script src="${pageContext.request.contextPath}/js/kakao-login.js"></script>
 <script type="text/javascript">
-	
 	$("#login-btn").click(function() {
 		login();
 	});
 	
-	
 	function login() {
-		var request = $.ajax({ url : "/login/login.do", method : "post", data : $("#login-form").serialize() });
+		var request = $.ajax({ 
+			url : "/login/login.do", 
+			method : "post", 
+			data : $("#login-form").serialize() 
+		});
+		
 		request.done(function(data) {
 			if (data === "success") {
 				location.href = "${pageContext.request.contextPath}/main/main.do";
@@ -49,6 +53,7 @@
 				$("#chk-error").text(data);
 			}
 		});
+		
 		request.fail(function(error) {
 			console.log(error);
 			console.log("request fail");
@@ -58,5 +63,11 @@
 	$("#user_id").val("admin");
 	$("#pw").val("1234qwer");
 	
-	$("#login-btn").trigger("click");
+	//$("#login-btn").trigger("click");
+	
+	var kakao_login_btn = document.getElementById("kakao_login_btn");
+	
+	kakao_login_btn.addEventListener("click", function() {
+		kakaoLogin();
+	});
 </script>

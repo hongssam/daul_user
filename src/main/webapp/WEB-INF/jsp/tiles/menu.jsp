@@ -62,13 +62,15 @@
 				<c:choose>
 					<c:when test = "${login.name ne '' && not empty login.name }">
 					<li class="list-inline-item list_s pull-right nav-item-account">
-							<a href="/login/logout.do" class="btn" style="margin-top: 1px">
-								<span class="dn-lg">| 로그아웃</span></a>
-						</li>
-						<li class="list-inline-item list_s pull-right nav-item-account">
-							<a href="#" class="flaticon-user" style="cursor:default" >
-								<span class="dn-lg">${login.name}</span></a>
-						</li>
+						<a href="#" class="btn" style="margin-top: 1px" onclick="kakaoUserLogout()">
+							<span class="dn-lg">| 로그아웃</span>
+							</a>
+					</li>
+					<li class="list-inline-item list_s pull-right nav-item-account">
+						<a href="#" class="flaticon-user" style="cursor:default" >
+							<span class="dn-lg">${login.name}</span>
+						</a>
+					</li>
 					</c:when>
 					<c:otherwise>
 						<li class="list-inline-item list_s pull-right nav-item-account">
@@ -137,7 +139,7 @@
 			<c:choose>
 					<c:when test = "${login.name ne '' && not empty login.name }">
 						<li><a href="#"><span class="flaticon-user"></span>&nbsp; ${login.name}</a></li>
-						<li><a href="/login/logout.do"><span class="flaticon-logout"></span>&nbsp; Logout</a></li>
+						<li><a href="#" onclick="kakaoUserLogout()"><span class="flaticon-logout"></span>&nbsp; Logout</a></li>
 					</c:when>
 					<c:otherwise>
 						<li><a href="/login/loginPage.do"><span class="flaticon-user"></span> Login</a></li>
@@ -147,3 +149,26 @@
 		</ul>
 	</nav>
 </div>
+
+<script type="text/javascript">
+	function kakaoUserLogout() {
+		var channel = "${login.channel}";
+		
+		if (channel === "kakao" && Kakao.isInitialized()) {
+			Kakao.API.request({
+				url: "/v1/user/unlink",
+				success: function(res) {
+					console.log("카카오 로그아웃 성공", res);
+				},
+				fail: function(err) {
+					console.log("카카오 로그아웃 실패", err);
+				},
+				always: function() {
+					location.href = CTX + "/login/logout.do";
+				}
+			});
+		} else {
+			location.href = CTX + "/login/logout.do";
+		}
+	}
+</script>

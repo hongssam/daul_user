@@ -1,10 +1,8 @@
 package egovframework.com.user.vo;
 
 public class UserVo {
-
 	private String user_id;
 	private String name;
-//	@Pattern(regexp = "((?=.*\\d)(?=.*[a-z]).{8,15})", message = "영문자, 숫자가 포함된 8~15자리로 입력해 주세요.")
 	private String pw;
 	private String new_pw;
 	private String email;
@@ -16,17 +14,16 @@ public class UserVo {
 	private String talk_chk;
 	private String sms_chk;
 	private String auth_type;
+	private String kakao_key;
 	
 	private int contest_cnt;
 	private int suggestion_cnt;
 	private int participation_cnt;
 	private int opinion_cnt;
 	
-
 	private String key = "daul";
 	
 	private int num;
-	
 	
 	public int getNum() {
 		return num;
@@ -112,6 +109,12 @@ public class UserVo {
 	public void setAuth_type(String auth_type) {
 		this.auth_type = auth_type;
 	}
+	public String getKakao_key() {
+		return kakao_key;
+	}
+	public void setKakao_key(String kakao_key) {
+		this.kakao_key = kakao_key;
+	}
 	public int getContest_cnt() {
 		return contest_cnt;
 	}
@@ -136,11 +139,9 @@ public class UserVo {
 	public void setOpinion_cnt(int opinion_cnt) {
 		this.opinion_cnt = opinion_cnt;
 	}
-
 	public String getKey() {
 		return key;
 	}
-
 	public void setKey(String key) {
 		this.key = key;
 	}
@@ -148,4 +149,13 @@ public class UserVo {
 		return getPw() + getKey();
 	}
 	
+	@Override
+	public String toString() {
+		return "UserVo [user_id=" + user_id + ", name=" + name + ", pw=" + pw + ", new_pw=" + new_pw + ", email="
+				+ email + ", phone=" + phone + ", channel=" + channel + ", reg_date=" + reg_date + ", last_login_date="
+				+ last_login_date + ", email_chk=" + email_chk + ", talk_chk=" + talk_chk + ", sms_chk=" + sms_chk
+				+ ", auth_type=" + auth_type + ", kakao_key=" + kakao_key + ", contest_cnt=" + contest_cnt
+				+ ", suggestion_cnt=" + suggestion_cnt + ", participation_cnt=" + participation_cnt + ", opinion_cnt="
+				+ opinion_cnt + ", key=" + key + ", num=" + num + "]";
+	}
 }
