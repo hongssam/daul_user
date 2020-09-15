@@ -1,6 +1,8 @@
 package egovframework.com.notice.vo;
 
-public class NoticeVo {
+import egovframework.com.cmmn.util.SearchVo;
+
+public class NoticeVo extends SearchVo{
 	private String notice_idx;
 	private String title;
 	private String content;

@@ -5,16 +5,16 @@
 	<div class="container">
 		<div class="wizard">
 			<div class="wizard-item first">
-				<a href="intro.html">e-다울마당이란</a>
+				<a href="/board/introPage.do">e-다울마당이란</a>
 			</div>
 			<div class="wizard-item ">
-				<a href="faq.html">자주하는질문</a>
+				<a href="/faq/faqListPage.do">자주하는질문</a>
 			</div>
 			<div class="wizard-item ">
-				<a href="notice.html">공지사항</a>
+				<a href="/notice/noticeListPage.do">공지사항</a>
 			</div>
 			<div class="wizard-item last active">
-				<a href="qa.html">묻고답하기</a>
+				<a href="/qna/qnaListPage.do">묻고답하기</a>
 			</div>
 		</div>
 	</div>

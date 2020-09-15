@@ -1,0 +1,98 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
+
+
+<!-- Subpage Nav Tabs -->
+<div class="nav-tabs style2 bgc-fa">
+	<div class="container">
+		<div class="wizard">
+			<div class="wizard-item first">
+				<a href="/board/introPage.do">e-다울마당이란</a>
+			</div>
+			<div class="wizard-item">
+				<a href="/faq/faqListPage.do">자주하는질문</a>
+			</div>
+			<div class="wizard-item active">
+				<a href="/notice/noticeListPage.do">공지사항</a>
+			</div>
+			<div class="wizard-item last">
+				<a href=/qna/qnaListPage.do>묻고답하기</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Notice Table Section -->
+<section class="notice-section bgc-fa">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="board-table">
+					<p>총 ${fn:length(noticeList)}건의 게시물이 있습니다.</p>
+					<div class="table-responsive mt0">
+						<table class="table">
+							<thead class="thead-light">
+								<tr>
+									<th scope="col">번호</th>
+									<th scope="col">제목</th>
+									<th scope="col">작성자</th>
+									<th scope="col">작성일</th>
+									<th scope="col">조회</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="list" items="${noticeList}" varStatus="idx">
+									<tr>
+										<td class="text-center">${idx.index + 1}</td>
+										<td>
+											<a href="/notice/noticeDetail.do?notice_idx=${list.notice_idx }">
+												<span class="status_tag outline-dark">공지</span>${ list.title}
+											</a>
+										</td>
+										<td class="text-center">${list.name }</td>
+										<td class="text-center">${list.create_date }</td>
+										<td class="text-center">${list.view_count }</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+					</div>
+					<%@ include file="../common/pagination.jsp"%>
+					<div class="table-nav">
+						
+						<div class="candidate_revew_select style2 text-center mb30-991 mt20">
+							<ul class="mb0">
+								<li class="list-inline-item">
+									<select class="selectpicker show-tick">
+										<option>제목</option>
+										<option>작성자</option>
+									</select>
+								</li>
+								<li class="list-inline-item">
+									<div class="candidate_revew_search_box course fn-520">
+										<form class="form-inline my-2">
+											<input class="form-control mr-sm-2" type="search" placeholder="" aria-label="Search">
+											<button class="btn my-2 my-sm-0" type="submit">
+												<span class="flaticon-magnifying-glass"></span>
+											</button>
+										</form>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script type="text/javascript">
+function fn_paging(pageNum) {
+	location.href = '${pageContext.request.contextPath}/notice/noticeListPage.do?curPage=' + pageNum;
+}
+
+
+</script>
