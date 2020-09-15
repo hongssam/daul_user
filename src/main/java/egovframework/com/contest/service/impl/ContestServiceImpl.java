@@ -12,6 +12,7 @@ import egovframework.com.contest.mapper.ContestMapper;
 import egovframework.com.contest.service.ContestService;
 import egovframework.com.contest.vo.ContestVo;
 import egovframework.com.notice.vo.NoticeVo;
+import egovframework.com.survey.vo.SurveyVo;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 
 @Service("contestService")
@@ -110,6 +111,29 @@ public class ContestServiceImpl extends EgovAbstractServiceImpl implements Conte
 		contestMapper.increaseViewCount(notice_idx);
 	}
 
+	@Override
+	public int getContestNoticeListCnt(ContestVo vo) throws Exception {
+		return contestMapper.getContestNoticeListCnt(vo);
+	}
+
+	@Override
+	public List<Map<String, String>> getContestNoticeFile(NoticeVo vo) throws Exception {
+		return contestMapper.getContestNoticeFile(vo);
+	}
+	
+	@Override
+	public NoticeVo getBeforeNotice(NoticeVo vo) throws Exception {
+		return contestMapper.getBeforeNotice(vo);
+	}
+	@Override
+	public NoticeVo getAfterNotice(NoticeVo vo) throws Exception {
+		return contestMapper.getAfterNotice(vo);
+	}
+
+	@Override
+	public FileVo selectDownloadContestNoticeFile(FileVo vo) throws Exception {
+		return contestMapper.selectDownloadContestNoticeFile(vo);
+	}
 }
 
 

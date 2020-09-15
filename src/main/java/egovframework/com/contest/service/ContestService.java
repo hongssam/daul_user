@@ -6,6 +6,7 @@ import java.util.Map;
 import egovframework.com.cmmn.util.FileVo;
 import egovframework.com.contest.vo.ContestVo;
 import egovframework.com.notice.vo.NoticeVo;
+import egovframework.com.survey.vo.SurveyVo;
 
 public interface ContestService {
 	List<ContestVo> getContestList(ContestVo vo) throws Exception;
@@ -26,4 +27,10 @@ public interface ContestService {
 	List<NoticeVo> getContestNoticeList(ContestVo vo) throws Exception;
 	NoticeVo getContestNoticeDetail(NoticeVo vo) throws Exception;
 	void increaseViewCount(String notice_idx) throws Exception;
+	int getContestNoticeListCnt(ContestVo vo) throws Exception;
+	List<Map<String, String>> getContestNoticeFile(NoticeVo vo) throws Exception;
+	NoticeVo getBeforeNotice(NoticeVo vo) throws Exception;
+	NoticeVo getAfterNotice(NoticeVo vo) throws Exception;
+	FileVo selectDownloadContestNoticeFile(FileVo vo) throws Exception;
+	
 }

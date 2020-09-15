@@ -47,11 +47,11 @@
 				   ) AS participation_count
 				 , a.title
 				 , a.content
-				 , DATE_FORMAT(a.s_date, '%Y-%m-%d') 		AS s_date
-				 , DATE_FORMAT(a.e_date, '%Y-%m-%d') 		AS e_date
+				 , DATE_FORMAT(a.s_date, '%Y-%m-%d %H:%i:%s') 		AS s_date
+				 , DATE_FORMAT(a.e_date, '%Y-%m-%d %H:%i:%s') 		AS e_date
 				 , a.survey_type
 				 , a.create_user
-				 , DATE_FORMAT(a.create_date, '%Y-%m-%d') AS create_date
+				 , DATE_FORMAT(a.create_date, '%Y-%m-%d %H:%i:%s') AS create_date
 				 <![CDATA[
 				 , case when e_date < SYSDATE() then '투표완료'
 					  when s_date > SYSDATE() then '투표전'
@@ -72,7 +72,7 @@
 			       ,a.notice_type
 			       ,a.view_count
 			       ,a.create_user
-			       , DATE_FORMAT(a.create_date, '%Y-%m-%d') 		AS create_date
+			       , DATE_FORMAT(a.create_date, '%Y-%m-%d %H:%i:%s') 		AS create_date
 			       ,b.name 
 		  FROM daul.daul_notice a
 		  LEFT JOIN daul.user b
@@ -116,7 +116,7 @@
 		       ,a.notice_type
 		       ,a.view_count
 		       ,a.create_user
-		       , DATE_FORMAT(a.create_date, '%Y-%m-%d') 		AS create_date
+		       , DATE_FORMAT(a.create_date, '%Y-%m-%d %H:%i:%s') 		AS create_date
 		       ,b.name 
 		  FROM daul.daul_notice a
 		  LEFT JOIN daul.user b
@@ -164,11 +164,11 @@
 				   ) AS participation_count
 				 , a.title
 				 , a.content
-				 , DATE_FORMAT(a.s_date, '%Y-%m-%d') 		AS s_date
-				 , DATE_FORMAT(a.e_date, '%Y-%m-%d') 		AS e_date
+				 , DATE_FORMAT(a.s_date, '%Y-%m-%d %H:%i:%s') 		AS s_date
+				 , DATE_FORMAT(a.e_date, '%Y-%m-%d %H:%i:%s') 		AS e_date
 				 , a.survey_type
 				 , a.create_user
-				 , DATE_FORMAT(a.create_date, '%Y-%m-%d') AS create_date
+				 , DATE_FORMAT(a.create_date, '%Y-%m-%d %H:%i:%s') AS create_date
 				 <![CDATA[
 				 , case when e_date < SYSDATE() then '투표완료'
 					  when s_date > SYSDATE() then '투표전'
@@ -320,9 +320,9 @@
 		 WHERE del_chk = 'N'
 		   AND notice_type='survey'
 		 <![CDATA[
-		   AND notice_idx < #{notice_idx}
+		   AND notice_idx > #{notice_idx}
 		 ]]>
-		 ORDER BY notice_idx desc
+		 ORDER BY notice_idx
 		 LIMIT 0 , 1;
 	</select>
 	
@@ -332,9 +332,9 @@
 		 WHERE del_chk = 'N'
 		   AND notice_type='survey'
 		 <![CDATA[
-		   AND notice_idx > #{notice_idx}
+		   AND notice_idx < #{notice_idx}
 		 ]]>
-		 ORDER BY notice_idx
+		 ORDER BY notice_idx desc
 		 LIMIT 0 , 1;
 	</select>
 	

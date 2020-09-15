@@ -22,12 +22,12 @@
 				 </if>
 			 	 <if test="search_s_date != null and search_s_date != ''">
 			 	 	<![CDATA[
-			     	AND create_date >= date_format(concat(#{search_s_date}, ' 00:00:00'), '%Y-%m-%d %H:%i:%s')
+			     	AND create_date >= date_format(concat(#{search_s_date}, ' 00:00:00'), '%Y-%m-%d %H:%i:%s:%s')
 			     	]]>
 			     </if>
 			      <if test="search_e_date != null and search_e_date != ''">
 			 	 	<![CDATA[
-			     	AND create_date <= date_format(concat(#{search_e_date}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
+			     	AND create_date <= date_format(concat(#{search_e_date}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s:%s')
 			     	]]>
 			     </if>
 	</select>
@@ -45,11 +45,11 @@
 					   create_user,
 					   title,
 					   content,
-					   DATE_FORMAT(contest_s_date, '%Y-%m-%d') 	AS contest_s_date,
-					   DATE_FORMAT(contest_e_date, '%Y-%m-%d') 	AS contest_e_date,
-					   DATE_FORMAT(submit_s_date, '%Y-%m-%d')  	AS submit_s_date,
-					   DATE_FORMAT(submit_e_date, '%Y-%m-%d')  	AS submit_e_date,
-					   DATE_FORMAT(create_date, '%Y-%m-%d')    	AS create_date,
+					   DATE_FORMAT(contest_s_date, '%Y-%m-%d %H:%i:%s') 	AS contest_s_date,
+					   DATE_FORMAT(contest_e_date, '%Y-%m-%d %H:%i:%s') 	AS contest_e_date,
+					   DATE_FORMAT(submit_s_date, '%Y-%m-%d %H:%i:%s')  	AS submit_s_date,
+					   DATE_FORMAT(submit_e_date, '%Y-%m-%d %H:%i:%s')  	AS submit_e_date,
+					   DATE_FORMAT(create_date, '%Y-%m-%d %H:%i:%s')    	AS create_date,
 					   <![CDATA[
 						case when contest_e_date < SYSDATE() then '공모종료'
 							 when contest_s_date > SYSDATE() then '공모전'
@@ -70,12 +70,12 @@
 				 </if>
 			 	 <if test="search_s_date != null and search_s_date != ''">
 			 	 	<![CDATA[
-			     	AND create_date >= date_format(concat(#{search_s_date}, ' 00:00:00'), '%Y-%m-%d %H:%i:%s')
+			     	AND create_date >= date_format(concat(#{search_s_date}, ' 00:00:00'), '%Y-%m-%d %H:%i:%s:%s')
 			     	]]>
 			     </if>
 			      <if test="search_e_date != null and search_e_date != ''">
 			 	 	<![CDATA[
-			     	AND create_date <= date_format(concat(#{search_e_date}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
+			     	AND create_date <= date_format(concat(#{search_e_date}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s:%s')
 			     	]]>
 			     </if>
 				ORDER BY create_date ASC
@@ -93,11 +93,11 @@
 		SELECT admin_contest_idx
 		     , title
 		     , content
-		     , DATE_FORMAT(contest_s_date, '%Y-%m-%d') as contest_s_date
-		     , DATE_FORMAT(contest_e_date, '%Y-%m-%d') as contest_e_date
-		     , DATE_FORMAT(submit_s_date, '%Y-%m-%d')  as submit_s_date
-		     , DATE_FORMAT(submit_e_date, '%Y-%m-%d')  as submit_e_date
-		     , DATE_FORMAT(create_date, '%Y-%m-%d')    as create_date
+		     , DATE_FORMAT(contest_s_date, '%Y-%m-%d %H:%i:%s') as contest_s_date
+		     , DATE_FORMAT(contest_e_date, '%Y-%m-%d %H:%i:%s') as contest_e_date
+		     , DATE_FORMAT(submit_s_date, '%Y-%m-%d %H:%i:%s')  as submit_s_date
+		     , DATE_FORMAT(submit_e_date, '%Y-%m-%d %H:%i:%s')  as submit_e_date
+		     , DATE_FORMAT(create_date, '%Y-%m-%d %H:%i:%s')    as create_date
 			 , create_user
 		     <![CDATA[
 		  	 ,case when contest_e_date < SYSDATE() then '공모종료'
@@ -222,7 +222,7 @@
 	</update>
 	
 	<select id="getUserContestList" resultType="egovframework.com.contest.vo.ContestVo">
-		SELECT a.create_user, a.title,  DATE_FORMAT( a.create_date, '%Y-%m-%d') AS create_date, CONCAT(substring(b.name,1,1),'oo') AS user_name 
+		SELECT a.create_user, a.title,  DATE_FORMAT( a.create_date, '%Y-%m-%d %H:%i:%s') AS create_date, CONCAT(substring(b.name,1,1),'oo') AS user_name 
 		  FROM contest_user a
 		  LEFT JOIN user b 
 		    ON a.create_user = b.user_id 
@@ -245,13 +245,22 @@
 			       ,a.notice_type
 			       ,a.view_count
 			       ,a.create_user
-			       , DATE_FORMAT(a.create_date, '%Y-%m-%d') 		AS create_date
+			       , DATE_FORMAT(a.create_date, '%Y-%m-%d %H:%i:%s') 		AS create_date
 			       ,b.name 
 		  FROM daul.daul_notice a
 		  LEFT JOIN daul.user b
 		    ON a.create_user = b.user_id 
 		 WHERE del_chk = 'N' 
 		   AND notice_type='contest'
+	     <if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'title')">
+			 AND title like concat('%', #{search}, '%')
+		</if>
+		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'content')">
+			 AND content like concat('%', #{search}, '%')
+		</if>
+		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'create_user')">
+			 AND create_user like concat('%', #{search}, '%')
+		</if>
 		 ORDER BY create_date desc
 	</select>
 	
@@ -262,7 +271,7 @@
 		       ,a.notice_type
 		       ,a.view_count
 		       ,a.create_user
-		       , DATE_FORMAT(a.create_date, '%Y-%m-%d') 		AS create_date
+		       , DATE_FORMAT(a.create_date, '%Y-%m-%d %H:%i:%s:%s') 		AS create_date
 		       ,b.name 
 		  FROM daul.daul_notice a
 		  LEFT JOIN daul.user b
@@ -277,4 +286,63 @@
 		 WHERE notice_idx = #{notice_idx}
 	</update>
 	
+	<select id="getContestNoticeListCnt" resultType="int">
+		  SELECT   COUNT(*)
+		  FROM daul.daul_notice
+		 WHERE del_chk = 'N' 
+		   AND notice_type='contest'
+	   <if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'title')">
+			 AND title like concat('%', #{search}, '%')
+		</if>
+		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'content')">
+			 AND content like concat('%', #{search}, '%')
+		</if>
+		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'create_user')">
+			 AND create_user like concat('%', #{search}, '%')
+		</if>
+	</select>
+	
+		<select id = "getContestNoticeFile" resultType = "Map">
+		SELECT 
+			notice_idx,
+			org_file_name,
+			save_file_name,
+			attach_type,
+			ROUND(file_size/1024,1) AS file_size
+		FROM daul.daul_notice_attach
+		WHERE notice_idx = #{notice_idx}
+		  AND del_chk = 'N'
+	</select>
+	
+	<select id="getBeforeNotice" resultType="egovframework.com.notice.vo.NoticeVo">
+		SELECT * 
+		  FROM daul_notice
+		 WHERE del_chk = 'N'
+		   AND notice_type='contest'
+		 <![CDATA[
+		   AND notice_idx > #{notice_idx}
+		 ]]>
+		 ORDER BY notice_idx
+		 LIMIT 0 , 1;
+	</select>
+	
+	<select id="getAfterNotice" resultType="egovframework.com.notice.vo.NoticeVo">
+		SELECT * 
+		  FROM daul_notice
+		 WHERE del_chk = 'N'
+		   AND notice_type='contest'
+		 <![CDATA[
+		   AND notice_idx < #{notice_idx}
+		 ]]>
+		 ORDER BY notice_idx desc
+		 LIMIT 0 , 1;
+	</select>
+	
+	<select id="selectDownloadContestNoticeFile" resultType="egovframework.com.cmmn.util.FileVo">
+		SELECT 
+			ORG_FILE_NAME,
+			SAVE_FILE_NAME
+		FROM daul.daul_notice_attach
+		WHERE save_file_name  = #{idx}
+	</select>
 </mapper>

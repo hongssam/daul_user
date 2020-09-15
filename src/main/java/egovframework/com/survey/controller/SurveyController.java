@@ -68,10 +68,7 @@ public class SurveyController {
 		try {
 			log.debug("[설문조사] 설문조사공지사항 목록 조회");
 			
-			System.out.println(surveyVo.getSearch() + "," + surveyVo.getSearch_type());
-			
 			int NoticeListCnt = surveyService.getSurveyNoticeListCnt(surveyVo);
-			System.out.println("NoticeListCnt = " + NoticeListCnt);
 
 			surveyVo.setPageSize(10);
 			surveyVo.setPagination(NoticeListCnt, curPage);
@@ -98,8 +95,6 @@ public class SurveyController {
 			vo = surveyService.getSurveyNoticeDetail(vo);
 			
 			fileList = surveyService.getSurveyNoticeFile(vo);
-			
-			
 			
 		}catch(Exception e){
 			e.printStackTrace();

@@ -48,15 +48,6 @@
 								</tr>
 								<tr>
 									<td class="text-left board-nav" id="before-after-notice" colspan="2">
-										<!-- <a href="#">
-											<span class="fa-caret-up mr10">&nbsp;&nbsp;&nbsp;윗글</span>
-											미리보는 전라북도 2030.pdf
-										</a>
-										<hr>
-										<a href="#">
-											<span class="fa-caret-down mr10">&nbsp;&nbsp;&nbsp;아래글</span>
-											'20년 폭염대책 효과적인 지원방안 설문참여 당첨자 안내
-										</a> -->
 									</td>
 								</tr>
 							</tbody>
@@ -75,10 +66,8 @@
 	$(function() {
 		getBeforeNotice();
 	});
-	
 
 	var idx = $("#notice_idx").val();
-	
 	
 	function getBeforeNotice() {
 		
@@ -88,7 +77,6 @@
 		});
 		
 		request.done(function(data) {
-			console.log(data);
 			getAfterNotice();
 			drawBeforeNotice(data);
 		});
@@ -105,7 +93,6 @@
 		});
 		
 		request.done(function(data) {
-			console.log(data);
 			drawAfterNotice(data);
 		});
 		
@@ -132,16 +119,14 @@
 			+'</a>'
 			+'<hr>';
 		}
-		
-					
 		$("#before-after-notice").append(str);
-		
 	}
 	
 	function drawAfterNotice(data){
 		var after_notice_idx = data.notice_idx;
 		var after_notice_title = data.title;
 		var str;
+		
 		if(typeof after_notice_title == "undefined" || after_notice_title == null || after_notice_title == ''){
 			str = 	'<a href="#">' 
 			+	'<span class="fa-caret-down mr10">&nbsp;&nbsp;&nbsp;아랫글</span>'
@@ -155,10 +140,7 @@
 			+'</a>'
 			+'<hr>';
 		}
-	
-					
 		$("#before-after-notice").append(str);
-		
 	}
 	
 	
@@ -198,7 +180,6 @@
 	
   	function fn_downloadFile(obj){
 		var save_file_name = obj.parent().find("input[name='save_file_name']").val();
-		console.log(save_file_name);
 		location.href = "${pageContext.request.contextPath}/survey/downloadSurveyNoticeFile.do?save_file_name=" + save_file_name;
   	}
 	

@@ -110,11 +110,18 @@ public class ContestController {
 	}
 
 	@RequestMapping(value="/contestNoticeListPage")
-	public String contestNoticeListPage(ContestVo vo, ModelMap model) throws Exception{
+	public String contestNoticeListPage(ContestVo contestVo, ModelMap model, @RequestParam(defaultValue = "1") int curPage) throws Exception{
 		List<NoticeVo> contestNoticeList = null;
 		try {
-			contestNoticeList = contestService.getContestNoticeList(vo);
+			int NoticeListCnt = contestService.getContestNoticeListCnt(contestVo);
+			
+			contestVo.setPageSize(10);
+			contestVo.setPagination(NoticeListCnt, curPage);
+			
+			contestNoticeList = contestService.getContestNoticeList(contestVo);
+			
 			model.addAttribute("contestNoticeList", contestNoticeList);
+			model.addAttribute("pagination",contestVo);
 		}catch(Exception e) {
 			
 		}
@@ -124,37 +131,26 @@ public class ContestController {
 	@RequestMapping(value="contestNoticeDetail.do", method=RequestMethod.GET)
 	public String contestNoticeDetail(ModelMap model, @RequestParam("notice_idx") String notice_idx) throws Exception{
 		NoticeVo vo = new NoticeVo();
+		List<Map<String, String>> fileList = null;
 		
 		try {
-			vo = contestService.getContestNoticeDetail(vo);
 			vo.setNotice_idx(notice_idx);
 			
 			contestService.increaseViewCount(vo.getNotice_idx());
+			vo = contestService.getContestNoticeDetail(vo);
+			
+			fileList = contestService.getContestNoticeFile(vo);
 			
 		}catch(Exception e) {
 			
 		}
 		
 		model.addAttribute("contestNoticeVo", vo);
+		model.addAttribute("fileList", fileList);
 		
 		return "contest/contestNoticeDetail";
 	}
-	
-	@RequestMapping(value = "/downloadFile.do", method = RequestMethod.GET)
-	public void downloadFile(HttpServletResponse response, @RequestParam("save_file_name") String save_file_name)
-			throws Exception {
-		try {
-			FileVo fileVo = new FileVo();
-			fileVo.setIdx(save_file_name);
-			fileVo = contestService.selectDownloadFile(fileVo);
 
-			log.debug("[나눔공모] 나눔공모 첨부파일 다운로드");
-			fileUtil.downloadFile(response, fileVo);
-		} catch (Exception e) {
-			log.debug("[나눔공모] 나눔공모 첨부파일 다운로드 실패");
-			e.printStackTrace();
-		}
-	}
 
 	@RequestMapping(value = "/contestUserRegist.do", method = RequestMethod.POST)
 	public String contestUserRegist(HttpSession session, ContestVo vo, HttpServletRequest request,
@@ -239,4 +235,58 @@ public class ContestController {
 
 		return new ResponseEntity<>(userContestList, HttpStatus.OK);
 	}
+	
+
+	@RequestMapping(value="/getBeforeNotice.do")
+	public ResponseEntity<?> getBeforeNotice( @RequestParam("notice_idx") String notice_idx) throws Exception{
+		NoticeVo vo = new NoticeVo();
+		vo.setNotice_idx(notice_idx);
+		vo = contestService.getBeforeNotice(vo);
+		
+		return new ResponseEntity<>(vo, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/getAfterNotice.do")
+	public ResponseEntity<?> getAfterNotice( @RequestParam("notice_idx") String notice_idx) throws Exception{
+		NoticeVo vo = new NoticeVo();
+		vo.setNotice_idx(notice_idx);
+		vo = contestService.getAfterNotice(vo);
+		
+		return new ResponseEntity<>(vo, HttpStatus.OK);
+	}
+	
+	
+	@RequestMapping(value = "/downloadFile.do", method = RequestMethod.GET)
+	public void downloadFile(HttpServletResponse response, @RequestParam("save_file_name") String save_file_name)
+			throws Exception {
+		try {
+			FileVo fileVo = new FileVo();
+			fileVo.setIdx(save_file_name);
+			fileVo = contestService.selectDownloadFile(fileVo);
+
+			log.debug("[나눔공모] 나눔공모 첨부파일 다운로드");
+			fileUtil.downloadFile(response, fileVo);
+		} catch (Exception e) {
+			log.debug("[나눔공모] 나눔공모 첨부파일 다운로드 실패");
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping(value = "/downloadContestNoticeFile.do", method = RequestMethod.GET)
+	public void downloadContestNoticeFile(HttpServletResponse response, @RequestParam("save_file_name") String save_file_name)
+			throws Exception {
+		try {
+			FileVo fileVo = new FileVo();
+			fileVo.setIdx(save_file_name);
+			fileVo = contestService.selectDownloadContestNoticeFile(fileVo);
+
+			log.debug("[나눔공모] 나눔공모 첨부파일 다운로드");
+			fileUtil.downloadFile(response, fileVo);
+		} catch (Exception e) {
+			log.debug("[나눔공모] 나눔공모 첨부파일 다운로드 실패");
+			e.printStackTrace();
+		}
+	}
+	
+	
 }
