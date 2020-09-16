@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="egovframework.com.main.mapper.MainMapper">
+	<select id="selectSuggestionListByLately" resultType="egovframework.com.suggestion.vo.SuggestionVo">
+		SELECT sm.*
+		     , CASE WHEN (sm.like_count / 50 * 100) >= 100 THEN 100 ELSE (sm.like_count / 50 * 100) END AS like_per
+		  FROM (
+		  		SELECT @rownum:=@rownum+1 						AS num
+		  		     , sm.suggestion_idx
+				     , sm.title 
+				     , sm.content 
+				     , sm.create_user
+				     , DATE_FORMAT(sm.create_date, '%Y-%m-%d')	AS create_date
+				     , sm.del_chk
+		  		     , u.name									AS create_user_name
+		  		     , (SELECT COUNT(*) FROM daul.user_like where parent_idx = sm.suggestion_idx) 				AS like_count
+		  		     , (SELECT count(*) FROM suggestion_opinion a WHERE a.suggestion_idx = sm.suggestion_idx) 	AS opinion_cnt
+		  		  FROM daul.suggestion_main sm
+		  		  LEFT JOIN user u ON u.user_id = sm.create_user
+		  		     , (SELECT @rownum:=0) TMP
+		  		 WHERE sm.del_chk != 'Y'
+		  		 ORDER BY sm.create_date DESC
+		  	   ) sm
+		  WHERE <![CDATA[sm.num <= 3]]> 
+	</select>
+	
+	<select id="selectSurveyListByLately" resultType="egovframework.com.survey.vo.SurveyVo">
+		SELECT sm.*
+		  FROM (
+		  		SELECT @rownum:=@rownum+1 					AS num
+		  		     , sm.survey_idx
+				     , sm.title
+				     , sm.content
+				     , sm.survey_type
+				     , DATE_FORMAT(sm.s_date, '%Y-%m-%d')	AS s_date
+				     , DATE_FORMAT(sm.e_date, '%Y-%m-%d')	AS e_date
+				     , sm.create_user
+				     , del_chk
+				     , (SELECT count(*) FROM survey_participation WHERE survey_idx = sm.survey_idx) AS participation_count
+				     , (SELECT count(*) FROM survey_opinion WHERE survey_idx = sm.survey_idx) 		AS opinion_count
+		  		  FROM daul.survey_main sm
+		  		     , (SELECT @rownum:=0) TMP
+		  		 WHERE sm.del_chk != 'Y'
+		  		 ORDER BY sm.create_date DESC
+		  	   ) sm
+		  WHERE <![CDATA[sm.num <= 3]]>
+	</select>
+	
+	<select id="selectContestListByLately" resultType="egovframework.com.contest.vo.ContestVo">
+		SELECT ca.*
+		  FROM (
+		  		SELECT @rownum:=@rownum+1 							AS num
+		  		     , ca.admin_contest_idx
+				     , ca.title
+				     , ca.content
+				     , DATE_FORMAT(ca.contest_s_date, '%Y-%m-%d')	AS contest_s_date
+				     , DATE_FORMAT(ca.contest_e_date, '%Y-%m-%d')	AS contest_e_date
+				     , DATE_FORMAT(ca.submit_s_date, '%Y-%m-%d')	AS submit_s_date
+				     , DATE_FORMAT(ca.submit_e_date, '%Y-%m-%d')	AS submit_e_date
+				     , ca.create_user
+				     , ca.del_chk
+				     , (SELECT count(*) FROM contest_user WHERE admin_contest_idx = ca.admin_contest_idx) AS user_contest_cnt
+		  		  FROM daul.contest_admin ca
+		  		     , (SELECT @rownum:=0) TMP
+		  		 WHERE ca.del_chk != 'Y'
+		  		 ORDER BY ca.create_date DESC
+		  	   ) ca
+		  WHERE <![CDATA[ca.num <= 3]]>
+	</select>
+	
+	<select id="selectNoticeListByLately" resultType="egovframework.com.notice.vo.NoticeVo">
+		SELECT n.*
+		  FROM (
+		  		SELECT @rownum:=@rownum+1 						AS num
+		  		     , n.notice_idx
+		  		     , n.title
+		  		     , DATE_FORMAT(n.create_date, '%Y-%m-%d')	AS create_date
+		  		  FROM daul.daul_notice n
+		  		     , (SELECT @rownum:=0) TMP
+		  		 WHERE n.del_chk != 'Y'
+		  		 ORDER BY n.create_date DESC
+		  	   ) n
+		 WHERE <![CDATA[n.num <= 5]]>
+	</select>
+</mapper>                  

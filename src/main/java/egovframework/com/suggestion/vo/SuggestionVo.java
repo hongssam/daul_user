@@ -11,8 +11,10 @@ public class SuggestionVo extends SearchVo{
 	private int 	view_count;
 	private int 	like_count;
 	private String 	create_user;
+	private String  create_user_name;
 	private String 	create_date;
 	private String 	update_user;
+	private String 	update_user_name;
 	private String 	update_date;
 	private String 	del_chk;
 	
@@ -72,6 +74,14 @@ public class SuggestionVo extends SearchVo{
 		this.create_user = create_user;
 	}
 
+	public String getCreate_user_name() {
+		return create_user_name;
+	}
+
+	public void setCreate_user_name(String create_user_name) {
+		this.create_user_name = create_user_name;
+	}
+
 	public String getCreate_date() {
 		return create_date;
 	}
@@ -86,6 +96,14 @@ public class SuggestionVo extends SearchVo{
 
 	public void setUpdate_user(String update_user) {
 		this.update_user = update_user;
+	}
+
+	public String getUpdate_user_name() {
+		return update_user_name;
+	}
+
+	public void setUpdate_user_name(String update_user_name) {
+		this.update_user_name = update_user_name;
 	}
 
 	public String getUpdate_date() {
@@ -164,9 +182,9 @@ public class SuggestionVo extends SearchVo{
 	public String toString() {
 		return "SuggestionVo [num=" + num + ", suggestion_idx=" + suggestion_idx + ", title=" + title + ", content="
 				+ content + ", view_count=" + view_count + ", like_count=" + like_count + ", create_user=" + create_user
-				+ ", create_date=" + create_date + ", update_user=" + update_user + ", update_date=" + update_date
-				+ ", del_chk=" + del_chk + ", pro_cnt=" + pro_cnt + ", public_cnt=" + public_cnt + ", admin_cnt="
-				+ admin_cnt + ", opinion_cnt=" + opinion_cnt + ", like_flag=" + like_flag + ", like_per=" + like_per
-				+ "]";
+				+ ", create_user_name=" + create_user_name + ", create_date=" + create_date + ", update_user="
+				+ update_user + ", update_user_name=" + update_user_name + ", update_date=" + update_date + ", del_chk="
+				+ del_chk + ", pro_cnt=" + pro_cnt + ", public_cnt=" + public_cnt + ", admin_cnt=" + admin_cnt
+				+ ", opinion_cnt=" + opinion_cnt + ", like_flag=" + like_flag + ", like_per=" + like_per + "]";
 	}
 }

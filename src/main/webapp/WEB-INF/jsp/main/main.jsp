@@ -78,96 +78,38 @@
 					<h3>열린제안</h3>
 				</div>
 				<div class="testimonial_grid_slider style2">
-					<div class="item">
-						<div class="home-content-box suggest">
-							<div class="details">
-								<div class="tc_content">
-									<ul class="fp_meta">
-										<li class="list-inline-item float-left">
-											<img src="${pageContext.request.contextPath}/images/user.png" alt="user.png">
-										</li>
-										<li class="list-inline-item">
-											<p>아무개님</p>
-											<p class="date">2019-12-31</p>
-										</li>
-									</ul>
-									<div class="fp_content">
-										<h4 class="title">전주에도 창고형마트나 대형아울렛이 시나 대형아울렛이 시나 대형아울렛이 시나 대형아울렛이 시나 대형아울렛이 시급합니다</h4>
-										<p>소상공인 보호 좋은 말입니다 그런데 언저까지 소상공인 보호 목적으로 그 나머지 일반 시민들의 의견을 무시 하실껍니까 전주에 창고형마트나 대형아울렛이 없다고 다른데 갈까요 아니요 군산 부여 세종 대전으로 주말마다 다닙니다 왜 전주사는 시민이 구지 저 멀리까지 가서 쇼핑을 하게 만드는 겁니까 점점 낙후되가는 전주를 보니 이제는 이사를 가야하는 생각뿐입니다 말뿐인 기득권자인 소상공인들 생각만 말고 이제는 일반 시민들 생각좀 해주십시오</p>
+					<c:forEach var="sgst" items="${sgstList}">
+						<div class="item">
+							<div class="home-content-box suggest">
+								<div class="details">
+									<div class="tc_content">
+										<ul class="fp_meta">
+											<li class="list-inline-item float-left">
+												<img src="${pageContext.request.contextPath}/images/user.png" alt="user.png">
+											</li>
+											<li class="list-inline-item">
+												<p>${sgst.create_user_name}</p>
+												<p class="date">${sgst.create_date}</p>
+											</li>
+										</ul>
+										<div class="fp_content">
+											<h4 class="title">${sgst.title}</h4>
+											<p>${sgst.content}</p>
+										</div>
+									</div>
+								</div>
+								<div class="bottom">
+									<div class="content">
+										<span class="like-cnt"><span class="icon flaticon-heart"></span>공감 ${sgst.like_count}</span>
+										<span class="reply-cnt"><span class="icon flaticon-chat"></span>의견 ${sgst.opinion_cnt}</span>
+									</div>
+									<div class="bar-graph-bg">
+										<div class="bar-graph-fr" style="width:${sgst.like_per}%"></div>
 									</div>
 								</div>
 							</div>
-							<div class="bottom">
-								<div class="content">
-									<span class="like-cnt"><span class="icon flaticon-heart"></span>공감 70</span>
-									<span class="reply-cnt"><span class="icon flaticon-chat"></span>의견 132</span>
-								</div>
-								<div class="bar-graph-bg">
-									<div class="bar-graph-fr" style="width:30%"></div>
-								</div>
-							</div>
 						</div>
-					</div>
-					<div class="item">
-						<div class="home-content-box suggest">
-							<div class="details">
-								<div class="tc_content">
-									<ul class="fp_meta">
-										<li class="list-inline-item float-left">
-											<img src="${pageContext.request.contextPath}/images/user.png" alt="user.png">
-										</li>
-										<li class="list-inline-item">
-											<p>아무개님</p>
-											<p class="date">2019-12-31</p>
-										</li>
-									</ul>
-									<div class="fp_content">
-										<h4 class="title">전주에도 창고형마트나 대형아울렛이 시급합니다</h4>
-										<p>소상공인 보호 좋은 말입니다 그런데 언저까지 소상공인 보호 목적으로 그 나머지 일반 시민들의 의견을 무시 하실껍니까 전주에 창고형마트나 대형아울렛이 없다고 다른데 갈까요 아니요 군산 부여 세종 대전으로 주말마다 다닙니다 왜 전주사는 시민이 구지 저 멀리까지 가서 쇼핑을 하게 만드는 겁니까 점점 낙후되가는 전주를 보니 이제는 이사를 가야하는 생각뿐입니다 말뿐인 기득권자인 소상공인들 생각만 말고 이제는 일반 시민들 생각좀 해주십시오</p>
-									</div>
-								</div>
-							</div>
-							<div class="bottom">
-								<div class="content">
-									<span class="like-cnt"><span class="icon flaticon-heart"></span>공감 70</span>
-									<span class="reply-cnt"><span class="icon flaticon-chat"></span>132</span>
-								</div>
-								<div class="bar-graph-bg">
-									<div class="bar-graph-fr" style="width:30%"></div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="item">
-						<div class="home-content-box suggest">
-							<div class="details">
-								<div class="tc_content">
-									<ul class="fp_meta">
-										<li class="list-inline-item float-left">
-											<img src="${pageContext.request.contextPath}/images/user.png" alt="user.png">
-										</li>
-										<li class="list-inline-item">
-											<p>아무개님</p>
-											<p class="date">2019-12-31</p>
-										</li>
-									</ul>
-									<div class="fp_content">
-										<h4 class="title">전주에도 창고형마트나 대형아울렛이 시급합니다</h4>
-										<p>소상공인 보호 좋은 말입니다 그런데 언저까지 소상공인 보호 목적으로 그 나머지 일반 시민들의 의견을 무시 하실껍니까 전주에 창고형마트나 대형아울렛이 없다고 다른데 갈까요 아니요 군산 부여 세종 대전으로 주말마다 다닙니다 왜 전주사는 시민이 구지 저 멀리까지 가서 쇼핑을 하게 만드는 겁니까 점점 낙후되가는 전주를 보니 이제는 이사를 가야하는 생각뿐입니다 말뿐인 기득권자인 소상공인들 생각만 말고 이제는 일반 시민들 생각좀 해주십시오</p>
-									</div>
-								</div>
-							</div>
-							<div class="bottom">
-								<div class="content">
-									<span class="like-cnt"><span class="icon flaticon-heart"></span>공감 70</span>
-									<span class="reply-cnt"><span class="icon flaticon-chat"></span>132</span>
-								</div>
-								<div class="bar-graph-bg">
-									<div class="bar-graph-fr" style="width:30%"></div>
-								</div>
-							</div>
-						</div>
-					</div>
+					</c:forEach>
 				</div>
 			</div>
 			<div class="col-md-6 col-lg-4">
@@ -175,44 +117,27 @@
 					<h3>설문조사</h3>
 				</div>
 				<div class="testimonial_grid_slider style2">
-					<div class="item">
-						<div class="home-content-box survey">
-							<img class="img-whp" src="${pageContext.request.contextPath}/images/property/fp3.jpg" alt="fp3.jpg">
-							<div class="details">
-								<div class="tc_content">
-									<div class="fp_content">
-										<h4 class="title">제4차 전라북도 종합계획(2021~2040)에 담아야 할 미래 전라북도의 핵심 가치</h4>
-										<div>투표기간 | 2020.05.07 ~2020.05.21</div>
+					<c:forEach var="survey" items="${surveyList}">
+						<div class="item">
+							<div class="home-content-box survey">
+								<img class="img-whp" src="${pageContext.request.contextPath}/images/property/fp3.jpg" alt="fp3.jpg">
+								<div class="details">
+									<div class="tc_content">
+										<div class="fp_content">
+											<h4 class="title">${survey.title}</h4>
+											<div>투표기간 | ${survey.s_date} ~ ${survey.e_date}</div>
+										</div>
+									</div>
+								</div>
+								<div class="bottom">
+									<div class="content">
+										<span class="item"><span class="icon flaticon-user"></span>참여 ${survey.participation_count}</span>|
+										<span class="item"><span class="icon flaticon-chat"></span>의견 ${survey.opinion_count}</span>
 									</div>
 								</div>
 							</div>
-							<div class="bottom">
-								<div class="content">
-									<span class="item"><span class="icon flaticon-user"></span>참여 15</span>|
-									<span class="item"><span class="icon flaticon-chat"></span>의견 15</span>
-								</div>
-							</div>
 						</div>
-					</div>
-					<div class="item">
-						<div class="home-content-box survey">
-							<img class="img-whp" src="${pageContext.request.contextPath}/images/property/fp3.jpg" alt="fp3.jpg">
-							<div class="details">
-								<div class="tc_content">
-									<div class="fp_content">
-										<h4 class="title">제4차 전라북도 종합계획(2021~2040)에 담아야 할 미래 전라북도의 핵심 가치</h4>
-										<div>투표기간 | 2020.05.07 ~2020.05.21</div>
-									</div>
-								</div>
-							</div>
-							<div class="bottom">
-								<div class="content">
-									<span class="item"><span class="icon flaticon-user"></span>참여 15</span>|
-									<span class="item"><span class="icon flaticon-chat"></span>의견 15</span>
-								</div>
-							</div>
-						</div>
-					</div>
+					</c:forEach>
 				</div>
 			</div>
 			<div class="col-md-6 col-lg-4">
@@ -220,44 +145,27 @@
 					<h3>나눔공모</h3>
 				</div>
 				<div class="testimonial_grid_slider style2">
-					<div class="item">
-						<div class="home-content-box contest">
-							<img class="img-whp" src="${pageContext.request.contextPath}/images/property/fp3.jpg" alt="fp3.jpg">
-							<div class="details">
-								<div class="tc_content">
-									<div class="fp_content">
-										<h4 class="title">제4차 전라북도 종합계획(2021~2040)에 담아야 할 미래 전라북도의 핵심 가치</h4>
-										<div>공모기간 | 2020.05.07 ~2020.05.21</div>
-										<div>접수기간 | 2020.05.07 ~2020.05.21</div>
+					<c:forEach var="contest" items="${contestList}">
+						<div class="item">
+							<div class="home-content-box contest">
+								<img class="img-whp" src="${pageContext.request.contextPath}/images/property/fp3.jpg" alt="fp3.jpg">
+								<div class="details">
+									<div class="tc_content">
+										<div class="fp_content">
+											<h4 class="title">${contest.title}</h4>
+											<div>공모기간 | ${contest.contest_s_date} ~ ${contest.contest_e_date}</div>
+											<div>접수기간 | ${contest.submit_s_date} ~ ${contest.submit_e_date}</div>
+										</div>
+									</div>
+								</div>
+								<div class="bottom">
+									<div class="content">
+										<span class="item"><span class="icon flaticon-user"></span>참여 ${contest.user_contest_cnt}</span>
 									</div>
 								</div>
 							</div>
-							<div class="bottom">
-								<div class="content">
-									<span class="item"><span class="icon flaticon-user"></span>참여 15</span>
-								</div>
-							</div>
 						</div>
-					</div>
-					<div class="item">
-						<div class="home-content-box contest">
-							<img class="img-whp" src="${pageContext.request.contextPath}/images/property/fp3.jpg" alt="fp3.jpg">
-							<div class="details">
-								<div class="tc_content">
-									<div class="fp_content">
-										<h4 class="title">제4차 전라북도 종합계획(2021~2040)에 담아야 할 미래 전라북도의 핵심 가치</h4>
-										<div>공모기간 | 2020.05.07 ~2020.05.21</div>
-										<div>접수기간 | 2020.05.07 ~2020.05.21</div>
-									</div>
-								</div>
-							</div>
-							<div class="bottom">
-								<div class="content">
-									<span class="item"><span class="icon flaticon-user"></span>참여 15</span>
-								</div>
-							</div>
-						</div>
-					</div>
+					</c:forEach>
 				</div>
 			</div>
 		</div>
@@ -271,20 +179,18 @@
 			<div class="col-lg-6 box-left" >
 				<div class="home-notice-widget">
 					<h4 class="title">공지사항
-						<span class="more"><a href="#">더보기</a></span>
+						<span class="more"><a href="${pageContext.request.contextPath}/notice/noticeListPage.do">더보기</a></span>
 					</h4>
 					<div class="widget_list">
 						<ul class="list_details">
-							<li><a href="#"><span class="text">전북 소통대로 「정책 제안 공감 댓글 이벤트」 당첨자 안내</span>
-								<span class="date">2019-12-31</span></a></li>
-							<li><a href="#"><span class="text">전북 소통대로 「도민이 기대하는 전라북도」 설문 이벤트 당첨자 안내</span>
-								<span class="date">2019-12-31</span></a></li>
-							<li><a href="#"><span class="text">전북 소통대로 「제4회 정책공감 퀴즈이벤트」 당첨자 안내</span>
-								<span class="date">2019-12-31</span></a></li>
-							<li><a href="#"><span class="text">『전북 소통대로』 제안·공감·댓글작성 이벤트 당첨자 안내</span>
-								<span class="date">2019-12-31</span></a></li>
-							<li><a href="#"><span class="text">'20년 폭염대책 효과적인 지원방안 설문참여 당첨자 안내</span>
-								<span class="date">2019-12-31</span></a></li>
+							<c:forEach var="notice" items="${noticeList}">
+								<li>
+									<a href="${pageContext.request.contextPath}/notice/noticeDetail.do?notice_idx=${notice.notice_idx}">
+										<span class="text">${notice.title}</span>
+										<span class="date">${notice.create_date}</span>
+									</a>
+								</li>
+							</c:forEach>
 						</ul>
 					</div>
 				</div>
