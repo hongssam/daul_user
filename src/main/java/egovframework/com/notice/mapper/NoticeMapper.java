@@ -3,6 +3,7 @@ package egovframework.com.notice.mapper;
 import java.util.List;
 import java.util.Map;
 
+import egovframework.com.cmmn.util.FileVo;
 import egovframework.com.notice.vo.NoticeVo;
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
@@ -15,5 +16,6 @@ public interface NoticeMapper {
 	List<Map<String, String>> getNoticeFile(NoticeVo vo) throws Exception;
 	NoticeVo getBeforeNotice(NoticeVo vo) throws Exception;
 	NoticeVo getAfterNotice(NoticeVo vo) throws Exception;
+	FileVo selectDownloadFile(FileVo vo) throws Exception;
 	
 }

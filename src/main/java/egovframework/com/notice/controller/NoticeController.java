@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import egovframework.com.cmmn.util.FileUtil;
+import egovframework.com.cmmn.util.FileVo;
 import egovframework.com.notice.service.NoticeService;
 import egovframework.com.notice.vo.NoticeVo;
 
@@ -89,4 +91,22 @@ public class NoticeController {
 		return new ResponseEntity<>(vo, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/downloadNoticeFile.do", method = RequestMethod.GET)
+	public void downloadNoticeFile(HttpServletResponse response, @RequestParam("save_file_name") String save_file_name)
+			throws Exception {
+		try {
+			FileVo fileVo = new FileVo();
+			fileVo.setIdx(save_file_name);
+			fileVo = noticeService.selectDownloadFile(fileVo);
+
+			log.debug("[공지사항] 공지사항 첨부파일 다운로드");
+			fileUtil.downloadFile(response, fileVo);
+		} catch (Exception e) {
+			log.debug("[공지사항] 공지사항 첨부파일 다운로드 실패");
+		}
+	}
+	
 }
+
+
+

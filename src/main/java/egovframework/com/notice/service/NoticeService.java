@@ -3,8 +3,8 @@ package egovframework.com.notice.service;
 import java.util.List;
 import java.util.Map;
 
+import egovframework.com.cmmn.util.FileVo;
 import egovframework.com.notice.vo.NoticeVo;
-import egovframework.com.survey.vo.SurveyVo;
 
 public interface NoticeService {
 	List<NoticeVo> getNoticeList(NoticeVo vo) throws Exception;
@@ -15,4 +15,5 @@ public interface NoticeService {
 
 	NoticeVo getBeforeNotice(NoticeVo vo) throws Exception;
 	NoticeVo getAfterNotice(NoticeVo vo) throws Exception;
+	FileVo selectDownloadFile(FileVo vo) throws Exception;
 }

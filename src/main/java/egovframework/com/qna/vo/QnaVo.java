@@ -17,25 +17,25 @@ public class QnaVo extends SearchVo {
 	private String auth_type;
 	private int indent;
 	private int num;
+	private String name;
+	private String lock_chk;
 	
 	
-	//페이징
-	private int startIndex;
-	private int cntPerPage;
 	
 	
-	public int getStartIndex() {
-		return startIndex;
+	public String getLock_chk() {
+		return lock_chk;
 	}
-	public void setStartIndex(int startIndex) {
-		this.startIndex = startIndex;
+	public void setLock_chk(String lock_chk) {
+		this.lock_chk = lock_chk;
 	}
-	public int getCntPerPage() {
-		return cntPerPage;
+	public String getName() {
+		return name;
 	}
-	public void setCntPerPage(int cntPerPage) {
-		this.cntPerPage = cntPerPage;
+	public void setName(String name) {
+		this.name = name;
 	}
+	
 	public String getQna_idx() {
 		return qna_idx;
 	}
@@ -119,6 +119,14 @@ public class QnaVo extends SearchVo {
 	}
 	public void setNum(int num) {
 		this.num = num;
+	}
+	@Override
+	public String toString() {
+		return "QnaVo [qna_idx=" + qna_idx + ", question=" + question + ", content=" + content + ", parent_qna_idx="
+				+ parent_qna_idx + ", ref=" + ref + ", view_count=" + view_count + ", create_user=" + create_user
+				+ ", create_date=" + create_date + ", update_user=" + update_user + ", update_date=" + update_date
+				+ ", del_chk=" + del_chk + ", auth_type=" + auth_type + ", indent=" + indent + ", num=" + num
+				+ ", name=" + name + ", lock_chk=" + lock_chk + "]";
 	}
 	
 	

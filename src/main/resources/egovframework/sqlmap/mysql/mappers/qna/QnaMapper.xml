@@ -14,9 +14,11 @@
 				view_count,
 				create_user,
 				parent_qna_idx,
-				DATE_FORMAT(create_date, '%Y-%m-%d') as create_date,
+				DATE_FORMAT(create_date, '%Y-%m-%d %H:%i:%s') as create_date,
 				del_chk,
-				(select auth_type from `user` where user_id = create_user ) as auth_type 
+				lock_chk,
+				(select auth_type from `user` where user_id = create_user ) as auth_type ,
+				(select name from `user` where user_id = create_user ) as name 
 			FROM daul.daul_qna, (SELECT @rownum:=0) TMP
 			WHERE del_chk = 'N'
 			<if test="search_type == 'title'">
@@ -38,9 +40,9 @@
 		    	AND create_date <= date_format(concat(#{search_e_date}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
 		    	]]>
 		    </if>
-			ORDER BY ref ASC, indent DESC
+			ORDER BY ref ASC, indent desc
 		) sub
-	ORDER BY sub.num DESC
+	ORDER BY sub.num desc
 	LIMIT  #{startIndex},#{pageSize}
 	</select>
 	
@@ -69,4 +71,60 @@
 		    	]]>
 		    </if>
 	</select>
+	
+	<insert id = "qnaRegist">
+		INSERT INTO daul.daul_qna
+		(
+			qna_idx,
+			question,
+			content,
+			ref,
+			indent,
+			create_user,
+			create_date,
+			del_chk,
+			lock_chk
+		)
+		VALUES
+		(
+			#{qna_idx},
+			#{question},
+			#{content},
+			#{qna_idx},
+			0,
+			#{create_user},
+			sysdate(),
+			'N',
+			#{lock_chk}
+		) 
+	</insert>
+	
+		
+	<select id="selectQnaIdx" resultType="String">
+		SELECT CONCAT('QNA-',LPAD(count(*)+1,'6','0')) as 'qna_idx'
+		FROM daul_qna 
+	</select>
+	
+	<update id = "increaseViewCount">
+		UPDATE daul.daul_qna
+		   SET view_count = view_count + 1
+		 WHERE qna_idx = #{qna_idx}
+	</update>
+	
+	<select id="getQnaDetail" resultType="egovframework.com.qna.vo.QnaVo">
+		   SELECT  a.qna_idx
+		       ,a.question
+		       ,a.content
+		       ,a.view_count
+		       ,a.create_user
+		       , DATE_FORMAT(a.create_date, '%Y-%m-%d %H:%i:%s') 		AS create_date
+		       ,b.name 
+		  FROM daul.daul_qna a
+		  LEFT JOIN daul.user b
+		  ON a.create_user = b.user_id 
+		 WHERE del_chk = 'N' 
+		   AND qna_idx=#{qna_idx}
+	</select>
+	
+	
 </mapper>

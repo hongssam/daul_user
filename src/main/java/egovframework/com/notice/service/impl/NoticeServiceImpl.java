@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import egovframework.com.cmmn.util.FileVo;
 import egovframework.com.notice.mapper.NoticeMapper;
 import egovframework.com.notice.service.NoticeService;
 import egovframework.com.notice.vo.NoticeVo;
@@ -50,6 +51,11 @@ public class NoticeServiceImpl extends EgovAbstractServiceImpl implements Notice
 	@Override
 	public NoticeVo getAfterNotice(NoticeVo vo) throws Exception {
 		return noticeMapper.getAfterNotice(vo);
+	}
+
+	@Override
+	public FileVo selectDownloadFile(FileVo vo) throws Exception {
+		return noticeMapper.selectDownloadFile(vo);
 	}
 
 }

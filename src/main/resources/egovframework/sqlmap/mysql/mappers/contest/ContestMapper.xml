@@ -250,16 +250,16 @@
 		  FROM daul.daul_notice a
 		  LEFT JOIN daul.user b
 		    ON a.create_user = b.user_id 
-		 WHERE del_chk = 'N' 
-		   AND notice_type='contest'
+		 WHERE a.del_chk = 'N' 
+		   AND a.notice_type='contest'
 	     <if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'title')">
-			 AND title like concat('%', #{search}, '%')
+			 AND a.title like concat('%', #{search}, '%')
 		</if>
 		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'content')">
-			 AND content like concat('%', #{search}, '%')
+			 AND a.content like concat('%', #{search}, '%')
 		</if>
 		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'create_user')">
-			 AND create_user like concat('%', #{search}, '%')
+			 AND b.name like concat('%', #{search}, '%')
 		</if>
 		 ORDER BY create_date desc
 	</select>
@@ -288,17 +288,19 @@
 	
 	<select id="getContestNoticeListCnt" resultType="int">
 		  SELECT   COUNT(*)
-		  FROM daul.daul_notice
-		 WHERE del_chk = 'N' 
-		   AND notice_type='contest'
+		  FROM daul.daul_notice a
+		  LEFT JOIN daul.user b
+		    ON a.create_user = b.user_id 
+		 WHERE a.del_chk = 'N' 
+		   AND a.notice_type='contest'
 	   <if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'title')">
-			 AND title like concat('%', #{search}, '%')
+			 AND a.title like concat('%', #{search}, '%')
 		</if>
 		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'content')">
-			 AND content like concat('%', #{search}, '%')
+			 AND a.content like concat('%', #{search}, '%')
 		</if>
 		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'create_user')">
-			 AND create_user like concat('%', #{search}, '%')
+			 AND b.name like concat('%', #{search}, '%')
 		</if>
 	</select>
 	

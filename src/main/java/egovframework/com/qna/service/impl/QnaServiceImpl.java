@@ -26,5 +26,25 @@ public class QnaServiceImpl extends EgovAbstractServiceImpl implements QnaServic
 	public int getQnaListCnt(QnaVo vo) throws Exception {
 		return qnaMapper.getQnaListCnt(vo);
 	}
+
+	@Override
+	public String selectQnaIdx() throws Exception {
+		return qnaMapper.selectQnaIdx();
+	}
+
+	@Override
+	public void qnaRegist(QnaVo vo) throws Exception {
+		qnaMapper.qnaRegist(vo);
+	}
+
+	@Override
+	public void increaseViewCount(String qna_idx) throws Exception {
+		qnaMapper.increaseViewCount(qna_idx);
+	}
+
+	@Override
+	public QnaVo getQnaDetail(QnaVo vo) throws Exception {
+		return qnaMapper.getQnaDetail(vo);
+	}
 	
 }

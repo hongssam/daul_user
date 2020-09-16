@@ -15,38 +15,5 @@ public class BoardController {
 		return "board/introMain";
 	}
 	
-	@RequestMapping(value="/faqListPage.do")
-	public String faqListPage() throws Exception {
-		return "board/faqList";
-	}
-	
-	@RequestMapping(value="/noticeListPage.do")
-	public String noticeListPage() throws Exception {
-		return "board/noticeList";
-	}
-	
-	@RequestMapping(value="/qnaListPage.do")
-	public String qnaListPage() throws Exception {
-		return "board/qnaList";
-	}
-	
-	@RequestMapping(value="/noticeDetailPage.do")
-	public String noticeDetailpage() throws Exception {
-		return "board/noticeDetail";
-	}
-	
-	@RequestMapping(value="/qnaDetailPage.do")
-	public String qnaDetailpage() throws Exception {
-		return "board/qnaDetail";
-	}
-	
-	@RequestMapping(value="/qnaRegistPage.do")
-	public String qnaRegistPage() throws Exception {
-		return "board/qnaRegist";
-	}
-	
-	@RequestMapping(value="/qnaModifyPage.do")
-	public String qnaModifyPage() throws Exception {
-		return "board/qnaModify";
-	}
+
 }

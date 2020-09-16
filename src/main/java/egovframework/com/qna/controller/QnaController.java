@@ -3,18 +3,22 @@ package egovframework.com.qna.controller;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import egovframework.com.cmmn.paging.Pagination;
 import egovframework.com.cmmn.util.CmmnUtil;
 import egovframework.com.qna.service.QnaService;
 import egovframework.com.qna.vo.QnaVo;
+import egovframework.com.user.vo.UserVo;
 
 @Controller
 @RequestMapping(value="/qna")
@@ -34,7 +38,7 @@ public class QnaController {
 		try {
 			int listCnt = qnaService.getQnaListCnt(vo);
 			vo.setPagination(listCnt, curPage);
-			
+			vo.setPageSize(10);
 			qnaList = qnaService.getQnaList(vo);
 			model.addAttribute("qnaList",qnaList);
 			model.addAttribute("pagination", vo);
@@ -43,4 +47,48 @@ public class QnaController {
 		}
 		return "qna/qnaList";
 	}
+	
+	@RequestMapping(value="/qnaRegistPage.do")
+	public String qnaRegistPage(ModelMap model) throws Exception{
+		
+		model.addAttribute("qnaVo", new QnaVo());
+		return "qna/qnaRegist";
+	}
+	
+	@RequestMapping(value="/qnaRegist.do", method = RequestMethod.POST)
+	public String qnaRegist(QnaVo vo, HttpSession session, BindingResult bindingResult, HttpServletRequest request) throws Exception{
+
+		try {
+			UserVo userVo = (UserVo) session.getAttribute("login");
+			
+			vo.setQna_idx(qnaService.selectQnaIdx());
+			vo.setCreate_user(userVo.getUser_id());
+			qnaService.qnaRegist(vo);
+		}catch(Exception e) {
+			
+		}
+		return "redirect:/qna/qnaListPage.do";
+	}
+	
+	@RequestMapping(value="/qnaDetail.do", method=RequestMethod.GET)
+	public String qnaDetail(ModelMap model, @RequestParam("qna_idx") String qna_idx) throws Exception{
+		QnaVo vo = new QnaVo();
+		
+		try {
+			vo.setQna_idx(qna_idx);
+			System.out.println("vo.getQna_idx() = " + vo.getQna_idx());
+			qnaService.increaseViewCount(vo.getQna_idx());
+			
+			vo = qnaService.getQnaDetail(vo);
+			
+			
+			
+		}catch(Exception e){
+			
+		}
+		model.addAttribute("qnaVo", vo);
+		
+		return "qna/qnaDetail";
+	}
+	
 }

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!-- Subpage Nav Tabs -->
 <div class="nav-tabs style2 bgc-fa">
 	<div class="container">
@@ -26,7 +27,7 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="board-table">
-					<p>총 19건의 게시물이 있습니다.</p>
+					<p>총 ${pagination.listCnt}건의 게시물이 있습니다. ${login.user_id}</p>
 					<div class="table-responsive mt0">
 						<table class="table">
 							<thead class="thead-light">
@@ -39,107 +40,95 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td class="text-center">1</td>
-									<td>
-										<a href="#" data-toggle="modal" data-target=".board-password-modal">
-											미리보는 대한민국의 미래는?
-											<span class="fa-lock ml10"></span>
-										</a>
-									</td>
-									<td class="text-center">홍길동</td>
-									<td class="text-center">2020.08.21</td>
-									<td class="text-center">25</td>
-								</tr>
-								<tr>
-									<td class="text-center"></td>
-									<td>
-										<a href="#" data-toggle="modal" data-target=".board-password-modal">
-											<span class="status_tag badge mr10">RE</span>
-											답변 드립니다.
-											<span class="fa-lock ml10"></span>
-										</a>
-									</td>
-									<td class="text-center">관리자</td>
-									<td class="text-center">2020.08.21</td>
-									<td class="text-center">12</td>
-								</tr>
-								<tr>
-									<td class="text-center">2</td>
-									<td>
-										<a href="qa-detail.html">미리보는 대한민국의 미래는? </a>
-									</td>
-									<td class="text-center">홍길동</td>
-									<td class="text-center">2020.08.21</td>
-									<td class="text-center">25</td>
-								</tr>
-								<tr>
-									<td class="text-center"></td>
-									<td>
-										<a href="qa-detail.html">
-											<span class="status_tag badge mr10">RE</span>
-											답변 드립니다.
-										</a>
-									</td>
-									<td class="text-center">관리자</td>
-									<td class="text-center">2020.08.21</td>
-									<td class="text-center">12</td>
-								</tr>
+								<c:forEach var="list" items="${qnaList}" varStatus="idx">
+									<c:choose>
+										<c:when test="${empty list.parent_qna_idx }">
+											<tr>
+												<td class="text-center">${list.num}</td>
+												<c:choose>
+													<c:when test="${list.lock_chk eq 'Y' }">
+														<c:choose>
+															<c:when test="${list.create_user eq login.user_id}">
+																<td>
+																	<a href="/qna/qnaDetail.do?qna_idx=${list.qna_idx }"> 
+																		${ list.question} 
+																		<span class="fa-lock ml10"></span>
+																	</a>
+																</td>
+															</c:when>
+															<c:otherwise>
+																<td>
+																	<a href="#" data-toggle="modal" data-target=".board-password-modal">
+																		${ list.question}
+																		<span class="fa-lock ml10"></span>
+																	</a>
+																</td>
+															</c:otherwise>
+														</c:choose>
+													</c:when>
+													<c:otherwise>
+														<td>
+															<a href="/qna/qnaDetail.do?qna_idx=${list.qna_idx }"> ${ list.question} </a>
+														</td>
+													</c:otherwise>
+												</c:choose>
+												<td class="text-center">${list.name }</td>
+												<td class="text-center">${list.create_date }</td>
+												<td class="text-center">${list.view_count }</td>
+											</tr>
+										</c:when>
+										<c:otherwise>
+											<tr>
+												<td class="text-center"></td>
+												
+												<c:choose>
+													<c:when test="${list.lock_chk eq 'Y' }">
+														<td>
+															<a href="#" data-toggle="modal" data-target=".board-password-modal">
+																<span class="status_tag badge mr10">RE</span>${ list.question}
+																<span class="fa-lock ml10"></span>
+															</a>
+														</td>
+													</c:when>
+													<c:otherwise>
+														<td>
+															<a href="/qna/qnaDetail.do?qna_idx=${list.qna_idx }"> 
+																<span class="status_tag badge mr10">RE</span>
+																${ list.question} 
+															</a>
+														</td>
+													</c:otherwise>
+												</c:choose>
+												<td class="text-center">${list.name }</td>
+												<td class="text-center">${list.create_date }</td>
+												<td class="text-center">${list.view_count }</td>
+											</tr>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
 							</tbody>
 						</table>
 					</div>
+					<button type="submit" class="bottom-right-btn btn btn-primary " onclick="location.href='/qna/qnaRegistPage.do'">글쓰기</button>
+					<%@ include file="../common/pagination.jsp"%>
 					<div class="table-nav">
-						<button type="submit" class="bottom-right-btn btn btn-primary " onclick="location.href='qa-edit.html'">글쓰기</button>
-						<ul class="page-navigation">
-							<li class="page-item disabled">
-								<a class="page-link" href="#">
-									<span class="fa-angle-double-left"></span>
-								</a>
-							</li>
-							<li class="page-item disabled">
-								<a class="page-link" href="#">
-									<span class="fa-angle-left"></span>
-								</a>
-							</li>
-							<li class="page-item text">
-								<a class="page-link" href="#">1</a>
-							</li>
-							<li class="page-item text active" aria-current="page">
-								<a class="page-link" href="#">2</a>
-							</li>
-							<li class="page-item text">
-								<a class="page-link" href="#">3</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">
-									<span class="fa-angle-right"></span>
-								</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">
-									<span class="fa-angle-double-right"></span>
-								</a>
-							</li>
-						</ul>
-						<div class="candidate_revew_select style2 text-center mb30-991 mt20">
-							<ul class="mb0">
-								<li class="list-inline-item">
-									<select class="selectpicker show-tick">
-										<option>제목</option>
-										<option>작성자</option>
-									</select>
-								</li>
-								<li class="list-inline-item">
-									<div class="candidate_revew_search_box course fn-520">
-										<form class="form-inline my-2">
-											<input class="form-control mr-sm-2" type="search" placeholder="" aria-label="Search">
-											<button class="btn my-2 my-sm-0" type="submit">
-												<span class="flaticon-magnifying-glass"></span>
-											</button>
-										</form>
-									</div>
-								</li>
-							</ul>
+						<div class="grid-list-header row" style="border-top: 0px;">
+							<div class="col-lg-6">
+								<div class="candidate_revew_select text-right">
+									<form id="search_form">
+										<div class="select-search-type">
+											<select class="selectpicker show-tick" name="search_type" data-width="100%">
+												<option value="title">제목</option>
+												<option value="create_user">작성자</option>
+											</select>
+										</div>
+										<div class="input-search">
+											<i class="icon input-search-close flaticon-magnifying-glass" id="search_btn" aria-hidden="true"></i>
+											<input type="text" class="form-control" name="search" id="search" placeholder="검색...">
+										</div>
+									</form>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -162,13 +151,10 @@
 				<form action="#">
 					<div class="heading">
 						<h4>비밀글 기능으로 보호된 글입니다.</h4>
-						<p>작성자와 관리자만 열람하실 수 있습니다. 본인이라면 비밀번호를 입력하세요.</p>
-					</div>
-					<div class="input-group form-group m0">
-						<input type="password" class="form-control" placeholder="비밀번호">
+						<p>작성자와 관리자만 열람하실 수 있습니다.</p>
 					</div>
 					<div class="text-center">
-						<button type="submit" class="btn btn-primary btn-block">확인</button>
+						<button type="button" class="btn btn-primary btn-block"  data-dismiss="modal" aria-label="Close">확인</button>
 					</div>
 				</form>
 			</div>
