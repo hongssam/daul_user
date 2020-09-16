@@ -11,4 +11,7 @@ public interface QnaService {
 	void qnaRegist(QnaVo vo) throws Exception;
 	void increaseViewCount(String qna_idx) throws Exception;
 	QnaVo getQnaDetail(QnaVo vo) throws Exception;
+
+	QnaVo getBeforeQna(QnaVo vo) throws Exception;
+	QnaVo getAfterQna(QnaVo vo) throws Exception;
 }

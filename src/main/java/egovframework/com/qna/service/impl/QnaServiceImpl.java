@@ -46,5 +46,15 @@ public class QnaServiceImpl extends EgovAbstractServiceImpl implements QnaServic
 	public QnaVo getQnaDetail(QnaVo vo) throws Exception {
 		return qnaMapper.getQnaDetail(vo);
 	}
+
+	@Override
+	public QnaVo getBeforeQna(QnaVo vo) throws Exception {
+		return qnaMapper.getBeforeQna(vo);
+	}
+
+	@Override
+	public QnaVo getAfterQna(QnaVo vo) throws Exception {
+		return qnaMapper.getAfterQna(vo);
+	}
 	
 }

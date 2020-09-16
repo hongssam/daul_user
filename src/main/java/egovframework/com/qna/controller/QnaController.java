@@ -8,6 +8,8 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import egovframework.com.cmmn.util.CmmnUtil;
+import egovframework.com.notice.vo.NoticeVo;
 import egovframework.com.qna.service.QnaService;
 import egovframework.com.qna.vo.QnaVo;
 import egovframework.com.user.vo.UserVo;
@@ -89,6 +92,24 @@ public class QnaController {
 		model.addAttribute("qnaVo", vo);
 		
 		return "qna/qnaDetail";
+	}
+	
+	@RequestMapping(value="/getBeforeQna.do")
+	public ResponseEntity<?> getBeforeQna( @RequestParam("qna_idx") String qna_idx) throws Exception{
+		QnaVo vo = new QnaVo();
+		vo.setQna_idx(qna_idx);
+		vo = qnaService.getBeforeQna(vo);
+		
+		return new ResponseEntity<>(vo, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/getAfterQna.do")
+	public ResponseEntity<?> getAfterQna( @RequestParam("qna_idx") String qna_idx) throws Exception{
+		QnaVo vo = new QnaVo();
+		vo.setQna_idx(qna_idx);
+		vo = qnaService.getAfterQna(vo);
+		
+		return new ResponseEntity<>(vo, HttpStatus.OK);
 	}
 	
 }

@@ -126,5 +126,27 @@
 		   AND qna_idx=#{qna_idx}
 	</select>
 	
+		<select id="getBeforeQna" resultType="egovframework.com.qna.vo.QnaVo">
+		SELECT * 
+		  FROM daul_qna
+		 WHERE del_chk = 'N'
+		 <![CDATA[
+		   AND qna_idx > #{qna_idx}
+		 ]]>
+		   AND parent_qna_idx is null
+		 ORDER BY qna_idx
+		 LIMIT 0 , 1;
+	</select>
 	
+	<select id="getAfterQna" resultType="egovframework.com.qna.vo.QnaVo">
+		SELECT * 
+		  FROM daul_qna
+		 WHERE del_chk = 'N'
+		 <![CDATA[
+		   AND qna_idx < #{qna_idx}
+		 ]]>
+		   AND parent_qna_idx is null
+		 ORDER BY qna_idx desc
+		 LIMIT 0 , 1;
+	</select>
 </mapper>

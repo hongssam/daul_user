@@ -30,6 +30,7 @@
 			<div class="col-lg-10 offset-lg-1">
 				<div class="board-detail-table">
 					<div class="table-responsive mt0">
+						<input type="hidden" id="qna_idx" value=${qnaVo.qna_idx }>
 						<table class="table">
 							<thead class="thead-light">
 								<tr>
@@ -46,16 +47,7 @@
 									</td>
 								</tr>
 								<tr>
-									<td class="text-left board-nav" colspan="2">
-										<a href="#">
-											<span class="fa-caret-up mr10">&nbsp;&nbsp;&nbsp;윗글</span>
-											답변 드립니다.
-										</a>
-										<hr>
-										<a href="#">
-											<span class="fa-caret-down mr10">&nbsp;&nbsp;&nbsp;아래글</span>
-											답변 드립니다.
-										</a>
+									<td class="text-left board-nav" id="before-after-qna" colspan="2">
 									</td>
 								</tr>
 							</tbody>
@@ -64,14 +56,14 @@
 					<div class="board-btns text-center">
 					<c:choose>
 						<c:when test="${qnaVo.create_user eq login.user_id }">
-							<button type="submit" class="btn btn-default" onclick="location.href='qa.html'">목록</button>
-							<button type="submit" class="btn btn-default" onclick="location.href='qa-edit.html'">글쓰기</button>
-							<button type="submit" class="btn btn-default" onclick="location.href='qa-edit.html'">수정</button>
-							<button type="submit" class="btn btn-default">삭제</button>
+							<button type="submit" class="btn btn-default" onclick="location.href='/qna/qnaListPage.do'">목록</button>
+							<button type="submit" class="btn btn-default" onclick="location.href='/qna/qnaRegistPage.do'">글쓰기</button>
+							<button type="submit" class="btn btn-default" onclick="location.href='/qna/qnaUpdate.do'">수정</button>
+							<button type="submit" class="btn btn-default" onclick="location.href='/qna/qnaDelete.do'">삭제</button>
 						</c:when>
 						<c:otherwise>
-							<button type="submit" class="btn btn-default" onclick="location.href='qa.html'">목록</button>
-							<button type="submit" class="btn btn-default" onclick="location.href='qa-edit.html'">글쓰기</button>
+							<button type="submit" class="btn btn-default" onclick="location.href='/qna/qnaListPage.do'">목록</button>
+							<button type="submit" class="btn btn-default" onclick="location.href='/qna/qnaRegistPage.do'">글쓰기</button>
 						</c:otherwise>
 					</c:choose>
 					</div>
@@ -80,3 +72,90 @@
 		</div>
 	</div>
 </section>
+
+
+<script type="text/javascript">
+	
+	$(function() {
+		getBeforeQna();
+	});
+	
+	var idx = $("#qna_idx").val();
+	
+	function getBeforeQna() {
+		
+		var request = $.ajax({
+			url: "/qna/getBeforeQna.do?qna_idx="+idx,
+			method: "get",
+		});
+		
+		request.done(function(data) {
+			getAfterQna();
+			drawBeforeQna(data);
+			console.log(data);
+		});
+		
+		request.fail(function(error) {
+			console.log(error);
+		});
+	}
+	
+	function getAfterQna() {
+		var request = $.ajax({
+			url: "/qna/getAfterQna.do?qna_idx="+idx,
+			method: "get",
+		});
+		
+		request.done(function(data) {
+			drawAfterQna(data);
+			console.log(data);
+		});
+		
+		request.fail(function(error) {
+			console.log(error);
+		});
+	} 
+	
+	function drawBeforeQna(data){
+		var before_qna_idx = data.qna_idx;
+		var before_qna_question = data.question;
+		var str;
+		
+		if(typeof before_qna_question == "undefined" || before_qna_question == null || before_qna_question == ''){
+			str = 	'<a href="#">'
+			+	'<span class="fa-caret-up mr10">&nbsp;&nbsp;&nbsp;윗글</span>'
+			+	'이전 게시물이 없습니다.'
+			+'</a>'
+			+'<hr>';
+		}else{
+			str = 	'<a href="/qna/qnaDetail.do?qna_idx='+before_qna_idx+'">'
+			+	'<span class="fa-caret-up mr10">&nbsp;&nbsp;&nbsp;윗글</span>'
+			+	before_qna_question
+			+'</a>'
+			+'<hr>';
+		}
+		$("#before-after-qna").append(str);
+	}
+	
+	function drawAfterQna(data){
+		var after_qna_idx = data.qna_idx;
+		var after_qna_question = data.question;
+		var str;
+		
+		if(typeof after_qna_question == "undefined" || after_qna_question == null || after_qna_question == ''){
+			str = 	'<a href="#">' 
+			+	'<span class="fa-caret-down mr10">&nbsp;&nbsp;&nbsp;아랫글</span>'
+			+	'다음 게시물이 없습니다.'
+			+'</a>'
+			+'<hr>';
+		}else{
+			str = 	'<a href="/qna/qnaDetail.do?qna_idx='+after_qna_idx+'">' 
+			+	'<span class="fa-caret-down mr10">&nbsp;&nbsp;&nbsp;아랫글</span>'
+			+	after_qna_question
+			+'</a>'
+			+'<hr>';
+		}
+		$("#before-after-qna").append(str);
+	}
+	
+</script>

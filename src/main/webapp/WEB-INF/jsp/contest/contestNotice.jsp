@@ -52,25 +52,30 @@
 							</tbody>
 						</table>
 					</div>
-					<%@ include file="../common/pagination.jsp"%>
 					<div class="table-nav">
-						<div class="grid-list-header row" style="border-top: 0px;">
-							<div class="col-lg-6">
-								<div class="candidate_revew_select text-right">
-									<form id="search_form">
-										<div class="select-search-type">
-											<select class="selectpicker show-tick" name="search_type" data-width="100%">
-												<option value="title">제목</option>
-												<option value="create_user">작성자</option>
-											</select>
+						<%@ include file="../common/pagination.jsp"%>
+
+						<div class="candidate_revew_select style2 text-center mb30-991 mt20">
+							<form id="search_form">
+								<ul class="mb0">
+									<li class="list-inline-item">
+										<select class="selectpicker show-tick" name="search_type">
+											<option value="title">제목</option>
+											<option value="create_user">작성자</option>
+										</select>
+									</li>
+									<li class="list-inline-item">
+										<div class="candidate_revew_search_box course fn-520">
+											<div class="form-inline my-2">
+												<input class="form-control mr-sm-2" type="text" name="search" id="search" placeholder="검색..." aria-label="Search">
+												<button class="btn my-2 my-sm-0" type="button" id="search_btn">
+													<span class="flaticon-magnifying-glass"></span>
+												</button>
+											</div>
 										</div>
-										<div class="input-search">
-											<i class="icon input-search-close flaticon-magnifying-glass" id="search_btn" aria-hidden="true"></i>
-											<input type="text" class="form-control" name="search" id="search" placeholder="검색...">
-										</div>
-									</form>
-								</div>
-							</div>
+									</li>
+								</ul>
+							</form>
 						</div>
 					</div>
 				</div>
@@ -83,15 +88,15 @@
 	function fn_paging(pageNum) {
 		location.href = '${pageContext.request.contextPath}/contest/contestNoticeListPage.do?curPage=' + pageNum;
 	}
-	
+
 	var btn_search = document.getElementById("search_btn");
-	
+
 	btn_search.addEventListener("click", function() {
 		searchContestNoticeList();
 	});
-	
+
 	var input_search = document.getElementById("search");
-	
+
 	input_search.addEventListener("keydown", function(e) {
 		if (e.keyCode === 13) {
 			event.preventDefault();
@@ -99,7 +104,7 @@
 			searchContestNoticeList();
 		}
 	});
-	
+
 	function searchContestNoticeList() {
 		var search_value = $("#search_form").serialize();
 		location.href = "${pageContext.request.contextPath}/contest/contestNoticeListPage.do?" + search_value;
