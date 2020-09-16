@@ -15,4 +15,6 @@ public interface QnaMapper {
 	QnaVo getQnaDetail(QnaVo vo) throws Exception;
 	QnaVo getBeforeQna(QnaVo vo) throws Exception;
 	QnaVo getAfterQna(QnaVo vo) throws Exception;
+	String getCreateUser(String qna_idx) throws Exception;
+	void qnaDelete(String qna_idx) throws Exception;
 }

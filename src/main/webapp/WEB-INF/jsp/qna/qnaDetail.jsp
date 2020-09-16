@@ -59,7 +59,7 @@
 							<button type="submit" class="btn btn-default" onclick="location.href='/qna/qnaListPage.do'">목록</button>
 							<button type="submit" class="btn btn-default" onclick="location.href='/qna/qnaRegistPage.do'">글쓰기</button>
 							<button type="submit" class="btn btn-default" onclick="location.href='/qna/qnaUpdate.do'">수정</button>
-							<button type="submit" class="btn btn-default" onclick="location.href='/qna/qnaDelete.do'">삭제</button>
+							<button type="submit" class="btn btn-default" onclick="location.href='/qna/qnaDelete.do?qna_idx=${qnaVo.qna_idx}'">삭제</button>
 						</c:when>
 						<c:otherwise>
 							<button type="submit" class="btn btn-default" onclick="location.href='/qna/qnaListPage.do'">목록</button>

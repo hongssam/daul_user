@@ -27,7 +27,7 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="board-table">
-					<p>총 ${pagination.listCnt}건의 게시물이 있습니다. ${login.user_id}</p>
+					<p>총 ${pagination.listCnt}건의 게시물이 있습니다.</p>
 					<div class="table-responsive mt0">
 						<table class="table">
 							<thead class="thead-light">

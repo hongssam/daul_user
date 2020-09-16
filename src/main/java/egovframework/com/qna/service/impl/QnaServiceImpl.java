@@ -56,5 +56,15 @@ public class QnaServiceImpl extends EgovAbstractServiceImpl implements QnaServic
 	public QnaVo getAfterQna(QnaVo vo) throws Exception {
 		return qnaMapper.getAfterQna(vo);
 	}
+
+	@Override
+	public String getCreateUser(String qna_idx) throws Exception {
+		return qnaMapper.getCreateUser(qna_idx);
+	}
+
+	@Override
+	public void qnaDelete(String qna_idx) throws Exception {
+		qnaMapper.qnaDelete(qna_idx);
+	}
 	
 }

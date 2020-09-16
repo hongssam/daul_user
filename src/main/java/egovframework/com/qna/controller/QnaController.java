@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import egovframework.com.cmmn.util.CmmnUtil;
-import egovframework.com.notice.vo.NoticeVo;
 import egovframework.com.qna.service.QnaService;
 import egovframework.com.qna.vo.QnaVo;
 import egovframework.com.user.vo.UserVo;
@@ -84,14 +83,23 @@ public class QnaController {
 			
 			vo = qnaService.getQnaDetail(vo);
 			
-			
-			
 		}catch(Exception e){
 			
 		}
 		model.addAttribute("qnaVo", vo);
 		
 		return "qna/qnaDetail";
+	}
+	
+	@RequestMapping(value="/qnaDelete.do")
+	public String qnaDelete(ModelMap model, @RequestParam("qna_idx") String qna_idx, HttpSession session) throws Exception{
+		UserVo userVo = (UserVo) session.getAttribute("login");
+		System.out.println(qnaService.getCreateUser(qna_idx) + ',' +userVo.getUser_id() );
+		if(qnaService.getCreateUser(qna_idx).equals(userVo.getUser_id())) {
+			qnaService.qnaDelete(qna_idx);
+		}else {
+		}
+		return "redirect:/qna/qnaListPage.do";
 	}
 	
 	@RequestMapping(value="/getBeforeQna.do")
@@ -112,4 +120,38 @@ public class QnaController {
 		return new ResponseEntity<>(vo, HttpStatus.OK);
 	}
 	
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

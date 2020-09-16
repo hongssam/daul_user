@@ -126,7 +126,7 @@
 		   AND qna_idx=#{qna_idx}
 	</select>
 	
-		<select id="getBeforeQna" resultType="egovframework.com.qna.vo.QnaVo">
+	<select id="getBeforeQna" resultType="egovframework.com.qna.vo.QnaVo">
 		SELECT * 
 		  FROM daul_qna
 		 WHERE del_chk = 'N'
@@ -149,4 +149,15 @@
 		 ORDER BY qna_idx desc
 		 LIMIT 0 , 1;
 	</select>
+	
+	<select id="getCreateUser" resultType="String">
+		SELECT create_user
+		  FROM daul_qna
+		 WHERE qna_idx = #{qna_idx}
+	</select>
+	
+	<update id="qnaDelete">
+		UPDATE daul.daul_qna SET del_chk = 'Y' 
+		 WHERE ref = #{qna_idx}
+	</update>
 </mapper>
