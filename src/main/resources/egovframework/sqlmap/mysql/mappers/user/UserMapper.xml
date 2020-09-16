@@ -56,4 +56,55 @@
 			 , #{kakao_key}
 			 )
 	</insert>
+	
+	<select id="selectUserIdCheck" resultType="int">
+		SELECT COUNT(*)
+		  FROM daul.user
+		 WHERE user_id = #{user_id}
+	</select>
+	
+	<insert id="insertPublicUser">
+		INSERT INTO daul.user
+			 (
+			   user_id
+			 , name
+			 , pw
+			 , email
+			 , phone
+			 , channel
+			 , reg_date
+			 , last_login_date
+			 <if test="email_chk != null and email_chk != ''">
+			 , email_chk 
+			 </if>
+			 <if test="talk_chk != null and talk_chk != ''">
+			 , talk_chk 
+			 </if>
+			 <if test="sms_chk != null and sms_chk != ''">
+			 , sms_chk 
+			 </if>
+			 , auth_type
+			 )
+		VALUES 
+			 (
+			   #{user_id}
+			 , #{name}
+			 , #{pw}
+			 , #{email}
+			 , #{phone}
+			 , #{channel}
+			 , SYSDATE()
+			 , SYSDATE()
+			 <if test="email_chk != null and email_chk != ''">
+			 , #{email_chk} 
+			 </if>
+			 <if test="talk_chk != null and talk_chk != ''">
+			 , #{talk_chk} 
+			 </if>
+			 <if test="sms_chk != null and sms_chk != ''">
+			 , #{sms_chk} 
+			 </if>
+			 , #{auth_type}
+			 )
+	</insert>
 </mapper>

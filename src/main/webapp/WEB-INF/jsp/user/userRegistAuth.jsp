@@ -5,33 +5,41 @@
 	<div class="container">
 		<div class="wizard row">
 			<div class="wizard-item">
-				<a href="/user/userRegistTermPage.do">
-					<div class="step-box">약관동의</div>
-				</a>
+				<div class="step-box">
+					<a href="#">
+						약관동의
+					</a>
+				</div>
 				<div class="step-arrow">
 					<img src="${pageContext.request.contextPath}/images/icon-arrow-forward.png">
 				</div>
 			</div>
 			<div class="wizard-item">
-				<a href="/user/userRegistAuthPage.do">
-					<div class="step-box active">본인확인</div>
-				</a>
+				<div class="step-box active">
+					<a href="#">
+						본인확인
+					</a>
+				</div>
 				<div class="step-arrow">
 					<img src="${pageContext.request.contextPath}/images/icon-arrow-forward.png">
 				</div>
 			</div>
 			<div class="wizard-item">
-				<a href="/user/userRegistPage.do">
-					<div class="step-box ">회원정보 입력</div>
-				</a>
+				<div class="step-box ">
+					<a href="#">
+						회원정보 입력
+					</a>
+				</div>
 				<div class="step-arrow">
 					<img src="${pageContext.request.contextPath}/images/icon-arrow-forward.png">
 				</div>
 			</div>
 			<div class="wizard-item">
-				<a href="/user/userRegistCmplPage.do">
-					<div class="step-box">가입완료</div>
-				</a>
+				<div class="step-box">
+					<a href="#">
+						가입완료
+					</a>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -68,6 +76,21 @@
 				</div>
 			</div>
 		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="auth-box">
+					<h4>테스트 인증</h4>
+					<div class="auth-btn-box">
+						<div class="auth-btn">
+							<form id="test_form" method="post" action="/user/userRegistPage.do">
+								<input type="text" name="phone" id="phone" placeholder="핸드폰 번호 입력"/>
+								<button type="submit" id="test_go_reg_page">테스트등록화면이동</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </section>
 
@@ -78,6 +101,4 @@
 	kakao_reg.addEventListener("click", function() {
 		kakaoLogin();
 	});
-	
-	
 </script>

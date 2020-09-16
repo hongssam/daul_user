@@ -12,4 +12,8 @@ public interface UserMapper {
 
 	void insertKakaoUser(UserVo vo) throws Exception;
 
+	int selectUserIdCheck(String user_id) throws Exception;
+
+	void insertPublicUser(UserVo vo) throws Exception;
+
 }

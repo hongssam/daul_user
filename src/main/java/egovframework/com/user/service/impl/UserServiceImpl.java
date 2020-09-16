@@ -27,4 +27,14 @@ public class UserServiceImpl extends EgovAbstractServiceImpl implements UserServ
 		userMapper.insertKakaoUser(vo);
 	}
 
+	@Override
+	public int selectUserIdCheck(String user_id) throws Exception {
+		return userMapper.selectUserIdCheck(user_id);
+	}
+
+	@Override
+	public void insertPublicUser(UserVo vo) throws Exception {
+		userMapper.insertPublicUser(vo);
+	}
+
 }

@@ -5,33 +5,41 @@
 	<div class="container">
 		<div class="wizard row">
 			<div class="wizard-item">
-				<a href="/user/userRegistTermPage.do">
-					<div class="step-box">약관동의</div>
-				</a>
+				<div class="step-box">
+					<a href="#">
+						약관동의
+					</a>
+				</div>
 				<div class="step-arrow">
 					<img src="${pageContext.request.contextPath}/images/icon-arrow-forward.png">
 				</div>
 			</div>
 			<div class="wizard-item">
-				<a href="/user/userRegistAuthPage.do">
-					<div class="step-box">본인확인</div>
-				</a>
+				<div class="step-box">
+					<a href="#">
+						본인확인
+					</a>
+				</div>
 				<div class="step-arrow">
 					<img src="${pageContext.request.contextPath}/images/icon-arrow-forward.png">
 				</div>
 			</div>
 			<div class="wizard-item">
-				<a href="/user/userRegistPage.do">
-					<div class="step-box ">회원정보 입력</div>
-				</a>
+				<div class="step-box ">
+					<a href="#">
+						회원정보 입력
+					</a>
+				</div>
 				<div class="step-arrow">
 					<img src="${pageContext.request.contextPath}/images/icon-arrow-forward.png">
 				</div>
 			</div>
 			<div class="wizard-item">
-				<a href="/user/userRegistCmplPage.do">
-					<div class="step-box active">가입완료</div>
-				</a>
+				<div class="step-box active">
+					<a href="#">
+						가입완료
+					</a>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -44,13 +52,26 @@
 			<img class="icon" src="${pageContext.request.contextPath}/images/register-complete.png">
 			<h4>회원가입이 완료되었습니다.</h4>
 			<p>
-				<b>김선호님</b>의 회원가입을 축하합니다.
+				<b>${user_id}</b>의 회원가입을 축하합니다.
 			</p>
 			<p>알차고 실속있는 서비스로 찾아뵙겠습니다.</p>
 			<div class="form-group custom-control">
-				<button type="submit" class="btn btn-primary">홈으로 가기</button>
-				<button type="button" class="btn btn-dark">로그인</button>
+				<button type="button" class="btn btn-primary" id="home_btn">홈으로 가기</button>
+				<button type="button" class="btn btn-dark" id="login_btn">로그인</button>
 			</div>
 		</div>
 	</div>
 </section>
+
+<script type="text/javascript">
+	var home_btn = document.getElementById("home_btn");
+	var login_btn = document.getElementById("login_btn");
+	
+	home_btn.addEventListener("click", function() {
+		location.href = CTX + "/main/main.do";
+	});
+	
+	login_btn.addEventListener("click", function() {
+		location.href = CTX + "/login/loginPage.do";
+	});
+</script>

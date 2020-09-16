@@ -10,11 +10,15 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import egovframework.com.cmmn.SecurityUtil;
 import egovframework.com.user.service.UserService;
 import egovframework.com.user.vo.UserVo;
 
@@ -37,7 +41,15 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/userRegistPage.do")
-	public String userRegistPage() throws Exception {
+	public String userRegistPage(ModelMap model, UserVo vo) throws Exception {
+		try {
+			System.out.println(vo);
+			
+			model.addAttribute("userVo", vo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return "user/userRegist";
 	}
 	
@@ -51,16 +63,20 @@ public class UserController {
 		Map<String, Object> resMap = new HashMap<>();
 		
 		try {
+			log.debug("[카카오 사용자] 카카오 사용자 계정 중복 확인");
 			int count = userService.selectKakaoAccount(params);
 			
 			resMap.put("exist", count > 0 ? true : false);
 		} catch (Exception e) {
+			log.debug("[카카오 사용자] 카카오 사용자 계정 중복 확인 실패");
 			e.printStackTrace();
 		}
 		
+		log.debug("[카카오 사용자] 카카오 사용자 계정 중복 확인 완료");
 		return new ResponseEntity<>(resMap, HttpStatus.OK);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/kakaoUserRegist.do", method=RequestMethod.POST)
 	public ResponseEntity<?> kakaoUserRegist(@RequestBody Map<String, Object> params) throws Exception {
 		try {
@@ -77,11 +93,66 @@ public class UserController {
 			vo.setChannel("kakao");
 			vo.setAuth_type("public");
 			
+			log.debug("[카카오 사용자] 카카오 사용자 등록 vo" + vo);
+			log.debug("[카카오 사용자] 카카오 사용자 등록");
 			userService.insertKakaoUser(vo);
 		} catch (Exception e) {
+			log.debug("[카카오 사용자] 카카오 사용자 등록 실패");
 			e.printStackTrace();
 		}
 		
+		log.debug("[카카오 사용자] 카카오 사용자 등록 완료");
 		return new ResponseEntity<>("success", HttpStatus.OK);
 	}
-}
+	
+	@RequestMapping(value="/userIdCheck.do")
+	public ResponseEntity<?> userIdCheck(@RequestParam("user_id") String user_id) throws Exception {
+		Map<String, Object> resMap = new HashMap<>();
+		
+		try {
+			log.debug("[일반사용자] 일반사용자 아이디 중복 확인");
+			int iRes = userService.selectUserIdCheck(user_id);
+			
+			resMap.put("exist", iRes > 0);
+		} catch (Exception e) {
+			log.debug("[일반사용자] 일반사용자 아이디 중복 확인 실패");
+			e.printStackTrace();
+		}
+		
+		log.debug("[일반사용자] 일반사용자 아이디 중복 확인 완료");
+		return new ResponseEntity<>(resMap, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/publicUserRegist.do", method=RequestMethod.POST)
+	public String publicUserRegist(UserVo vo, BindingResult result, RedirectAttributes redirectAttributes) throws Exception {
+		try {
+			vo.setChannel("public");
+			vo.setAuth_type("public");
+			
+			UserValidator userValidator = new UserValidator();
+			userValidator.validate(vo, result);
+			
+			if (result.hasErrors()) {
+				log.debug("[일반 사용자] 일반 사용자 등록 validator ERROR");
+				log.debug(result.getFieldError().getDefaultMessage());
+				
+				return "/user/userRegist";
+			}
+			
+			SecurityUtil securityUtil = new SecurityUtil();
+			String encryptPw = securityUtil.encryptSHA256(vo.getPwKey());
+			vo.setPw(encryptPw);
+			
+			log.debug("[일반 사용자] 일반 사용자 등록 vo" + vo);
+			log.debug("[일반 사용자] 일반 사용자 등록");
+			userService.insertPublicUser(vo);
+		} catch (Exception e) {
+			log.debug("[일반 사용자] 일반 사용자 등록 실패");
+			e.printStackTrace();
+		}
+		
+		log.debug("[일반 사용자] 일반 사용자 등록 완료");
+		redirectAttributes.addFlashAttribute("user_id", vo.getUser_id());
+		return "redirect:/user/userRegistCmplPage.do";
+	}
+} 
