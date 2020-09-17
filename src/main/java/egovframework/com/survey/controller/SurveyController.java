@@ -320,6 +320,25 @@ public class SurveyController {
 			e.printStackTrace();
 		}
 	}
+	
+	@RequestMapping(value="/getImg.do")
+	public void getImage(@RequestParam("survey_idx") String survey_idx, HttpServletResponse response) throws Exception {
+		Map<String, String> file = new HashMap<>();
+		
+		try {
+			file = surveyService.selectImageFile(survey_idx);
+	
+			if (!file.isEmpty()) {
+				fileUtil.getImgFile(response, file.get("save_file_name"));
+			}
+		
+		} catch (Exception e) {
+			fileUtil.getImgFile(response, "placeholder.png");
+			log.debug("ChatbotController - getImg.do - Exception");
+		
+			e.printStackTrace();
+		}
+	}
 }
 
 

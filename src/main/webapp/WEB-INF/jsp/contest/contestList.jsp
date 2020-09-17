@@ -48,7 +48,7 @@
 				<div class="grid-item col-12">
 					<div class="feat_property list style2" onclick="location.href='${pageContext.request.contextPath}/contest/contestDetailPage.do?admin_contest_idx=${list.admin_contest_idx}'">
 						<div class="thumb">
-							<img class="img-whp" src="${pageContext.request.contextPath}/images/property/fp1.jpg" alt="fp1.jpg">
+								<img class="img-whp" src="${pageContext.request.contextPath}/contest/getImg.do?admin_contest_idx=${list.admin_contest_idx}" style="height: 270px;">
 						</div>
 						<div class="details">
 							<div class="tc_content">

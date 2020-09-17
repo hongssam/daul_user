@@ -81,11 +81,11 @@
 				ORDER BY create_date ASC
 			) sub
 		<if test="@egovframework.com.cmmn.util.StringUtil@equals(order, '1')">
-			ORDER BY create_date desc
+			ORDER BY sub.num DESC
 		</if>
 		 <if test="@egovframework.com.cmmn.util.StringUtil@equals(order, '2')">
-			ORDER BY user_contest_cnt DESC, create_date desc  
-			</if>
+			ORDER BY user_contest_cnt DESC ,sub.num DESC
+		</if>
 		LIMIT #{startIndex},#{pageSize}
 	</select>
 	
@@ -347,4 +347,13 @@
 		FROM daul.daul_notice_attach
 		WHERE save_file_name  = #{idx}
 	</select>
+	
+	<select id="selectImageFile" resultType="hashmap">
+		SELECT *
+		  FROM daul.contest_admin_attach
+		 WHERE admin_contest_idx = #{admin_contest_idx}
+		   AND attach_type = 'repFile'
+	</select>
+	
+	
 </mapper>

@@ -360,4 +360,10 @@
 		WHERE save_file_name  = #{idx}
 	</select>
 	
+	<select id="selectImageFile" resultType="hashmap">
+		SELECT *
+		  FROM daul.survey_attach
+		 WHERE survey_idx = #{survey_idx}
+	</select>
+	
 </mapper>                  

@@ -93,13 +93,62 @@ public class QnaController {
 	
 	@RequestMapping(value="/qnaDelete.do")
 	public String qnaDelete(ModelMap model, @RequestParam("qna_idx") String qna_idx, HttpSession session) throws Exception{
-		UserVo userVo = (UserVo) session.getAttribute("login");
-		System.out.println(qnaService.getCreateUser(qna_idx) + ',' +userVo.getUser_id() );
-		if(qnaService.getCreateUser(qna_idx).equals(userVo.getUser_id())) {
-			qnaService.qnaDelete(qna_idx);
-		}else {
+		
+		try {
+			UserVo userVo = (UserVo) session.getAttribute("login");
+
+			if(qnaService.getCreateUser(qna_idx).equals(userVo.getUser_id())) {
+				qnaService.qnaDelete(qna_idx);
+			}else {
+				log.debug("등록자와 현재 사용자가 다름");
+			}
+			
+		}catch(Exception e) {
+			
 		}
 		return "redirect:/qna/qnaListPage.do";
+	}
+	
+	@RequestMapping(value="/qnaUpdate.do")
+	public String qnaModify(ModelMap model, QnaVo vo, HttpSession session) throws Exception{
+		
+		try {
+			UserVo userVo = (UserVo) session.getAttribute("login");
+			System.out.println(vo);
+			if(qnaService.getCreateUser(vo.getQna_idx()).equals(userVo.getUser_id())) {
+				vo.setUpdate_user(userVo.getUser_id());
+				qnaService.qnaUpdate(vo);
+			}else {
+				log.debug("등록자와 현재 사용자가 다름");
+			}
+			
+		}catch(Exception e) {
+			
+		}
+		
+		return "redirect:/qna/qnaListPage.do";
+	}
+	
+	@RequestMapping(value="/qnaModifyPage.do")
+	public String qnaModifyPage(ModelMap model, @RequestParam("qna_idx") String qna_idx, HttpSession session) throws Exception{
+		QnaVo vo = new QnaVo();
+		
+		try {
+			UserVo userVo = (UserVo) session.getAttribute("login");
+			
+			if(qnaService.getCreateUser(qna_idx).equals(userVo.getUser_id())) {
+				vo.setQna_idx(qna_idx);
+				vo = qnaService.getQnaDetail(vo);
+			}else {
+				log.debug("등록자와 현재 사용자가 다름");
+			}
+			
+		}catch(Exception e) {
+			
+		}
+		
+		model.addAttribute("qnaVo", vo);
+		return "qna/qnaModify";
 	}
 	
 	@RequestMapping(value="/getBeforeQna.do")
@@ -119,7 +168,6 @@ public class QnaController {
 		
 		return new ResponseEntity<>(vo, HttpStatus.OK);
 	}
-	
 
 }
 

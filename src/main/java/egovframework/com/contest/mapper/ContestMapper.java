@@ -34,4 +34,5 @@ public interface ContestMapper {
 	NoticeVo getBeforeNotice(NoticeVo vo) throws Exception;
 	NoticeVo getAfterNotice(NoticeVo vo) throws Exception;
 	FileVo selectDownloadContestNoticeFile(FileVo vo) throws Exception;
+	Map<String, String> selectImageFile(String admin_contest_idx) throws Exception;
 }

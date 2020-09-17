@@ -1,5 +1,6 @@
 package egovframework.com.contest.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -288,5 +289,23 @@ public class ContestController {
 		}
 	}
 	
+	@RequestMapping(value="/getImg.do")
+	public void getImage(@RequestParam("admin_contest_idx") String admin_contest_idx, HttpServletResponse response) throws Exception {
+		Map<String, String> file = new HashMap<>();
+		
+		try {
+			file = contestService.selectImageFile(admin_contest_idx);
+	
+			if (!file.isEmpty()) {
+				fileUtil.getImgFile(response, file.get("save_file_name"));
+			}
+		
+		} catch (Exception e) {
+			fileUtil.getImgFile(response, "placeholder.png");
+			log.debug("ChatbotController - getImg.do - Exception");
+		
+			e.printStackTrace();
+		}
+	}
 	
 }

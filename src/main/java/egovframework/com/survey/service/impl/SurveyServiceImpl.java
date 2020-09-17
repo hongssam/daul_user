@@ -129,4 +129,10 @@ public class SurveyServiceImpl extends EgovAbstractServiceImpl implements Survey
 	public FileVo selectDownloadFile(FileVo vo) throws Exception {
 		return  surveyMapper.selectDownloadFile(vo);
 	}
+
+	@Override
+	public Map<String, String> selectImageFile(String survey_idx) throws Exception {
+		return surveyMapper.selectImageFile(survey_idx);
+	}
+
 }

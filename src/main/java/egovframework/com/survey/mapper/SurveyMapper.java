@@ -33,4 +33,5 @@ public interface SurveyMapper {
 	NoticeVo getAfterNotice(NoticeVo vo) throws Exception;
 	List<Map<String,String>> getSurveyNoticeFile(NoticeVo vo) throws Exception;
 	FileVo selectDownloadFile(FileVo vo) throws Exception;
+	Map<String, String> selectImageFile(String survey_idx) throws Exception;
 }

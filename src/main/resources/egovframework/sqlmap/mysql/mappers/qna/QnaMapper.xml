@@ -119,6 +119,7 @@
 		       ,a.create_user
 		       , DATE_FORMAT(a.create_date, '%Y-%m-%d %H:%i:%s') 		AS create_date
 		       ,b.name 
+		       ,a.lock_chk
 		  FROM daul.daul_qna a
 		  LEFT JOIN daul.user b
 		  ON a.create_user = b.user_id 
@@ -159,5 +160,15 @@
 	<update id="qnaDelete">
 		UPDATE daul.daul_qna SET del_chk = 'Y' 
 		 WHERE ref = #{qna_idx}
+	</update>
+	
+	<update id="qnaUpdate">
+		UPDATE daul.daul_qna
+		   SET question = #{question}
+		      ,content = #{content}
+		      ,update_user = #{update_user}
+		      ,update_date = sysdate()
+		      ,lock_chk = #{lock_chk}
+		WHERE qna_idx = #{qna_idx}
 	</update>
 </mapper>

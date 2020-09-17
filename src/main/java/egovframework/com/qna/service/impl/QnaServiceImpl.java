@@ -66,5 +66,10 @@ public class QnaServiceImpl extends EgovAbstractServiceImpl implements QnaServic
 	public void qnaDelete(String qna_idx) throws Exception {
 		qnaMapper.qnaDelete(qna_idx);
 	}
+
+	@Override
+	public void qnaUpdate(QnaVo vo) throws Exception {
+		qnaMapper.qnaUpdate(vo);
+	}
 	
 }

@@ -55,7 +55,7 @@
 					<a href="/contest/contestListPage.do"><span class="title">공모제안</span></a>
 					<!-- Level Two-->
 					<ul>
-						<li><a href="/contest/contestListPage.do">공모제안</a></li>
+						<li><a href="/contest/contestListPage.do?order=1">공모제안</a></li>
 						<li><a href="/contest/contestNoticeListPage.do">공지사항</a></li>
 					</ul>
 				</li>
@@ -134,7 +134,7 @@
 			<li><span>공모제안</span>
 				<!-- Level Two-->
 				<ul>
-					<li><a href="/contest/contestListPage.do">공모제안</a></li>
+					<li><a href="/contest/contestListPage.do?order=1">공모제안</a></li>
 					<li><a href="/contest/contestNoticeListPage.do">공지사항</a></li>
 				</ul>
 			</li>

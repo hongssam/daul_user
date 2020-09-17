@@ -49,7 +49,7 @@
 				<div class="grid-item col-12">
 					<div class="feat_property list" onclick="location.href='${pageContext.request.contextPath}/survey/surveyDetailPage.do?survey_idx=${list.survey_idx }'">
 						<div class="thumb">
-							<img class="img-whp" src="${pageContext.request.contextPath}/images/property/fp1.jpg" alt="fp1.jpg">
+							<img class="img-whp" src="${pageContext.request.contextPath}/survey/getImg.do?survey_idx=${list.survey_idx}" style="height: 266px;">
 						</div>
 						<div class="details">
 							<div class="tc_content">

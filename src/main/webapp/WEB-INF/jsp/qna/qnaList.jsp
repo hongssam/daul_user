@@ -50,8 +50,8 @@
 														<c:choose>
 															<c:when test="${list.create_user eq login.user_id}">
 																<td>
-																	<a href="/qna/qnaDetail.do?qna_idx=${list.qna_idx }"> 
-																		${ list.question} 
+																	<a href="/qna/qnaDetail.do?qna_idx=${list.qna_idx }">
+																		${ list.question}
 																		<span class="fa-lock ml10"></span>
 																	</a>
 																</td>
@@ -80,7 +80,7 @@
 										<c:otherwise>
 											<tr>
 												<td class="text-center"></td>
-												
+
 												<c:choose>
 													<c:when test="${list.lock_chk eq 'Y' }">
 														<td>
@@ -92,9 +92,9 @@
 													</c:when>
 													<c:otherwise>
 														<td>
-															<a href="/qna/qnaDetail.do?qna_idx=${list.qna_idx }"> 
+															<a href="/qna/qnaDetail.do?qna_idx=${list.qna_idx }">
 																<span class="status_tag badge mr10">RE</span>
-																${ list.question} 
+																${ list.question}
 															</a>
 														</td>
 													</c:otherwise>
@@ -112,7 +112,7 @@
 					<button type="submit" class="bottom-right-btn btn btn-primary " onclick="location.href='/qna/qnaRegistPage.do'">글쓰기</button>
 					<div class="table-nav">
 						<%@ include file="../common/pagination.jsp"%>
-						
+
 						<div class="candidate_revew_select style2 text-center mb30-991 mt20">
 							<form id="search_form">
 								<ul class="mb0">
@@ -159,7 +159,7 @@
 						<p>작성자와 관리자만 열람하실 수 있습니다.</p>
 					</div>
 					<div class="text-center">
-						<button type="button" class="btn btn-primary btn-block"  data-dismiss="modal" aria-label="Close">확인</button>
+						<button type="button" class="btn btn-primary btn-block" data-dismiss="modal" aria-label="Close">확인</button>
 					</div>
 				</form>
 			</div>
