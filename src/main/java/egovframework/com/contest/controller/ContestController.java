@@ -57,12 +57,16 @@ public class ContestController {
 			
 			for(int i = 0; i < contestList.size(); i++) {
 				String createDate = contestList.get(i).getCreate_date().substring(0,10);
-//				String contestEndDate = contestList.get(i).getE_date().substring(0,10);
-//				String contestStartDate = contestList.get(i).getS_date().substring(0,10);
-//				
-//				contestList.get(i).setCreate_date(createDate);
-//				contestList.get(i).setE_date(contestEndDate);
-//				contestList.get(i).setS_date(contestStartDate);
+				String contestEndDate = contestList.get(i).getContest_e_date().substring(0,10);
+				String contestStartDate = contestList.get(i).getContest_s_date().substring(0,10);
+				String submitEndDate = contestList.get(i).getSubmit_e_date().substring(0,10);
+				String submitStartDate = contestList.get(i).getSubmit_s_date().substring(0,10);
+				
+				contestList.get(i).setCreate_date(createDate);
+				contestList.get(i).setContest_e_date(contestEndDate);
+				contestList.get(i).setContest_s_date(contestStartDate);
+				contestList.get(i).setSubmit_e_date(submitEndDate);
+				contestList.get(i).setSubmit_s_date(submitStartDate);
 			}
 			
 			model.addAttribute("contestList", contestList);
@@ -95,10 +99,21 @@ public class ContestController {
 			int UserlistCnt = contestService.getUserContestListCnt(contestVo);
 			contestVo.setPageSize(10);
 			contestVo.setPagination(UserlistCnt, curPage);
+			contestVo.setCreate_date(contestVo.getCreate_date().substring(0,10));
+			contestVo.setContest_e_date(contestVo.getContest_e_date().substring(0,10));
+			contestVo.setContest_s_date(contestVo.getContest_s_date().substring(0,10));
+			contestVo.setSubmit_e_date(contestVo.getSubmit_e_date().substring(0,10));
+			contestVo.setSubmit_s_date(contestVo.getSubmit_s_date().substring(0,10));
 			
 			
 			fileList = contestService.selectContestFile(contestVo);
 			userContestList = contestService.getUserContestList(contestVo);
+			
+			for(int i = 0; i < userContestList.size(); i++) {
+				String date = userContestList.get(i).getCreate_date().substring(0,10);
+				userContestList.get(i).setCreate_date(date);
+			}
+			
 			// 해당유저가 공모에 참여했는지 유무chk
 			chk = contestService.checkSubmit(contestVo);
 
