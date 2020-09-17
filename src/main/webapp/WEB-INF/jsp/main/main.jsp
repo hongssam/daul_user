@@ -120,7 +120,7 @@
 					<c:forEach var="survey" items="${surveyList}">
 						<div class="item">
 							<div class="home-content-box survey">
-								<img class="img-whp" src="${pageContext.request.contextPath}/images/property/fp3.jpg" alt="fp3.jpg">
+								<img class="img-whp" src="${pageContext.request.contextPath}/survey/getImg.do?survey_idx=${survey.survey_idx}" style="height: 230px;">
 								<div class="details">
 									<div class="tc_content">
 										<div class="fp_content">
@@ -148,7 +148,7 @@
 					<c:forEach var="contest" items="${contestList}">
 						<div class="item">
 							<div class="home-content-box contest">
-								<img class="img-whp" src="${pageContext.request.contextPath}/images/property/fp3.jpg" alt="fp3.jpg">
+								<img class="img-whp" src="${pageContext.request.contextPath}/contest/getImg.do?admin_contest_idx=${contest.admin_contest_idx}" style="height: 230px;">
 								<div class="details">
 									<div class="tc_content">
 										<div class="fp_content">
