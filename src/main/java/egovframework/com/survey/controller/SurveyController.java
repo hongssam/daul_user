@@ -53,6 +53,16 @@ public class SurveyController {
 			
 			surveyList = surveyService.getSurveyList(surveyVo);
 			
+			for(int i = 0; i < surveyList.size(); i++) {
+				String createDate = surveyList.get(i).getCreate_date().substring(0,10);
+				String surveyEndDate = surveyList.get(i).getE_date().substring(0,10);
+				String surveyStartDate = surveyList.get(i).getS_date().substring(0,10);
+				
+				surveyList.get(i).setCreate_date(createDate);
+				surveyList.get(i).setE_date(surveyEndDate);
+				surveyList.get(i).setS_date(surveyStartDate);
+			}
+			
 			model.addAttribute("surveyList",surveyList);
 			model.addAttribute("pagination",surveyVo);
 			
@@ -74,6 +84,12 @@ public class SurveyController {
 			surveyVo.setPagination(NoticeListCnt, curPage);
 			surveyNoticeList = surveyService.getSurveyNoticeList(surveyVo);
 			
+			for(int i = 0; i < surveyNoticeList.size(); i++) {
+				String createDate = surveyNoticeList.get(i).getCreate_date().substring(0,10);
+				
+				surveyNoticeList.get(i).setCreate_date(createDate);
+			}
+			
 			model.addAttribute("surveyNoticeList",surveyNoticeList);
 			model.addAttribute("pagination",surveyVo);
 			
@@ -93,6 +109,7 @@ public class SurveyController {
 
 			surveyService.increaseViewCount(vo.getNotice_idx());
 			vo = surveyService.getSurveyNoticeDetail(vo);
+			vo.setCreate_date(vo.getCreate_date().substring(0,10));
 			
 			fileList = surveyService.getSurveyNoticeFile(vo);
 			
@@ -128,6 +145,9 @@ public class SurveyController {
 		try {
 			vo.setSurvey_idx(survey_idx);
 			vo = surveyService.getSurveyDetail(vo);
+			vo.setCreate_date(vo.getCreate_date().substring(0,10));
+			vo.setS_date(vo.getS_date().substring(0,10));
+			vo.setE_date(vo.getE_date().substring(0,10));
 			//surveyOpinionList = surveyService.getSurveyOpinionList(vo);
 			//surveyQuestionList = surveyService.getSurveyQuestionList(vo);
 		}catch(Exception e) {

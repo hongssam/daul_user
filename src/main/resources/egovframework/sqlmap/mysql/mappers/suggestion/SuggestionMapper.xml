@@ -105,7 +105,7 @@
   		     , sub.content
   		     , sub.like_count
   		     , sub.create_user
-  		     , DATE_FORMAT(sub.create_date, '%Y-%m-%d') as create_date
+  		     , DATE_FORMAT(sub.create_date, '%Y-%m-%d %H:%i:%s') as create_date
   		     , sub.opinion_cnt
   		     , sub.like_per
 		  FROM (
@@ -165,8 +165,8 @@
 					 , so.opinion_content
 					 , so.create_user
 					 , so.update_user
-					 , DATE_FORMAT(so.create_date, '%Y-%m-%d %H:%i')	AS create_date
-					 , DATE_FORMAT(so.update_date, '%Y-%m-%d %H:%i') 	AS update_date
+					 , DATE_FORMAT(so.create_date, '%Y-%m-%d %H:%i:%s')	AS create_date
+					 , DATE_FORMAT(so.update_date, '%Y-%m-%d %H:%i:%s') 	AS update_date
 					 , so.del_chk
 					 , so.suggestion_ref								AS ref
 					 , so.suggestion_indent								AS indent

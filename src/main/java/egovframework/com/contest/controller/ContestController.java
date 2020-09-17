@@ -54,6 +54,17 @@ public class ContestController {
 			contestvo.setPagination(listCnt, curPage);
 			
 			contestList = contestService.getContestList(contestvo);
+			
+			for(int i = 0; i < contestList.size(); i++) {
+				String createDate = contestList.get(i).getCreate_date().substring(0,10);
+//				String contestEndDate = contestList.get(i).getE_date().substring(0,10);
+//				String contestStartDate = contestList.get(i).getS_date().substring(0,10);
+//				
+//				contestList.get(i).setCreate_date(createDate);
+//				contestList.get(i).setE_date(contestEndDate);
+//				contestList.get(i).setS_date(contestStartDate);
+			}
+			
 			model.addAttribute("contestList", contestList);
 			model.addAttribute("pagination",contestvo);
 

@@ -41,6 +41,11 @@ public class NoticeController {
 			noticeVo.setPagination(listCnt, curPage);
 			noticeList = noticeService.getNoticeList(noticeVo);
 			
+			for(int i = 0; i < noticeList.size(); i++) {
+				String date = noticeList.get(i).getCreate_date().substring(0,10);
+				noticeList.get(i).setCreate_date(date);
+			}
+			
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -61,6 +66,9 @@ public class NoticeController {
 			noticeService.increaseViewCount(vo.getNotice_idx());
 			
 			vo = noticeService.getNoticeDetail(vo);
+
+			vo.setCreate_date(vo.getCreate_date().substring(0,10));
+			
 			fileList = noticeService.getNoticeFile(vo);
 			
 		}catch(Exception e){

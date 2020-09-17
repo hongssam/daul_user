@@ -42,6 +42,12 @@ public class QnaController {
 			vo.setPagination(listCnt, curPage);
 			vo.setPageSize(10);
 			qnaList = qnaService.getQnaList(vo);
+			
+			for(int i = 0; i < qnaList.size(); i++) {
+				String date = qnaList.get(i).getCreate_date().substring(0,10);
+				qnaList.get(i).setCreate_date(date);
+			}
+			
 			model.addAttribute("qnaList",qnaList);
 			model.addAttribute("pagination", vo);
 		}catch(Exception e) {
@@ -78,11 +84,11 @@ public class QnaController {
 		
 		try {
 			vo.setQna_idx(qna_idx);
-			System.out.println("vo.getQna_idx() = " + vo.getQna_idx());
 			qnaService.increaseViewCount(vo.getQna_idx());
 			
 			vo = qnaService.getQnaDetail(vo);
 			
+			vo.setCreate_date(vo.getCreate_date().substring(0,10));
 		}catch(Exception e){
 			
 		}

@@ -50,6 +50,10 @@ public class SuggestionController {
 			List<SuggestionVo> suggestionList = suggestionService.selectSuggestionList(vo);
 			log.debug("[열린제안] 열린제안 목록 조회 : " + suggestionList);
 			
+			for(int i = 0; i < suggestionList.size(); i++) {
+				String date = suggestionList.get(i).getCreate_date().substring(0,10);
+				suggestionList.get(i).setCreate_date(date);
+			}
 			model.addAttribute("sgstList", suggestionList);
 			model.addAttribute("pagination", vo);
 			model.addAttribute("type", vo.getType());
@@ -73,6 +77,9 @@ public class SuggestionController {
 			
 			log.debug("[열린제안] 열린제안 상세 조회");
 			SuggestionVo suggestion = suggestionService.selectSuggestion(params);
+			
+			suggestion.setCreate_date(suggestion.getCreate_date().substring(0,10));
+			
 			log.debug("[열린제안] 열린제안 상세 파일 조회");
 			List<Map<String, String>> fileList = suggestionService.selectSuggestionFileList(params);
 			log.debug("[열린제안] 열린제안 상세 파일 조회 : " + fileList);
