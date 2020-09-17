@@ -107,4 +107,22 @@
 			 , #{auth_type}
 			 )
 	</insert>
+	
+	<select id="selectUser" resultType="egovframework.com.user.vo.UserVo">
+		SELECT user_id
+		     , name
+		     , pw
+		     , email
+		     , phone
+		     , channel
+		     , DATE_FORMAT(reg_date, '%Y-%m-%d')		as reg_date
+     		 , DATE_FORMAT(last_login_date, '%Y-%m-%d') as last_login_date
+		     , email_chk
+		     , talk_chk
+		     , sms_chk
+		     , auth_type
+		     , kakao_key
+		  FROM daul.user
+		 WHERE user_id = #{user_id}
+	</select>
 </mapper>

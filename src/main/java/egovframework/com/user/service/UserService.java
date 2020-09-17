@@ -14,4 +14,6 @@ public interface UserService {
 
 	void insertPublicUser(UserVo vo) throws Exception;
 
+	UserVo selectUser(UserVo vo) throws Exception;
+
 }

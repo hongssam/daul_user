@@ -11,7 +11,11 @@
 			<div class="col-sm-12 col-md-12 col-lg-6 col-xl-7">
 				<div class="footer_qlink_widget home5">
 					<ul class="list-unstyled">
-						<li><a href="privacy.html" style="font-size: 16px;">개인정보처리방</a> | <a href="provision.html" style="font-size: 16px;">이용약관</a></li>
+						<li>
+							<a href="${pageContext.request.contextPath}/main/privacyPage.do" style="font-size: 16px;">개인정보처리방</a>
+							 | 
+							<a href="${pageContext.request.contextPath}/main/provisionPage.do" style="font-size: 16px;">이용약관</a>
+						</li>
 					</ul>
 					<div class="copyright-widget home5">
 						<p class="text-left">(54968) 전라북도 전주시 완산구 효자로 225 | 대표번호 : 063-280-2114</p>

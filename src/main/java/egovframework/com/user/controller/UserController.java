@@ -155,4 +155,20 @@ public class UserController {
 		redirectAttributes.addFlashAttribute("user_id", vo.getUser_id());
 		return "redirect:/user/userRegistCmplPage.do";
 	}
+	
+	@RequestMapping(value="mypageDetailPage.do", method=RequestMethod.POST)
+	public String mypageDetailPage(UserVo vo, ModelMap model) throws Exception {
+		try {
+			log.debug("[사용자] 사용자 조회");
+			vo = userService.selectUser(vo);
+		} catch (Exception e) {
+			log.debug("[사용자] 사용자 조회 실패");
+			e.printStackTrace();
+		}
+		
+		model.addAttribute("userVo", vo);
+		
+		log.debug("[사용자] 사용자 조회 완료");
+		return "user/mypage";
+	}
 } 

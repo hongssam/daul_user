@@ -37,4 +37,9 @@ public class UserServiceImpl extends EgovAbstractServiceImpl implements UserServ
 		userMapper.insertPublicUser(vo);
 	}
 
+	@Override
+	public UserVo selectUser(UserVo vo) throws Exception {
+		return userMapper.selectUser(vo);
+	}
+
 }

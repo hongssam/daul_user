@@ -64,12 +64,15 @@
 					<li class="list-inline-item list_s pull-right nav-item-account">
 						<a href="#" class="btn" style="margin-top: 1px" onclick="kakaoUserLogout()">
 							<span class="dn-lg">| 로그아웃</span>
-							</a>
+						</a>
 					</li>
 					<li class="list-inline-item list_s pull-right nav-item-account">
-						<a href="#" class="flaticon-user" style="cursor:default" >
+						<a href="#" class="flaticon-user" style="cursor:default" id="mypage_btn">
 							<span class="dn-lg">${login.name}</span>
 						</a>
+						<form id="mypage_form">
+							<input type="hidden" name="user_id" value="${login.user_id}"/>
+						</form>
 					</li>
 					</c:when>
 					<c:otherwise>
@@ -96,7 +99,7 @@
 				<img class="nav_logo_img img-fluid mt20" style="width: 150px; margin-top: 30px;" src="${pageContext.request.contextPath}/images/logo.png" alt="header-logo.png">
 			</div>
 			<ul class="menu_bar_home2">
-				<li class="list-inline-item list_s"><a href="page-login.html"><span class="flaticon-user"></span></a></li>
+				<li class="list-inline-item list_s"><a href="#"><span class="flaticon-user"></span></a></li>
 				<li class="list-inline-item"><a href="#menu"><span></span></a></li>
 			</ul>
 		</div>
@@ -138,12 +141,12 @@
 			<li><a href="guide.html">이용안내</a></li>
 			<c:choose>
 					<c:when test = "${login.name ne '' && not empty login.name }">
-						<li><a href="#"><span class="flaticon-user"></span>&nbsp; ${login.name}</a></li>
-						<li><a href="#" onclick="kakaoUserLogout()"><span class="flaticon-logout"></span>&nbsp; Logout</a></li>
+						<li><a href="#"><span class="flaticon-user"></span> ${login.name}</a></li>
+						<li><a href="#" onclick="kakaoUserLogout()"><span class="flaticon-logout"></span> 로그아웃</a></li>
 					</c:when>
 					<c:otherwise>
-						<li><a href="/login/loginPage.do"><span class="flaticon-user"></span> Login</a></li>
-						<li><a href="/user/userRegistTermPage.do"><span class="flaticon-edit"></span> Register</a></li>
+						<li><a href="/login/loginPage.do"><span class="flaticon-user"></span> 로그인</a></li>
+						<li><a href="/user/userRegistTermPage.do"><span class="flaticon-edit"></span> 회원가입</a></li>
 					</c:otherwise>
 				</c:choose>
 		</ul>
@@ -171,4 +174,24 @@
 			location.href = CTX + "/login/logout.do";
 		}
 	}
+	
+	var mypage_btn = document.getElementById("mypage_btn");
+	
+	mypage_btn.addEventListener("click", function() {
+		var form = document.createElement("form");
+		
+		form.method = "post";
+		form.action = "/user/mypageDetailPage.do";
+		
+		var input = document.createElement("input");
+		
+		input.setAttribute("type", "hidden");
+		input.setAttribute("name", "user_id");
+		input.setAttribute("value", "${login.user_id}");
+		
+		form.appendChild(input);
+		document.body.appendChild(form);
+		
+		form.submit();
+	});
 </script>

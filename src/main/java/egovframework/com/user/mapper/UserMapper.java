@@ -16,4 +16,6 @@ public interface UserMapper {
 
 	void insertPublicUser(UserVo vo) throws Exception;
 
+	UserVo selectUser(UserVo vo) throws Exception;
+
 }

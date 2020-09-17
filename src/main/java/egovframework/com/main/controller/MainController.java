@@ -53,4 +53,14 @@ public class MainController {
 		log.debug("[메인] 최근 리스트 조회 완료");
 		return "main/main";
 	}
+	
+	@RequestMapping(value="/privacyPage.do")
+	public String privacyPage() {
+		return "main/privacy";
+	}
+	
+	@RequestMapping(value="/provisionPage.do")
+	public String provisionPage() {
+		return "main/provision";
+	}
 }
