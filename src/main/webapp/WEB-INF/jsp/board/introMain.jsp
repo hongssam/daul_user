@@ -8,13 +8,13 @@
            <a href="/board/introPage.do">e-다울마당이란</a>
          </div>
          <div class="wizard-item">
-           <a href="/board/faqListPage.do">자주하는질문</a>
+           <a href="/faq/faqListPage.do">자주하는질문</a>
          </div>
          <div class="wizard-item">
-           <a href="/board/noticeListPage.do">공지사항</a>
+           <a href="/notice/noticeListPage.do">공지사항</a>
          </div>
          <div class="wizard-item last">
-           <a href="/board/qnaListPage.do">묻고답하기</a>
+           <a href="/qna/qnaListPage.do">묻고답하기</a>
          </div>
        </div>
 	</div>
