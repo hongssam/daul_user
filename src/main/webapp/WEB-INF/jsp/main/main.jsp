@@ -200,19 +200,19 @@
 					<h4 class="title">이용안내</h4>
 					<div class="row p10">
 						<div class="col-4 p0">
-							<div class="guide-box suggestion">
+							<div class="guide-box" id="suggestion">
 								<img class="nav_logo_img img-fluid icon" src="${pageContext.request.contextPath}/images/icon-suggest.png">
 								<p>열린제안</p>
 							</div>
 						</div>
 						<div class="col-4 p0">
-							<div class="guide-box survey">
+							<div class="guide-box" id="survey">
 								<img class="nav_logo_img img-fluid icon" src="${pageContext.request.contextPath}/images/icon-survey.png">
 								<p>설문조사</p>
 							</div>
 						</div>
 						<div class="col-4 p0">
-							<div class="guide-box contest">
+							<div class="guide-box" id="contest">
 								<img class="nav_logo_img img-fluid icon" src="${pageContext.request.contextPath}/images/icon-contest.png">
 								<p>공모제안</p>
 							</div>
@@ -231,7 +231,33 @@
 		let div_guide = div_guides[i];
 		
 		div_guide.addEventListener("click", function() {
-			location.href = CTX + "/faq/faqListPage.do";
+			var id = div_guide.id;
+			
+			if(id === "suggestion"){
+				location.href = CTX + "/faq/faqListPage.do?idx=1";
+			}else if(id === "survey"){
+				location.href = CTX + "/faq/faqListPage.do?idx=2";
+			}else if(id === "contest"){
+				location.href = CTX + "/faq/faqListPage.do?idx=3";
+			}
 		});
 	}
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
