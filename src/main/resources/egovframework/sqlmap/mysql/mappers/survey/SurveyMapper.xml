@@ -216,16 +216,15 @@
 	</select>
 
 	<select id="getSurveyQuestionList" resultType="Map">
-		SELECT 
-			question_idx,
-			question_content,
-			q_seq,
-			ref,
-			type,
-			select_type
-		FROM daul.survey_question
-		WHERE survey_idx = #{survey_idx}
-		ORDER BY ref , question_idx ;
+		SELECT question_idx
+			 , ref
+		     , question_content
+		     , q_seq
+		     , select_type
+		  FROM daul.survey_question
+		 WHERE survey_idx = #{survey_idx}
+	 	 ORDER BY ref
+	 	        , question_idx
 	</select>
 	
 	<insert id="insertVote" parameterType = "hashmap">
@@ -372,4 +371,10 @@
 		 WHERE survey_idx = #{survey_idx}
 	</select>
 	
+	<select id="selectSurveyParticipationUserCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM daul.survey_participation
+		 WHERE participation_user = #{create_user}
+		   AND survey_idx = #{survey_idx}
+	</select>
 </mapper>                  

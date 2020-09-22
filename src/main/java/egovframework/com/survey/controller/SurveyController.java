@@ -140,22 +140,32 @@ public class SurveyController {
 	}
 	
 	@RequestMapping(value="/surveyDetailPage.do", method=RequestMethod.GET)
-	public String surveyDetailpage(ModelMap model, @RequestParam("survey_idx") String survey_idx) throws Exception {
+	public String surveyDetailpage(ModelMap model, @RequestParam("survey_idx") String survey_idx, HttpSession session) throws Exception {
 		SurveyVo vo = new SurveyVo();
+		Boolean isPart = false;
 		
 		try {
 			vo.setSurvey_idx(survey_idx);
+			
+			UserVo userVo = (UserVo) session.getAttribute("login");
+			if (userVo != null)	{
+				vo.setCreate_user(userVo.getUser_id());
+				
+				int partCnt = surveyService.selectSurveyParticipationUserCount(vo); 
+				isPart = partCnt > 0 ? true : false;
+			}
+			
 			vo = surveyService.getSurveyDetail(vo);
+			
 			vo.setCreate_date(vo.getCreate_date().substring(0,10));
 			vo.setS_date(vo.getS_date().substring(0,10));
 			vo.setE_date(vo.getE_date().substring(0,10));
-			//surveyOpinionList = surveyService.getSurveyOpinionList(vo);
-			//surveyQuestionList = surveyService.getSurveyQuestionList(vo);
 		}catch(Exception e) {
 			log.debug("[설문조사] 설문조사 상세보기 조회 실패");
 		}
 		
 		model.addAttribute("surveyVo", vo);
+		model.addAttribute("isPart", isPart);
 		
 		return "survey/surveyDetail";
 	}
@@ -254,7 +264,7 @@ public class SurveyController {
 	
 	@RequestMapping(value="/getQuestionList.do")
 	public ResponseEntity<?> getParticipationList( @RequestParam("survey_idx") String survey_idx) throws Exception{
-		List<Map<String,String>> surveyQuestionList = null;
+		List<Map<String, Object>> surveyQuestionList = null;
 		SurveyVo surveyVo = new SurveyVo();
 		surveyVo.setSurvey_idx(survey_idx);
 		surveyQuestionList = surveyService.getSurveyQuestionList(surveyVo);

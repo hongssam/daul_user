@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import egovframework.com.cmmn.util.FileVo;
-import egovframework.com.contest.vo.ContestVo;
 import egovframework.com.notice.vo.NoticeVo;
 import egovframework.com.survey.vo.SurveyOpinionVo;
 import egovframework.com.survey.vo.SurveyVo;
@@ -16,7 +15,7 @@ public interface SurveyService {
 	SurveyVo getSurveyDetail(SurveyVo vo) throws Exception;
 	//List<SurveyOpinionVo> getSurveyOpinionList(SurveyVo vo) throws Exception;
 	List<Map<String, String>> getSurveyOpinionList(SurveyOpinionVo vo) throws Exception;
-	List<Map<String,String>> getSurveyQuestionList(SurveyVo vo) throws Exception;
+	List<Map<String, Object>> getSurveyQuestionList(SurveyVo vo) throws Exception;
 	void insertVote(Map<String,Object> map) throws Exception;
 	List<Map<String,String>> getSurveyResult(SurveyVo vo) throws Exception;
 	SurveyOpinionVo selectParentSurveyOpinion(SurveyOpinionVo vo) throws Exception;
@@ -34,5 +33,6 @@ public interface SurveyService {
 	List<Map<String, String>> getSurveyNoticeFile(NoticeVo vo) throws Exception;
 	FileVo selectDownloadFile(FileVo vo) throws Exception;
 	Map<String, String> selectImageFile(String survey_idx) throws Exception;
+	int selectSurveyParticipationUserCount(SurveyVo vo) throws Exception;
 
 }

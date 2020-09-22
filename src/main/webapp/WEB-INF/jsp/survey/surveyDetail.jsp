@@ -46,15 +46,18 @@
 						<p>${surveyVo.content}</p>
 					</div>
 					<div class="bottom">
-						<button class="btn btn-primary btn-survey" data-toggle="modal" data-target=".survey-modal">
-							<i class="fa-check-square-o"></i>
-							참여하기
-						</button>
-						<button class="btn btn-dark btn-survey" data-toggle="modal" data-target=".survey-result-modal">
-							<i class="fa-pie-chart"></i>
-							결과보기
-						</button>
-
+						<c:if test="${login.user_id ne '' && not empty login.user_id}">
+							<c:if test="${isPart eq false}">
+								<button class="btn btn-primary btn-survey" data-toggle="modal" data-target=".survey-modal">
+									<i class="fa-check-square-o"></i>
+									참여하기
+								</button>
+							</c:if>
+							<button class="btn btn-dark btn-survey" data-toggle="modal" data-target=".survey-result-modal">
+								<i class="fa-pie-chart"></i>
+								결과보기
+							</button>
+						</c:if>
 					</div>
 				</div>
 			</div>
@@ -156,52 +159,50 @@
 	}
 	
 	function makeQuestion(data){
+		console.log(data);
 		
-		var TList = new Array();
-		var QList = new Array();
+		var survey_box = document.getElementById("survey-box");
 		
-		for (var result of data){
-			if(result.type === "T"){
-				TList.push(result);
-			}
-		}
-		
-		for (var result2 of data){
-			if(result2.type === "Q"){
-				QList.push(result2);
-			}
-		}
-		
-		for(var i = 0; i < TList.length; i++){
-				var str;
-				if(TList[i].select_type === "S"){
-				    str = '<hr><h5 class="mb20">'+(i+1)+'. '+TList[i].question_content+'</h5>'
-						+	'<div class="ui_kit_radiobox" id="radiobox_'+TList[i].ref+'">'
-						+	'</div>';
-				}else{
-					 str = '<hr><h5 class="mb20">'+(i+1)+'. '+TList[i].question_content+'</h5>'
-						+	'<div class="ui_kit_checkbox" id="checkbox_'+TList[i].ref+'">'
+		for (var i = 0; i < data.length; i++) {
+			var question = data[i];
+			
+			var type;
+			
+			// 설문 제목
+			if (question.select_type === "S")	type = "radiobox";
+			else								type = "checkbox";
+			
+			var title_html = 
+				'<hr>' +	
+		    	'<h5 class="mb20">' + (i+1) + '. ' + question.title + '</h5>' +	
+		    	'<div class="ui_kit_' + type + '" id="' + question.ref + '"></div>';
+			
+			survey_box.innerHTML += title_html;
+			
+			// 설문 항목
+			for (var j = 0; j < question.question_content.length; j++) {
+				var content = question.question_content[j];
+
+				var content_html;
+				
+				if (content.select_type === "S") {
+					content_html =
+						'<div class="radio item">' +  
+							'<input type="radio" name="answer" value="' + content.question_idx + '" id="radio' + j + '"/>' +
+							'<label for="radio' + j + '"><span class="radio-label"></span>' + content.question_content + '</label>' +
+						'</div>';
+				} else {
+					content_html =
+						'<div class="item custom-control custom-checkbox">' + 
+							'<input type="checkbox" class="custom-control-input" value="' + content.question_idx + '" name="answer" id="cb' + j + '">' + 
+							'<label class="custom-control-label" for="cb' + j + '">' + content.question_content + '</label>' + 
+						'</div>';
 				}
-				$("#survey-box").append(str);
-		}
-		for(var j = 0; j < QList.length; j++){
-			console.log(QList[j].ref);
-				var str2;
-				if(QList[j].select_type === "P"){
-				    str2 =     '   <div class="item custom-control custom-checkbox">'
-							+  '		<input type="checkbox" class="custom-control-input" value="'+QList[j].question_idx+'" name="answer" id="cb'+j+'">'
-							+  '		<label class="custom-control-label" for="cb'+j+'">'+QList[j].question_content+'</label>'
-							+  '	</div>';
-					var id = "checkbox_" + QList[j].ref;
-					console.log(id);
-					$("#" + id).append(str2);		
-				}else{
-					 str2 =     '   <div class="radio item">'
-							+  '		<input type="radio" name="answer" value="'+QList[j].question_idx+'" id="radio'+j+'">'
-							+  '		<label for="radio'+j+'"><span class="radio-label"></span>'+QList[j].question_content+'</label>'
-							+  '	</div>';
-					$("#radiobox_"+QList[j].ref).append(str2);		
-				}
+				
+				var title_div = document.getElementById(content.ref);
+				
+				title_div.innerHTML += content_html;
+			}
 		}
 	}
 
@@ -223,19 +224,15 @@
 	}
 
 	function makeSurveyResult(data){
-		console.log("makeSurveyResult = " +data);
+		console.log("makeSurveyResult = ", data);
 		var ResultTitleList = new Array();
 		var ResultQuestionList = new Array();
 		var ResultSum = 0;
 		for (var result of data){
-			if(result.type === "T"){
+			if(result.ref === result.question_idx){
 				ResultTitleList.push(result);
-			}
-		}
-		
-		for (var result2 of data){
-			if(result2.type === "Q"){
-				ResultQuestionList.push(result2);
+			} else {
+				ResultQuestionList.push(result);
 			}
 		}
 		

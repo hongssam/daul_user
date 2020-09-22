@@ -1,5 +1,6 @@
 package egovframework.com.survey.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -41,8 +42,45 @@ public class SurveyServiceImpl extends EgovAbstractServiceImpl implements Survey
 	}
 
 	@Override
-	public List<Map<String, String>> getSurveyQuestionList(SurveyVo vo) throws Exception {
-		return surveyMapper.getSurveyQuestionList(vo);
+	public List<Map<String, Object>> getSurveyQuestionList(SurveyVo vo) throws Exception {
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		List<Map<String, Object>> titleList = new ArrayList<>();
+		List<Map<String, Object>> contentList = new ArrayList<>();
+		
+		try {
+			list = surveyMapper.getSurveyQuestionList(vo);
+			
+			for (int i = 0; i < list.size(); i++) {
+				Map<String, Object> qesMap = list.get(i);
+				
+				if (qesMap.get("ref").equals(qesMap.get("question_idx"))) {
+					titleList.add(qesMap);
+				} else {
+					contentList.add(qesMap);
+				}
+			}
+			
+			for (int j = 0; j < titleList.size(); j++) {
+				Map<String, Object> titleMap = titleList.get(j);
+				titleMap.put("title", titleMap.get("question_content"));
+				
+				List<Map<String, Object>> content = new ArrayList<>();
+				
+				for (int k = 0; k < contentList.size(); k++) {
+					Map<String, Object> contentMap = contentList.get(k);
+					
+					if (titleMap.get("ref").equals(contentMap.get("ref"))) {
+						content.add(contentMap);
+					}
+				}
+				
+				titleMap.put("question_content", content);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return titleList;
 	}
 
 	@Override
@@ -133,6 +171,11 @@ public class SurveyServiceImpl extends EgovAbstractServiceImpl implements Survey
 	@Override
 	public Map<String, String> selectImageFile(String survey_idx) throws Exception {
 		return surveyMapper.selectImageFile(survey_idx);
+	}
+
+	@Override
+	public int selectSurveyParticipationUserCount(SurveyVo vo) throws Exception {
+		return surveyMapper.selectSurveyParticipationUserCount(vo);
 	}
 
 }
