@@ -9,6 +9,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import egovframework.com.user.vo.UserVo;
+
 public class cmmnInterceptor extends HandlerInterceptorAdapter {
 
 	private static final String LOGIN = "login";

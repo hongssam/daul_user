@@ -1,7 +1,9 @@
 package egovframework.com.user.service;
 
+import java.util.List;
 import java.util.Map;
 
+import egovframework.com.suggestion.vo.SuggestionVo;
 import egovframework.com.user.vo.UserVo;
 
 public interface UserService {
@@ -15,5 +17,11 @@ public interface UserService {
 	void insertPublicUser(UserVo vo) throws Exception;
 
 	UserVo selectUser(UserVo vo) throws Exception;
+
+	void updateUser(UserVo vo) throws Exception;
+
+	List<SuggestionVo> selectSuggestionListByMypage(SuggestionVo vo) throws Exception;
+
+	int selectSuggestionListCntByMypage(SuggestionVo vo) throws Exception;
 
 }

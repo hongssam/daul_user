@@ -21,13 +21,13 @@
 			 , channel
 			 , reg_date
 			 , last_login_date
-			 <if test="email_chk != null and email_chk != ''">
+			 <if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(email_chk)">
 			 , email_chk 
 			 </if>
-			 <if test="talk_chk != null and talk_chk != ''">
+			 <if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(talk_chk)">
 			 , talk_chk 
 			 </if>
-			 <if test="sms_chk != null and sms_chk != ''">
+			 <if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(sms_chk)">
 			 , sms_chk 
 			 </if>
 			 , auth_type
@@ -43,13 +43,13 @@
 			 , #{channel}
 			 , SYSDATE()
 			 , SYSDATE()
-			 <if test="email_chk != null and email_chk != ''">
+			 <if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(email_chk)">
 			 , #{email_chk} 
 			 </if>
-			 <if test="talk_chk != null and talk_chk != ''">
+			 <if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(talk_chk)">
 			 , #{talk_chk} 
 			 </if>
-			 <if test="sms_chk != null and sms_chk != ''">
+			 <if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(sms_chk)">
 			 , #{sms_chk} 
 			 </if>
 			 , #{auth_type}
@@ -74,13 +74,13 @@
 			 , channel
 			 , reg_date
 			 , last_login_date
-			 <if test="email_chk != null and email_chk != ''">
+			 <if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(email_chk)">
 			 , email_chk 
 			 </if>
-			 <if test="talk_chk != null and talk_chk != ''">
+			 <if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(talk_chk)">
 			 , talk_chk 
 			 </if>
-			 <if test="sms_chk != null and sms_chk != ''">
+			 <if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(sms_chk)">
 			 , sms_chk 
 			 </if>
 			 , auth_type
@@ -95,13 +95,13 @@
 			 , #{channel}
 			 , SYSDATE()
 			 , SYSDATE()
-			 <if test="email_chk != null and email_chk != ''">
+			 <if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(email_chk)">
 			 , #{email_chk} 
 			 </if>
-			 <if test="talk_chk != null and talk_chk != ''">
+			 <if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(talk_chk)">
 			 , #{talk_chk} 
 			 </if>
-			 <if test="sms_chk != null and sms_chk != ''">
+			 <if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(sms_chk)">
 			 , #{sms_chk} 
 			 </if>
 			 , #{auth_type}
@@ -124,5 +124,105 @@
 		     , kakao_key
 		  FROM daul.user
 		 WHERE user_id = #{user_id}
+	</select>
+	
+	<update id="updateUser">
+		UPDATE daul.user
+		   SET user_id = #{user_id}
+		     <if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(pw)">
+		     , pw = #{pw}
+		     </if>
+		     <if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(name)">
+		     , name = #{name}
+		     </if>
+		     <if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(email)">
+		     , email = #{email}
+		     </if>
+		     <if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(email_chk)">
+		     , email_chk = #{email_chk}
+		     </if>
+		     <if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(talk_chk)">
+		     , talk_chk = #{talk_chk}
+		     </if>
+		     <if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(sms_chk)">
+		     , sms_chk = #{sms_chk}
+		     </if>
+		 WHERE user_id = #{user_id}
+	</update>
+	
+	<sql id="whereBySuggestion">
+		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'title')">
+			AND title like concat('%', #{search}, '%')
+		</if>
+		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'content')">
+			AND content like concat('%', #{search}, '%')
+		</if>
+		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'create_user')">
+			AND create_user like concat('%', #{search}, '%')
+		</if>
+		<if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(search_s_date)">
+			<![CDATA[
+			AND create_date >= date_format(concat(#{search_s_date}, ' 00:00:00'), '%Y-%m-%d %H:%i:%s')
+			]]>
+		</if>
+		<if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(search_e_date)">
+			<![CDATA[
+			AND create_date <= date_format(concat(#{search_e_date}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
+			]]>
+		</if>
+	</sql>
+	
+	<select id="selectSuggestionListCntByMypage" resultType="int">
+		SELECT COUNT(*) 
+		  FROM (
+		  		SELECT sm.*
+		  		     , CASE WHEN (like_count / 50 * 100) >= 100 THEN 100 ELSE (like_count / 50 * 100) END AS like_per
+		  		  FROM (
+						SELECT suggestion_idx
+							 , title
+							 , content
+							 , (SELECT COUNT(*) FROM daul.user_like where parent_idx = s.suggestion_idx) AS like_count
+							 , create_user
+							 , DATE_FORMAT(create_date, '%Y-%m-%d') as create_date
+							 , (SELECT count(*) FROM suggestion_opinion a WHERE a.suggestion_idx = s.suggestion_idx) AS opinion_cnt
+						  FROM suggestion_main s
+						 WHERE del_chk != 'Y'
+						   AND create_user = #{create_user}
+						   <include refid="whereBySuggestion"/>
+		  		  	   ) sm
+		       ) sub
+	</select>
+	
+	<select id="selectSuggestionListByMypage" resultType="egovframework.com.suggestion.vo.SuggestionVo">
+		SELECT @rownum:=@rownum+1 AS num
+  		     , sub.suggestion_idx
+  		     , sub.title
+  		     , sub.content
+  		     , sub.like_count
+  		     , sub.create_user
+  		     , DATE_FORMAT(sub.create_date, '%Y-%m-%d %H:%i:%s') as create_date
+  		     , sub.opinion_cnt
+  		     , sub.like_per
+		  FROM (
+		  		SELECT sm.*
+		  		     , CASE WHEN (like_count / 50 * 100) >= 100 THEN 100 ELSE (like_count / 50 * 100) END AS like_per
+		  		  FROM (
+						SELECT suggestion_idx
+							 , title
+							 , content
+							 , (SELECT COUNT(*) FROM daul.user_like where parent_idx = s.suggestion_idx) AS like_count
+							 , create_user
+							 , create_date
+							 , (SELECT count(*) FROM suggestion_opinion a WHERE a.suggestion_idx = s.suggestion_idx) AS opinion_cnt
+						  FROM suggestion_main s
+						 WHERE del_chk != 'Y'
+						   AND create_user = #{create_user}
+						   <include refid="whereBySuggestion"/>
+		  		  	   ) sm
+		  		 ORDER BY sm.create_date
+		       ) sub
+		     , (SELECT @rownum:=0) TMP
+		 ORDER BY num DESC
+		 LIMIT #{startIndex}, #{pageSize}
 	</select>
 </mapper>

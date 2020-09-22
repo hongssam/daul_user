@@ -57,7 +57,7 @@
 							<div class="col-lg-3 p0">
 								<label>아이디<span>*</span></label>
 							</div>
-							<div class="col-lg-9 id-dupl ">
+							<div class="col-lg-9 id-dupl">
 								<form:input type="text" class="form-control pull-left" path="user_id" placeholder="아이디"/>
 								<button type="button" class="btn btn-dupl btn-dark pull-right" id="userIdCheck">중복확인</button>
 								<form:errors stype="color:red" path="user_id"/>
@@ -231,7 +231,7 @@
 				} else {
 					userIdFlag = true;
 					alert("사용가능한 아이디 입니다.");
-					$("#userIdCheck").remove();
+					$("#userIdCheck").hide();
 					//$("#userIdCheckDiv").append("<span style='color:blue;'>사용가능한 아이디입니다.</span>");
 				}
 			});
@@ -243,5 +243,7 @@
 	
 	$("#user_id").change(function() {
 		userIdFlag = false;
+		
+		$("#userIdCheck").show();
 	});
 </script>

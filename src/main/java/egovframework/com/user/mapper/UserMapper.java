@@ -1,7 +1,9 @@
 package egovframework.com.user.mapper;
 
+import java.util.List;
 import java.util.Map;
 
+import egovframework.com.suggestion.vo.SuggestionVo;
 import egovframework.com.user.vo.UserVo;
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
@@ -17,5 +19,11 @@ public interface UserMapper {
 	void insertPublicUser(UserVo vo) throws Exception;
 
 	UserVo selectUser(UserVo vo) throws Exception;
+
+	void updateUser(UserVo vo) throws Exception;
+
+	List<SuggestionVo> selectSuggestionListByMypage(SuggestionVo vo) throws Exception;
+
+	int selectSuggestionListCntByMypage(SuggestionVo vo) throws Exception;
 
 }

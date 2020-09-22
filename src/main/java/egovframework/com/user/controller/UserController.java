@@ -1,9 +1,11 @@
 package egovframework.com.user.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import egovframework.com.cmmn.SecurityUtil;
+import egovframework.com.suggestion.vo.SuggestionVo;
 import egovframework.com.user.service.UserService;
 import egovframework.com.user.vo.UserVo;
 
@@ -156,7 +159,7 @@ public class UserController {
 		return "redirect:/user/userRegistCmplPage.do";
 	}
 	
-	@RequestMapping(value="mypageDetailPage.do", method=RequestMethod.POST)
+	@RequestMapping(value="/mypageDetailPage.do", method=RequestMethod.POST)
 	public String mypageDetailPage(UserVo vo, ModelMap model) throws Exception {
 		try {
 			log.debug("[사용자] 사용자 조회");
@@ -170,5 +173,64 @@ public class UserController {
 		
 		log.debug("[사용자] 사용자 조회 완료");
 		return "user/mypage";
+	}
+	
+	@RequestMapping(value="/publicUserModify.do", method=RequestMethod.POST)
+	public String publicUserModify(UserVo vo, BindingResult result, HttpSession session) throws Exception {
+		try {
+			UserModifyValidator userModifyValidator = new UserModifyValidator();
+			userModifyValidator.validate(vo, result);
+
+			if (result.hasErrors()) {
+				log.debug("[사용자] 사용자 수정 validator ERROR");
+				log.debug(result.getFieldError());
+				
+				return "/user/mypage";
+			}
+			
+			if (vo.getEmail_chk() == null)	vo.setEmail_chk("N");
+			if (vo.getTalk_chk() == null)	vo.setTalk_chk("N");
+			if (vo.getSms_chk() == null)	vo.setSms_chk("N");
+			
+			SecurityUtil securityUtil = new SecurityUtil();
+			String encryptPw = securityUtil.encryptSHA256(vo.getPwKey());
+			vo.setPw(encryptPw);
+			
+			log.debug("[사용자] 사용자 수정");
+			userService.updateUser(vo);
+			
+			session.setAttribute("login", vo);
+		} catch (Exception e) {
+			log.debug("[사용자] 사용자 수정 실패");
+			e.printStackTrace();
+		}
+		
+		log.debug("[사용자] 사용자 수정 완료");
+		return "/user/mypage";
+	}
+	
+	@RequestMapping(value="/mypageSuggestionListPage.do")
+	public String mypageSuggestionListpage(ModelMap model, @RequestParam(defaultValue = "1") int curPage, HttpSession session) throws Exception {
+		List<SuggestionVo> suggestionList = null;
+		SuggestionVo vo = new SuggestionVo();
+		
+		try {
+			UserVo userVo = (UserVo) session.getAttribute("login");
+			
+			vo.setCreate_user(userVo.getUser_id());
+			
+			int listCnt = userService.selectSuggestionListCntByMypage(vo);
+			
+			vo.setPagination(listCnt, curPage);
+			
+			suggestionList = userService.selectSuggestionListByMypage(vo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		model.addAttribute("sgstList", suggestionList);
+		model.addAttribute("pagination", vo);
+		
+		return "/user/mypageSuggestionList";
 	}
 } 

@@ -67,7 +67,7 @@
 						</a>
 					</li>
 					<li class="list-inline-item list_s pull-right nav-item-account">
-						<a href="#" class="flaticon-user" style="cursor:default" id="mypage_btn">
+						<a href="#" class="flaticon-user" style="cursor:pointer" id="mypage_btn">
 							<span class="dn-lg">${login.name}</span>
 						</a>
 						<form id="mypage_form">
@@ -177,21 +177,23 @@
 	
 	var mypage_btn = document.getElementById("mypage_btn");
 	
-	mypage_btn.addEventListener("click", function() {
-		var form = document.createElement("form");
-		
-		form.method = "post";
-		form.action = "/user/mypageDetailPage.do";
-		
-		var input = document.createElement("input");
-		
-		input.setAttribute("type", "hidden");
-		input.setAttribute("name", "user_id");
-		input.setAttribute("value", "${login.user_id}");
-		
-		form.appendChild(input);
-		document.body.appendChild(form);
-		
-		form.submit();
-	});
+	if (mypage_btn != null) {
+		mypage_btn.addEventListener("click", function() {
+			var form = document.createElement("form");
+			
+			form.method = "post";
+			form.action = "/user/mypageDetailPage.do";
+			
+			var input = document.createElement("input");
+			
+			input.setAttribute("type", "hidden");
+			input.setAttribute("name", "user_id");
+			input.setAttribute("value", "${login.user_id}");
+			
+			form.appendChild(input);
+			document.body.appendChild(form);
+			
+			form.submit();
+		});
+	}
 </script>

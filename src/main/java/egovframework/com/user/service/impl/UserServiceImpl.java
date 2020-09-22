@@ -1,11 +1,13 @@
 package egovframework.com.user.service.impl;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import egovframework.com.suggestion.vo.SuggestionVo;
 import egovframework.com.user.mapper.UserMapper;
 import egovframework.com.user.service.UserService;
 import egovframework.com.user.vo.UserVo;
@@ -40,6 +42,21 @@ public class UserServiceImpl extends EgovAbstractServiceImpl implements UserServ
 	@Override
 	public UserVo selectUser(UserVo vo) throws Exception {
 		return userMapper.selectUser(vo);
+	}
+
+	@Override
+	public void updateUser(UserVo vo) throws Exception {
+		userMapper.updateUser(vo);
+	}
+
+	@Override
+	public List<SuggestionVo> selectSuggestionListByMypage(SuggestionVo vo) throws Exception {
+		return userMapper.selectSuggestionListByMypage(vo);
+	}
+
+	@Override
+	public int selectSuggestionListCntByMypage(SuggestionVo vo) throws Exception {
+		return userMapper.selectSuggestionListCntByMypage(vo);
 	}
 
 }

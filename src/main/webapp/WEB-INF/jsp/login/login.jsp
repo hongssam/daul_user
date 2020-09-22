@@ -50,7 +50,8 @@
 			if (data === "success") {
 				location.href = "${pageContext.request.contextPath}/main/main.do";
 			} else {
-				$("#chk-error").text(data);
+				//$("#chk-error").text(data);
+				alert(data);
 			}
 		});
 		
