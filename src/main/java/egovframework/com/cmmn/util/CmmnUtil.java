@@ -6,15 +6,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Component("cmmnUtil")
+@RequestMapping(value="/cmmn")
 public class CmmnUtil {
     private Log log = LogFactory.getLog(this.getClass());
     
+	@Resource(name="fileUtil")
+	private FileUtil fileUtil;
+	
 	public List<Map<String, String>> getValid(BindingResult bindingResult) {
 		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
 
@@ -46,5 +55,17 @@ public class CmmnUtil {
 			keyList.add(Long.parseLong(key));
 		}
 		return keyList;
+	}
+	
+	@RequestMapping(value="/getImg.do")
+	public void getImage(@RequestParam("save_file_name") String save_file_name, HttpServletResponse response) throws Exception {
+		
+		try {
+		
+				fileUtil.getImgFile(response, save_file_name);
+		
+		} catch (Exception e) {
+			log.debug("ChatbotController - getImg.do - Exception");
+		}
 	}
 }

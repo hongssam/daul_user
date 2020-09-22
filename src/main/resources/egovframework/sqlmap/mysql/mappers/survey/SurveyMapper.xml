@@ -66,29 +66,35 @@
 	</select>
 	
 	<select id="getSurveyNoticeList" resultType="egovframework.com.notice.vo.NoticeVo">
-		  SELECT    a.notice_idx
-			       ,a.title
-			       ,a.content
-			       ,a.notice_type
-			       ,a.view_count
-			       ,a.create_user
-			       , DATE_FORMAT(a.create_date, '%Y-%m-%d %H:%i:%s') 		AS create_date
-			       ,b.name 
-		  FROM daul.daul_notice a
-		  LEFT JOIN daul.user b
-		    ON a.create_user = b.user_id 
-		 WHERE a.del_chk = 'N' 
-		   AND a.notice_type='survey'
-		   <if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'title')">
-			 AND a.title like concat('%', #{search}, '%')
-		</if>
-		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'content')">
-			 AND a.content like concat('%', #{search}, '%')
-		</if>
-		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'create_user')">
-			 AND b.name like concat('%', #{search}, '%')
-		</if>
-		 ORDER BY create_date desc
+		SELECT *
+		  FROM(
+			  SELECT   @rownum:=@rownum+1 					AS num
+			  			,a.notice_idx
+				       ,a.title
+				       ,a.content
+				       ,a.notice_type
+				       ,a.view_count
+				       ,a.create_user
+				       , DATE_FORMAT(a.create_date, '%Y-%m-%d %H:%i:%s') 		AS create_date
+				       ,b.name 
+			  FROM daul.daul_notice a
+			  LEFT JOIN daul.user b
+			    ON a.create_user = b.user_id 
+			    , (SELECT @rownum:=0) TMP
+			 WHERE a.del_chk = 'N' 
+			   AND a.notice_type='survey'
+			   <if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'title')">
+				 AND a.title like concat('%', #{search}, '%')
+			</if>
+			<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'content')">
+				 AND a.content like concat('%', #{search}, '%')
+			</if>
+			<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'create_user')">
+				 AND b.name like concat('%', #{search}, '%')
+			</if>
+			 ORDER BY create_date ASC
+		) sub
+		ORDER BY sub.num DESC
 		 LIMIT #{startIndex}, #{pageSize}
 	</select>
 	

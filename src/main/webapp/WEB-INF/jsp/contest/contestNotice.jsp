@@ -37,7 +37,7 @@
 							<tbody>
 								<c:forEach var="list" items="${contestNoticeList}" varStatus="idx">
 									<tr>
-										<td class="text-center">${idx.index + 1}</td>
+										<td class="text-center">${list.num}</td>
 										<td>
 											<a href="/contest/contestNoticeDetail.do?notice_idx=${list.notice_idx }">
 												<span class="status_tag outline-dark">공지</span>${ list.title}

@@ -18,7 +18,9 @@
 						</li>
 					</ul>
 					<div class="copyright-widget home5">
-						<p class="text-left">(54968) 전라북도 전주시 완산구 효자로 225 | 대표번호 : 063-280-2114</p>
+						<p class="text-left">55011 전라북도 전주시 완산구 아중로 33 (중노송동) 전주정보문화산업진흥원</p>
+						<p class="text-left">전화 : 063-286-1400</p>
+						<p class="text-left">팩스 : 063-281-4199</p>
 						<p class="text-left">Copyright 2020. e-다울마당 All rights reserved.</p>
 					</div>
 				</div>

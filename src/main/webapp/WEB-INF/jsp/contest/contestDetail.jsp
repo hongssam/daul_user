@@ -83,7 +83,7 @@
 							<tbody>
 								<c:forEach var="list" items="${userContestList}" varStatus="idx">
 									<tr>
-										<td class="text-center"></td>
+										<td class="text-center">${list.num }</td>
 										<td class="text-center">${list.user_name }</td>
 										<td>${list.title }</td>
 										<td class="text-center">${list.create_date }</td>

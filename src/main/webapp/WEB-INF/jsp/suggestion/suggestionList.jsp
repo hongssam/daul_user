@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!-- Subpage Nav Tabs -->
 <div class="nav-tabs style2 bgc-fa">
@@ -28,9 +28,15 @@
 			<div class="col-lg-6">
 				<ul class="sort-type text-left">
 					<!-- <li data-order="1">최신 순</li> -->
-					<li data-order="1"><a href="/suggestion/suggestionListPage.do?order=1&type=${type}">최신 순</a></li>
-					<li data-order="2"><a href="/suggestion/suggestionListPage.do?order=2&type=${type}">공감 높은 순</a></li>
-					<li data-order="3"><a href="/suggestion/suggestionListPage.do?order=3&type=${type}">의견 많은 순</a></li>
+					<li data-order="1">
+						<a href="/suggestion/suggestionListPage.do?order=1&type=${type}">최신 순</a>
+					</li>
+					<li data-order="2">
+						<a href="/suggestion/suggestionListPage.do?order=2&type=${type}">공감 높은 순</a>
+					</li>
+					<li data-order="3">
+						<a href="/suggestion/suggestionListPage.do?order=3&type=${type}">의견 많은 순</a>
+					</li>
 				</ul>
 			</div>
 			<div class="col-lg-6">
@@ -52,45 +58,87 @@
 		</div>
 		<div class="grid-list row">
 			<c:forEach var="sgst" items="${sgstList}">
-				<div class="grid-item col-md-6 col-lg-3">
-					<div class="content-box suggest" onclick="location.href='${pageContext.request.contextPath}/suggestion/suggestionDetailPage.do?suggestion_idx=${sgst.suggestion_idx}'">
-						<div class="details">
-							<div class="tc_content">
-								<ul class="fp_meta">
-									<li class="list-inline-item float-left">
-										<img src="${pageContext.request.contextPath}/images/user.png" alt="user.png">
-									</li>
-									<li class="list-inline-item">
-										<p>${sgst.create_user}</p>
-										<p class="date">${sgst.create_date}</p>
-									</li>
-								</ul>
-								<div class="fp_content">
-									<h4 class="title">${sgst.title}</h4>
-									<p>${sgst.content}</p>
+				<c:choose>
+					<c:when test="${empty login.user_id }">
+						<div class="grid-item col-md-6 col-lg-3">
+							<div class="content-box suggest" onclick="loginPage()">
+								<div class="details">
+									<div class="tc_content">
+										<ul class="fp_meta">
+											<li class="list-inline-item float-left">
+												<img src="${pageContext.request.contextPath}/images/user.png" alt="user.png">
+											</li>
+											<li class="list-inline-item">
+												<p>${sgst.create_user}</p>
+												<p class="date">${sgst.create_date}</p>
+											</li>
+										</ul>
+										<div class="fp_content">
+											<h4 class="title">${sgst.title}</h4>
+											<p>${sgst.content}</p>
+										</div>
+									</div>
+								</div>
+								<div class="bottom">
+									<div class="content">
+										<span class="like-cnt">
+											<span class="icon flaticon-heart"></span>
+											공감 ${sgst.like_count}
+										</span>
+										<span class="reply-cnt">
+											<span class="icon flaticon-chat"></span>
+											의견 ${sgst.opinion_cnt}
+										</span>
+									</div>
+									<div class="bar-graph-bg">
+										<div class="bar-graph-fr" style="width: ${sgst.like_per}%"></div>
+									</div>
 								</div>
 							</div>
 						</div>
-						<div class="bottom">
-							<div class="content">
-								<span class="like-cnt">
-									<span class="icon flaticon-heart"></span>
-									공감 ${sgst.like_count}
-								</span>
-								<span class="reply-cnt">
-									<span class="icon flaticon-chat"></span>
-									의견 ${sgst.opinion_cnt}
-								</span>
-							</div>
-							<div class="bar-graph-bg">
-								<div class="bar-graph-fr" style="width: ${sgst.like_per}%"></div>
+					</c:when>
+					<c:otherwise>
+						<div class="grid-item col-md-6 col-lg-3">
+							<div class="content-box suggest" onclick="location.href='${pageContext.request.contextPath}/suggestion/suggestionDetailPage.do?suggestion_idx=${sgst.suggestion_idx}'">
+								<div class="details">
+									<div class="tc_content">
+										<ul class="fp_meta">
+											<li class="list-inline-item float-left">
+												<img src="${pageContext.request.contextPath}/images/user.png" alt="user.png">
+											</li>
+											<li class="list-inline-item">
+												<p>${sgst.create_user}</p>
+												<p class="date">${sgst.create_date}</p>
+											</li>
+										</ul>
+										<div class="fp_content">
+											<h4 class="title">${sgst.title}</h4>
+											<p>${sgst.content}</p>
+										</div>
+									</div>
+								</div>
+								<div class="bottom">
+									<div class="content">
+										<span class="like-cnt">
+											<span class="icon flaticon-heart"></span>
+											공감 ${sgst.like_count}
+										</span>
+										<span class="reply-cnt">
+											<span class="icon flaticon-chat"></span>
+											의견 ${sgst.opinion_cnt}
+										</span>
+									</div>
+									<div class="bar-graph-bg">
+										<div class="bar-graph-fr" style="width: ${sgst.like_per}%"></div>
+									</div>
+								</div>
 							</div>
 						</div>
-					</div>
-				</div>
+					</c:otherwise>
+				</c:choose>
 			</c:forEach>
-			
-			<%@ include file="../common/pagination.jsp" %>
+
+			<%@ include file="../common/pagination.jsp"%>
 		</div>
 	</div>
 </section>
@@ -100,21 +148,22 @@
 	var div_wizard = document.querySelector("div.wizard");
 	var search_arr = window.location.search.split("&");
 	var order, type;
-	
+
 	for (var i = 0; i < search_arr.length; i++) {
 		var search = search_arr[i];
-		
+
 		if (search.indexOf("order") > -1) {
 			var order_arr = search.split("=");
 			order = order_arr[order_arr.length - 1];
-			
+
 			var ul_child = ul.children;
-			
+
 			for (var j = 0; j < ul_child.length; j++) {
 				var li = ul_child[j];
-				
+
 				if (order === li.dataset.order) {
-					if (!li.classList.contains("active"))	li.classList.add("active");
+					if (!li.classList.contains("active"))
+						li.classList.add("active");
 				} else {
 					li.classList.remove("active");
 				}
@@ -122,46 +171,52 @@
 		} else if (search.indexOf("type") > -1) {
 			var type_arr = search.split("=");
 			type = type_arr[type_arr.length - 1];
-			
+
 			var div_wizard_child = div_wizard.children;
-			
+
 			for (var j = 0; j < div_wizard_child.length; j++) {
 				var div = div_wizard_child[j];
-				
+
 				if (type === div.dataset.type) {
-					if (!div.classList.contains("active"))	div.classList.add("active");
+					if (!div.classList.contains("active"))
+						div.classList.add("active");
 				} else {
 					div.classList.remove("active");
 				}
 			}
 		}
 	}
-	
+
 	var btn_search_sgst = document.getElementById("search_sgst_btn");
-	
+
 	btn_search_sgst.addEventListener("click", function() {
 		searchSgstList();
 	});
-	
+
 	var input_search = document.getElementById("search");
-	
+
 	input_search.addEventListener("keydown", function(e) {
 		if (e.keyCode === 13) {
 			event.preventDefault();
-	
+
 			searchSgstList();
 		}
 	});
-	
+
 	var url_param = "order=" + order + "&type=" + type;
-	
+
 	function searchSgstList() {
 		var search_value = $("#search_form").serialize();
-		
+
 		location.href = "${pageContext.request.contextPath}/suggestion/suggestionListPage.do?" + url_param + "&" + search_value;
 	}
-	
+
 	function fn_paging(pageNum) {
 		location.href = "${pageContext.request.contextPath}/suggestion/suggestionListPage.do?curPage=" + pageNum + "&" + url_param;
+	}
+	
+	function loginPage(){
+		alert("로그인이 필요합니다.");
+		location.href = "${pageContext.request.contextPath}/login/loginPage.do";
 	}
 </script>

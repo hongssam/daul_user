@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!-- Subpage Nav Tabs -->
 <div class="nav-tabs style2 bgc-fa">
@@ -21,9 +21,15 @@
 		<div class="grid-list-header row">
 			<div class="col-lg-6">
 				<ul class="sort-type text-left">
-					<li data-order="1"><a href="/survey/surveyListPage.do?order=1">최신 순</a></li>
-					<li data-order="2"><a href="/survey/surveyListPage.do?order=2">참여 많은 순</a></li>
-					<li data-order="3"><a href="/survey/surveyListPage.do?order=3">의견 많은 순</a></li>
+					<li data-order="1">
+						<a href="/survey/surveyListPage.do?order=1">최신 순</a>
+					</li>
+					<li data-order="2">
+						<a href="/survey/surveyListPage.do?order=2">참여 많은 순</a>
+					</li>
+					<li data-order="3">
+						<a href="/survey/surveyListPage.do?order=3">의견 많은 순</a>
+					</li>
 				</ul>
 			</div>
 			<div class="col-lg-6">
@@ -43,67 +49,111 @@
 				</div>
 			</div>
 		</div>
-   	
+
 		<div class="grid-list row">
 			<c:forEach var="list" items="${surveyList}" varStatus="idx">
-				<div class="grid-item col-12">
-					<div class="feat_property list" onclick="location.href='${pageContext.request.contextPath}/survey/surveyDetailPage.do?survey_idx=${list.survey_idx }'">
-						<div class="thumb">
-							<img class="img-whp" src="${pageContext.request.contextPath}/survey/getImg.do?survey_idx=${list.survey_idx}" style="height: 266px;">
-						</div>
-						<div class="details">
-							<div class="tc_content">
-								<div class="dtls_headr">
-									<c:if test="${list.ing eq '투표중' }">
-										<span class="status_tag outline-primary">${list.ing }</span>
-									</c:if>
-									<c:if test="${list.ing eq '투표전' }">
-										<span class="status_tag default">${list.ing }</span>
-									</c:if>
-									<c:if test="${list.ing eq '투표완료' }">
-										<span class="status_tag default">${list.ing }</span>
-									</c:if>
+				<c:choose>
+					<c:when test="${empty login.user_id }">
+						<div class="grid-item col-12">
+							<div class="feat_property list" onclick="loginPage()">
+								<div class="thumb">
+									<img class="img-whp" src="${pageContext.request.contextPath}/survey/getImg.do?survey_idx=${list.survey_idx}" style="height: 266px;">
 								</div>
-								<h4>${list.title}</h4>
-								<p class="content">${list.content}</p>
-								<p class="date">
-									<b>투표기간</b> | ${list.s_date} ~${list.e_date}
-								</p>
-	
-								<div class="bottom">
-									<span class="item"><span class="icon flaticon-user"></span>참여 ${list.participation_count}</span> 
-									<span class="item"><span class="icon flaticon-chat"></span>의견 ${list.opinion_count}</span>
+								<div class="details">
+									<div class="tc_content">
+										<div class="dtls_headr">
+											<c:if test="${list.ing eq '투표중' }">
+												<span class="status_tag outline-primary">${list.ing }</span>
+											</c:if>
+											<c:if test="${list.ing eq '투표전' }">
+												<span class="status_tag default">${list.ing }</span>
+											</c:if>
+											<c:if test="${list.ing eq '투표완료' }">
+												<span class="status_tag default">${list.ing }</span>
+											</c:if>
+										</div>
+										<h4>${list.title}</h4>
+										<p class="content">${list.content}</p>
+										<p class="date">
+											<b>투표기간</b> | ${list.s_date} ~${list.e_date}
+										</p>
+										<div class="bottom">
+											<span class="item">
+												<span class="icon flaticon-user"></span>
+												참여 ${list.participation_count}
+											</span>
+											<span class="item">
+												<span class="icon flaticon-chat"></span>
+												의견 ${list.opinion_count}
+											</span>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				</div>
+					</c:when>
+					<c:otherwise>
+						<div class="grid-item col-12">
+							<div class="feat_property list" onclick="location.href='${pageContext.request.contextPath}/survey/surveyDetailPage.do?survey_idx=${list.survey_idx }'">
+								<div class="thumb">
+									<img class="img-whp" src="${pageContext.request.contextPath}/survey/getImg.do?survey_idx=${list.survey_idx}" style="height: 266px;">
+								</div>
+								<div class="details">
+									<div class="tc_content">
+										<div class="dtls_headr">
+											<c:if test="${list.ing eq '투표중' }">
+												<span class="status_tag outline-primary">${list.ing }</span>
+											</c:if>
+											<c:if test="${list.ing eq '투표전' }">
+												<span class="status_tag default">${list.ing }</span>
+											</c:if>
+											<c:if test="${list.ing eq '투표완료' }">
+												<span class="status_tag default">${list.ing }</span>
+											</c:if>
+										</div>
+										<h4>${list.title}</h4>
+										<p class="content">${list.content}</p>
+										<p class="date">
+											<b>투표기간</b> | ${list.s_date} ~${list.e_date}
+										</p>
+
+										<div class="bottom">
+											<span class="item">
+												<span class="icon flaticon-user"></span>
+												참여 ${list.participation_count}
+											</span>
+											<span class="item">
+												<span class="icon flaticon-chat"></span>
+												의견 ${list.opinion_count}
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</c:otherwise>
+				</c:choose>
 			</c:forEach>
-			  <%@ include file="../common/pagination.jsp" %>
+			<%@ include file="../common/pagination.jsp"%>
 		</div>
 	</div>
 </section>
 
 <script type="text/javascript">
-
 	var surveyList = new Array();
-	
+
 	function getSurveyList() {
-		var request = $.ajax({
-			url: "/survey/getSurveyList.do",
-			method: "get",
-			data: $("#search-form").serialize()
-		});
-		
+		var request = $.ajax({ url : "/survey/getSurveyList.do", method : "get", data : $("#search-form").serialize() });
+
 		request.done(function(data) {
 			surveyList = data;
 		});
-		
+
 		request.fail(function(error) {
 			console.log(error);
 		});
 	}
-	
+
 	$(function() {
 		var today = formatDate(new Date());
 		var preday = formatPreDate(new Date());
@@ -116,21 +166,22 @@
 	var div_wizard = document.querySelector("div.wizard");
 	var search_arr = window.location.search.split("&");
 	var order, type;
-	
+
 	for (var i = 0; i < search_arr.length; i++) {
 		var search = search_arr[i];
-		
+
 		if (search.indexOf("order") > -1) {
 			var order_arr = search.split("=");
 			order = order_arr[order_arr.length - 1];
-			
+
 			var ul_child = ul.children;
-			
+
 			for (var j = 0; j < ul_child.length; j++) {
 				var li = ul_child[j];
-				
+
 				if (order === li.dataset.order) {
-					if (!li.classList.contains("active"))	li.classList.add("active");
+					if (!li.classList.contains("active"))
+						li.classList.add("active");
 				} else {
 					li.classList.remove("active");
 				}
@@ -138,48 +189,49 @@
 		} else if (search.indexOf("type") > -1) {
 			var type_arr = search.split("=");
 			type = type_arr[type_arr.length - 1];
-			
+
 			var div_wizard_child = div_wizard.children;
-			
+
 			for (var j = 0; j < div_wizard_child.length; j++) {
 				var div = div_wizard_child[j];
-				
+
 				if (type === div.dataset.type) {
-					if (!div.classList.contains("active"))	div.classList.add("active");
+					if (!div.classList.contains("active"))
+						div.classList.add("active");
 				} else {
 					div.classList.remove("active");
 				}
 			}
 		}
 	}
-	
-	
-	
+
 	var btn_search = document.getElementById("search_btn");
-	
+
 	btn_search.addEventListener("click", function() {
 		searchSurveyList();
 	});
-	
+
 	var input_search = document.getElementById("search");
-	
+
 	input_search.addEventListener("keydown", function(e) {
 		if (e.keyCode === 13) {
 			event.preventDefault();
-	
+
 			searchSurveyList();
 		}
 	});
-	
+
 	function searchSurveyList() {
 		var search_value = $("#search_form").serialize();
 		location.href = "${pageContext.request.contextPath}/survey/surveyListPage.do?order=" + order + "&" + search_value;
 	}
-	
+
 	function fn_paging(pageNum) {
 		location.href = '${pageContext.request.contextPath}/survey/surveyListPage.do?order=' + order + '&' + 'curPage=' + pageNum;
 	}
-	
-	
-	
+
+	function loginPage() {
+		alert("로그인이 필요합니다.");
+		location.href = "${pageContext.request.contextPath}/login/loginPage.do";
+	}
 </script>

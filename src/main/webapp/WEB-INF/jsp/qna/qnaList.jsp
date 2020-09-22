@@ -79,8 +79,7 @@
 										</c:when>
 										<c:otherwise>
 											<tr>
-												<td class="text-center"></td>
-
+												<td class="text-center">${list.num}</td>
 												<c:choose>
 													<c:when test="${list.lock_chk eq 'Y' }">
 														<td>
@@ -109,7 +108,14 @@
 							</tbody>
 						</table>
 					</div>
-					<button type="submit" class="bottom-right-btn btn btn-primary " onclick="location.href='/qna/qnaRegistPage.do'">글쓰기</button>
+					<c:choose>
+						<c:when test="${empty login.user_id }">
+							<button type="submit" class="bottom-right-btn btn btn-primary " onclick="loginPage()">글쓰기</button>
+						</c:when>
+						<c:otherwise>
+							<button type="submit" class="bottom-right-btn btn btn-primary " onclick="location.href='/qna/qnaRegistPage.do'">글쓰기</button>
+						</c:otherwise>
+					</c:choose>
 					<div class="table-nav">
 						<%@ include file="../common/pagination.jsp"%>
 
@@ -167,3 +173,10 @@
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+	function loginPage() {
+		alert("로그인이 필요합니다.");
+		location.href = "${pageContext.request.contextPath}/login/loginPage.do";
+	}
+</script>

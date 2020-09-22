@@ -21,7 +21,10 @@ public class SurveyVo extends SearchVo{
 	private int participation_count;
 	private String ing;
 	private String answer;
-	
+	private String question_content;
+	private String surveyFile;
+	private String q_seq;
+	private int num;
 	
 
 	public String getAnswer() {
@@ -48,15 +51,6 @@ public class SurveyVo extends SearchVo{
 	public void setParticipation_count(int participation_count) {
 		this.participation_count = participation_count;
 	}
-
-	private String question_content;
-
-	private String surveyFile;
-	
-	private String q_seq;
-	
-	private int num;
-	
 	public String getQ_seq() {
 		return q_seq;
 	}
