@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.com.suggestion.vo.SuggestionVo;
+import egovframework.com.survey.vo.SurveyVo;
 import egovframework.com.user.mapper.UserMapper;
 import egovframework.com.user.service.UserService;
 import egovframework.com.user.vo.UserVo;
@@ -57,6 +58,16 @@ public class UserServiceImpl extends EgovAbstractServiceImpl implements UserServ
 	@Override
 	public int selectSuggestionListCntByMypage(SuggestionVo vo) throws Exception {
 		return userMapper.selectSuggestionListCntByMypage(vo);
+	}
+
+	@Override
+	public int selectSurveyListCntByMypage(SurveyVo vo) throws Exception {
+		return userMapper.selectSurveyListCntByMypage(vo);
+	}
+
+	@Override
+	public List<SurveyVo> selectSurveyListByMypage(SurveyVo vo) throws Exception {
+		return userMapper.selectSurveyListByMypage(vo);
 	}
 
 }

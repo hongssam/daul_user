@@ -184,7 +184,8 @@
 		});
 		
 		request.fail(function(error) {
-			console.log("request fail", error)
+			console.log("request fail", error);
+			alert(error.responseText);
 		});
 	}
 	

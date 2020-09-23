@@ -61,8 +61,8 @@
 		});
 	}
 	
-	$("#user_id").val("admin");
-	$("#pw").val("1234qwer");
+	$("#user_id").val("testuser1");
+	$("#pw").val("testuser1");
 	
 	//$("#login-btn").trigger("click");
 	
@@ -70,5 +70,9 @@
 	
 	kakao_login_btn.addEventListener("click", function() {
 		kakaoLogin();
+	});
+	
+	document.getElementById("pw").addEventListener("keyup", function(e) {
+		if (e.keyCode === 13)	login();
 	});
 </script>

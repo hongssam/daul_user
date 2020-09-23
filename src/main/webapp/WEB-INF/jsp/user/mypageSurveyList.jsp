@@ -5,11 +5,17 @@
 <div class="nav-tabs style2 bgc-fa">
 	<div class="container">
 		<div class="wizard">
-			<div class="wizard-item first active">
-				<a href="/survey/surveyListPage.do?order=1">설문하기</a>
+			<div class="wizard-item first">
+				<a href="#">계정 정보</a>
+			</div>
+			<div class="wizard-item">
+				<a href="/user/mypageSuggestionListPage.do">나의 제안 목록</a>
+			</div>
+			<div class="wizard-item active">
+				<a href="/user/mypageSurveyListPage.do">나의 투표 목록</a>
 			</div>
 			<div class="wizard-item last">
-				<a href="/survey/surveyNoticeListPage.do">공지사항</a>
+				<a href="/user/mypageContestListPage.do">나의 공모 목록</a>
 			</div>
 		</div>
 	</div>
@@ -20,11 +26,6 @@
 	<div class="container mt0">
 		<div class="grid-list-header row">
 			<div class="col-lg-6">
-				<ul class="sort-type text-left">
-					<li data-order="1"><a href="/survey/surveyListPage.do?order=1">최신 순</a></li>
-					<li data-order="2"><a href="/survey/surveyListPage.do?order=2">참여 많은 순</a></li>
-					<li data-order="3"><a href="/survey/surveyListPage.do?order=3">의견 많은 순</a></li>
-				</ul>
 			</div>
 			<div class="col-lg-6">
 				<div class="candidate_revew_select text-right">
@@ -49,7 +50,8 @@
 				<div class="grid-item col-12">
 					<div class="feat_property list" onclick="location.href='${pageContext.request.contextPath}/survey/surveyDetailPage.do?survey_idx=${list.survey_idx }'">
 						<div class="thumb">
-							<img class="img-whp" src="${pageContext.request.contextPath}/survey/getImg.do?survey_idx=${list.survey_idx}" style="height: 266px;">
+							<img class="img-whp" src="${pageContext.request.contextPath}/images/logo.png" style="height: 266px;">
+							<%-- <img class="img-whp" src="${pageContext.request.contextPath}/survey/getImg.do?survey_idx=${list.survey_idx}" style="height: 266px;"> --%>
 						</div>
 						<div class="details">
 							<div class="tc_content">
@@ -79,81 +81,18 @@
 					</div>
 				</div>
 			</c:forEach>
-			  <%@ include file="../common/pagination.jsp" %>
+			<%@ include file="../common/pagination.jsp" %>
 		</div>
 	</div>
 </section>
 
 <script type="text/javascript">
-
-	var surveyList = new Array();
-	
-	function getSurveyList() {
-		var request = $.ajax({
-			url: "/survey/getSurveyList.do",
-			method: "get",
-			data: $("#search-form").serialize()
-		});
-		
-		request.done(function(data) {
-			surveyList = data;
-		});
-		
-		request.fail(function(error) {
-			console.log(error);
-		});
-	}
-	
 	$(function() {
 		var today = formatDate(new Date());
 		var preday = formatPreDate(new Date());
 		$("input[name='search_s_date']").val(preday);
 		$("input[name='search_e_date']").val(today);
-		getSurveyList();
 	})
-
-	var ul = document.querySelector("ul.sort-type.text-left");
-	var div_wizard = document.querySelector("div.wizard");
-	var search_arr = window.location.search.split("&");
-	var order, type;
-	
-	for (var i = 0; i < search_arr.length; i++) {
-		var search = search_arr[i];
-		
-		if (search.indexOf("order") > -1) {
-			var order_arr = search.split("=");
-			order = order_arr[order_arr.length - 1];
-			
-			var ul_child = ul.children;
-			
-			for (var j = 0; j < ul_child.length; j++) {
-				var li = ul_child[j];
-				
-				if (order === li.dataset.order) {
-					if (!li.classList.contains("active"))	li.classList.add("active");
-				} else {
-					li.classList.remove("active");
-				}
-			}
-		} else if (search.indexOf("type") > -1) {
-			var type_arr = search.split("=");
-			type = type_arr[type_arr.length - 1];
-			
-			var div_wizard_child = div_wizard.children;
-			
-			for (var j = 0; j < div_wizard_child.length; j++) {
-				var div = div_wizard_child[j];
-				
-				if (type === div.dataset.type) {
-					if (!div.classList.contains("active"))	div.classList.add("active");
-				} else {
-					div.classList.remove("active");
-				}
-			}
-		}
-	}
-	
-	
 	
 	var btn_search = document.getElementById("search_btn");
 	
@@ -173,11 +112,11 @@
 	
 	function searchSurveyList() {
 		var search_value = $("#search_form").serialize();
-		location.href = "${pageContext.request.contextPath}/survey/surveyListPage.do?order=" + order + "&" + search_value;
+		location.href = "${pageContext.request.contextPath}/user/mypageSurveyListPage.do?" + search_value;
 	}
 	
 	function fn_paging(pageNum) {
-		location.href = '${pageContext.request.contextPath}/survey/surveyListPage.do?order=' + order + '&' + 'curPage=' + pageNum;
+		location.href = '${pageContext.request.contextPath}/user/mypageSurveyListPage.do?curPage=' + pageNum;
 	}
 	
 	

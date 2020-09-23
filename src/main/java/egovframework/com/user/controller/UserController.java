@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import egovframework.com.cmmn.SecurityUtil;
 import egovframework.com.suggestion.vo.SuggestionVo;
+import egovframework.com.survey.vo.SurveyVo;
 import egovframework.com.user.service.UserService;
 import egovframework.com.user.vo.UserVo;
 
@@ -232,5 +233,30 @@ public class UserController {
 		model.addAttribute("pagination", vo);
 		
 		return "/user/mypageSuggestionList";
+	}
+	
+	@RequestMapping(value="/mypageSurveyListPage.do")
+	public String mypageSurveyListPage(ModelMap model, @RequestParam(defaultValue = "1") int curPage, HttpSession session) throws Exception {
+		List<SurveyVo> surveyList = null;
+		SurveyVo vo = new SurveyVo();
+		
+		try {
+			UserVo userVo = (UserVo) session.getAttribute("login");
+			
+			vo.setCreate_user(userVo.getUser_id());
+			
+			int listCnt = userService.selectSurveyListCntByMypage(vo);
+			
+			vo.setPagination(listCnt, curPage);
+			
+			surveyList = userService.selectSurveyListByMypage(vo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		model.addAttribute("surveyList", surveyList);
+		model.addAttribute("pagination", vo);
+		
+		return "/user/mypageSurveyList";
 	}
 } 

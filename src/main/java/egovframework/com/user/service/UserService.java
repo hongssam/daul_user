@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import egovframework.com.suggestion.vo.SuggestionVo;
+import egovframework.com.survey.vo.SurveyVo;
 import egovframework.com.user.vo.UserVo;
 
 public interface UserService {
@@ -23,5 +24,9 @@ public interface UserService {
 	List<SuggestionVo> selectSuggestionListByMypage(SuggestionVo vo) throws Exception;
 
 	int selectSuggestionListCntByMypage(SuggestionVo vo) throws Exception;
+
+	int selectSurveyListCntByMypage(SurveyVo vo) throws Exception;
+
+	List<SurveyVo> selectSurveyListByMypage(SurveyVo vo) throws Exception;
 
 }

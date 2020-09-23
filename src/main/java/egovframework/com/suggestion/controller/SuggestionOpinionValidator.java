@@ -21,11 +21,11 @@ public class SuggestionOpinionValidator implements Validator{
 		String opinion_content = suggestionOpinionVo.getOpinion_content();
 		
 		if(opinion_content == null || opinion_content.trim().isEmpty()) {
-			errors.rejectValue("opinion_content","opinion_content","이 항목은 필수값 입니다.");
+			errors.rejectValue("opinion_content", "opinion_content", "의견 내용을 입력해 주세요.");
 		}
 		
 		if(opinion_content.length() > 5000) {
-			errors.rejectValue("opinion_content","opinion_content","내용은 5000자 이내로 작성해주세요.");
+			errors.rejectValue("opinion_content", "opinion_content", "내용은 5000자 이내로 작성해주세요.");
 		}
 		
 	}

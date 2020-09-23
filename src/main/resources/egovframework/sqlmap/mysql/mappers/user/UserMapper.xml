@@ -225,4 +225,69 @@
 		 ORDER BY num DESC
 		 LIMIT #{startIndex}, #{pageSize}
 	</select>
+	
+	<sql id="whereBySurvey">
+		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'title')">
+			 AND title like concat('%', #{search}, '%')
+		</if>
+		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'content')">
+			 AND content like concat('%', #{search}, '%')
+		</if>
+		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'create_user')">
+			 AND create_user like concat('%', #{search}, '%')
+		</if>
+		<if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(search_s_date)">
+			 <![CDATA[
+			AND create_date >= date_format(concat(#{search_s_date}, ' 00:00:00'), '%Y-%m-%d %H:%i:%s')
+			]]>
+		</if>
+		<if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(search_e_date)">
+			 <![CDATA[
+			AND create_date <= date_format(concat(#{search_e_date}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
+			]]>
+		</if>
+	</sql>
+	
+	<select id="selectSurveyListCntByMypage" resultType="int">
+		SELECT COUNT(*)
+		  FROM survey_main sm
+		 INNER JOIN (
+		  			 SELECT survey_idx 
+		  			   FROM daul.survey_participation 
+		  			  WHERE participation_user = #{create_user} 
+		  			  GROUP BY survey_idx
+		  			) sp ON sp.survey_idx = sm.survey_idx
+		  	 , (SELECT @rownum:=0) TMP
+		 WHERE sm.del_chk != 'Y'
+		 <include refid="whereBySurvey"/>
+	</select>
+	
+	<select id="selectSurveyListByMypage" resultType="egovframework.com.survey.vo.SurveyVo">
+		SELECT @rownum:=@rownum+1 					AS num
+			 , sm.survey_idx
+		     , sm.title
+		     , sm.content
+		     , DATE_FORMAT(sm.s_date, '%Y-%m-%d')	AS s_date
+		     , DATE_FORMAT(sm.e_date, '%Y-%m-%d')	AS e_date
+		     , sm.create_user
+		     , (SELECT COUNT(*) FROM survey_opinion WHERE survey_idx = sm.survey_idx )			AS opinion_cnt
+		     , (SELECT COUNT(*) FROM survey_participation WHERE survey_idx = sm.survey_idx )	AS participation_count
+		     <![CDATA[
+		     , (CASE WHEN e_date < SYSDATE() 					   THEN '투표완료'
+		 		    WHEN s_date > SYSDATE() 					   THEN '투표전'
+			 	    WHEN e_date > SYSDATE() AND SYSDATE() > s_date THEN '투표중'
+			    END) AS ing
+			 ]]>
+		  FROM survey_main sm
+		 INNER JOIN (
+		  			 SELECT survey_idx 
+		  			   FROM daul.survey_participation 
+		  			  WHERE participation_user = #{create_user} 
+		  			  GROUP BY survey_idx
+		  			) sp ON sp.survey_idx = sm.survey_idx
+		  	 , (SELECT @rownum:=0) TMP
+		 WHERE sm.del_chk != 'Y'
+		 <include refid="whereBySurvey"/>
+		 LIMIT #{startIndex}, #{pageSize}
+	</select>
 </mapper>

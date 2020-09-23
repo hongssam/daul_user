@@ -187,7 +187,7 @@ public class SuggestionController {
 			
 			
 			if(bindingResult.hasErrors()) {
-				return new ResponseEntity<>(bindingResult.getFieldError().getDefaultMessage(), HttpStatus.OK);
+				return new ResponseEntity<>(bindingResult.getFieldError().getDefaultMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 			
 			String opinionIdx = vo.getOpinion_idx();
