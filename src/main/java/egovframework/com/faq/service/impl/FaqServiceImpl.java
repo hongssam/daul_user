@@ -18,8 +18,23 @@ public class FaqServiceImpl  extends EgovAbstractServiceImpl implements FaqServi
 	private FaqMapper faqMapper;
 
 	@Override
-	public List<FaqVo> getFaqList() throws Exception {
-		return faqMapper.getFaqList();
+	public List<FaqVo> getFaqListMain() throws Exception {
+		return faqMapper.getFaqListMain();
+	}
+
+	@Override
+	public List<FaqVo> getFaqListSuggestion() throws Exception {
+		return faqMapper.getFaqListSuggestion();
+	}
+
+	@Override
+	public List<FaqVo> getFaqListContest() throws Exception {
+		return faqMapper.getFaqListContest();
+	}
+
+	@Override
+	public List<FaqVo> getFaqListSurvey() throws Exception {
+		return faqMapper.getFaqListSurvey();
 	}
 	
 	

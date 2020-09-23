@@ -166,14 +166,17 @@ var fileList = new Array();
 	
 	if (fileList.length > 0) {
 		for (var file of fileList) {
-			var str = 		'<a href="#this" name="file">'
-						+   '<input type="hidden" name="save_file_name" value="' + file.save_file_name + '">'
-						+	'	<span class="fa-file-o mr10"></span>'
-						+	file.org_file_name
-						+	'</a>'
-						+	'<br>';
-			
-			$("#file-list").append(str);
+			console.log(file.attach_type);
+			if(file.attach_type !== "files"){
+				var str = 		'<a href="#this" name="file">'
+							+   '<input type="hidden" name="save_file_name" value="' + file.save_file_name + '">'
+							+	'	<span class="fa-file-o mr10"></span>'
+							+	file.org_file_name
+							+	'</a>'
+							+	'<br>';
+				
+				$("#file-list").append(str);
+			}
 		}
 	}
 	

@@ -40,7 +40,7 @@
 		    	AND create_date <= date_format(concat(#{search_e_date}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
 		    	]]>
 		    </if>
-			ORDER BY ref ASC, indent desc
+			ORDER BY ref ASC, indent desc, create_date asc 
 		) sub
 	ORDER BY sub.num desc
 	LIMIT  #{startIndex},#{pageSize}

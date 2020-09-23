@@ -36,8 +36,6 @@
 								<tr>
 									<td class="text-left board-content" colspan="2">
 										<div style="min-height: 224px;">
-											<img src="images/board-sample.png" class="w-75" />
-											<br>
 											${contestNoticeVo.content}
 										</div>
 									</td>

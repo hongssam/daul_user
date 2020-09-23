@@ -80,7 +80,7 @@
 				<div class="testimonial_grid_slider style2">
 					<c:forEach var="sgst" items="${sgstList}">
 						<div class="item">
-							<div class="home-content-box suggest">
+							<div class="home-content-box suggest" id = "/suggestion/suggestionDetailPage.do?suggestion_idx=${sgst.suggestion_idx }">
 								<div class="details">
 									<div class="tc_content">
 										<ul class="fp_meta">
@@ -119,7 +119,7 @@
 				<div class="testimonial_grid_slider style2">
 					<c:forEach var="survey" items="${surveyList}">
 						<div class="item">
-							<div class="home-content-box survey">
+							<div class="home-content-box survey" id = "/survey/surveyDetailPage.do?survey_idx=${survey.survey_idx }">
 								<img class="img-whp" src="${pageContext.request.contextPath}/survey/getImg.do?survey_idx=${survey.survey_idx}" style="height: 230px;">
 								<div class="details">
 									<div class="tc_content">
@@ -146,8 +146,8 @@
 				</div>
 				<div class="testimonial_grid_slider style2">
 					<c:forEach var="contest" items="${contestList}">
-						<div class="item">
-							<div class="home-content-box contest">
+						<div class="item" >
+							<div class="home-content-box contest" id = "/contest/contestDetailPage.do?admin_contest_idx=${contest.admin_contest_idx }">
 								<img class="img-whp" src="${pageContext.request.contextPath}/contest/getImg.do?admin_contest_idx=${contest.admin_contest_idx}" style="height: 230px;">
 								<div class="details">
 									<div class="tc_content">
@@ -226,6 +226,7 @@
 
 <script type="text/javascript">
 	var div_guides = document.querySelectorAll("div.guide-box");	
+	var div_home_content_boxes = document.querySelectorAll("div.home-content-box");
 	
 	for (var i = 0; i < div_guides.length; i++) {
 		let div_guide = div_guides[i];
@@ -242,6 +243,23 @@
 			}
 		});
 	}
+	
+	for (var j = 0; j < div_home_content_boxes.length; j++){
+		let home_content_box = div_home_content_boxes[j];
+		console.log(home_content_box);
+		
+		home_content_box.addEventListener("click", function(){
+			var session_id = "${login.user_id}";
+			console.log("session_id = " + session_id);
+			if(session_id === '' || session_id === null){
+				alert("로그인이 필요합니다.");
+				location.href = "${pageContext.request.contextPath}/login/loginPage.do";
+			}else{
+				location.href = CTX + home_content_box.id;
+			}
+		})
+	}
+	
 </script>
 
 

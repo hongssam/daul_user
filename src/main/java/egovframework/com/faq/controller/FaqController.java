@@ -23,10 +23,20 @@ public class FaqController {
 	
 	@RequestMapping(value="/faqListPage.do")
 	public String faqListPage(ModelMap model) throws Exception{
-		List<FaqVo> faqList =null;
+		List<FaqVo> faqListMain =null;
+		List<FaqVo> faqListContest =null;
+		List<FaqVo> faqListSurvey =null;
+		List<FaqVo> faqListSuggestion =null;
 		try {
-			faqList = faqService.getFaqList();
-			model.addAttribute("faqList", faqList);
+			faqListMain = faqService.getFaqListMain();
+			faqListContest = faqService.getFaqListContest();
+			faqListSurvey = faqService.getFaqListSurvey();
+			faqListSuggestion = faqService.getFaqListSuggestion();
+			
+			model.addAttribute("faqListContest", faqListContest);
+			model.addAttribute("faqListSurvey", faqListSurvey);
+			model.addAttribute("faqListSuggestion", faqListSuggestion);
+			model.addAttribute("faqListMain", faqListMain);
 		}catch(Exception e) {
 			
 		}

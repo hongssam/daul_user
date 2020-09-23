@@ -322,14 +322,17 @@ public class ContestController {
 		try {
 			file = contestService.selectImageFile(admin_contest_idx);
 	
-			if (!file.isEmpty()) {
-				fileUtil.getImgFile(response, file.get("save_file_name"));
+			try {
+				if (!file.isEmpty()) {
+					fileUtil.getImgFile(response, file.get("save_file_name"));
+				}
+			}catch(NullPointerException e){
+				fileUtil.getImgFile(response, "placeholder.png");
+				log.debug("이미지없음.");
 			}
 		
 		} catch (Exception e) {
-			fileUtil.getImgFile(response, "placeholder.png");
 			log.debug("ChatbotController - getImg.do - Exception");
-		
 			e.printStackTrace();
 		}
 	}

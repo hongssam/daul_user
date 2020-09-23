@@ -39,7 +39,7 @@
 								<div id="collapse" class="collapse" aria-labelledby="heading" data-parent="#accordionExampleParent">
 									<div class="card-body">
 										<div class="accordion" id="accordionExample">
-											<c:forEach var="list" items="${faqList}" varStatus="idx">
+											<c:forEach var="list" items="${faqListMain}" varStatus="idx">
 
 												<div class="card">
 													<div class="card-header" id="headingChild${idx.index}">
@@ -68,7 +68,7 @@
 								<div id="collapse2" class="collapse" aria-labelledby="heading2" data-parent="#accordionExampleParent">
 									<div class="card-body">
 										<div class="accordion" id="accordionExample2">
-											<c:forEach var="list" items="${faqList}" varStatus="idx">
+											<c:forEach var="list" items="${faqListSuggestion}" varStatus="idx">
 
 												<div class="card">
 													<div class="card-header" id="headingChild2${idx.index}">
@@ -97,7 +97,7 @@
 								<div id="collapse3" class="collapse" aria-labelledby="heading3" data-parent="#accordionExampleParent">
 									<div class="card-body">
 										<div class="accordion" id="accordionExample3">
-											<c:forEach var="list" items="${faqList}" varStatus="idx">
+											<c:forEach var="list" items="${faqListSurvey}" varStatus="idx">
 
 												<div class="card">
 													<div class="card-header" id="headingChild3${idx.index}">
@@ -125,7 +125,7 @@
 								<div id="collapse4" class="collapse" aria-labelledby="heading4" data-parent="#accordionExampleParent">
 									<div class="card-body">
 										<div class="accordion" id="accordionExample4">
-											<c:forEach var="list" items="${faqList}" varStatus="idx">
+											<c:forEach var="list" items="${faqListContest}" varStatus="idx">
 
 												<div class="card">
 													<div class="card-header" id="headingChild4${idx.index}">

@@ -43,7 +43,7 @@ public class SuggestionController {
 		try {
 			log.debug("[열린제안] 열린제안 목록 카운트 조회");
 			int listCnt = suggestionService.selectSuggestionListCnt(vo);
-			
+			vo.setPageSize(8);
 			vo.setPagination(listCnt, curPage);
 			
 			log.debug("[열린제안] 열린제안 목록 조회");
@@ -54,6 +54,7 @@ public class SuggestionController {
 				String date = suggestionList.get(i).getCreate_date().substring(0,10);
 				suggestionList.get(i).setCreate_date(date);
 			}
+			
 			model.addAttribute("sgstList", suggestionList);
 			model.addAttribute("pagination", vo);
 			model.addAttribute("type", vo.getType());
