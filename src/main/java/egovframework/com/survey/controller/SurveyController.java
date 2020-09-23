@@ -277,23 +277,27 @@ public class SurveyController {
 		String question_idx;
 		String survey_idx;
 	    List<Map<String, Object>> answerList = new ArrayList<Map<String, Object>>();
-	    
 		try {
 			UserVo userVo = (UserVo) session.getAttribute("login");
 		    vo.setCreate_user(userVo.getUser_id());
-			String answer_arr = vo.getAnswer();
-			String[] answerArr = answer_arr.split(",");
+		    
+		    
+		    List<String> answer_arr = vo.getAnswer_arr();
 			survey_idx = vo.getSurvey_idx();
 			
-			for(int i = 0; i < answerArr.length; i++) {
-				question_idx = answerArr[i];
+			for(int i = 0; i < answer_arr.size(); i++) {
+				question_idx = answer_arr.get(i);
 				
-				Map<String,Object> answerInfo = new HashMap<String,Object>();
+				String[] question_idx_arr = question_idx.split(",");
 				
-				answerInfo.put("survey_idx", survey_idx);
-				answerInfo.put("question_idx", question_idx);
-				answerInfo.put("participation_user", vo.getCreate_user());
-				answerList.add(answerInfo);
+				for (int j = 0; j < question_idx_arr.length; j++) {
+					Map<String,Object> answerInfo = new HashMap<String,Object>();
+					
+					answerInfo.put("survey_idx", survey_idx);
+					answerInfo.put("question_idx", question_idx_arr[j]);
+					answerInfo.put("participation_user", vo.getCreate_user());
+					answerList.add(answerInfo);
+				}
 			}
 			for(int answerListCnt = 0; answerListCnt < answerList.size(); answerListCnt++) {
 				System.out.println(answerList.get(answerListCnt));

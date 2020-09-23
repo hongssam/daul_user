@@ -1,5 +1,7 @@
 package egovframework.com.survey.vo;
 
+import java.util.List;
+
 import egovframework.com.cmmn.util.SearchVo;
 
 
@@ -26,7 +28,15 @@ public class SurveyVo extends SearchVo{
 	private String q_seq;
 	private int num;
 	
+	private List<String> answer_arr;
+	
 
+	public List<String> getAnswer_arr() {
+		return answer_arr;
+	}
+	public void setAnswer_arr(List<String> answer_arr) {
+		this.answer_arr = answer_arr;
+	}
 	public String getAnswer() {
 		return answer;
 	}
@@ -156,7 +166,7 @@ public class SurveyVo extends SearchVo{
 				+ ", update_date=" + update_date + ", del_chk=" + del_chk + ", opinion_count=" + opinion_count
 				+ ", participation_count=" + participation_count + ", ing=" + ing + ", answer=" + answer
 				+ ", question_content=" + question_content + ", surveyFile=" + surveyFile + ", q_seq=" + q_seq
-				+ ", num=" + num + "]";
+				+ ", num=" + num + ", answer_arr=" + answer_arr + "]";
 	}
 	
 

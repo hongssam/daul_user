@@ -188,13 +188,13 @@
 				if (content.select_type === "S") {
 					content_html =
 						'<div class="radio item">' +  
-							'<input type="radio" name="answer" value="' + content.question_idx + '" id="radio_' + i + j + '"/>' +
+							'<input type="radio" name="answer_arr[' + i + ']" value="' + content.question_idx + '" id="radio_' + i + j + '"/>' +
 							'<label for="radio_' + i + j + '"><span class="radio-label"></span>' + content.question_content + '</label>' +
 						'</div>';
 				} else {
 					content_html =
 						'<div class="item custom-control custom-checkbox">' + 
-							'<input type="checkbox" class="custom-control-input" value="' + content.question_idx + '" name="answer" id="cb_' + i + j + '">' + 
+							'<input type="checkbox" class="custom-control-input" value="' + content.question_idx + '" name="answer_arr[' + i + ']" id="cb_' + i + j + '">' + 
 							'<label class="custom-control-label" for="cb_' + i + j + '">' + content.question_content + '</label>' + 
 						'</div>';
 				}
