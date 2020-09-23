@@ -53,10 +53,12 @@
 									참여하기
 								</button>
 							</c:if>
+							<c:if test="${isPart eq true}">
 							<button class="btn btn-dark btn-survey" data-toggle="modal" data-target=".survey-result-modal">
 								<i class="fa-pie-chart"></i>
 								결과보기
 							</button>
+							</c:if>
 						</c:if>
 					</div>
 				</div>
