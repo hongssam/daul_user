@@ -3,6 +3,7 @@ package egovframework.com.user.mapper;
 import java.util.List;
 import java.util.Map;
 
+import egovframework.com.contest.vo.ContestVo;
 import egovframework.com.suggestion.vo.SuggestionVo;
 import egovframework.com.survey.vo.SurveyVo;
 import egovframework.com.user.vo.UserVo;
@@ -30,5 +31,9 @@ public interface UserMapper {
 	int selectSurveyListCntByMypage(SurveyVo vo) throws Exception;
 
 	List<SurveyVo> selectSurveyListByMypage(SurveyVo vo) throws Exception;
+
+	int selectContestListCntByMypage(ContestVo vo) throws Exception;
+
+	List<ContestVo> selectContestListByMypage(ContestVo vo) throws Exception;
 
 }

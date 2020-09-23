@@ -228,22 +228,22 @@
 	
 	<sql id="whereBySurvey">
 		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'title')">
-			 AND title like concat('%', #{search}, '%')
+			 AND sm.title like concat('%', #{search}, '%')
 		</if>
 		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'content')">
-			 AND content like concat('%', #{search}, '%')
+			 AND sm.content like concat('%', #{search}, '%')
 		</if>
 		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'create_user')">
-			 AND create_user like concat('%', #{search}, '%')
+			 AND sm.create_user like concat('%', #{search}, '%')
 		</if>
 		<if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(search_s_date)">
 			 <![CDATA[
-			AND create_date >= date_format(concat(#{search_s_date}, ' 00:00:00'), '%Y-%m-%d %H:%i:%s')
+			AND sm.create_date >= date_format(concat(#{search_s_date}, ' 00:00:00'), '%Y-%m-%d %H:%i:%s')
 			]]>
 		</if>
 		<if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(search_e_date)">
 			 <![CDATA[
-			AND create_date <= date_format(concat(#{search_e_date}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
+			AND sm.create_date <= date_format(concat(#{search_e_date}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
 			]]>
 		</if>
 	</sql>
@@ -288,6 +288,73 @@
 		  	 , (SELECT @rownum:=0) TMP
 		 WHERE sm.del_chk != 'Y'
 		 <include refid="whereBySurvey"/>
+		 LIMIT #{startIndex}, #{pageSize}
+	</select>
+	
+	<sql id="whereByContest">
+		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'title')">
+			 AND ca.title like concat('%', #{search}, '%')
+		</if>
+		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'content')">
+			 AND ca.content like concat('%', #{search}, '%')
+		</if>
+		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'create_user')">
+			 AND ca.create_user like concat('%', #{search}, '%')
+		</if>
+		<if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(search_s_date)">
+			 <![CDATA[
+			AND ca.create_date >= date_format(concat(#{search_s_date}, ' 00:00:00'), '%Y-%m-%d %H:%i:%s')
+			]]>
+		</if>
+		<if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(search_e_date)">
+			 <![CDATA[
+			AND ca.create_date <= date_format(concat(#{search_e_date}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
+			]]>
+		</if>
+	</sql>
+	
+	<select id="selectContestListCntByMypage" resultType="int">
+		SELECT COUNT(*)
+		  FROM daul.contest_admin ca
+		 INNER JOIN (
+		 			 SELECT admin_contest_idx
+		 			   FROM daul.contest_user
+					  WHERE create_user = #{create_user}
+					  GROUP BY admin_contest_idx
+		 			) cu ON cu.admin_contest_idx = ca.admin_contest_idx
+		     , (SELECT @rownum:=0) TMP
+		 WHERE ca.del_chk != 'Y'
+		 <include refid="whereByContest"/>
+		 LIMIT #{startIndex}, #{pageSize}
+	</select>
+	
+	<select id="selectContestListByMypage" resultType="egovframework.com.contest.vo.ContestVo">
+		SELECT @rownum:=@rownum+1 							AS num
+		     , ca.admin_contest_idx
+		     , ca.title
+		     , ca.content
+		     , DATE_FORMAT(ca.contest_s_date, '%Y-%m-%d')	AS contest_s_date
+		     , DATE_FORMAT(ca.contest_e_date, '%Y-%m-%d')	AS contest_e_date
+		     , DATE_FORMAT(ca.submit_s_date, '%Y-%m-%d')	AS submit_s_date
+		     , DATE_FORMAT(ca.submit_e_date, '%Y-%m-%d')	AS submit_e_date
+		     , ca.create_user
+		     , (SELECT count(*) FROM contest_user WHERE admin_contest_idx = ca.admin_contest_idx)	AS user_contest_cnt
+		     <![CDATA[
+		     , (CASE WHEN contest_e_date < SYSDATE() 								THEN '공모종료'
+		             WHEN contest_s_date > SYSDATE() 								THEN '공모전'
+		             WHEN contest_e_date > SYSDATE() AND SYSDATE() > contest_s_date THEN '공모진행중'
+		        END) AS ing
+		     ]]>
+		  FROM daul.contest_admin ca
+		 INNER JOIN (
+		 			 SELECT admin_contest_idx
+		 			   FROM daul.contest_user
+					  WHERE create_user = #{create_user}
+					  GROUP BY admin_contest_idx
+		 			) cu ON cu.admin_contest_idx = ca.admin_contest_idx
+		     , (SELECT @rownum:=0) TMP
+		 WHERE ca.del_chk != 'Y'
+		 <include refid="whereByContest"/>
 		 LIMIT #{startIndex}, #{pageSize}
 	</select>
 </mapper>
