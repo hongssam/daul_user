@@ -71,4 +71,12 @@
 	kakao_login_btn.addEventListener("click", function() {
 		kakaoLogin();
 	});
+	
+	document.getElementById("user_id").addEventListener("keyup", function(e) {
+		if (e.keyCode === 13)	login();
+	});
+	
+	document.getElementById("pw").addEventListener("keyup", function(e) {
+		if (e.keyCode === 13)	login();
+	});
 </script>
