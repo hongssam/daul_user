@@ -73,7 +73,7 @@
 					</ul>
 				</li>
 				<li>
-					<a href="/survey/surveyListPage.do">
+					<a href="/survey/surveyListPage.do?order=1">
 						<span class="title">설문조사</span>
 					</a>
 					<!-- Level Two-->
@@ -87,7 +87,7 @@
 					</ul>
 				</li>
 				<li class="last">
-					<a href="/contest/contestListPage.do">
+					<a href="/contest/contestListPage.do?order=1">
 						<span class="title">공모제안</span>
 					</a>
 					<!-- Level Two-->

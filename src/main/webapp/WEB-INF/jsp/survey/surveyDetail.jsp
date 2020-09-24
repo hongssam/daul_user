@@ -37,12 +37,12 @@
 						<input type="hidden" id="survey_idx" value="${surveyVo.survey_idx }" />
 						<h4>${surveyVo.title}</h4>
 						<p class="date">
-							<b>투표기간</b> | ${surveyVo.s_date} ~${surveyVo.e_date}
+							<b>투표기간</b> | ${surveyVo.s_date} ~${surveyVo.e_date}  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<b>참여자</b> | ${surveyVo.participation_count} 명
 						</p>
+						
 					</div>
 					<hr />
 					<div class="content">
-						<p>[제안이유]</p>
 						<p>${surveyVo.content}</p>
 					</div>
 					<div class="bottom">
@@ -253,7 +253,7 @@
 			var per = (ResultQuestionList[j].question_count/ResultSum) * 100 ;
 			var str = 	  '<div class="item">'
 						+ '	<label>'+ ResultQuestionList[j].question_content +'</label>'
-						+ '	<span class="float-right">'+ ResultQuestionList[j].question_count +'<span class="color-red">('+ per.toFixed(1) +' %)</span></span>'
+						+ '	<span class="float-right">'+ ResultQuestionList[j].question_count +'표 <span class="color-red">('+ per.toFixed(1) +' %)</span></span>'
 						+ '	<div class="bar-graph-bg">'
 						+ '		<div class="bar-graph-fr" style="width:'+ per.toFixed(1) +'%"></div>'
 						+ '	</div>'

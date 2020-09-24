@@ -41,7 +41,7 @@
 				     WHERE survey_idx = a.survey_idx
 				   ) AS opinion_count
 				 , (
-				    SELECT count(*) 
+				   SELECT  count(DISTINCT  participation_user)
 				      FROM survey_participation 
 				     WHERE survey_idx = a.survey_idx
 				   ) AS participation_count
@@ -166,7 +166,7 @@
 				     WHERE survey_idx = a.survey_idx
 				   ) AS opinion_count
 				 , (
-				    SELECT count(*) 
+				   SELECT  count(DISTINCT  participation_user)
 				      FROM survey_participation 
 				     WHERE survey_idx = a.survey_idx
 				   ) AS participation_count

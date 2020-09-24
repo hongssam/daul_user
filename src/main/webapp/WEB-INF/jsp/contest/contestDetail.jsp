@@ -142,7 +142,7 @@
 													<label>제목<span class="color-red ml5">*</span></label>
 												</div>
 												<div class="col-lg-10">
-													<form:input type="text" class="form-control" path="user_title" placeholder="" />
+													<form:input type="text" class="form-control" path="user_title" placeholder="" id="regist-title"/>
 													<form:errors style="color:red" path="user_title" />
 												</div>
 											</div>
@@ -221,7 +221,7 @@
 													<label>제목<span class="color-red ml5">*</span></label>
 												</div>
 												<div class="col-lg-10">
-													<form:input type="text" class="form-control" path="title" placeholder="" />
+													<form:input type="text" class="form-control" path="title" placeholder="" id="modify-title"/>
 													<form:errors style="color:red" path="title" />
 												</div>
 											</div>
@@ -235,7 +235,7 @@
 												</div>
 												<div class="col-lg-10">
 													<span class="color-red ml5">※ 반드시 공모신청서 양식을 다운로드 받아 작성하여 올려주세요.</span>
-													<input type="file" class="form-control" multiple="multiple" id="userContestFile" name="contestFile">
+													<input type="file" class="form-control" multiple="multiple" id="userContestFile" name="contestFile" id="modify-file">
 													<p id="userFile-list"></p>
 												</div>
 											</div>
@@ -245,7 +245,7 @@
 							</table>
 						</div>
 						<div class="board-btns text-center">
-							<button type="submit" class="btn btn-primary" id="contestRegistBtn" data-title="공모제안" formaction="/contest/contestUserUpdate.do">수정</button>
+							<button type="submit" class="btn btn-primary" id="contestModifyBtn" data-title="공모제안" formaction="/contest/contestUserUpdate.do">수정</button>
 							<button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close">취소</button>
 						</div>
 					</form:form>
@@ -334,10 +334,9 @@
 				if(!exist){
 					contestFileList.push(fileValue[i]);
 					var p = document.createElement("p");
-					
 					var str =
-						'<input type="hidden" name="save_file_name" value="' + fileValue[i].name + '">' +
-						'<a href="#">' +
+						'<input type="hidden" name="save_file_name" value="' + fileValue[i].name + '" >' +
+						'<a href="#"  name="regist-file">' +
 							'<span class="fa-file-o mr10"></span> (new) ' + fileValue[i].name +
 						'</a>' +
 						'<button class="btn btn-pure" type="button" name="newFileDelBtn" onclick="newFileDel(this)">' +
@@ -367,8 +366,36 @@
 	var contestRegistBtn = document.getElementById("contestRegistBtn");
 	
 	contestRegistBtn.addEventListener("click", function() {
+		if($("#regist-title").val() === '' || $("#regist-title").val() === null){
+			alert("제목은 필수 입력항목 입니다.");
+			return false;
+		}
+		
+		if(typeof $("a[name='regist-file']")[0] === "undefined"){
+			alert("첨부파일은 필수 입력항목 입니다.");
+			return false;
+		}
+		
 		if (!submitConfirm($(contestRegistBtn))) return false;
 	})
+	
+	var contestModifyBtn = document.getElementById("contestModifyBtn");
+	
+	contestModifyBtn.addEventListener("click", function() {
+		
+		if($("#modify-title").val() === '' || $("#modify-title").val() === null){
+			alert("제목은 필수 입력항목 입니다.");
+			return false;
+		}
+		
+		if(typeof $("a[name='modify-file']")[0] === "undefined"){
+			alert("첨부파일은 필수 입력항목 입니다.");
+			return false;
+		}
+		
+		if (!submitConfirm($(contestModifyBtn))) return false;
+	})
+	
 	
 	<c:forEach var="userFile" items="${userFileList}">
 		var userFile = {};
@@ -427,7 +454,7 @@
 
 					var str ='<div>'+
 						'<input type="hidden" name="save_file_name" value="' + fileValue[i].name + '">' +
-						'<a href="#">' +
+						'<a href="#"  name="modify-file">' +
 							'<span class="fa-file-o mr10"></span> (new) ' + fileValue[i].name +
 						'</a>' +
 						'<button class="btn btn-pure" type="button" name="newFileDelBtn" onclick="newFileDel2(this)">' +

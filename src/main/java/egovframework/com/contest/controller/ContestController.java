@@ -104,7 +104,7 @@ public class ContestController {
 			contestVo.setContest_s_date(contestVo.getContest_s_date().substring(0,10));
 			contestVo.setSubmit_e_date(contestVo.getSubmit_e_date().substring(0,10));
 			contestVo.setSubmit_s_date(contestVo.getSubmit_s_date().substring(0,10));
-			
+			contestVo.setLogin_user(user_id);
 			
 			fileList = contestService.selectContestFile(contestVo);
 			userContestList = contestService.getUserContestList(contestVo);
