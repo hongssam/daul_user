@@ -18,11 +18,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import egovframework.com.cmmn.util.CmmnUtil;
 import egovframework.com.cmmn.util.FileUtil;
 import egovframework.com.cmmn.util.FileVo;
 import egovframework.com.notice.vo.NoticeVo;
@@ -224,7 +224,8 @@ public class SurveyController {
 				// 등록하고자 하는 댓글과 최상위 댓글 사이에 있는 댓글들의 indent를 수정하여 depth 설정
 				surveyService.updateChildSurveyOpinion(topOpnVo);
 				
-				opinionIdx = surveyService.selectSurveyOpinionIdx();
+				//opinionIdx = surveyService.selectSurveyOpinionIdx();
+				opinionIdx = CmmnUtil.generateKeyWithPrefix("SVOP");
 				vo.setOpinion_idx(opinionIdx);
 				vo.setSurvey_ref(topOpnVo.getSurvey_ref());
 				vo.setSurvey_indent(topOpnVo.getSurvey_indent() + 1);
@@ -234,7 +235,8 @@ public class SurveyController {
 				surveyService.insertSurveyOpinion(vo);
 			} else {
 				// opinionIdx가 없는 경우 -> 제안의 댓글을 등록
-				opinionIdx = surveyService.selectSurveyOpinionIdx();
+				//opinionIdx = surveyService.selectSurveyOpinionIdx();
+				opinionIdx = CmmnUtil.generateKeyWithPrefix("SVOP");
 				vo.setOpinion_idx(opinionIdx);
 				vo.setSurvey_ref(opinionIdx);
 				

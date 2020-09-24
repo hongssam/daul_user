@@ -183,7 +183,8 @@ public class ContestController {
 	public String contestUserRegist(HttpSession session, ContestVo vo, HttpServletRequest request,
 			BindingResult bindingResult) throws Exception {
 		try {
-			String user_contest_idx = contestService.selectUserContestIdx();
+			//String user_contest_idx = contestService.selectUserContestIdx();
+			String user_contest_idx = CmmnUtil.generateKeyWithPrefix("UC");
 			vo.setUser_contest_idx(user_contest_idx);
 			UserVo userVo = (UserVo) session.getAttribute("login");
 			vo.setCreate_user(userVo.getUser_id());

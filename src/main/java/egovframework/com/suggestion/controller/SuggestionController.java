@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import egovframework.com.cmmn.util.CmmnUtil;
 import egovframework.com.cmmn.util.FileUtil;
 import egovframework.com.cmmn.util.FileVo;
 import egovframework.com.suggestion.service.SuggestionService;
@@ -114,7 +115,8 @@ public class SuggestionController {
 			}
 			
 			log.debug("SuggestionVo : " + vo);
-			String suggestionIdx = suggestionService.selectSuggestionIdx();
+			//String suggestionIdx = suggestionService.selectSuggestionIdx();
+			String suggestionIdx = CmmnUtil.generateKeyWithPrefix("SG");
 			vo.setSuggestion_idx(suggestionIdx);
 			
 			UserVo userVo = (UserVo) session.getAttribute("login");
@@ -203,7 +205,8 @@ public class SuggestionController {
 				// 등록하고자 하는 댓글과 최상위 댓글 사이에 있는 댓글들의 indent를 수정하여 depth 설정
 				suggestionService.updateChildSuggestionOpinion(topOpnVo);
 				
-				opinionIdx = suggestionService.selectSuggestionOpinionIdx();
+				//opinionIdx = suggestionService.selectSuggestionOpinionIdx();
+				opinionIdx = CmmnUtil.generateKeyWithPrefix("SGOP");
 				vo.setOpinion_idx(opinionIdx);
 				vo.setSuggestion_ref(topOpnVo.getSuggestion_ref());
 				vo.setSuggestion_indent(topOpnVo.getSuggestion_indent() + 1);
@@ -213,7 +216,8 @@ public class SuggestionController {
 				suggestionService.insertSuggestionOpinion(vo);
 			} else {
 				// opinionIdx가 없는 경우 -> 제안의 댓글을 등록
-				opinionIdx = suggestionService.selectSuggestionOpinionIdx();
+				//opinionIdx = suggestionService.selectSuggestionOpinionIdx();
+				opinionIdx = CmmnUtil.generateKeyWithPrefix("SGOP");
 				vo.setOpinion_idx(opinionIdx);
 				vo.setSuggestion_ref(opinionIdx);
 
