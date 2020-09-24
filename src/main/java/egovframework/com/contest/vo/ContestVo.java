@@ -22,7 +22,16 @@ public class ContestVo extends SearchVo {
 	private String user_title;
 	private int num;
 	private String user_name;
+	private String login_user;
 	
+	
+	
+	public String getLogin_user() {
+		return login_user;
+	}
+	public void setLogin_user(String login_user) {
+		this.login_user = login_user;
+	}
 	public String getUser_name() {
 		return user_name;
 	}

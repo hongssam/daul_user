@@ -201,7 +201,7 @@
 	<select id="checkSubmit" resultType="int">
 		SELECT COUNT(*)
 		FROM contest_user
-		WHERE create_user = #{create_user}
+		WHERE create_user = #{login_user}
 		AND admin_contest_idx = #{admin_contest_idx}
 		AND del_chk = 'N'
 	</select>

@@ -1,6 +1,7 @@
 package egovframework.com.cmmn.util;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -70,7 +71,9 @@ public class FileUtil {
 			URL fileUrl = new URL(url + filename);
 			log.debug("getRepImgFile : " + fileUrl);
 			IOUtils.copy(fileUrl.openStream(), response.getOutputStream());
-		} catch (Exception e) {
+		}catch(FileNotFoundException e) {
+			log.debug("서버에 해당 파일이 없습니다.");
+		}catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
