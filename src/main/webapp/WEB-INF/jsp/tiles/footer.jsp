@@ -27,13 +27,13 @@
 			</div>
 			<div class="col-sm-6 col-md-6 col-lg-3 col-xl-3">
 				<div class="footer_social_widget home5">
-					<ul class="mb30 text-center">
+				<!-- 	<ul class="mb30 text-center">
 						<li class="list-inline-item"><a href="#" style="font-size: 20px;"><i class="fa fa-facebook"></i></a></li>
 						<li class="list-inline-item"><a href="#" style="font-size: 20px;"><i class="fa fa-twitter"></i></a></li>
 						<li class="list-inline-item"><a href="#" style="font-size: 20px;"><i class="fa fa-instagram"></i></a></li>
 						<li class="list-inline-item"><a href="#" style="font-size: 20px;"><i class="fa fa-pinterest"></i></a></li>
 						<li class="list-inline-item"><a href="#" style="font-size: 20px;"><i class="fa fa-dribbble"></i></a></li>
-					</ul>
+					</ul> -->
 				</div>
 			</div>
 		</div>

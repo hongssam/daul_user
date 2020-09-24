@@ -34,22 +34,21 @@ public class QnaController {
 	private CmmnUtil cmmnUtil;
 	
 	@RequestMapping(value="/qnaListPage.do")
-	public String getQnaPage(ModelMap model, @RequestParam(defaultValue = "1") int curPage) throws Exception{
+	public String getQnaPage(ModelMap model, @RequestParam(defaultValue = "1") int curPage, QnaVo qnaVo) throws Exception{
 		List<QnaVo> qnaList = null;
-		QnaVo vo = new QnaVo();
 		try {
-			int listCnt = qnaService.getQnaListCnt(vo);
-			vo.setPagination(listCnt, curPage);
-			vo.setPageSize(10);
-			qnaList = qnaService.getQnaList(vo);
-			
+			int listCnt = qnaService.getQnaListCnt(qnaVo);
+			qnaVo.setPagination(listCnt, curPage);
+			qnaVo.setPageSize(10);
+			qnaList = qnaService.getQnaList(qnaVo);
+			System.out.println("qnaList = "  + qnaList);
 			for(int i = 0; i < qnaList.size(); i++) {
 				String date = qnaList.get(i).getCreate_date().substring(0,10);
 				qnaList.get(i).setCreate_date(date);
 			}
 			
 			model.addAttribute("qnaList",qnaList);
-			model.addAttribute("pagination", vo);
+			model.addAttribute("pagination", qnaVo);
 		}catch(Exception e) {
 			log.debug("QnaController > /getQnaPage.do > Exception");
 		}
@@ -67,10 +66,18 @@ public class QnaController {
 	public String qnaRegist(QnaVo vo, HttpSession session, BindingResult bindingResult, HttpServletRequest request) throws Exception{
 
 		try {
+			qnaValidator Validator = new qnaValidator();
+			Validator.validate(vo, bindingResult);
+		
+			if (bindingResult.hasErrors()) {
+				return "qna/qnaRegist";
+			}
+			
 			UserVo userVo = (UserVo) session.getAttribute("login");
 			
 			vo.setQna_idx(qnaService.selectQnaIdx());
 			vo.setCreate_user(userVo.getUser_id());
+			vo.setAuth_user(userVo.getUser_id());
 			qnaService.qnaRegist(vo);
 		}catch(Exception e) {
 			
@@ -116,9 +123,17 @@ public class QnaController {
 	}
 	
 	@RequestMapping(value="/qnaUpdate.do")
-	public String qnaModify(ModelMap model, QnaVo vo, HttpSession session) throws Exception{
+	public String qnaModify(ModelMap model, QnaVo vo, HttpSession session, BindingResult bindingResult ) throws Exception{
 		
 		try {
+			
+			qnaValidator Validator = new qnaValidator();
+			Validator.validate(vo, bindingResult);
+		
+			if (bindingResult.hasErrors()) {
+				return "qna/qnaModify";
+			}
+			
 			UserVo userVo = (UserVo) session.getAttribute("login");
 			System.out.println(vo);
 			if(qnaService.getCreateUser(vo.getQna_idx()).equals(userVo.getUser_id())) {

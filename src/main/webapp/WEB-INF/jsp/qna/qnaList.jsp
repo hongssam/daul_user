@@ -41,6 +41,7 @@
 							</thead>
 							<tbody>
 								<c:forEach var="list" items="${qnaList}" varStatus="idx">
+
 									<c:choose>
 										<c:when test="${empty list.parent_qna_idx }">
 											<tr>
@@ -48,9 +49,10 @@
 												<c:choose>
 													<c:when test="${list.lock_chk eq 'Y' }">
 														<c:choose>
-															<c:when test="${list.create_user eq login.user_id}">
+															<c:when test="${list.auth_user ne login.user_id}">
 																<td>
-																	<a href="/qna/qnaDetail.do?qna_idx=${list.qna_idx }">
+																	<a href="#" data-toggle="modal" data-target=".board-password-modal">
+
 																		${ list.question}
 																		<span class="fa-lock ml10"></span>
 																	</a>
@@ -58,7 +60,7 @@
 															</c:when>
 															<c:otherwise>
 																<td>
-																	<a href="#" data-toggle="modal" data-target=".board-password-modal">
+																	<a href="/qna/qnaDetail.do?qna_idx=${list.qna_idx }">
 																		${ list.question}
 																		<span class="fa-lock ml10"></span>
 																	</a>
@@ -82,12 +84,24 @@
 												<td class="text-center">${list.num}</td>
 												<c:choose>
 													<c:when test="${list.lock_chk eq 'Y' }">
-														<td>
-															<a href="#" data-toggle="modal" data-target=".board-password-modal">
-																<span class="status_tag badge mr10">RE</span>${ list.question}
-																<span class="fa-lock ml10"></span>
-															</a>
-														</td>
+														<c:choose>
+															<c:when test="${list.auth_user ne login.user_id}">
+																<td>
+																	<a href="#" data-toggle="modal" data-target=".board-password-modal">
+																		<span class="status_tag badge mr10">RE</span>${ list.question}
+																		<span class="fa-lock ml10"></span>
+																	</a>
+																</td>
+															</c:when>
+															<c:otherwise>
+																<td>
+																	<a href="/qna/qnaDetail.do?qna_idx=${list.qna_idx }">
+																		<span class="status_tag badge mr10">RE</span>${ list.question}
+																		<span class="fa-lock ml10"></span>
+																	</a>
+																</td>
+															</c:otherwise>
+														</c:choose>
 													</c:when>
 													<c:otherwise>
 														<td>
@@ -178,5 +192,16 @@
 	function loginPage() {
 		alert("로그인이 필요합니다.");
 		location.href = "${pageContext.request.contextPath}/login/loginPage.do";
+	}
+
+	var btn_search = document.getElementById("search_btn");
+
+	btn_search.addEventListener("click", function() {
+		searchQnaList();
+	});
+
+	function searchQnaList() {
+		var search_value = $("#search_form").serialize();
+		location.href = "${pageContext.request.contextPath}/qna/qnaListPage.do?" + search_value;
 	}
 </script>

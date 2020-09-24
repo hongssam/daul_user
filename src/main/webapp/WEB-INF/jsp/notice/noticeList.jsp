@@ -99,7 +99,7 @@
 	var btn_search = document.getElementById("search_btn");
 	
 	btn_search.addEventListener("click", function() {
-		searchSurveyNoticeList();
+		searchNoticeList();
 	});
 	
 	var input_search = document.getElementById("search");

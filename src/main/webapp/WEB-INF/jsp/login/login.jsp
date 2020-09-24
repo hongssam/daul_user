@@ -18,7 +18,7 @@
 							|
 							<a class=" " href="#">비밀번호 찾기</a>
 							|
-							<a class=" " href="register-term.html">회원가입</a>
+							<a class=" " href="/user/userRegistTermPage.do">회원가입</a>
 						</div>
 						<div class="form-group mb20">
 							<button type="button" class="btn btn-block btn-primary" id="login-btn">로그인</button>
@@ -62,7 +62,7 @@
 	}
 	
 	$("#user_id").val("admin");
-	$("#pw").val("Ekdhf123!");
+	$("#pw").val("1234qwer");
 	
 	//$("#login-btn").trigger("click");
 	
@@ -70,9 +70,5 @@
 	
 	kakao_login_btn.addEventListener("click", function() {
 		kakaoLogin();
-	});
-	
-	document.getElementById("pw").addEventListener("keyup", function(e) {
-		if (e.keyCode === 13)	login();
 	});
 </script>

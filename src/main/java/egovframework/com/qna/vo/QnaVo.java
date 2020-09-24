@@ -19,10 +19,17 @@ public class QnaVo extends SearchVo {
 	private int num;
 	private String name;
 	private String lock_chk;
+	private String auth_user;
 	
 	
 	
 	
+	public String getAuth_user() {
+		return auth_user;
+	}
+	public void setAuth_user(String auth_user) {
+		this.auth_user = auth_user;
+	}
 	public String getLock_chk() {
 		return lock_chk;
 	}

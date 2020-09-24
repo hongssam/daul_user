@@ -59,6 +59,7 @@
 												</div>
 												<div class="col-lg-10">
 													<form:input type="text" class="form-control" placeholder="" path="question"/>
+													<form:errors style="color:red" path="question"/>
 													<div class="item custom-control custom-checkbox" style="padding-top: 3px;">
 														<form:checkbox class="custom-control-input" value="Y" name="lock_chk" id="lock_chk" path="lock_chk"/>
 														<label class="custom-control-label" for="lock_chk" style="padding-top: 0px; padding-bottom: 0px;">비밀글</label>
@@ -75,6 +76,7 @@
 												</div>
 												<div class="col-lg-10">
 													<form:textarea class="form-control" rows="10" style="resize: none;" path="content" />
+													<form:errors style="color:red" path="content"/>
 												</div>
 											</div>
 										</td>

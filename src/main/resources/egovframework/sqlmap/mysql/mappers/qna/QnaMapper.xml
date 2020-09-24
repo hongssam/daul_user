@@ -18,17 +18,18 @@
 				del_chk,
 				lock_chk,
 				(select auth_type from `user` where user_id = create_user ) as auth_type ,
-				(select name from `user` where user_id = create_user ) as name 
+				(select name from `user` where user_id = create_user ) as name ,
+				auth_user
 			FROM daul.daul_qna, (SELECT @rownum:=0) TMP
 			WHERE del_chk = 'N'
 			<if test="search_type == 'title'">
-				AND question like concat('%',#{search},'%')
+			AND ref IN (select qna_idx from daul_qna where question like concat('%',#{search},'%'))
 			</if>
 	 		<if test="search_type == 'content'">
-				AND content like concat('%',#{search},'%')
+			AND ref IN (select qna_idx from daul_qna where content like concat('%',#{search},'%'))
 			</if>
 	 		<if test="search_type == 'create_user'">
-				AND create_user like concat('%',#{search},'%')
+			AND ref IN (select qna_idx from daul_qna where create_user like concat('%',#{search},'%'))
 			</if>
 		 	<if test="search_s_date != null and search_s_date != ''">
 		 		<![CDATA[
@@ -83,7 +84,8 @@
 			create_user,
 			create_date,
 			del_chk,
-			lock_chk
+			lock_chk,
+			auth_user
 		)
 		VALUES
 		(
@@ -95,7 +97,8 @@
 			#{create_user},
 			sysdate(),
 			'N',
-			#{lock_chk}
+			#{lock_chk},
+			#{auth_user}
 		) 
 	</insert>
 	

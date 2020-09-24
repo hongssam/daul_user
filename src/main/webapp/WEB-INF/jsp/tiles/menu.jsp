@@ -142,11 +142,23 @@
 				<img class="nav_logo_img img-fluid mt20" style="width: 150px; margin-top: 30px;" src="${pageContext.request.contextPath}/images/logo.png" alt="header-logo.png">
 			</div>
 			<ul class="menu_bar_home2">
-				<li class="list-inline-item list_s">
-					<a href="#">
-						<span class="flaticon-user"></span>
-					</a>
-				</li>
+				<c:choose>
+					<c:when test="${login.name ne '' && not empty login.name }">
+						<li class="list-inline-item list_s">
+							<a href="#" id="mypage_btn3">
+								<span class="flaticon-user"></span>
+							</a>
+						</li>
+					</c:when>
+					<c:otherwise>
+						<li class="list-inline-item list_s">
+							<a href="/login/loginPage.do">
+								<span class="flaticon-user"></span>
+							</a>
+						</li>
+					</c:otherwise>
+				</c:choose>
+
 				<li class="list-inline-item">
 					<a href="#menu">
 						<span></span>
@@ -181,7 +193,18 @@
 				<!-- Level Two-->
 				<ul>
 					<li>
-						<a href="/suggestion/suggestionRegistPage.do">제안하기</a>
+						<c:choose>
+							<c:when test="${empty login.user_id }">
+								<li>
+									<a onclick="loginPage()">제안하기</a>
+								</li>
+							</c:when>
+							<c:otherwise>
+								<li>
+									<a href="/suggestion/suggestionRegistPage.do">제안하기</a>
+								</li>
+							</c:otherwise>
+						</c:choose>
 					</li>
 					<li>
 						<a href="/suggestion/suggestionListPage.do?order=1&type=normal">열린제안</a>
@@ -218,13 +241,11 @@
 					</li>
 				</ul>
 			</li>
-			<li>
-				<a href="guide.html">이용안내</a>
-			</li>
+
 			<c:choose>
 				<c:when test="${login.name ne '' && not empty login.name }">
 					<li>
-						<a href="#">
+						<a href="#" id="mypage_btn_left">
 							<span class="flaticon-user"></span>
 							${login.name}
 						</a>
@@ -293,11 +314,54 @@
 			form.submit();
 		});
 	}
+
+	var mypage_btn_left = document.getElementById("mypage_btn_left");
+
+	if (mypage_btn_left != null) {
+		mypage_btn_left.addEventListener("click", function() {
+			var form = document.createElement("form");
+
+			form.method = "post";
+			form.action = "/user/mypageDetailPage.do";
+
+			var input = document.createElement("input");
+
+			input.setAttribute("type", "hidden");
+			input.setAttribute("name", "user_id");
+			input.setAttribute("value", "${login.user_id}");
+
+			form.appendChild(input);
+			document.body.appendChild(form);
+
+			form.submit();
+		});
+	}
+
+	var mypage_btn3 = document.getElementById("mypage_btn3");
+
+	if (mypage_btn3 != null) {
+		mypage_btn3.addEventListener("click", function() {
+			var form = document.createElement("form");
+
+			form.method = "post";
+			form.action = "/user/mypageDetailPage.do";
+
+			var input = document.createElement("input");
+
+			input.setAttribute("type", "hidden");
+			input.setAttribute("name", "user_id");
+			input.setAttribute("value", "${login.user_id}");
+
+			form.appendChild(input);
+			document.body.appendChild(form);
+
+			form.submit();
+		});
+	}
+
 	
-	function loginPage(){
+	function loginPage() {
 		alert("로그인이 필요합니다.");
 		location.href = "${pageContext.request.contextPath}/login/loginPage.do";
 	}
-	
-	
 </script>
