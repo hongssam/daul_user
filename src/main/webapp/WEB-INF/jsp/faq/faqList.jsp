@@ -20,7 +20,7 @@
 		</div>
 	</div>
 </div>
-
+<%-- 
 <!-- FAQ Section-->
 <section class="faq-section bgc-fa">
 	<div class="container">
@@ -151,28 +151,164 @@
 		</div>
 	</div>
 </section>
+ --%>
+<section class="faq-section bgc-fa">
 
-
+	<div class="container"  id="main-div">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="faq_content">
+					<div class="faq_according">
+						<h3>공통</h3>
+						<hr />
+						<div class="accordion" id="accordionExample1">
+							<c:forEach var="list" items="${faqListMain}" varStatus="idx">
+								<div class="card">
+									<div class="card-header" id="headingMain${idx.index}">
+										<h2 class="mb-0">
+											<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseMain${idx.index}" aria-expanded="true" aria-controls="collapseMain${idx.index}">${list.question }</button>
+										</h2>
+									</div>
+									<div id="collapseMain${idx.index}" class="collapse" aria-labelledby="headingMain${idx.index}" data-parent="#accordionExample1" style="">
+										<div class="card-body">
+											<p>${list.answer }</p>
+										</div>
+									</div>
+								</div>
+							</c:forEach>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<div class="container" id="suggestion-div">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="faq_content">
+					<div class="faq_according">
+						<h3>열린제안</h3>
+						<hr />
+						<div class="accordion" id="accordionExample2">
+							<c:forEach var="list" items="${faqListSuggestion}" varStatus="idx">
+								<div class="card">
+									<div class="card-header" id="headingSuggestion${idx.index}">
+										<h2 class="mb-0">
+											<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseSuggestion${idx.index}" aria-expanded="true" aria-controls="collapseSuggestion${idx.index}">${list.question }</button>
+										</h2>
+									</div>
+									<div id="collapseSuggestion${idx.index}" class="collapse" aria-labelledby="headingSuggestion${idx.index}" data-parent="#accordionExample2" style="">
+										<div class="card-body">
+											<p>${list.answer }</p>
+										</div>
+									</div>
+								</div>
+							</c:forEach>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<div class="container" id="survey-div">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="faq_content">
+					<div class="faq_according">
+						<h3>설문조사</h3>
+						<hr />
+						<div class="accordion" id="accordionExample3">
+							<c:forEach var="list" items="${faqListSurvey}" varStatus="idx">
+								<div class="card">
+									<div class="card-header" id="headingSurvey${idx.index}">
+										<h2 class="mb-0">
+											<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseSurvey${idx.index}" aria-expanded="true" aria-controls="collapseSurvey${idx.index}">${list.question }</button>
+										</h2>
+									</div>
+									<div id="collapseSurvey${idx.index}" class="collapse" aria-labelledby="headingSurvey${idx.index}" data-parent="#accordionExample3" style="">
+										<div class="card-body">
+											<p>${list.answer }</p>
+										</div>
+									</div>
+								</div>
+							</c:forEach>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<div class="container" id="contest-div">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="faq_content">
+					<div class="faq_according">
+						<h3>나눔공모</h3>
+						<hr />
+						<div class="accordion" id="accordionExample4">
+							<c:forEach var="list" items="${faqListContest}" varStatus="idx">
+								<div class="card">
+									<div class="card-header" id="headingContest${idx.index}">
+										<h2 class="mb-0">
+											<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseContest${idx.index}" aria-expanded="true" aria-controls="collapseContest${idx.index}">${list.question }</button>
+										</h2>
+									</div>
+									<div id="collapseContest${idx.index}" class="collapse" aria-labelledby="headingContest${idx.index}" data-parent="#accordionExample4" style="">
+										<div class="card-body">
+											<p>${list.answer }</p>
+										</div>
+									</div>
+								</div>
+							</c:forEach>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
 <script type="text/javascript">
-	
 	var idx;
 	var search_arr = window.location.search.split("&");
 	for (var i = 0; i < search_arr.length; i++) {
 		var search = search_arr[i];
 		if (search.indexOf("idx") > -1) {
 			var idx_arr = search.split("=");
-			idx = idx_arr[idx_arr.length -1];
+			idx = idx_arr[idx_arr.length - 1];
 		}
 	}
 
-	if(idx === '1'){
+	if (idx === '1') {
 		$("#suggestionFaq").click();
-	}else if(idx === '2'){
+	} else if (idx === '2') {
 		$("#surveyFaq").click();
-	}else if(idx === '3'){
+	} else if (idx === '3') {
 		$("#contestFaq").click();
-	}else{
+	} else {
 		$("#mainFaq").click();
 	}
 	
+	$(document).ready(function(){
+		
+		if (idx === '1') {
+			var offset = $('#suggestion-div').offset(); //선택한 태그의 위치를 반환
+	        $('html').animate({scrollTop : offset.top-200}, 0);
+		} else if (idx === '2') {
+			var offset = $('#survey-div').offset(); //선택한 태그의 위치를 반환
+	        $('html').animate({scrollTop : offset.top-200}, 0);
+		} else if (idx === '3') {
+			var offset = $('#contest-div').offset(); //선택한 태그의 위치를 반환
+	        $('html').animate({scrollTop : offset.top-200}, 0);
+		} else {
+			var offset = $('#main-div').offset(); //선택한 태그의 위치를 반환
+	        $('html').animate({scrollTop : offset.top-200}, 0);
+		}
+		
+		
+	});
+
+		
 </script>
