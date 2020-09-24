@@ -143,7 +143,10 @@
 	.p0-mdd {padding: 0;}
 	.m0-mdd {margin: 0 !important;}
 	.tac-md {text-align: center;}
-	.dn-lg,.dn-1199 {display: none !important;}	
+	/* 20.09.24 thlee 가로 사이즈 1200 미만일 경우 메뉴바의 로그인 로그아웃 버튼 사라짐 dn-lg클래스 사용
+	.dn-lg,.dn-1199 {display: none !important;} 
+	*/	
+	.dn-1199 {display: none !important;}	
 	.plpr5-md {padding-left: 5px; padding-right: 5px;}
 	.fn-1199,
 	.fn-lg {float: none !important;}
