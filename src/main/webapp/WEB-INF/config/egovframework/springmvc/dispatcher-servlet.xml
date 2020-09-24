@@ -134,7 +134,7 @@
 	</beans>
 	<beans profile="prod">   
 		<bean id="ProfileCls" class="egovframework.com.cmmn.util.ProfileCls">
-			<property name="rootPath" value="/home/tababa/imageServer/imageServer-tomcat/webapps/ROOT/images/"/>
+			<property name="rootPath" value="/home/tababa/attach"/>
 		</bean>
 	</beans>
 
