@@ -75,6 +75,11 @@ public class QnaController {
 			
 			UserVo userVo = (UserVo) session.getAttribute("login");
 			
+	
+			if(vo.getLock_chk() == null) {
+				vo.setLock_chk("N");
+			}
+			
 			vo.setQna_idx(qnaService.selectQnaIdx());
 			vo.setCreate_user(userVo.getUser_id());
 			vo.setAuth_user(userVo.getUser_id());

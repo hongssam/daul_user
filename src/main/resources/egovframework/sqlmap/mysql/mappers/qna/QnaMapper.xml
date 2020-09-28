@@ -131,27 +131,27 @@
 	</select>
 	
 	<select id="getBeforeQna" resultType="egovframework.com.qna.vo.QnaVo">
-		SELECT * 
-		  FROM daul_qna
-		 WHERE del_chk = 'N'
-		 <![CDATA[
-		   AND qna_idx > #{qna_idx}
-		 ]]>
-		   AND parent_qna_idx is null
-		 ORDER BY qna_idx
-		 LIMIT 0 , 1;
+		 	SELECT  *
+			FROM daul.daul_qna, (SELECT @rownum:=0) TMP
+			WHERE del_chk = 'N'
+			  AND parent_qna_idx is null
+              <![CDATA[
+		      AND qna_idx > #{qna_idx}
+	     	 ]]>
+	   			ORDER BY ref ASC, indent desc, create_date asc 
+	        LIMIT 0 , 1;
 	</select>
 	
 	<select id="getAfterQna" resultType="egovframework.com.qna.vo.QnaVo">
-		SELECT * 
-		  FROM daul_qna
-		 WHERE del_chk = 'N'
-		 <![CDATA[
-		   AND qna_idx < #{qna_idx}
-		 ]]>
-		   AND parent_qna_idx is null
-		 ORDER BY qna_idx desc
-		 LIMIT 0 , 1;
+	 	SELECT  *
+			FROM daul.daul_qna, (SELECT @rownum:=0) TMP
+			WHERE del_chk = 'N'
+			  AND parent_qna_idx is null
+              <![CDATA[
+		      AND qna_idx < #{qna_idx}
+	     	 ]]>
+	   			ORDER BY ref DESC, indent desc, create_date asc 
+	        LIMIT 0 , 1;
 	</select>
 	
 	<select id="getCreateUser" resultType="String">

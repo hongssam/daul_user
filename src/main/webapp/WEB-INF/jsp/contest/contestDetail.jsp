@@ -52,13 +52,13 @@
 					<div class="bottom">
 						<c:choose>
 							<c:when test="${checkSubmit eq 0 }">
-								<button class="btn btn-primary btn-survey" data-toggle="modal" data-target=".contest-edit-modal">
+								<button class="btn btn-primary btn-survey" data-toggle="modal" data-target=".contest-edit-modal" id="contest-edit-modal-btn">
 									<i class="fa-comments-o"></i>
 									공모 참여하기
 								</button>
 							</c:when>
 							<c:otherwise>
-								<button class="btn btn-dark btn-survey" data-toggle="modal" data-target=".contest-update-modal">
+								<button class="btn btn-dark btn-survey" data-toggle="modal" data-target=".contest-update-modal" id="contest-update-modal-btn">
 									<i class="fa-edit"></i>
 									내 제안 보기
 								</button>
@@ -130,7 +130,7 @@
 							</li>
 						</ul>
 					</div>
-					<form:form method="post" modelAttribute="contestVo" enctype="multipart/form-data">
+					<form:form method="post" modelAttribute="contestVo" enctype="multipart/form-data" id="regist-form" action="/contest/contestUserRegist.do">
 						<div class="table-responsive mt0">
 							<form:input type="hidden" path="admin_contest_idx" value="${contestVo.admin_contest_idx}" />
 							<table class="table">
@@ -165,7 +165,7 @@
 							</table>
 						</div>
 						<div class="board-btns text-center">
-							<button type="submit" class="btn btn-primary" id="contestRegistBtn" data-title="공모제안" formaction="/contest/contestUserRegist.do">등록</button>
+							<button type="button" class="btn btn-primary" id="contestRegistBtn" data-title="공모제안">등록</button>
 							<button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close">취소</button>
 						</div>
 					</form:form>
@@ -208,7 +208,7 @@
 							</li>
 						</ul>
 					</div>
-					<form:form method="post" modelAttribute="userContestVo" enctype="multipart/form-data">
+					<form:form method="post" modelAttribute="userContestVo" enctype="multipart/form-data" id="modify-form" action="/contest/contestUserUpdate.do">
 						<div class="table-responsive mt0">
 							<form:input type="hidden" path="user_contest_idx" value="${userContestVo.user_contest_idx }" />
 							<form:input type="hidden" path="admin_contest_idx" value="${userContestVo.admin_contest_idx }" />
@@ -245,7 +245,7 @@
 							</table>
 						</div>
 						<div class="board-btns text-center">
-							<button type="submit" class="btn btn-primary" id="contestModifyBtn" data-title="공모제안" formaction="/contest/contestUserUpdate.do">수정</button>
+							<button type="button" class="btn btn-primary" id="contestModifyBtn" data-title="공모제안" >수정</button>
 							<button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close">취소</button>
 						</div>
 					</form:form>
@@ -334,6 +334,8 @@
 				if(!exist){
 					contestFileList.push(fileValue[i]);
 					var p = document.createElement("p");
+					p.setAttribute("name", "regist-contest-file");
+
 					var str =
 						'<input type="hidden" name="save_file_name" value="' + fileValue[i].name + '" >' +
 						'<a href="#"  name="regist-file">' +
@@ -377,24 +379,25 @@
 		}
 		
 		if (!submitConfirm($(contestRegistBtn))) return false;
+		
+		document.getElementById("regist-form").submit();
 	})
 	
 	var contestModifyBtn = document.getElementById("contestModifyBtn");
 	
 	contestModifyBtn.addEventListener("click", function() {
+	
 		
 		if($("#modify-title").val() === '' || $("#modify-title").val() === null){
 			alert("제목은 필수 입력항목 입니다.");
 			return false;
 		}
 		
-		if(typeof $("a[name='modify-file']")[0] === "undefined"){
-			alert("첨부파일은 필수 입력항목 입니다.");
-			return false;
-		}
 		
 		if (!submitConfirm($(contestModifyBtn))) return false;
-	})
+		
+		document.getElementById("modify-form").submit();
+	});
 	
 	
 	<c:forEach var="userFile" items="${userFileList}">
@@ -452,7 +455,7 @@
 				if (!exist) {
 					userContestFileList.push(fileValue[i]);
 
-					var str ='<div>'+
+					var str ='<div name="modify-contest-file">'+
 						'<input type="hidden" name="save_file_name" value="' + fileValue[i].name + '">' +
 						'<a href="#"  name="modify-file">' +
 							'<span class="fa-file-o mr10"></span> (new) ' + fileValue[i].name +
@@ -526,6 +529,19 @@
 		var idx = $("#admin_contest_idx").val();
 		location.href = '${pageContext.request.contextPath}/contest/contestDetailPage.do?admin_contest_idx='+idx+'&curPage=' + pageNum;
 	}
+	
+	
+	$("#contest-edit-modal-btn").click(function(){
+		$("#regist-title").val('');
+		contestFileList.pop();
+		$("p[name='regist-contest-file']").remove();
+	});
+	
+	$("#contest-update-modal-btn").click(function(){
+		$("#modify-title").val('${userContestVo.title}');
+		userContestFileList.pop();
+		$("div[name='modify-contest-file']").remove();
+	});
 	
 </script>
 
