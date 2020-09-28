@@ -67,14 +67,14 @@
 								<ul class="mb0">
 									<li class="list-inline-item">
 										<select class="selectpicker show-tick" name="search_type">
-											<option value="title">제목</option>
-											<option value="create_user">작성자</option>
+											<option value="title" <c:if test="${pagination.search_type eq 'title'}">selected</c:if>>제목</option>
+											<option value="create_user" <c:if test="${pagination.search_type eq 'create_user'}">selected</c:if>>작성자</option>
 										</select>
 									</li>
 									<li class="list-inline-item">
 										<div class="candidate_revew_search_box course fn-520">
 											<div class="form-inline my-2">
-												<input class="form-control mr-sm-2" type="text" name="search" id="search" placeholder="검색..." aria-label="Search">
+												<input class="form-control mr-sm-2" type="text" name="search" id="search" value="${pagination.search}" placeholder="검색..." aria-label="Search">
 												<button class="btn my-2 my-sm-0" type="button" id="search_btn">
 													<span class="flaticon-magnifying-glass"></span>
 												</button>
