@@ -93,8 +93,11 @@
 		  		  	   ) sm
 		       ) sub
 		 WHERE 1=1
-		   <if test="@egovframework.com.cmmn.util.StringUtil@equals(type, 'like')">
+		   <if test="@egovframework.com.cmmn.util.StringUtil@equals(board_type, 'like')">
 		   <![CDATA[AND sub.like_per >= 100]]>
+		   </if>
+		   <if test="@egovframework.com.cmmn.util.StringUtil@equals(board_type, 'end')">
+		   <![CDATA[AND DATE_FORMAT(DATE_SUB(SYSDATE(), INTERVAL 1 MONTH), '%Y-%m-%d') > sub.create_date]]>
 		   </if>
 	</select>
 	
@@ -135,10 +138,10 @@
 		       ) sub
 		     , (SELECT @rownum:=0) TMP
 		 WHERE 1=1
-		   <if test="@egovframework.com.cmmn.util.StringUtil@equals(type, 'like')">
+		   <if test="@egovframework.com.cmmn.util.StringUtil@equals(board_type, 'like')">
 		   <![CDATA[AND sub.like_per >= 100]]>
 		   </if>
-		   <if test="@egovframework.com.cmmn.util.StringUtil@equals(type, 'end')">
+		   <if test="@egovframework.com.cmmn.util.StringUtil@equals(board_type, 'end')">
 		   <![CDATA[AND DATE_FORMAT(DATE_SUB(SYSDATE(), INTERVAL 1 MONTH), '%Y-%m-%d') > sub.create_date]]>
 		   </if>
 		 ORDER BY num DESC

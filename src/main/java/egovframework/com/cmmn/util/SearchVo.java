@@ -8,7 +8,7 @@ public class SearchVo extends Pagination{
 	private String search_type;
 	private String search;
 	private String order;
-	private String type;
+	private String board_type;
 	
 	public String getSearch_s_date() {
 		return search_s_date;
@@ -40,16 +40,16 @@ public class SearchVo extends Pagination{
 	public void setOrder(String order) {
 		this.order = order;
 	}
-	public String getType() {
-		return type;
+	public String getBoard_type() {
+		return board_type;
 	}
-	public void setType(String type) {
-		this.type = type;
+	public void setBoard_type(String board_type) {
+		this.board_type = board_type;
 	}
 	
 	@Override
 	public String toString() {
 		return "SearchVo [search_s_date=" + search_s_date + ", search_e_date=" + search_e_date + ", search_type="
-				+ search_type + ", search=" + search + ", order=" + order + ", type=" + type + "]";
+				+ search_type + ", search=" + search + ", order=" + order + ", board_type=" + board_type + "]";
 	}
 }

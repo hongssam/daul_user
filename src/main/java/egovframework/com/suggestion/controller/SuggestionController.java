@@ -58,7 +58,7 @@ public class SuggestionController {
 			
 			model.addAttribute("sgstList", suggestionList);
 			model.addAttribute("pagination", vo);
-			model.addAttribute("type", vo.getType());
+			model.addAttribute("board_type", vo.getBoard_type());
 		} catch (Exception e) {
 			log.debug("[열린제안] 열린제안 목록 조회 실패");
 			e.printStackTrace();

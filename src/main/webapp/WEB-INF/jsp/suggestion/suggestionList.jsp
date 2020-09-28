@@ -9,13 +9,13 @@
 				<a href="/suggestion/suggestionRegistPage.do">제안하기</a>
 			</div>
 			<div class="wizard-item" data-type="normal">
-				<a href="/suggestion/suggestionListPage.do?order=1&type=normal">열린 제안</a>
+				<a href="/suggestion/suggestionListPage.do?order=1&board_type=normal">열린 제안</a>
 			</div>
 			<div class="wizard-item" data-type="like">
-				<a href="/suggestion/suggestionListPage.do?order=1&type=like">공감 제안</a>
+				<a href="/suggestion/suggestionListPage.do?order=1&board_type=like">공감 제안</a>
 			</div>
 			<div class="wizard-item last" data-type="end">
-				<a href="/suggestion/suggestionListPage.do?order=1&type=end">종료된 제안</a>
+				<a href="/suggestion/suggestionListPage.do?order=1&board_type=end">종료된 제안</a>
 			</div>
 		</div>
 	</div>
@@ -29,13 +29,13 @@
 				<ul class="sort-type text-left">
 					<!-- <li data-order="1">최신 순</li> -->
 					<li data-order="1">
-						<a href="/suggestion/suggestionListPage.do?order=1&type=${type}">최신 순</a>
+						<a href="/suggestion/suggestionListPage.do?order=1&board_type=${board_type}">최신 순</a>
 					</li>
 					<li data-order="2">
-						<a href="/suggestion/suggestionListPage.do?order=2&type=${type}">공감 높은 순</a>
+						<a href="/suggestion/suggestionListPage.do?order=2&board_type=${board_type}">공감 높은 순</a>
 					</li>
 					<li data-order="3">
-						<a href="/suggestion/suggestionListPage.do?order=3&type=${type}">의견 많은 순</a>
+						<a href="/suggestion/suggestionListPage.do?order=3&board_type=${board_type}">의견 많은 순</a>
 					</li>
 				</ul>
 			</div>
@@ -43,14 +43,14 @@
 				<div class="candidate_revew_select text-right">
 					<form id="search_form">
 						<div class="select-search-type">
-							<select class="selectpicker show-tick" name="search_type" data-width="100%">
-								<option value="title">제목</option>
-								<option value="create_user">작성자</option>
+							<select class="selectpicker show-tick" name="search_type" id="search_type" data-width="100%">
+								<option value="title" <c:if test="${pagination.search_type eq 'title'}">selected</c:if>>제목</option>
+								<option value="create_user" <c:if test="${pagination.search_type eq 'create_user'}">selected</c:if>>작성자</option>
 							</select>
 						</div>
 						<div class="input-search">
 							<i class="icon input-search-close flaticon-magnifying-glass btn" id="search_sgst_btn" aria-hidden="true"></i>
-							<input type="text" class="form-control" name="search" id="search" placeholder="검색...">
+							<input type="text" class="form-control" name="search" id="search" value="${pagination.search}" placeholder="검색...">
 						</div>
 					</form>
 				</div>
@@ -144,14 +144,15 @@
 </section>
 
 <script type="text/javascript">
+	var location_search_arr = window.location.search.split("&");
+	
 	var ul = document.querySelector("ul.sort-type.text-left");
 	var div_wizard = document.querySelector("div.wizard");
-	var search_arr = window.location.search.split("&");
-	var order, type;
+	var order, board_type;
 
-	for (var i = 0; i < search_arr.length; i++) {
-		var search = search_arr[i];
-
+	for (var i = 0; i < location_search_arr.length; i++) {
+		var search = location_search_arr[i];
+		
 		if (search.indexOf("order") > -1) {
 			var order_arr = search.split("=");
 			order = order_arr[order_arr.length - 1];
@@ -168,23 +169,28 @@
 					li.classList.remove("active");
 				}
 			}
-		} else if (search.indexOf("type") > -1) {
-			var type_arr = search.split("=");
-			type = type_arr[type_arr.length - 1];
+		} else if (search.indexOf("board_type") > -1) {
+			var board_type_arr = search.split("=");
+			board_type = board_type_arr[board_type_arr.length - 1];
 
 			var div_wizard_child = div_wizard.children;
 
 			for (var j = 0; j < div_wizard_child.length; j++) {
 				var div = div_wizard_child[j];
 
-				if (type === div.dataset.type) {
+				if (board_type === div.dataset.type) {
 					if (!div.classList.contains("active"))
 						div.classList.add("active");
 				} else {
 					div.classList.remove("active");
 				}
 			}
-		}
+		} /* else if (search.indexOf("search") > -1) {
+			var value = search.split("=");
+			
+			if (search.indexOf("search_type") > -1)	document.getElementById("search_type").value = decodeURI(value[1]);
+			else									document.getElementById("search").value = decodeURI(value[1]);
+		} */
 	}
 
 	var btn_search_sgst = document.getElementById("search_sgst_btn");
@@ -203,7 +209,7 @@
 		}
 	});
 
-	var url_param = "order=" + order + "&type=" + type;
+	var url_param = "order=" + order + "&board_type=" + board_type;
 
 	function searchSgstList() {
 		var search_value = $("#search_form").serialize();

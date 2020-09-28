@@ -43,7 +43,7 @@
 					</ul>
 				</li>
 				<li>
-					<a href="/suggestion/suggestionListPage.do?order=1&type=normal">
+					<a href="/suggestion/suggestionListPage.do?order=1&board_type=normal">
 						<span class="title">열린제안</span>
 					</a>
 					<!-- Level Two-->
@@ -62,13 +62,13 @@
 						</c:choose>
 
 						<li>
-							<a href="/suggestion/suggestionListPage.do?order=1&type=normal">열린제안</a>
+							<a href="/suggestion/suggestionListPage.do?order=1&board_type=normal">열린제안</a>
 						</li>
 						<li>
-							<a href="/suggestion/suggestionListPage.do?order=1&type=like">공감제안</a>
+							<a href="/suggestion/suggestionListPage.do?order=1&board_type=like">공감제안</a>
 						</li>
 						<li>
-							<a href="/suggestion/suggestionListPage.do?order=1&type=end">종료된제안</a>
+							<a href="/suggestion/suggestionListPage.do?order=1&board_type=end">종료된제안</a>
 						</li>
 					</ul>
 				</li>
@@ -207,13 +207,13 @@
 						</c:choose>
 					</li>
 					<li>
-						<a href="/suggestion/suggestionListPage.do?order=1&type=normal">열린제안</a>
+						<a href="/suggestion/suggestionListPage.do?order=1&board_type=normal">열린제안</a>
 					</li>
 					<li>
-						<a href="/suggestion/suggestionListPage.do?order=1&type=like">공감제안</a>
+						<a href="/suggestion/suggestionListPage.do?order=1&board_type=like">공감제안</a>
 					</li>
 					<li>
-						<a href="/suggestion/suggestionListPage.do?order=1&type=end">종료된제안</a>
+						<a href="/suggestion/suggestionListPage.do?order=1&board_type=end">종료된제안</a>
 					</li>
 				</ul>
 			</li>
