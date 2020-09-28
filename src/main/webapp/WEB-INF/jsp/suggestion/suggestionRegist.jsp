@@ -27,7 +27,7 @@
 		<div class="row">
 			<div class="col-lg-10 offset-lg-1">
 				<div class="board-detail-table edit-style">
-					<form:form method="post" modelAttribute="suggestionVo" enctype="multipart/form-data">
+					<form:form method="post" modelAttribute="suggestionVo" enctype="multipart/form-data" id="regist-form" action="/suggestion/suggestionRegist.do">
 						<div class="caption">
 							<ul>
 								<li>
@@ -90,7 +90,7 @@
 							</table>
 						</div>
 						<div class="board-btns text-center">
-							<button type="submit" class="btn btn-primary" id="sgstRegistBtn" data-title="열린제안" formaction="/suggestion/suggestionRegist.do">등록</button>
+							<button type="button" class="btn btn-primary" id="sgstRegistBtn" data-title="열린제안" >등록</button>
 							<button type="button" class="btn btn-default" onclick="location.href='${pageContext.request.contextPath}/suggestion/suggestionListPage.do'">취소</button>
 						</div>
 					</form:form>
@@ -162,5 +162,7 @@
 	
 	sgstRegistBtn.addEventListener("click", function() {
 		if (!submitConfirm($(sgstRegistBtn))) return false;
+		
+		document.getElementById("regist-form").submit();
 	});
 </script>

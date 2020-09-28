@@ -29,7 +29,10 @@
 			AND ref IN (select qna_idx from daul_qna where content like concat('%',#{search},'%'))
 			</if>
 	 		<if test="search_type == 'create_user'">
-			AND ref IN (select qna_idx from daul_qna where create_user like concat('%',#{search},'%'))
+			AND ref IN (select dq.qna_idx from daul_qna dq
+										left join user u
+										on dq.create_user = u.user_id
+										where u.name like concat('%',#{search},'%'))
 			</if>
 		 	<if test="search_s_date != null and search_s_date != ''">
 		 		<![CDATA[
@@ -50,16 +53,21 @@
 	
 	<select id="getQnaListCnt" resultType="int">
 		SELECT COUNT(*)
-			FROM daul.daul_qna
+			FROM daul.daul_qna a
+			  LEFT JOIN daul.user b
+		    ON a.create_user = b.user_id 
 			WHERE del_chk = 'N'
 			<if test="search_type == 'title'">
-				AND question like concat('%',#{search},'%')
+				AND ref IN (select qna_idx from daul_qna where question like concat('%',#{search},'%'))
 			</if>
 	 		<if test="search_type == 'content'">
-				AND content like concat('%',#{search},'%')
+				AND ref IN (select qna_idx from daul_qna where content like concat('%',#{search},'%'))
 			</if>
 	 		<if test="search_type == 'create_user'">
-				AND create_user like concat('%',#{search},'%')
+			AND ref IN (select dq.qna_idx from daul_qna dq
+										left join user u
+										on dq.create_user = u.user_id
+										where u.name like concat('%',#{search},'%'))
 			</if>
 		 	<if test="search_s_date != null and search_s_date != ''">
 		 		<![CDATA[

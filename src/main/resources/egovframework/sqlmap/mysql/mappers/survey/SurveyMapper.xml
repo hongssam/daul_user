@@ -10,7 +10,7 @@
 			 AND content like concat('%', #{search}, '%')
 		</if>
 		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'create_user')">
-			 AND create_user like concat('%', #{search}, '%')
+			 AND name like concat('%', #{search}, '%')
 		</if>
 		<if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(search_s_date)">
 			 <![CDATA[
@@ -52,6 +52,7 @@
 				 , a.survey_type
 				 , a.create_user
 				 , DATE_FORMAT(a.create_date, '%Y-%m-%d %H:%i:%s') AS create_date
+				 , b.name
 				 <![CDATA[
 				 , case when e_date < SYSDATE() then '투표완료'
 					  when s_date > SYSDATE() then '투표전'
@@ -59,6 +60,8 @@
 	 	         ]]>
 	             end as ing	
 			  FROM daul.survey_main a
+			   LEFT JOIN daul.user b
+			    ON a.create_user = b.user_id 
 			     , (SELECT @rownum:=0) TMP
 			  WHERE del_chk != 'Y'
 			 <include refid="whereBySurvey"/>
@@ -135,16 +138,18 @@
 	
 	<select id="getSurveyListCnt" resultType="int">
 		SELECT COUNT(*)
-			  FROM daul.survey_main
+			  FROM daul.survey_main a
+			  LEFT JOIN daul.user b
+		      ON a.create_user = b.user_id 
 			  WHERE del_chk != 'Y'
 			<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'title')">
-				 AND title like concat('%', #{search}, '%')
+				 AND a.title like concat('%', #{search}, '%')
 			</if>
 			<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'content')">
-				 AND content like concat('%', #{search}, '%')
+				 AND a.content like concat('%', #{search}, '%')
 			</if>
 			<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'create_user')">
-				 AND create_user like concat('%', #{search}, '%')
+				 AND b.name like concat('%', #{search}, '%')
 			</if>
 			<if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(search_s_date)">
 				 <![CDATA[

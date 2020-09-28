@@ -54,13 +54,13 @@
 	
 	<sql id="whereBySuggestion">
 		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'title')">
-			AND title like concat('%', #{search}, '%')
+			AND s.title like concat('%', #{search}, '%')
 		</if>
 		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'content')">
-			AND content like concat('%', #{search}, '%')
+			AND s.content like concat('%', #{search}, '%')
 		</if>
 		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'create_user')">
-			AND create_user like concat('%', #{search}, '%')
+			AND b.name like concat('%', #{search}, '%')
 		</if>
 		<if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(search_s_date)">
 			<![CDATA[
@@ -80,14 +80,17 @@
 		  		SELECT sm.*
 		  		     , CASE WHEN (like_count / 50 * 100) >= 100 THEN 100 ELSE (like_count / 50 * 100) END AS like_per
 		  		  FROM (
-						SELECT suggestion_idx
-							 , title
-							 , content
+						SELECT s.suggestion_idx
+							 , s.title
+							 , s.content
 							 , (SELECT COUNT(*) FROM daul.user_like where parent_idx = s.suggestion_idx) AS like_count
-							 , create_user
+							 , s.create_user
+							 , b.name
 							 , DATE_FORMAT(create_date, '%Y-%m-%d') as create_date
 							 , (SELECT count(*) FROM suggestion_opinion a WHERE a.suggestion_idx = s.suggestion_idx) AS opinion_cnt
 						  FROM suggestion_main s
+						  LEFT JOIN daul.user b
+			   				 ON s.create_user = b.user_id 
 						 WHERE del_chk != 'Y'
 						   <include refid="whereBySuggestion"/>
 		  		  	   ) sm
@@ -111,18 +114,22 @@
   		     , DATE_FORMAT(sub.create_date, '%Y-%m-%d %H:%i:%s') as create_date
   		     , sub.opinion_cnt
   		     , sub.like_per
+  		     , sub.name
 		  FROM (
 		  		SELECT sm.*
 		  		     , CASE WHEN (like_count / 50 * 100) >= 100 THEN 100 ELSE (like_count / 50 * 100) END AS like_per
 		  		  FROM (
-						SELECT suggestion_idx
-							 , title
-							 , content
+						SELECT s.suggestion_idx
+							 , s.title
+							 , s.content
 							 , (SELECT COUNT(*) FROM daul.user_like where parent_idx = s.suggestion_idx) AS like_count
-							 , create_user
-							 , create_date
+							 , s.create_user
+							 , s.create_date
 							 , (SELECT count(*) FROM suggestion_opinion a WHERE a.suggestion_idx = s.suggestion_idx) AS opinion_cnt
+							 , b.name
 						  FROM suggestion_main s
+						   LEFT JOIN daul.user b
+			  				  ON s.create_user = b.user_id 
 						 WHERE del_chk != 'Y'
 						   <include refid="whereBySuggestion"/>
 		  		  	   ) sm

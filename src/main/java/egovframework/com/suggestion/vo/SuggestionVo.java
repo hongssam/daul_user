@@ -17,6 +17,7 @@ public class SuggestionVo extends SearchVo{
 	private String 	update_user_name;
 	private String 	update_date;
 	private String 	del_chk;
+	private String  name;
 	
 	private int pro_cnt;
 	private int public_cnt;
@@ -25,6 +26,16 @@ public class SuggestionVo extends SearchVo{
 
 	private boolean like_flag;
 	private int like_per;
+
+	
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public String getSuggestion_idx() {
 		return suggestion_idx;

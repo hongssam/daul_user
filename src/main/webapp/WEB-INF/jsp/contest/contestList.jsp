@@ -34,14 +34,14 @@
 				<div class="candidate_revew_select text-right">
 					<form id="search_form">
 						<div class="select-search-type">
-							<select class="selectpicker show-tick" name="search_type" data-width="100%">
-								<option value="title">제목</option>
-								<option value="create_user">작성자</option>
+							<select class="selectpicker show-tick" name="search_type" id="search_type" data-width="100%">
+								<option value="title" <c:if test="${pagination.search_type eq 'title'}">selected</c:if>>제목</option>
+								<option value="create_user" <c:if test="${pagination.search_type eq 'create_user'}">selected</c:if>>작성자</option>
 							</select>
 						</div>
 						<div class="input-search">
 							<i class="icon input-search-close flaticon-magnifying-glass" id="search_btn" aria-hidden="true"></i>
-							<input type="text" class="form-control" name="search" id="search" placeholder="검색...">
+							<input type="text" class="form-control" name="search" id="search" value="${pagination.search}" placeholder="검색...">
 						</div>
 					</form>
 				</div>

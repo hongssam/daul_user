@@ -69,7 +69,7 @@
 												<img src="${pageContext.request.contextPath}/images/user.png" alt="user.png">
 											</li>
 											<li class="list-inline-item">
-												<p>${sgst.create_user}</p>
+												<p>${sgst.name}</p>
 												<p class="date">${sgst.create_date}</p>
 											</li>
 										</ul>

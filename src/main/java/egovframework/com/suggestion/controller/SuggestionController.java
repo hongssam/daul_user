@@ -49,7 +49,6 @@ public class SuggestionController {
 			
 			log.debug("[열린제안] 열린제안 목록 조회");
 			List<SuggestionVo> suggestionList = suggestionService.selectSuggestionList(vo);
-			log.debug("[열린제안] 열린제안 목록 조회 : " + suggestionList);
 			
 			for(int i = 0; i < suggestionList.size(); i++) {
 				String date = suggestionList.get(i).getCreate_date().substring(0,10);
