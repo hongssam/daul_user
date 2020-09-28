@@ -62,7 +62,7 @@
 	}
 	
 	$("#user_id").val("admin");
-	$("#pw").val("1234qwer");
+	$("#pw").val("Ekdhf123!");
 	
 	//$("#login-btn").trigger("click");
 	

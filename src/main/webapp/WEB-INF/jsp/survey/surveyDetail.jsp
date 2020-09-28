@@ -161,8 +161,6 @@
 	}
 	
 	function makeQuestion(data){
-		console.log(data);
-		
 		var survey_box = document.getElementById("survey-box");
 		
 		for (var i = 0; i < data.length; i++) {
@@ -226,40 +224,36 @@
 	}
 
 	function makeSurveyResult(data){
-		console.log("makeSurveyResult = ", data);
-		var ResultTitleList = new Array();
-		var ResultQuestionList = new Array();
-		var ResultSum = 0;
-		for (var result of data){
-			if(result.ref === result.question_idx){
-				ResultTitleList.push(result);
+		var result_box_div = document.getElementById("result-box");
+		
+		for (var i = 0; i < data.length; i++) {
+			var question_data = data[i];
+			
+			if (question_data.ref === question_data.question_idx) {
+				var div = document.createElement("div");
+				div.id = "result_" + question_data.ref;
+				
+				var html = 
+					'<hr>' +
+					'<h5 class="mb20">' + question_data.question_content + ' (총 ' + question_data.total_question_count + '표)</h5>' +
+					'<div name="child_question_list"></div>';
+				
+				div.innerHTML = html;
+				
+				result_box_div.append(div);
 			} else {
-				ResultQuestionList.push(result);
+				var html = 
+					'<div class="item">' +
+						'<label>'+ question_data.question_content +'</label>' +
+						'<span class="float-right">'+ question_data.question_count +'표 <span class="color-red">('+ question_data.question_per +' %)</span></span>' +
+						'<div class="bar-graph-bg">' +
+							'<div class="bar-graph-fr" style="width:'+ question_data.question_per +'%"></div>' +
+						'</div>' +
+					'</div>';
+				
+				var parent_div = document.getElementById("result_" + question_data.ref).querySelector("div[name='child_question_list']");
+				parent_div.innerHTML += html;
 			}
-		}
-		
-		for (var result of ResultQuestionList) {
-			ResultSum += parseInt(result.question_count);
-		}
-		
-		for(var i = 0; i < ResultTitleList.length; i++){
-			var str = '<hr><h5 class="mb20">'+(i+1)+'. '+ResultTitleList[i].question_content+'</h5>'
-				  	+	'<div id="result_'+ResultTitleList[i].ref+'">'
-					+	'</div>';
-			$("#result-box").append(str);
-		}
-		
-		for(var j = 0; j < ResultQuestionList.length; j++){
-			var per = (ResultQuestionList[j].question_count/ResultSum) * 100 ;
-			var str = 	  '<div class="item">'
-						+ '	<label>'+ ResultQuestionList[j].question_content +'</label>'
-						+ '	<span class="float-right">'+ ResultQuestionList[j].question_count +'표 <span class="color-red">('+ per.toFixed(1) +' %)</span></span>'
-						+ '	<div class="bar-graph-bg">'
-						+ '		<div class="bar-graph-fr" style="width:'+ per.toFixed(1) +'%"></div>'
-						+ '	</div>'
-						+ '</div>';
-			var id = "result_" + ResultQuestionList[j].ref;			
-			$("#"+id).append(str);
 		}
 	}
 	

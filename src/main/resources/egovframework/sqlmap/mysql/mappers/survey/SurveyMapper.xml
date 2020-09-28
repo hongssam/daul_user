@@ -250,13 +250,38 @@
 	</insert>
 	
 	<select id="getSurveyResult" resultType="Map">
-		SELECT a.question_idx, a.question_content, count(b.question_idx) as question_count, a.type, a.ref
+		SELECT sq.*
+		     , ROUND((sq.question_count / sq.total_question_count * 100), 2) AS question_per
+		  FROM (
+		  		SELECT sq.*
+				     , sp.total_question_count
+				     , COUNT(sp2.question_idx)	AS question_count
+				  FROM daul.survey_question sq
+				  LEFT JOIN (
+				  			 SELECT SUM(question_count)	AS total_question_count
+							      , sp.ref
+							   FROM (
+							   		 SELECT sq.*
+							 		      , COUNT(sp.question_idx) AS question_count
+							 		   FROM daul.survey_question sq
+							 		   LEFT JOIN daul.survey_participation sp ON sq.question_idx = sp.question_idx
+							 		  WHERE sq.survey_idx = #{survey_idx}
+							 		  GROUP BY sq.question_idx
+							   	    ) sp
+							  GROUP BY ref
+				  			) sp ON sp.ref = sq.ref
+				  LEFT JOIN daul.survey_participation sp2 ON sp2.question_idx = sq.question_idx
+				 WHERE sq.survey_idx = #{survey_idx}
+				 GROUP BY sq.question_idx
+		  	   ) sq
+		 ORDER BY sq.question_idx
+		<!-- SELECT a.question_idx, a.question_content, count(b.question_idx) as question_count, a.type, a.ref
 		  FROM survey_question a
 		  LEFT JOIN survey_participation b 
 		    ON a.question_idx = b.question_idx
 		 WHERE a.survey_idx = #{survey_idx}
 		 GROUP BY a.question_content,a.question_idx 
-		 ORDER BY question_idx
+		 ORDER BY question_idx -->
 	</select>
 	
 	<select id="selectParentSurveyOpinion" resultType="egovframework.com.survey.vo.SurveyOpinionVo">
