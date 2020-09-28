@@ -146,7 +146,7 @@
 				</div>
 				<div class="testimonial_grid_slider style2">
 					<c:forEach var="contest" items="${contestList}">
-						<div class="item" >
+						<div class="item">
 							<div class="home-content-box contest" id = "/contest/contestDetailPage.do?admin_contest_idx=${contest.admin_contest_idx }">
 								<img class="img-whp" src="${pageContext.request.contextPath}/contest/getImg.do?admin_contest_idx=${contest.admin_contest_idx}" style="height: 230px;">
 								<div class="details">
