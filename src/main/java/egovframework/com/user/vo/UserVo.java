@@ -24,7 +24,7 @@ public class UserVo {
 	private String key = "daul";
 	
 	private int num;
-	
+	private String user_di;
 	//sms
 	private String authType;
 	private String birthDate;
@@ -38,6 +38,14 @@ public class UserVo {
 	private String requestNumber;
 	private String responseNumber;
 	
+	
+	
+	public String getUser_di() {
+		return user_di;
+	}
+	public void setUser_di(String user_di) {
+		this.user_di = user_di;
+	}
 	public int getNum() {
 		return num;
 	}

@@ -81,4 +81,10 @@ public class UserServiceImpl extends EgovAbstractServiceImpl implements UserServ
 		return userMapper.selectContestListByMypage(vo);
 	}
 
+	@Override
+	public UserVo checkUserDi(String user_di) throws Exception {
+		return userMapper.checkUserDi(user_di);
+	}
+
+	
 }

@@ -17,4 +17,9 @@ public class LoginServiceImpl implements LoginService{
 	public UserVo selectUser(UserVo vo) throws Exception {
 		return loginMapper.selectUser(vo);
 	}
+
+	@Override
+	public void setLastLogin(UserVo vo) throws Exception {
+		loginMapper.setLastLogin(vo);
+	}
 }

@@ -357,4 +357,12 @@
 		 <include refid="whereByContest"/>
 		 LIMIT #{startIndex}, #{pageSize}
 	</select>
+	
+	
+	<select id="checkUserDi"  resultType="egovframework.com.user.vo.UserVo">
+		SELECT user_id, name
+		  FROM user
+		 WHERE user_key = #{user_di}
+	</select>
+	
 </mapper>

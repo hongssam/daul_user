@@ -6,4 +6,5 @@ import egovframework.rte.psl.dataaccess.mapper.Mapper;
 @Mapper("loginMapper")
 public interface LoginMapper {
 	UserVo selectUser(UserVo vo) throws Exception;
+	void setLastLogin(UserVo vo) throws Exception;
 }

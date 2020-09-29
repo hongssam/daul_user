@@ -14,9 +14,9 @@
 							<input type="password" class="form-control" id="pw" name="pw" placeholder="비밀번호">
 						</div>
 						<div class="form-group custom-control">
-							<a class=" " href="#">아이디 찾기</a>
+							<a class=" " href="/user/idInquiryPage.do">아이디 찾기</a>
 							|
-							<a class=" " href="#">비밀번호 찾기</a>
+							<a class=" " href="/user/pwInquiryPage.do">비밀번호 찾기</a> 
 							|
 							<a class=" " href="/user/userRegistTermPage.do">회원가입</a>
 						</div>

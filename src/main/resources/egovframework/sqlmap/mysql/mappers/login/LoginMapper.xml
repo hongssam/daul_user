@@ -19,4 +19,10 @@
 		  FROM daul.user
 		 WHERE user_id = #{user_id}
 	</select>
+	
+	<update id="setLastLogin">
+		UPDATE user 
+		   SET last_login_date = sysdate()
+		 WHERE user_id = #{user_id}
+	</update>
 </mapper>

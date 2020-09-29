@@ -57,7 +57,7 @@ public class LoginController {
 				if (encryptPw.equals(userVo.getPw())) {
 					HttpSession httpSession = request.getSession();
 					httpSession.setAttribute("login", userVo);
-					
+					loginService.setLastLogin(userVo);
 					return new ResponseEntity<>("success", resHeaders, HttpStatus.OK);
 				} else {
 					// 비번 틀림 
@@ -93,6 +93,7 @@ public class LoginController {
 				HttpSession httpSession = request.getSession();
 				httpSession.setAttribute("kakao_token", params.get("access_token"));
 				httpSession.setAttribute("login", vo);
+				loginService.setLastLogin(vo);
 			} else {
 				return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 			}
@@ -103,4 +104,7 @@ public class LoginController {
 		
 		return new ResponseEntity<>("success", HttpStatus.OK);
 	}
+	
+	
+	
 }

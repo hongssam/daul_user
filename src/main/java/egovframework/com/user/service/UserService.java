@@ -34,4 +34,5 @@ public interface UserService {
 
 	List<ContestVo> selectContestListByMypage(ContestVo vo) throws Exception;
 
+	UserVo checkUserDi(String user_di) throws Exception;
 }

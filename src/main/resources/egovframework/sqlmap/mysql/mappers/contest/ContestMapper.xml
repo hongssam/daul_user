@@ -58,8 +58,11 @@
 							 when contest_s_date > SYSDATE() then '공모전'
 			 	             when contest_e_date > SYSDATE() and SYSDATE() > contest_s_date then '공모진행중'
 			 	       ]]>
-		end as ing
+		end as ing,
+		name
 		FROM daul.contest_admin a
+		 LEFT JOIN daul.user b
+			    ON a.create_user = b.user_id 
 		, (SELECT @rownum:=0) TMP
 		WHERE del_chk != 'Y'
 		<if test="search_type == 'title'">
@@ -69,7 +72,7 @@
 			AND content like concat('%',#{search},'%')
 		</if>
 		<if test="search_type == 'create_user'">
-			AND create_user like concat('%',#{search},'%')
+			AND name like concat('%',#{search},'%')
 		</if>
 		<if test="search_s_date != null and search_s_date != ''">
 			 	 	<![CDATA[
