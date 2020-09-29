@@ -7,7 +7,7 @@
 		SELECT COUNT(*)
 		  FROM daul.user
 		 WHERE channel = 'kakao'
-		   AND kakao_key = #{id}
+		   AND user_key = #{id}
 	</select>
 	
 	<insert id="insertKakaoUser">
@@ -31,7 +31,7 @@
 			 , sms_chk 
 			 </if>
 			 , auth_type
-			 , kakao_key
+			 , user_key
 			 )
 		VALUES 
 			 (
@@ -53,7 +53,7 @@
 			 , #{sms_chk} 
 			 </if>
 			 , #{auth_type}
-			 , #{kakao_key}
+			 , #{user_key}
 			 )
 	</insert>
 	
@@ -121,7 +121,7 @@
 		     , talk_chk
 		     , sms_chk
 		     , auth_type
-		     , kakao_key
+		     , user_key
 		  FROM daul.user
 		 WHERE user_id = #{user_id}
 	</select>
@@ -358,11 +358,10 @@
 		 LIMIT #{startIndex}, #{pageSize}
 	</select>
 	
-	
 	<select id="checkUserDi"  resultType="egovframework.com.user.vo.UserVo">
-		SELECT user_id, name
+		SELECT user_id
+			 , name
 		  FROM user
 		 WHERE user_key = #{user_di}
 	</select>
-	
 </mapper>

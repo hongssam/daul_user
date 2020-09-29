@@ -52,6 +52,7 @@ public class UserController {
 		try {
 			System.out.println(vo);
 			vo.setPhone(vo.getMobileNo());
+			
 			model.addAttribute("userVo", vo);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -92,7 +93,7 @@ public class UserController {
 			Map<String, String> profile = (Map<String, String>) kakao_account.get("profile");
 			
 			UserVo vo = new UserVo();
-			vo.setKakao_key(String.valueOf(params.get("id")));
+			vo.setUser_key(String.valueOf(params.get("id")));
 			vo.setName(profile.get("nickname"));
 			vo.setEmail((String) kakao_account.get("email"));
 			vo.setUser_id((String) kakao_account.get("email"));
@@ -449,7 +450,7 @@ public class UserController {
 	}
 	
 
-@RequestMapping(value="/idInquiryPage.do", method=RequestMethod.GET)
+	@RequestMapping(value="/idInquiryPage.do", method=RequestMethod.GET)
 	public String idInquiry() throws Exception{
 		return "/user/idInquiryPage";
 	}
@@ -458,20 +459,11 @@ public class UserController {
 	
 	@RequestMapping(value="/checkDI.do" , method=RequestMethod.GET)
 	public ResponseEntity<?> checkDI(@RequestParam("user_di") String user_di) throws Exception {
-		String result="";
 		UserVo vo = new UserVo();
 		try {
-		
-			
 			System.out.println("user_di = " + user_di);
 			//해당di로 가입된 유저가 있는지 체크
 			vo = userService.checkUserDi(user_di);
-			if(vo==null) {
-				result = "empty";
-			}else {
-				result = vo.getUser_id();
-			}
-			
 		} catch (Exception e) {
 			log.debug("[일반사용자] 일반사용자 아이디 중복 확인 실패");
 			e.printStackTrace();
@@ -480,6 +472,4 @@ public class UserController {
 		log.debug("[일반사용자] 일반사용자 아이디 중복 확인 완료");
 		return new ResponseEntity<>(vo, HttpStatus.OK);
 	}
-	
-	
 } 
