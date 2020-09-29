@@ -69,11 +69,6 @@ public class UserValidator implements Validator{
 		
 		if (phone == null || phone.trim().isEmpty()) {
 			errors.rejectValue("phone", "phone", "이 항목은 필수값 입니다.");
-		} else {
-			if (!phone.matches(phoneRegExp)) {
-				errors.rejectValue("phone", "phone", "양식에 맞는 전화번호를 입력해주세요. ex) xxx-xxxx-xxxx");
-			}
 		}
 	}
-
 }

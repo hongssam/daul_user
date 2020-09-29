@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
@@ -45,11 +47,11 @@ public class UserController {
 		return "user/userRegistAuth";
 	}
 	
-	@RequestMapping(value="/userRegistPage.do")
+	@RequestMapping(value="/userRegistPage.do", method=RequestMethod.POST)
 	public String userRegistPage(ModelMap model, UserVo vo) throws Exception {
 		try {
 			System.out.println(vo);
-			
+			vo.setPhone(vo.getMobileNo());
 			model.addAttribute("userVo", vo);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -284,5 +286,165 @@ public class UserController {
 		model.addAttribute("pagination", vo);
 		
 		return "/user/mypageContestList";
+	}
+	
+	@RequestMapping(value="/smsAuthChk.do")
+	public ResponseEntity<?> smsAuthTest(HttpSession session) throws Exception {
+		Map<String, Object> resMap = new HashMap<>();
+		
+		try {
+			NiceID.Check.CPClient niceCheck = new  NiceID.Check.CPClient();
+			
+			String sSiteCode = "BS821";							// NICE로부터 부여받은 사이트 코드
+		    String sSitePassword = "FQjooBjIbgKQ";				// NICE로부터 부여받은 사이트 패스워드
+		    
+		    String sRequestNumber = "REQ0000000001";        	// 요청 번호, 이는 성공/실패후에 같은 값으로 되돌려주게 되므로 
+		                                                    	// 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
+		    sRequestNumber = niceCheck.getRequestNO(sSiteCode);
+		  	session.setAttribute("REQ_SEQ" , sRequestNumber);	// 해킹등의 방지를 위하여 세션을 쓴다면, 세션에 요청번호를 넣는다.
+		  	
+		   	String sAuthType = "M";      						// 없으면 기본 선택화면, M: 핸드폰, C: 신용카드, X: 공인인증서
+		   	
+		   	String popgubun 	= "N";							//Y : 취소버튼 있음 / N : 취소버튼 없음
+			String customize 	= "";							//없으면 기본 웹페이지 / Mobile : 모바일페이지
+			
+			String sGender = ""; 								//없으면 기본 선택 값, 0 : 여자, 1 : 남자 
+			
+		    // CheckPlus(본인인증) 처리 후, 결과 데이타를 리턴 받기위해 다음예제와 같이 http부터 입력합니다.
+			//리턴url은 인증 전 인증페이지를 호출하기 전 url과 동일해야 합니다. ex) 인증 전 url : http://www.~ 리턴 url : http://www.~
+		    String sReturnUrl = "http://localhost:9090/user/smsAuthChkSuccess.do";      // 성공시 이동될 URL
+		    String sErrorUrl = "http://localhost:9090/checkplus_fail.jsp";          // 실패시 이동될 URL
+
+		    // 입력될 plain 데이타를 만든다.
+		    String sPlainData = "7:REQ_SEQ" + sRequestNumber.getBytes().length + ":" + sRequestNumber +
+		                        "8:SITECODE" + sSiteCode.getBytes().length + ":" + sSiteCode +
+		                        "9:AUTH_TYPE" + sAuthType.getBytes().length + ":" + sAuthType +
+		                        "7:RTN_URL" + sReturnUrl.getBytes().length + ":" + sReturnUrl +
+		                        "7:ERR_URL" + sErrorUrl.getBytes().length + ":" + sErrorUrl +
+		                        "11:POPUP_GUBUN" + popgubun.getBytes().length + ":" + popgubun +
+		                        "9:CUSTOMIZE" + customize.getBytes().length + ":" + customize + 
+								"6:GENDER" + sGender.getBytes().length + ":" + sGender;
+		    
+		    String sMessage = "";
+		    String sEncData = "";
+		    
+		    int iReturn = niceCheck.fnEncode(sSiteCode, sSitePassword, sPlainData);
+		    if( iReturn == 0 ) { sEncData = niceCheck.getCipherData(); }
+		    else if( iReturn == -1) { sMessage = "암호화 시스템 에러입니다."; }    
+		    else if( iReturn == -2) { sMessage = "암호화 처리오류입니다."; }    
+		    else if( iReturn == -3) { sMessage = "암호화 데이터 오류입니다."; }    
+		    else if( iReturn == -9) { sMessage = "입력 데이터 오류입니다."; }    
+		    else { sMessage = "알수 없는 에러 입니다. iReturn : " + iReturn; }
+		    
+		    resMap.put("resData", sEncData);
+		    resMap.put("resMsg", sMessage);
+	    } catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return new ResponseEntity<>(resMap, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/smsAuthChkSuccess.do")
+	public String smsAuthChkSuccess(ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response) throws Exception {
+		Map<String, String> resMap = new HashMap<>();
+		
+		try {
+			NiceID.Check.CPClient niceCheck = new  NiceID.Check.CPClient();
+
+		    String sEncodeData = requestReplace(request.getParameter("EncodeData"), "encodeData");
+
+		    String sSiteCode = "BS821";					// NICE로부터 부여받은 사이트 코드
+		    String sSitePassword = "FQjooBjIbgKQ";		// NICE로부터 부여받은 사이트 패스워드
+
+		    //String sCipherTime = "";			// 복호화한 시간
+		    String sRequestNumber = "";			// 요청 번호
+		    String sMessage = "";
+		    String sPlainData = "";
+		    
+		    int iReturn = niceCheck.fnDecode(sSiteCode, sSitePassword, sEncodeData);
+
+		    if( iReturn == 0 ) {
+		        sPlainData = niceCheck.getPlainData();
+		        //sCipherTime = niceCheck.getCipherDateTime();
+		        
+		        // 데이타를 추출합니다.
+		        Map<String, Object> mapresult = niceCheck.fnParse(sPlainData);
+		        
+		        resMap.put("sRequestNumber"	, (String)mapresult.get("REQ_SEQ"));
+		        resMap.put("sResponseNumber", (String)mapresult.get("RES_SEQ"));
+		        resMap.put("sAuthType"		, (String)mapresult.get("AUTH_TYPE"));
+		        resMap.put("sName"			, (String)mapresult.get("NAME"));
+		        resMap.put("sBirthDate"		, (String)mapresult.get("BIRTHDATE"));
+		        resMap.put("sGender"		, (String)mapresult.get("GENDER"));
+		        resMap.put("sNationalInfo"	, (String)mapresult.get("NATIONALINFO"));
+		        resMap.put("sDupInfo"		, (String)mapresult.get("DI"));
+		        resMap.put("sConnInfo"		, (String)mapresult.get("CI"));
+		        resMap.put("sMobileNo"		, (String)mapresult.get("MOBILE_NO"));
+		        resMap.put("sMobileCo"		, (String)mapresult.get("MOBILE_CO"));
+		        
+		        sRequestNumber  = (String)mapresult.get("REQ_SEQ");
+		        
+		        String session_sRequestNumber = (String)session.getAttribute("REQ_SEQ");
+		        if(!sRequestNumber.equals(session_sRequestNumber)) {
+		            sMessage = "세션값 불일치 오류입니다.";
+		            resMap.put("sResponseNumber", "");
+		            resMap.put("sAuthType", "");
+		        }
+		        
+		    } 
+		    else if( iReturn == -1) { sMessage = "복호화 시스템 오류입니다."; }    
+		    else if( iReturn == -4) { sMessage = "복호화 처리 오류입니다."; }    
+		    else if( iReturn == -5) { sMessage = "복호화 해쉬 오류입니다."; }    
+		    else if( iReturn == -6) { sMessage = "복호화 데이터 오류입니다."; }    
+		    else if( iReturn == -9) { sMessage = "입력 데이터 오류입니다."; }    
+		    else if( iReturn == -12) { sMessage = "사이트 패스워드 오류입니다."; }    
+		    else { sMessage = "알수 없는 에러 입니다. iReturn : " + iReturn; }
+		    
+		    resMap.put("resMsg", sMessage);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		model.addAttribute("res", resMap);
+		
+		return "user/smsAuthChkSuccess";
+	} 
+	
+	private String requestReplace(String paramValue, String gubun) {
+		String result = "";
+
+		if (paramValue != null) {
+			paramValue = paramValue.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+
+			paramValue = paramValue.replaceAll("\\*", "");
+			paramValue = paramValue.replaceAll("\\?", "");
+			paramValue = paramValue.replaceAll("\\[", "");
+			paramValue = paramValue.replaceAll("\\{", "");
+			paramValue = paramValue.replaceAll("\\(", "");
+			paramValue = paramValue.replaceAll("\\)", "");
+			paramValue = paramValue.replaceAll("\\^", "");
+			paramValue = paramValue.replaceAll("\\$", "");
+			paramValue = paramValue.replaceAll("'", "");
+			paramValue = paramValue.replaceAll("@", "");
+			paramValue = paramValue.replaceAll("%", "");
+			paramValue = paramValue.replaceAll(";", "");
+			paramValue = paramValue.replaceAll(":", "");
+			paramValue = paramValue.replaceAll("-", "");
+			paramValue = paramValue.replaceAll("#", "");
+			paramValue = paramValue.replaceAll("--", "");
+			paramValue = paramValue.replaceAll("-", "");
+			paramValue = paramValue.replaceAll(",", "");
+
+			if (gubun != "encodeData") {
+				paramValue = paramValue.replaceAll("\\+", "");
+				paramValue = paramValue.replaceAll("/", "");
+				paramValue = paramValue.replaceAll("=", "");
+			}
+
+			result = paramValue;
+
+		}
+		return result;
 	}
 } 

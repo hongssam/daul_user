@@ -25,6 +25,19 @@ public class UserVo {
 	
 	private int num;
 	
+	//sms
+	private String authType;
+	private String birthDate;
+	private String connInfo;
+	private String dupInfo;
+	private String gender;
+	private String mobileCo;
+	private String mobileNo;
+	private String msg;
+	private String nationalInfo;
+	private String requestNumber;
+	private String responseNumber;
+	
 	public int getNum() {
 		return num;
 	}
@@ -148,6 +161,72 @@ public class UserVo {
 	public String getPwKey() {
 		return getPw() + getKey();
 	}
+	public String getAuthType() {
+		return authType;
+	}
+	public void setAuthType(String authType) {
+		this.authType = authType;
+	}
+	public String getBirthDate() {
+		return birthDate;
+	}
+	public void setBirthDate(String birthDate) {
+		this.birthDate = birthDate;
+	}
+	public String getConnInfo() {
+		return connInfo;
+	}
+	public void setConnInfo(String connInfo) {
+		this.connInfo = connInfo;
+	}
+	public String getDupInfo() {
+		return dupInfo;
+	}
+	public void setDupInfo(String dupInfo) {
+		this.dupInfo = dupInfo;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	public String getMobileCo() {
+		return mobileCo;
+	}
+	public void setMobileCo(String mobileCo) {
+		this.mobileCo = mobileCo;
+	}
+	public String getMobileNo() {
+		return mobileNo;
+	}
+	public void setMobileNo(String mobileNo) {
+		this.mobileNo = mobileNo;
+	}
+	public String getMsg() {
+		return msg;
+	}
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
+	public String getNationalInfo() {
+		return nationalInfo;
+	}
+	public void setNationalInfo(String nationalInfo) {
+		this.nationalInfo = nationalInfo;
+	}
+	public String getRequestNumber() {
+		return requestNumber;
+	}
+	public void setRequestNumber(String requestNumber) {
+		this.requestNumber = requestNumber;
+	}
+	public String getResponseNumber() {
+		return responseNumber;
+	}
+	public void setResponseNumber(String responseNumber) {
+		this.responseNumber = responseNumber;
+	}
 	
 	@Override
 	public String toString() {
@@ -156,6 +235,9 @@ public class UserVo {
 				+ last_login_date + ", email_chk=" + email_chk + ", talk_chk=" + talk_chk + ", sms_chk=" + sms_chk
 				+ ", auth_type=" + auth_type + ", kakao_key=" + kakao_key + ", contest_cnt=" + contest_cnt
 				+ ", suggestion_cnt=" + suggestion_cnt + ", participation_cnt=" + participation_cnt + ", opinion_cnt="
-				+ opinion_cnt + ", key=" + key + ", num=" + num + "]";
+				+ opinion_cnt + ", key=" + key + ", num=" + num + ", authType=" + authType + ", birthDate=" + birthDate
+				+ ", connInfo=" + connInfo + ", dupInfo=" + dupInfo + ", gender=" + gender + ", mobileCo=" + mobileCo
+				+ ", mobileNo=" + mobileNo + ", msg=" + msg + ", nationalInfo=" + nationalInfo + ", requestNumber="
+				+ requestNumber + ", responseNumber=" + responseNumber + "]";
 	}
 }
