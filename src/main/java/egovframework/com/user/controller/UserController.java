@@ -455,7 +455,11 @@ public class UserController {
 		return "/user/idInquiryPage";
 	}
 	
-	
+
+	@RequestMapping(value="/pwInquiryPage.do", method=RequestMethod.GET)	
+	public String pwInquiry() throws Exception{
+		return "/user/pwInquiryPage";
+	}
 	
 	@RequestMapping(value="/checkDI.do" , method=RequestMethod.GET)
 	public ResponseEntity<?> checkDI(@RequestParam("user_di") String user_di) throws Exception {
