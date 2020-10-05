@@ -14,7 +14,7 @@ public class UserVo {
 	private String talk_chk;
 	private String sms_chk;
 	private String auth_type;
-	private String kakao_key;
+	private String user_key;
 	
 	private int contest_cnt;
 	private int suggestion_cnt;
@@ -130,11 +130,11 @@ public class UserVo {
 	public void setAuth_type(String auth_type) {
 		this.auth_type = auth_type;
 	}
-	public String getKakao_key() {
-		return kakao_key;
+	public String getUser_key() {
+		return user_key;
 	}
-	public void setKakao_key(String kakao_key) {
-		this.kakao_key = kakao_key;
+	public void setUser_key(String user_key) {
+		this.user_key = user_key;
 	}
 	public int getContest_cnt() {
 		return contest_cnt;
@@ -241,7 +241,7 @@ public class UserVo {
 		return "UserVo [user_id=" + user_id + ", name=" + name + ", pw=" + pw + ", new_pw=" + new_pw + ", email="
 				+ email + ", phone=" + phone + ", channel=" + channel + ", reg_date=" + reg_date + ", last_login_date="
 				+ last_login_date + ", email_chk=" + email_chk + ", talk_chk=" + talk_chk + ", sms_chk=" + sms_chk
-				+ ", auth_type=" + auth_type + ", kakao_key=" + kakao_key + ", contest_cnt=" + contest_cnt
+				+ ", auth_type=" + auth_type + ", user_key=" + user_key + ", contest_cnt=" + contest_cnt
 				+ ", suggestion_cnt=" + suggestion_cnt + ", participation_cnt=" + participation_cnt + ", opinion_cnt="
 				+ opinion_cnt + ", key=" + key + ", num=" + num + ", authType=" + authType + ", birthDate=" + birthDate
 				+ ", connInfo=" + connInfo + ", dupInfo=" + dupInfo + ", gender=" + gender + ", mobileCo=" + mobileCo
