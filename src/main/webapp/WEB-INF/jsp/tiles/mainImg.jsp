@@ -43,7 +43,7 @@
 		var div = 
 			'<div class="container">' +
 				'<div class="breadcrumb_content">' +
-					'<h4 class="breadcrumb_title">회원가입</h4>' +
+					'<h4 class="breadcrumb_title">사용자</h4>' +
 				'</div>' +
 			'</div>';
 			

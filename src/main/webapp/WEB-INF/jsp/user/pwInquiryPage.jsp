@@ -73,12 +73,12 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="auth-box">
-					<h4>아이디 찾기</h4>
+					<h4>비밀번호 찾기</h4>
 					<div class="auth-btn-box">
 						<p class="desc">
 							본인 명의의 휴대폰으로만 인증이 가능합니다.
 							<br>
-							아이디찾기를 원하시면 <b>[인증하기]</b>를 클릭해주세요.
+							비밀번호찾기를 원하시면 <b>[인증하기]</b>를 클릭해주세요.
 						</p>
 						<form name="form_chk" method="post">
 							<input type="hidden" name="m" value="checkplusService">
@@ -93,9 +93,10 @@
 			</div>
 		</div>
 	</div>
-	
-<button type="button" class="" data-toggle="modal" data-target="#openModal" id="modalOpenBtn" href="#" style="display:none;"></button>
-	
+
+	<button type="button" class="" data-toggle="modal" data-target="#openModal" id="modalOpenBtn" href="#" style="display: none;"></button>
+	<button type="button" class="" data-toggle="modal" data-target="#openPwChangeModal" id="openPwChangeModalBtn" href="#" style="display: none;"></button>
+
 </section>
 
 <div class="modal fade" id="openModal" aria-hidden="true" aria-labelledby="faqPositionCenter" role="dialog" tabindex="-1">
@@ -105,10 +106,10 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">x</span>
 				</button>
-				<h4 class="modal-title">아이디 찾기</h4>
+				<h4 class="modal-title">비밀번호 찾기</h4>
 			</div>
 			<div class="modal-body">
-				<div class="example-wrap"id="modal-div"></div>
+				<div class="example-wrap" id="modal-div"></div>
 				<div style="text-align: center">
 					<button type="button" class="btn btn-default waves-effect waves-classics" data-dismiss="modal" aria-label="Close" id="faq-modal-cancle-btn">확인</button>
 				</div>
@@ -122,15 +123,56 @@
 </div>
 
 
+<div class="modal fade" id="openPwChangeModal" aria-hidden="true" aria-labelledby="faqPositionCenter" role="dialog" tabindex="-1">
+	<div class="modal-dialog modal-simple modal-center">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">x</span>
+				</button>
+				<h4 class="modal-title">비밀번호 찾기</h4>
+			</div>
+			<div class="modal-body">
+				<form id="pwChange-modal-form">
+					<div class="example-wrap">
+						<h4 class="example-title">새 비밀번호</h4>
+						<input type="text" class="form-control" name="pw" id="inputPlaceholder" value="" />
+						<span>비밀번호는 9자 이상 입력해야 합니다.</span>
+						<br>
+						<span>최소 하나의 영문,숫자,특수문자를 입력해야 합니다.</span>
+						<br>
+						<span>특수문자는 !@#$%^&*() 를 입력할 수 있습니다.</span>
+						<hr />
+						<h4 class="example-title">비밀번호 재입력</h4>
+						<input type="text" class="form-control" name="new_pw" id="inputPlaceholder" value="" />
+						<span>위에 입력한 비밀번호를 한번 더 입력해 주십시오.</span>
+						<hr />
+					</div>
+					<div style="text-align: center">
+						<button type="button" class="btn btn-primary waves-effect waves-classics" id="pwChange-modal-btn" data-title="비밀번호">변경</button>
+						<button type="button" class="btn btn-default waves-effect waves-classics" data-dismiss="modal" aria-label="Close" id="faq-modal-cancle-btn">취소</button>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<!-- <button type="button" class="btn btn-default btn-pure" data-dismiss="modal">Close</button>
+       			<button type="button" class="btn btn-primary">Save changes</button> -->
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
 <script type="text/javascript">
 	function test(di) {
 
 		var request = $.ajax({ url : "/user/checkDI.do?user_di=" + di, method : "get" });
 		request.done(function(data) {
 			console.log(data)
-			if(typeof data.user_id == "undefined" || data.user_id == null){
+			if (typeof data.user_id == "undefined" || data.user_id == null) {
 				openModal2(data);
-			}else{
+			} else {
 				openModal(data);
 			}
 		});
@@ -139,23 +181,29 @@
 			console.log("request fail");
 		});
 	}
-	
-	function openModal(data){
-		$("#modal-div").children().remove();
-		var str = '<span><b>' + data.name + '</b>님의 아이디는 <b>' + data.user_id+'</b> 입니다.</span>';
-		$("#modal-div").append(str);
-		
-		$("#modalOpenBtn").click();
+
+	function openModal(data) {
+		$("#openPwChangeModalBtn").click();
 	}
-	
-	function openModal2(data){
+
+	function openModal2(data) {
 		$("#modal-div").children().remove();
 		var str = '<span>해당 휴대폰으로 가입된 정보가 없습니다.</span>';
 		$("#modal-div").append(str);
-		
+
 		$("#modalOpenBtn").click();
 	}
 	
+	$("#pwChange-modal-btn").click(function() {
+		if (!submitConfirm($(this)))
+			return false;
+
+		changePw();
+	});
+	
+	function changePw(){
+		console.log("changePw");
+	}
 </script>
 
 
