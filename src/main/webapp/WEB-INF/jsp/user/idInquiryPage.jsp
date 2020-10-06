@@ -21,8 +21,8 @@
 
 	// CheckPlus(본인인증) 처리 후, 결과 데이타를 리턴 받기위해 다음예제와 같이 http부터 입력합니다.
 	//리턴url은 인증 전 인증페이지를 호출하기 전 url과 동일해야 합니다. ex) 인증 전 url : http://www.~ 리턴 url : http://www.~
-	String sReturnUrl = "http://183.111.102.211:8084/idInquiry_success.jsp"; // 성공시 이동될 URL
-	String sErrorUrl = "http://183.111.102.211:8084/checkplus_fail.jsp"; // 실패시 이동될 URL
+	String sReturnUrl = "http://localhost:9090/idInquiry_success.jsp"; // 성공시 이동될 URL
+	String sErrorUrl = "http://localhost:9090/checkplus_fail.jsp"; // 실패시 이동될 URL
 
 	// 입력될 plain 데이타를 만든다.
 	String sPlainData = "7:REQ_SEQ" + sRequestNumber.getBytes().length + ":" + sRequestNumber + "8:SITECODE"
@@ -93,12 +93,10 @@
 			</div>
 		</div>
 	</div>
-	
-<button type="button" class="" data-toggle="modal" data-target="#openModal" id="modalOpenBtn" href="#" style="display:none;"></button>
-	
+	<button type="button" class="" data-toggle="modal" data-target="#openModal" id="modalOpenBtn" style="display:none;"></button>
 </section>
 
-<div class="modal fade" id="openModal" aria-hidden="true" aria-labelledby="faqPositionCenter" role="dialog" tabindex="-1">
+<div class="modal fade" id="openModal" aria-hidden="true" aria-labelledby="openModal" role="dialog" tabindex="-1">
 	<div class="modal-dialog modal-simple modal-center">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -108,9 +106,9 @@
 				<h4 class="modal-title">아이디 찾기</h4>
 			</div>
 			<div class="modal-body">
-				<div class="example-wrap"id="modal-div"></div>
-				<div style="text-align: center">
-					<button type="button" class="btn btn-default waves-effect waves-classics" data-dismiss="modal" aria-label="Close" id="faq-modal-cancle-btn">확인</button>
+				<div class="example-wrap m-20"id="modal-div"></div>
+				<div class="mt-30" style="text-align: center">
+					<button type="button" class="btn btn-primary waves-effect waves-classics" data-dismiss="modal" aria-label="Close" id="faq-modal-cancle-btn">확인</button>
 				</div>
 			</div>
 			<div class="modal-footer">
