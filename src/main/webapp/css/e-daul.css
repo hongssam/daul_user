@@ -1890,15 +1890,18 @@ ul.page-navigation li.active .page-link {
   margin-left: 40px;
 }
 .reg-wizard-section .wizard .wizard-item {
-position: relative;
-display: inline-block;
-text-decoration: none;
-min-width: 24.75%;
-margin-left: 0.25%;
-text-align: center;
-font-size: 14px;
-text-transform: uppercase;
-cursor: pointer;
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+  min-width: 24.75%;
+  margin-left: 0.25%;
+  text-align: center;
+  font-size: 14px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.reg-wizard-section .wizard .wizard-item.regist {
+  cursor: default !important;
 }
 .reg-wizard-section .wizard .wizard-item .step-box {
   float: left;

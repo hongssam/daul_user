@@ -4,41 +4,33 @@
 <section class="reg-wizard-section bgc-fa">
 	<div class="container">
 		<div class="wizard row">
-			<div class="wizard-item">
+			<div class="wizard-item regist">
 				<div class="step-box">
-					<a href="#">
-						약관동의
-					</a>
+					약관동의
 				</div>
 				<div class="step-arrow">
 					<img src="${pageContext.request.contextPath}/images/icon-arrow-forward.png">
 				</div>
 			</div>
-			<div class="wizard-item">
+			<div class="wizard-item regist">
 				<div class="step-box">
-					<a href="#">
-						본인확인
-					</a>
+					본인확인
 				</div>
 				<div class="step-arrow">
 					<img src="${pageContext.request.contextPath}/images/icon-arrow-forward.png">
 				</div>
 			</div>
-			<div class="wizard-item">
+			<div class="wizard-item regist">
 				<div class="step-box ">
-					<a href="#">
-						회원정보 입력
-					</a>
+					회원정보 입력
 				</div>
 				<div class="step-arrow">
 					<img src="${pageContext.request.contextPath}/images/icon-arrow-forward.png">
 				</div>
 			</div>
-			<div class="wizard-item">
+			<div class="wizard-item regist">
 				<div class="step-box active">
-					<a href="#">
-						가입완료
-					</a>
+					가입완료
 				</div>
 			</div>
 		</div>

@@ -96,4 +96,6 @@
 		
 		location.href="${pageContext.request.contextPath}/login/loginPage.do";
 	}
+	
+	var sms_auth_pop = null;
 </script>

@@ -118,12 +118,12 @@
 					</c:when>
 					<c:otherwise>
 						<li class="list-inline-item list_s pull-right nav-item-account">
-							<a href="/user/userRegistTermPage.do" class="btn" style="margin-top: 1px">
+							<a href="/user/userRegistTermPage.do" style="margin-top: 1px">
 								<span class="dn-lg">| 회원가입</span>
 							</a>
 						</li>
 						<li class="list-inline-item list_s pull-right nav-item-account">
-							<a href="/login/loginPage.do" class="btn flaticon-user">
+							<a href="/login/loginPage.do" class="flaticon-user">
 								<span class="dn-lg">로그인</span>
 							</a>
 						</li>
