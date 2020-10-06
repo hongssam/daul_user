@@ -85,4 +85,11 @@ public class UserServiceImpl extends EgovAbstractServiceImpl implements UserServ
 	public UserVo checkUserDi(String user_di) throws Exception {
 		return userMapper.checkUserDi(user_di);
 	}
+
+	@Override
+	public void changeNewPw(UserVo vo) throws Exception {
+			userMapper.changeNewPw(vo);
+	}
+	
+	
 }

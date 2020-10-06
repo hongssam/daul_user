@@ -21,7 +21,7 @@
 
 	// CheckPlus(본인인증) 처리 후, 결과 데이타를 리턴 받기위해 다음예제와 같이 http부터 입력합니다.
 	//리턴url은 인증 전 인증페이지를 호출하기 전 url과 동일해야 합니다. ex) 인증 전 url : http://www.~ 리턴 url : http://www.~
-	String sReturnUrl = "http://183.111.102.211:8084/idInquiry_success.jsp"; // 성공시 이동될 URL
+	String sReturnUrl = "http://localhost:8082/idInquiry_success.jsp"; // 성공시 이동될 URL
 	String sErrorUrl = "http://183.111.102.211:8084/checkplus_fail.jsp"; // 실패시 이동될 URL
 
 	// 입력될 plain 데이타를 만든다.
@@ -135,17 +135,19 @@
 			<div class="modal-body">
 				<form id="pwChange-modal-form">
 					<div class="example-wrap">
+						<input type="hidden" id="user_di" name="user_di" value="">
 						<h4 class="example-title">새 비밀번호</h4>
-						<input type="text" class="form-control" name="pw" id="inputPlaceholder" value="" />
-						<span>비밀번호는 9자 이상 입력해야 합니다.</span>
+						<input type="password" class="form-control" name="pw" id="pw" value="" />
+						<span>비밀번호는 8자 이상 입력해야 합니다.</span>
 						<br>
 						<span>최소 하나의 영문,숫자,특수문자를 입력해야 합니다.</span>
 						<br>
-						<span>특수문자는 !@#$%^&*() 를 입력할 수 있습니다.</span>
 						<hr />
 						<h4 class="example-title">비밀번호 재입력</h4>
-						<input type="text" class="form-control" name="new_pw" id="inputPlaceholder" value="" />
+						<input type="password" class="form-control" name="new_pw" id="pw-chk" value="" />
 						<span>위에 입력한 비밀번호를 한번 더 입력해 주십시오.</span>
+						<br>
+						<span class="text-left" id="pwChk-error" style="color: red"></span>
 						<hr />
 					</div>
 					<div style="text-align: center">
@@ -165,6 +167,47 @@
 
 
 <script type="text/javascript">
+	var pwRule = /(?=.*\d{1,50})(?=.*[~`!@#$%\^&*()-+=]{1,50})(?=.*[a-zA-Z]{2,50}).{8,50}$/;
+
+	function passwordCheck() {
+		var pw = $("#pw").val();
+		var pwChk = $("#pw-chk").val();
+
+		if (pw !== pwChk) {
+			$("#pwChk-error").text("비밀번호가 일치하지 않습니다.");
+			pwFlag = false;
+			return;
+		} else {
+			$("#pwChk-error").text("");
+			pwFlag = true;
+		}
+
+		
+		// 비밀번호가 빈값이 아닐때만 비밀번호 규칙 확인
+		if (pw !== "") {
+			if (!pwRule.test(pw)) {
+				$("#pwChk-error").text("영문자, 숫자, 특수문자가 포함된 8자리 이상으로 입력해 주세요.");
+				pwFlag = false;
+			} else {
+				$("#pwChk-error").text("");
+				pwFlag = true;
+			}
+		} else {
+			pwFlag = false;
+		}
+	}
+
+	$("#pw").change(function() {
+		passwordCheck();
+	});
+
+	$("#pw-chk").change(function() {
+		passwordCheck();
+	});
+
+	$("#pw-chk").keyup(function(){
+		passwordCheck();
+	});
 	function test(di) {
 
 		var request = $.ajax({ url : "/user/checkDI.do?user_di=" + di, method : "get" });
@@ -174,6 +217,7 @@
 				openModal2(data);
 			} else {
 				openModal(data);
+				$("#user_di").val(di);
 			}
 		});
 
@@ -193,16 +237,37 @@
 
 		$("#modalOpenBtn").click();
 	}
-	
+
 	$("#pwChange-modal-btn").click(function() {
+
+		passwordCheck();
+
+		if (!pwFlag) {
+			alert("비밀번호를 확인해주세요.");
+			return false;
+		}
+
 		if (!submitConfirm($(this)))
 			return false;
 
 		changePw();
 	});
-	
-	function changePw(){
-		console.log("changePw");
+
+	function changePw() {
+
+		var request = $.ajax({ url : "/user/changeNewPw.do", method : "post", data : $("#pwChange-modal-form").serialize() });
+
+		request.done(function(data) {
+			alert("패스워드가 정상적으로 변경되었습니다.");
+			location.href = "${pageContext.request.contextPath}/login/loginPage.do";
+
+		});
+
+		request.fail(function(error) {
+			console.log("request fail");
+		});
+
+		var pwFlag = false;
 	}
 </script>
 

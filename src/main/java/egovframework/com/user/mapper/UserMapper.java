@@ -37,4 +37,6 @@ public interface UserMapper {
 	List<ContestVo> selectContestListByMypage(ContestVo vo) throws Exception;
 
 	UserVo checkUserDi(String user_di) throws Exception;
+	
+	void changeNewPw(UserVo vo) throws Exception;
 }

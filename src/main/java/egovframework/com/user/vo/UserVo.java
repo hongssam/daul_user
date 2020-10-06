@@ -235,7 +235,6 @@ public class UserVo {
 	public void setResponseNumber(String responseNumber) {
 		this.responseNumber = responseNumber;
 	}
-	
 	@Override
 	public String toString() {
 		return "UserVo [user_id=" + user_id + ", name=" + name + ", pw=" + pw + ", new_pw=" + new_pw + ", email="
@@ -243,9 +242,10 @@ public class UserVo {
 				+ last_login_date + ", email_chk=" + email_chk + ", talk_chk=" + talk_chk + ", sms_chk=" + sms_chk
 				+ ", auth_type=" + auth_type + ", user_key=" + user_key + ", contest_cnt=" + contest_cnt
 				+ ", suggestion_cnt=" + suggestion_cnt + ", participation_cnt=" + participation_cnt + ", opinion_cnt="
-				+ opinion_cnt + ", key=" + key + ", num=" + num + ", authType=" + authType + ", birthDate=" + birthDate
-				+ ", connInfo=" + connInfo + ", dupInfo=" + dupInfo + ", gender=" + gender + ", mobileCo=" + mobileCo
-				+ ", mobileNo=" + mobileNo + ", msg=" + msg + ", nationalInfo=" + nationalInfo + ", requestNumber="
-				+ requestNumber + ", responseNumber=" + responseNumber + "]";
+				+ opinion_cnt + ", key=" + key + ", num=" + num + ", user_di=" + user_di + ", authType=" + authType
+				+ ", birthDate=" + birthDate + ", connInfo=" + connInfo + ", dupInfo=" + dupInfo + ", gender=" + gender
+				+ ", mobileCo=" + mobileCo + ", mobileNo=" + mobileNo + ", msg=" + msg + ", nationalInfo="
+				+ nationalInfo + ", requestNumber=" + requestNumber + ", responseNumber=" + responseNumber + "]";
 	}
+
 }

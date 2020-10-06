@@ -364,4 +364,19 @@
 		  FROM user
 		 WHERE user_key = #{user_di}
 	</select>
+	
+	<update id="changeNewPw">
+		UPDATE user SET pw = #{pw}
+		 WHERE user_key = #{user_di}
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </mapper>

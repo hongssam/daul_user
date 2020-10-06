@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import egovframework.com.cmmn.SecurityUtil;
@@ -476,4 +477,23 @@ public class UserController {
 		log.debug("[일반사용자] 일반사용자 아이디 중복 확인 완료");
 		return new ResponseEntity<>(vo, HttpStatus.OK);
 	}
+	
+
+	@RequestMapping(value="/changeNewPw.do", method=RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity changeNewPw(HttpSession session, UserVo vo, BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		try {
+		
+		       System.out.println(vo);
+		       
+		       SecurityUtil securityUtil = new SecurityUtil();
+		       String encryptPw = securityUtil.encryptSHA256(vo.getPwKey());
+		       vo.setPw(encryptPw);
+		       userService.changeNewPw(vo);
+			return new ResponseEntity<>("success", HttpStatus.OK);
+		}catch(Exception e) {
+			return new ResponseEntity<>("error.", HttpStatus.OK);
+		}		
+	}
+	
 } 
