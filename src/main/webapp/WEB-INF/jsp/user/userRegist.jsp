@@ -130,6 +130,9 @@
 								</div>
 							</div>
 						</div>
+						
+						<form:input type="hidden" path="dupInfo"/>
+						
 						<div class="form-group submit custom-control">
 							<button type="submit" class="btn btn-primary" id="user-reg-btn" data-title="회원" formaction="/user/publicUserRegist.do">등록</button>
 							<button type="button" class="btn btn-default" id="user-reg-cancel">취소</button>
