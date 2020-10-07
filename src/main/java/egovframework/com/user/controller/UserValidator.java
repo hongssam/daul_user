@@ -28,7 +28,7 @@ public class UserValidator implements Validator{
 		
 		String emailRegExp = "^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
 		String phoneRegExp = "^[0-9]{2,3}\\-[0-9]{3,4}\\-[0-9]{4}";
-		String pwRegExp = "^(?=.*\\d)(?=.*[~`!@#$%\\^&*()-])(?=.*[a-z])(?=.*[A-Z]).{8,15}$";
+		String pwRegExp = "^(?=.*[a-z])(?=.*[0-9])(?=.*\\d)(?=.*[~`!@#$%\\^&*()-]).{8,15}$";
 		String idRegExp = "^[a-zA-Z0-9_]{5,15}";
 		
 		if (user_id == null || user_id.trim().isEmpty()) {
@@ -55,7 +55,7 @@ public class UserValidator implements Validator{
 			errors.rejectValue("pw", "pw", "이 항목은 필수값 입니다.");
 		} else {
 			if (!pw.matches(pwRegExp)) {
-				errors.rejectValue("pw", "pw", "영문자, 숫자, 특수문자가 포함된 8자리 이상으로 입력해 주세요.");
+				errors.rejectValue("pw", "pw", "영문자, 숫자, 특수문자가 포함된 8~15자리로 입력해 주세요.");
 			}
 		}
 		
