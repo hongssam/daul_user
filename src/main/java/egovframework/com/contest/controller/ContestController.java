@@ -91,7 +91,7 @@ public class ContestController {
 		int chk = 0;
 		try {
 			UserVo userVo = (UserVo) session.getAttribute("login");
-			String user_id = userVo.getUser_id();
+			
 			
 			contestVo.setAdmin_contest_idx(admin_contest_idx);
 			contestVo = contestService.getAdminContest(contestVo);
@@ -104,7 +104,29 @@ public class ContestController {
 			contestVo.setContest_s_date(contestVo.getContest_s_date().substring(0,10));
 			contestVo.setSubmit_e_date(contestVo.getSubmit_e_date().substring(0,10));
 			contestVo.setSubmit_s_date(contestVo.getSubmit_s_date().substring(0,10));
-			contestVo.setLogin_user(user_id);
+			
+			try {
+			
+				contestVo.setLogin_user(userVo.getUser_id());
+				// 해당유저가 공모에 참여했는지 유무chk
+				chk = contestService.checkSubmit(contestVo);
+				
+				if (chk > 0) {
+					//작성한 글 가져오기
+					userContestVo = contestService.getUserContest(contestVo);
+					userFileList = contestService.selectUserFileList(userContestVo);
+				}
+				
+				model.addAttribute("userFileList", userFileList);
+				model.addAttribute("checkSubmit", chk);
+				model.addAttribute("userContestVo", userContestVo);
+			}catch(NullPointerException e){
+				log.debug("nullpointerException - Contestcontroller - 124");
+			}
+			
+		
+		
+			
 			
 			fileList = contestService.selectContestFile(contestVo);
 			userContestList = contestService.getUserContestList(contestVo);
@@ -114,22 +136,13 @@ public class ContestController {
 				userContestList.get(i).setCreate_date(date);
 			}
 			
-			// 해당유저가 공모에 참여했는지 유무chk
-			chk = contestService.checkSubmit(contestVo);
-
-			if (chk > 0) {
-				// 작성한 글 가져오기
-				userContestVo = contestService.getUserContest(contestVo);
-				userFileList = contestService.selectUserFileList(userContestVo);
-			}
+	
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 		model.addAttribute("contestVo", contestVo);
 		model.addAttribute("fileList", fileList);
-		model.addAttribute("userFileList", userFileList);
-		model.addAttribute("checkSubmit", chk);
-		model.addAttribute("userContestVo", userContestVo);
+
 		model.addAttribute("userContestList", userContestList);
 		model.addAttribute("pagination", contestVo);
 
@@ -299,6 +312,23 @@ public class ContestController {
 			e.printStackTrace();
 		}
 	}
+	
+	@RequestMapping(value = "/downloadFile2.do", method = RequestMethod.GET)
+	public void downloadFile2(HttpServletResponse response, @RequestParam("save_file_name") String save_file_name)
+			throws Exception {
+		try {
+			FileVo fileVo = new FileVo();
+			fileVo.setIdx(save_file_name);
+			fileVo = contestService.selectDownloadFile2(fileVo);
+
+			log.debug("[나눔공모] 나눔공모 첨부파일 다운로드");
+			fileUtil.downloadFile(response, fileVo);
+		} catch (Exception e) {
+			log.debug("[나눔공모] 나눔공모 첨부파일 다운로드 실패");
+			e.printStackTrace();
+		}
+	}
+	
 	
 	@RequestMapping(value = "/downloadContestNoticeFile.do", method = RequestMethod.GET)
 	public void downloadContestNoticeFile(HttpServletResponse response, @RequestParam("save_file_name") String save_file_name)

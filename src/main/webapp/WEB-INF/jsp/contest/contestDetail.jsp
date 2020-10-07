@@ -51,17 +51,27 @@
 					<div class="files" id="file-list"></div>
 					<div class="bottom">
 						<c:choose>
-							<c:when test="${checkSubmit eq 0 }">
-								<button class="btn btn-primary btn-survey" data-toggle="modal" data-target=".contest-edit-modal" id="contest-edit-modal-btn">
+							<c:when test="${empty login.user_id }">
+								<button class="btn btn-primary btn-survey" onclick="loginPage()">
 									<i class="fa-comments-o"></i>
 									공모 참여하기
 								</button>
 							</c:when>
 							<c:otherwise>
-								<button class="btn btn-dark btn-survey" data-toggle="modal" data-target=".contest-update-modal" id="contest-update-modal-btn">
-									<i class="fa-edit"></i>
-									내 제안 보기
-								</button>
+								<c:choose>
+									<c:when test="${checkSubmit eq 0 }">
+										<button class="btn btn-primary btn-survey" data-toggle="modal" data-target=".contest-edit-modal" id="contest-edit-modal-btn">
+											<i class="fa-comments-o"></i>
+											공모 참여하기
+										</button>
+									</c:when>
+									<c:otherwise>
+										<button class="btn btn-dark btn-survey" data-toggle="modal" data-target=".contest-update-modal" id="contest-update-modal-btn">
+											<i class="fa-edit"></i>
+											내 제안 보기
+										</button>
+									</c:otherwise>
+								</c:choose>
 							</c:otherwise>
 						</c:choose>
 					</div>
@@ -173,87 +183,94 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> 
 
 
-
-<!-- Contest Modal -->
-<div class="contest-update-modal modal fade " tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog modal-lg" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<p>공모제안 수정</p>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<h4 class="title">${contestVo.title }</h4>
-				<hr>
-				<div class="board-detail-table edit-style">
-					<div class="caption">
-						<ul>
-							<li>
-								<i>&#149;</i>
-								공모신청서 양식을 다운로드하지 않으신 분은 다운받아 작성하시기 바랍니다.
-							</li>
-							<li>
-								<i>&#149;</i>
-								제안 제시기준에 맞지 않는 부적절한 게시물은 이동 또는 삭제 조치됩니다.
-							</li>
-							<li>
-								<i>&#149;</i>
-								<span class="color-red ml5">*</span>
-								표시는 필수 입력입니다.
-							</li>
-						</ul>
+<c:choose>
+	<c:when test="${empty login.user_id }">
+	</c:when>
+	<c:otherwise>
+		<!-- Contest Modal -->
+		<div class="contest-update-modal modal fade " tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<p>공모제안 수정</p>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
 					</div>
-					<form:form method="post" modelAttribute="userContestVo" enctype="multipart/form-data" id="modify-form" action="/contest/contestUserUpdate.do">
-						<div class="table-responsive mt0">
-							<form:input type="hidden" path="user_contest_idx" value="${userContestVo.user_contest_idx }" />
-							<form:input type="hidden" path="admin_contest_idx" value="${userContestVo.admin_contest_idx }" />
-							<table class="table">
-								<tbody>
-									<tr>
-										<td class="text-left board-content">
-											<div class="form-group row">
-												<div class="col-lg-2">
-													<label>제목<span class="color-red ml5">*</span></label>
-												</div>
-												<div class="col-lg-10">
-													<form:input type="text" class="form-control" path="title" placeholder="" id="modify-title"/>
-													<form:errors style="color:red" path="title" />
-												</div>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td class="text-left board-file">
-											<div class="form-group row">
-												<div class="col-lg-2">
-													<label>제안서<span class="color-red ml5">*</span></label>
-												</div>
-												<div class="col-lg-10">
-													<span class="color-red ml5">※ 반드시 공모신청서 양식을 다운로드 받아 작성하여 올려주세요.</span>
-													<input type="file" class="form-control" multiple="multiple" id="userContestFile" name="contestFile" id="modify-file">
-													<p id="userFile-list"></p>
-												</div>
-											</div>
-										</td>
-									</tr>
-								</tbody>
-							</table>
+					<div class="modal-body">
+						<h4 class="title">${contestVo.title }</h4>
+						<hr>
+						<div class="board-detail-table edit-style">
+							<div class="caption">
+								<ul>
+									<li>
+										<i>&#149;</i>
+										공모신청서 양식을 다운로드하지 않으신 분은 다운받아 작성하시기 바랍니다.
+									</li>
+									<li>
+										<i>&#149;</i>
+										제안 제시기준에 맞지 않는 부적절한 게시물은 이동 또는 삭제 조치됩니다.
+									</li>
+									<li>
+										<i>&#149;</i>
+										<span class="color-red ml5">*</span>
+										표시는 필수 입력입니다.
+									</li>
+								</ul>
+							</div>
+
+							<form:form method="post" modelAttribute="userContestVo" enctype="multipart/form-data" id="modify-form" action="/contest/contestUserUpdate.do">
+								<div class="table-responsive mt0">
+									<form:input type="hidden" path="user_contest_idx" value="${userContestVo.user_contest_idx }" />
+									<form:input type="hidden" path="admin_contest_idx" value="${userContestVo.admin_contest_idx }" />
+									<table class="table">
+										<tbody>
+											<tr>
+												<td class="text-left board-content">
+													<div class="form-group row">
+														<div class="col-lg-2">
+															<label>제목<span class="color-red ml5">*</span></label>
+														</div>
+														<div class="col-lg-10">
+															<form:input type="text" class="form-control" path="title" placeholder="" id="modify-title" />
+															<form:errors style="color:red" path="title" />
+														</div>
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<td class="text-left board-file">
+													<div class="form-group row">
+														<div class="col-lg-2">
+															<label>제안서<span class="color-red ml5">*</span></label>
+														</div>
+														<div class="col-lg-10">
+															<span class="color-red ml5">※ 반드시 공모신청서 양식을 다운로드 받아 작성하여 올려주세요.</span>
+															<input type="file" class="form-control" multiple="multiple" id="userContestFile" name="contestFile" id="modify-file">
+															<p id="userFile-list"></p>
+														</div>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="board-btns text-center">
+									<button type="button" class="btn btn-primary" id="contestModifyBtn" data-title="공모제안">수정</button>
+									<button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close">취소</button>
+								</div>
+							</form:form>
 						</div>
-						<div class="board-btns text-center">
-							<button type="button" class="btn btn-primary" id="contestModifyBtn" data-title="공모제안" >수정</button>
-							<button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close">취소</button>
-						</div>
-					</form:form>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-</div>
+	</c:otherwise>
+</c:choose>
+
 
 
 <script type="text/javascript">
@@ -265,12 +282,24 @@
 			e.preventDefault();
 			fn_downloadFile($(this));
 		});
+		
+		$("a[name='file2']").on("click",function(e){
+			e.preventDefault();
+			fn_downloadFile2($(this));
+		});
+		
    	});
    
   	function fn_downloadFile(obj){
 		var save_file_name = obj.parent().find("input[name='save_file_name']").val();
 		console.log(save_file_name);
 		location.href = "${pageContext.request.contextPath}/contest/downloadFile.do?save_file_name=" + save_file_name;
+  	}
+  	
+  	function fn_downloadFile2(obj){
+		var save_file_name = obj.parent().find("input[name='save_file_name']").val();
+		console.log(save_file_name);
+		location.href = "${pageContext.request.contextPath}/contest/downloadFile2.do?save_file_name=" + save_file_name;
   	}
   	
 	<c:forEach var="file" items="${fileList}">
@@ -363,7 +392,7 @@
 				_this.parentElement.remove();
 			}
 		}
-	}
+	} 
 	
 	var contestRegistBtn = document.getElementById("contestRegistBtn");
 	
@@ -397,10 +426,10 @@
 		if (!submitConfirm($(contestModifyBtn))) return false;
 		
 		document.getElementById("modify-form").submit();
-	});
+	}); 
 	
 	
-	<c:forEach var="userFile" items="${userFileList}">
+	 <c:forEach var="userFile" items="${userFileList}">
 		var userFile = {};
 		userFile.contest_idx 	= "${userFile.user_contest_idx}";
 		userFile.org_file_name 	= "${userFile.org_file_name}";
@@ -412,11 +441,9 @@
 		userFileList.push(userFile);
 	</c:forEach>	
 	
-	console.log(userFileList);
-	
 	if (userFileList.length > 0) {
 		for (var file of userFileList) {
-				var str = 	'<div><a href="#this" name="file">'
+				var str = 	'<div><a href="#this" name="file2">'
 						+   '<input type="hidden" name="save_file_name" value="' + file.save_file_name + '">'
 						+	'	<span class="fa-file-o mr10" ></span>'
 						+	file.org_file_name
@@ -470,7 +497,7 @@
 				}
 			}
 	  	}
-	}
+	} 
 	
 	function newFileDel2(_this) {
 		var fileName = $(_this).siblings().first().val();
@@ -523,7 +550,7 @@
 			console.log(error);
 			console.log("request fail");
 		});
-	});
+	}); 
 	
 	function fn_paging(pageNum) {
 		var idx = $("#admin_contest_idx").val();
@@ -541,7 +568,13 @@
 		$("#modify-title").val('${userContestVo.title}');
 		userContestFileList.pop();
 		$("div[name='modify-contest-file']").remove();
-	});
+	}); 
+	
+	
+	function loginPage() {
+		alert("로그인이 필요합니다.");
+		location.href = "${pageContext.request.contextPath}/login/loginPage.do";
+	}
 	
 </script>
 

@@ -139,6 +139,11 @@ public class ContestServiceImpl extends EgovAbstractServiceImpl implements Conte
 	public Map<String, String> selectImageFile(String admin_contest_idx) throws Exception {
 		return contestMapper.selectImageFile(admin_contest_idx);
 	}
+
+	@Override
+	public FileVo selectDownloadFile2(FileVo vo) throws Exception {
+		return contestMapper.selectDownloadFile2(vo);
+	}
 }
 
 

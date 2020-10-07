@@ -13,6 +13,7 @@ public interface ContestService {
 	ContestVo getAdminContest(ContestVo vo) throws Exception;
 	List<Map<String, String>> selectContestFile(ContestVo vo) throws Exception;
 	FileVo selectDownloadFile(FileVo vo) throws Exception;
+	FileVo selectDownloadFile2(FileVo vo) throws Exception;
 	String selectUserContestIdx() throws Exception;
 	void insertFile(FileVo fileVo) throws Exception;
 	int registUserContest(ContestVo vo) throws Exception;

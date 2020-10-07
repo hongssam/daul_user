@@ -152,6 +152,16 @@
 		FROM daul.contest_admin_attach
 		WHERE save_file_name = #{idx}
 	</select>
+	
+	<select id="selectDownloadFile2"
+		resultType="egovframework.com.cmmn.util.FileVo">
+		SELECT
+		ORG_FILE_NAME,
+		SAVE_FILE_NAME
+		FROM daul.contest_user_attach
+		WHERE save_file_name = #{idx}
+	</select>
+	
 
 	<insert id="insertFile">
 		INSERT INTO contest_user_attach
