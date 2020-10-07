@@ -49,46 +49,7 @@
 		</div>
 		<div class="grid-list row">
 			<c:forEach var="list" items="${contestList}" varStatus="idx">
-				<c:choose>
-					<c:when test="${empty login.user_id }">
-						<div class="grid-item col-12">
-							<div class="feat_property list style2" onclick="loginPage()">
-								<div class="thumb">
-									<img class="img-whp" src="${pageContext.request.contextPath}/contest/getImg.do?admin_contest_idx=${list.admin_contest_idx}" style="height: 270px;">
-								</div>
-								<div class="details">
-									<div class="tc_content">
-										<div class="dtls_headr">
-											<c:if test="${list.ing eq '공모진행중' }">
-												<span class="status_tag outline-primary">${list.ing }</span>
-											</c:if>
-											<c:if test="${list.ing eq '공모전' }">
-												<span class="status_tag default">${list.ing }</span>
-											</c:if>
-											<c:if test="${list.ing eq '공모종료' }">
-												<span class="status_tag default">${list.ing }</span>
-											</c:if>
-										</div>
-										<h4>${list.title}</h4>
-										<p class="content">${list.content}</p>
-										<p class="date">
-											<b>공모기간</b> | ${list.contest_s_date} ~${list.contest_e_date}
-										</p>
-										<p class="date">
-											<b>접수기간</b> | ${list.submit_s_date} ~${list.submit_e_date}
-										</p>
-										<div class="bottom">
-											<span class="item">
-												<span class="icon flaticon-user"></span>
-												참여 ${list.user_contest_cnt }
-											</span>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</c:when>
-					<c:otherwise>
+			
 						<div class="grid-item col-12">
 							<div class="feat_property list style2" onclick="location.href='${pageContext.request.contextPath}/contest/contestDetailPage.do?admin_contest_idx=${list.admin_contest_idx}'">
 								<div class="thumb">
@@ -125,9 +86,6 @@
 								</div>
 							</div>
 						</div>
-					</c:otherwise>
-				</c:choose>
-
 			</c:forEach>
 
 			<%@ include file="../common/pagination.jsp"%>
@@ -203,9 +161,5 @@
 		var search_value = $("#search_form").serialize();
 		location.href = "${pageContext.request.contextPath}/contest/contestListPage.do?order=" + order + "&" + search_value;
 	}
-	
-	function loginPage(){
-		alert("로그인이 필요합니다.");
-		location.href = "${pageContext.request.contextPath}/login/loginPage.do";
-	}
+
 </script>
