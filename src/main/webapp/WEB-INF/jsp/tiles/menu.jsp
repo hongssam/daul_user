@@ -51,7 +51,7 @@
 						<c:choose>
 							<c:when test="${empty login.user_id }">
 								<li>
-									<a onclick="loginPage()">제안하기</a>
+									<a onclick="gotoLoginPage()">제안하기</a>
 								</li>
 							</c:when>
 							<c:otherwise>
@@ -196,7 +196,7 @@
 						<c:choose>
 							<c:when test="${empty login.user_id }">
 								<li>
-									<a onclick="loginPage()">제안하기</a>
+									<a onclick="gotoLoginPage()">제안하기</a>
 								</li>
 							</c:when>
 							<c:otherwise>

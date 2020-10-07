@@ -124,7 +124,7 @@
 					</div>
 					<c:choose>
 						<c:when test="${empty login.user_id }">
-							<button type="submit" class="bottom-right-btn btn btn-primary " onclick="loginPage()">글쓰기</button>
+							<button type="submit" class="bottom-right-btn btn btn-primary " onclick="gotoLoginPage()">글쓰기</button>
 						</c:when>
 						<c:otherwise>
 							<button type="submit" class="bottom-right-btn btn btn-primary " onclick="location.href='/qna/qnaRegistPage.do'">글쓰기</button>

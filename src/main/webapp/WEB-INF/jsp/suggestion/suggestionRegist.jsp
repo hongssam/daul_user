@@ -1,12 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!-- Subpage Nav Tabs -->
 <div class="nav-tabs style2 bgc-fa">
 	<div class="container">
 		<div class="wizard">
 			<div class="wizard-item first active">
-				<a href="/suggestion/suggestionRegistPage.do">제안하기</a>
+				<c:choose>
+					<c:when test="${empty login.user_id}">
+						<a onclick="gotoLoginPage()">제안하기</a>
+					</c:when>
+					<c:otherwise>
+						<a href="/suggestion/suggestionRegistPage.do">제안하기</a>
+					</c:otherwise>
+				</c:choose>
 			</div>
 			<div class="wizard-item">
 				<a href="/suggestion/suggestionListPage.do?order=1&type=normal">열린 제안</a>
@@ -20,7 +28,6 @@
 		</div>
 	</div>
 </div>
-
 <!-- Edit Section -->
 <section class="suggest-edit-section bgc-fa">
 	<div class="container">
@@ -55,8 +62,8 @@
 													<label>제목<span class="color-red ml5">*</span></label>
 												</div>
 												<div class="col-lg-10">
-													<form:input type="text" class="form-control" placeholder="" path="title"/>
-													<form:errors style="color:red" path="title"/>
+													<form:input type="text" class="form-control" placeholder="" path="title" />
+													<form:errors style="color:red" path="title" />
 												</div>
 											</div>
 										</td>
@@ -68,8 +75,8 @@
 													<label>제안내용<span class="color-red ml5">*</span></label>
 												</div>
 												<div class="col-lg-10">
-													<form:textarea class="form-control" rows="10" style="resize: none;" path="content"/>
-													<form:errors style="color:red" path="content"/>
+													<form:textarea class="form-control" rows="10" style="resize: none;" path="content" />
+													<form:errors style="color:red" path="content" />
 												</div>
 											</div>
 										</td>
@@ -81,7 +88,7 @@
 													<label>파일</label>
 												</div>
 												<div class="col-lg-10">
-													<input type="file" class="form-control mb-md-2" multiple="multiple" id="sgstFile" name="sgstFile"/>
+													<input type="file" class="form-control mb-md-2" multiple="multiple" id="sgstFile" name="sgstFile" />
 												</div>
 											</div>
 										</td>
@@ -90,7 +97,7 @@
 							</table>
 						</div>
 						<div class="board-btns text-center">
-							<button type="button" class="btn btn-primary" id="sgstRegistBtn" data-title="열린제안" >등록</button>
+							<button type="button" class="btn btn-primary" id="sgstRegistBtn" data-title="열린제안">등록</button>
 							<button type="button" class="btn btn-default" onclick="location.href='${pageContext.request.contextPath}/suggestion/suggestionListPage.do'">취소</button>
 						</div>
 					</form:form>
@@ -100,22 +107,23 @@
 	</div>
 </section>
 
+
 <script type="text/javascript">
 	var input_file = document.getElementById("sgstFile");
-	
+
 	input_file.addEventListener("change", function() {
 		sgstFileChange();
 	});
-	
+
 	var sgstFileList = new Array();
-	
+
 	function sgstFileChange() {
 		var fileValue = input_file.files;
-		
+
 		if (fileValue.length > 0) {
-	  		for (var i = 0; i < fileValue.length; i++) {
+			for (var i = 0; i < fileValue.length; i++) {
 				var exist = false;
-				
+
 				for (var k = 0; k < sgstFileList.length; k++) {
 					if (fileValue[i].name === sgstFileList[k].name) {
 						console.log("this file is already exist", fileValue[i].name);
@@ -123,46 +131,48 @@
 						break;
 					}
 				}
-				
+
 				if (!exist) {
 					sgstFileList.push(fileValue[i]);
 
 					var p = document.createElement("p");
-					
-					var str =
-						'<input type="hidden" name="save_file_name" value="' + fileValue[i].name + '">' +
-						'<a href="#">' +
-							'<span class="fa-file-o mr10"></span> (new) ' + fileValue[i].name +
-						'</a>' +
-						'<button class="btn btn-pure" type="button" name="newFileDelBtn" onclick="newFileDel(this)">' +
-							'<span class="fa-trash-o"></span>' +
-						'</button>';
-						
+
+					var str = '<input type="hidden" name="save_file_name" value="' + fileValue[i].name + '">' + '<a href="#">'
+							+ '<span class="fa-file-o mr10"></span> (new) ' + fileValue[i].name + '</a>'
+							+ '<button class="btn btn-pure" type="button" name="newFileDelBtn" onclick="newFileDel(this)">'
+							+ '<span class="fa-trash-o"></span>' + '</button>';
+
 					p.innerHTML = str;
-					
+
 					input_file.after(p);
 				}
 			}
-	  	}
+		}
 	}
-	
+
 	function newFileDel(_this) {
 		var fileName = _this.parentElement.firstElementChild.value;
-		
+
 		for (var i = 0; i < sgstFileList.length; i++) {
 			if (fileName === sgstFileList[i].name) {
 				sgstFileList.splice(i, 1);
-				
+
 				_this.parentElement.remove();
 			}
 		}
 	}
-	
+
 	var sgstRegistBtn = document.getElementById("sgstRegistBtn");
-	
+
 	sgstRegistBtn.addEventListener("click", function() {
-		if (!submitConfirm($(sgstRegistBtn))) return false;
-		
+		if (!submitConfirm($(sgstRegistBtn)))
+			return false;
+
 		document.getElementById("regist-form").submit();
 	});
+
+	function loginPage() {
+		alert("로그인이 필요합니다.");
+		location.href = "${pageContext.request.contextPath}/login/loginPage.do";
+	}
 </script>

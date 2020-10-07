@@ -49,7 +49,7 @@
 
 						<c:choose>
 							<c:when test="${login.user_id eq '' || empty login.user_id}">
-								<button class="btn btn-primary btn-survey" onclick="loginPage()">
+								<button class="btn btn-primary btn-survey" onclick="gotoLoginPage()">
 									<i class="fa-check-square-o"></i>
 									참여하기
 								</button>

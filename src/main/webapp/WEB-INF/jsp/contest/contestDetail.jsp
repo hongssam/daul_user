@@ -52,7 +52,7 @@
 					<div class="bottom">
 						<c:choose>
 							<c:when test="${empty login.user_id }">
-								<button class="btn btn-primary btn-survey" onclick="loginPage()">
+								<button class="btn btn-primary btn-survey" onclick="gotoLoginPage()">
 									<i class="fa-comments-o"></i>
 									공모 참여하기
 								</button>

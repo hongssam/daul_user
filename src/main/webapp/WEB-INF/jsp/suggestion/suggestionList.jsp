@@ -5,8 +5,15 @@
 <div class="nav-tabs style2 bgc-fa">
 	<div class="container">
 		<div class="wizard">
-			<div class="wizard-item first">
-				<a href="/suggestion/suggestionRegistPage.do">제안하기</a>
+			<div class="wizard-item first active">
+				<c:choose>
+					<c:when test="${empty login.user_id}">
+						<a onclick="gotoLoginPage()">제안하기</a>
+					</c:when>
+					<c:otherwise>
+						<a href="/suggestion/suggestionRegistPage.do">제안하기</a>
+					</c:otherwise>
+				</c:choose>
 			</div>
 			<div class="wizard-item" data-type="normal">
 				<a href="/suggestion/suggestionListPage.do?order=1&board_type=normal">열린 제안</a>
@@ -58,84 +65,42 @@
 		</div>
 		<div class="grid-list row">
 			<c:forEach var="sgst" items="${sgstList}">
-				<c:choose>
-					<c:when test="${empty login.user_id }">
-						<div class="grid-item col-md-6 col-lg-3">
-							<div class="content-box suggest" onclick="loginPage()">
-								<div class="details">
-									<div class="tc_content">
-										<ul class="fp_meta">
-											<li class="list-inline-item float-left">
-												<img src="${pageContext.request.contextPath}/images/user.png" alt="user.png">
-											</li>
-											<li class="list-inline-item">
-												<p>${sgst.name}</p>
-												<p class="date">${sgst.create_date}</p>
-											</li>
-										</ul>
-										<div class="fp_content">
-											<h4 class="title">${sgst.title}</h4>
-											<p>${sgst.content}</p>
-										</div>
-									</div>
-								</div>
-								<div class="bottom">
-									<div class="content">
-										<span class="like-cnt">
-											<span class="icon flaticon-heart"></span>
-											공감 ${sgst.like_count}
-										</span>
-										<span class="reply-cnt">
-											<span class="icon flaticon-chat"></span>
-											의견 ${sgst.opinion_cnt}
-										</span>
-									</div>
-									<div class="bar-graph-bg">
-										<div class="bar-graph-fr" style="width: ${sgst.like_per}%"></div>
-									</div>
+				<div class="grid-item col-md-6 col-lg-3">
+					<div class="content-box suggest" onclick="location.href='${pageContext.request.contextPath}/suggestion/suggestionDetailPage.do?suggestion_idx=${sgst.suggestion_idx}'">
+						<div class="details">
+							<div class="tc_content">
+								<ul class="fp_meta">
+									<li class="list-inline-item float-left">
+										<img src="${pageContext.request.contextPath}/images/user.png" alt="user.png">
+									</li>
+									<li class="list-inline-item">
+										<p>${sgst.create_user}</p>
+										<p class="date">${sgst.create_date}</p>
+									</li>
+								</ul>
+								<div class="fp_content">
+									<h4 class="title">${sgst.title}</h4>
+									<p>${sgst.content}</p>
 								</div>
 							</div>
 						</div>
-					</c:when>
-					<c:otherwise>
-						<div class="grid-item col-md-6 col-lg-3">
-							<div class="content-box suggest" onclick="location.href='${pageContext.request.contextPath}/suggestion/suggestionDetailPage.do?suggestion_idx=${sgst.suggestion_idx}'">
-								<div class="details">
-									<div class="tc_content">
-										<ul class="fp_meta">
-											<li class="list-inline-item float-left">
-												<img src="${pageContext.request.contextPath}/images/user.png" alt="user.png">
-											</li>
-											<li class="list-inline-item">
-												<p>${sgst.create_user}</p>
-												<p class="date">${sgst.create_date}</p>
-											</li>
-										</ul>
-										<div class="fp_content">
-											<h4 class="title">${sgst.title}</h4>
-											<p>${sgst.content}</p>
-										</div>
-									</div>
-								</div>
-								<div class="bottom">
-									<div class="content">
-										<span class="like-cnt">
-											<span class="icon flaticon-heart"></span>
-											공감 ${sgst.like_count}
-										</span>
-										<span class="reply-cnt">
-											<span class="icon flaticon-chat"></span>
-											의견 ${sgst.opinion_cnt}
-										</span>
-									</div>
-									<div class="bar-graph-bg">
-										<div class="bar-graph-fr" style="width: ${sgst.like_per}%"></div>
-									</div>
-								</div>
+						<div class="bottom">
+							<div class="content">
+								<span class="like-cnt">
+									<span class="icon flaticon-heart"></span>
+									공감 ${sgst.like_count}
+								</span>
+								<span class="reply-cnt">
+									<span class="icon flaticon-chat"></span>
+									의견 ${sgst.opinion_cnt}
+								</span>
+							</div>
+							<div class="bar-graph-bg">
+								<div class="bar-graph-fr" style="width: ${sgst.like_per}%"></div>
 							</div>
 						</div>
-					</c:otherwise>
-				</c:choose>
+					</div>
+				</div>
 			</c:forEach>
 
 			<%@ include file="../common/pagination.jsp"%>
@@ -145,14 +110,14 @@
 
 <script type="text/javascript">
 	var location_search_arr = window.location.search.split("&");
-	
+
 	var ul = document.querySelector("ul.sort-type.text-left");
 	var div_wizard = document.querySelector("div.wizard");
 	var order, board_type;
 
 	for (var i = 0; i < location_search_arr.length; i++) {
 		var search = location_search_arr[i];
-		
+
 		if (search.indexOf("order") > -1) {
 			var order_arr = search.split("=");
 			order = order_arr[order_arr.length - 1];
@@ -186,11 +151,11 @@
 				}
 			}
 		} /* else if (search.indexOf("search") > -1) {
-			var value = search.split("=");
-			
-			if (search.indexOf("search_type") > -1)	document.getElementById("search_type").value = decodeURI(value[1]);
-			else									document.getElementById("search").value = decodeURI(value[1]);
-		} */
+					var value = search.split("=");
+					
+					if (search.indexOf("search_type") > -1)	document.getElementById("search_type").value = decodeURI(value[1]);
+					else									document.getElementById("search").value = decodeURI(value[1]);
+				} */
 	}
 
 	var btn_search_sgst = document.getElementById("search_sgst_btn");
@@ -220,8 +185,8 @@
 	function fn_paging(pageNum) {
 		location.href = "${pageContext.request.contextPath}/suggestion/suggestionListPage.do?curPage=" + pageNum + "&" + url_param;
 	}
-	
-	function loginPage(){
+
+	function loginPage() {
 		alert("로그인이 필요합니다.");
 		location.href = "${pageContext.request.contextPath}/login/loginPage.do";
 	}
