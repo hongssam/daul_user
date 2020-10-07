@@ -212,7 +212,6 @@
 
 		var request = $.ajax({ url : "/user/checkDI.do?user_di=" + di, method : "get" });
 		request.done(function(data) {
-			console.log(data)
 			if (typeof data.user_id == "undefined" || data.user_id == null) {
 				openModal2(data);
 			} else {

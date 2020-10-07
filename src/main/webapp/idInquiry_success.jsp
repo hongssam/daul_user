@@ -148,7 +148,6 @@
 		//opener.test(<%= sDupInfo %>);
 		
 	    var di = document.getElementById("nice_user_di").value;
-	    console.log(di);
 	    opener.test(di);
 		window.close();
 	}

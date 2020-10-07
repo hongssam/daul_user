@@ -52,47 +52,7 @@
 
 		<div class="grid-list row">
 			<c:forEach var="list" items="${surveyList}" varStatus="idx">
-				<c:choose>
-					<c:when test="${empty login.user_id }">
-						<div class="grid-item col-12">
-							<div class="feat_property list" onclick="loginPage()">
-								<div class="thumb">
-									<img class="img-whp" src="${pageContext.request.contextPath}/survey/getImg.do?survey_idx=${list.survey_idx}" style="height: 266px;">
-								</div>
-								<div class="details">
-									<div class="tc_content">
-										<div class="dtls_headr">
-											<c:if test="${list.ing eq '투표중' }">
-												<span class="status_tag outline-primary">${list.ing }</span>
-											</c:if>
-											<c:if test="${list.ing eq '투표전' }">
-												<span class="status_tag default">${list.ing }</span>
-											</c:if>
-											<c:if test="${list.ing eq '투표완료' }">
-												<span class="status_tag default">${list.ing }</span>
-											</c:if>
-										</div>
-										<h4>${list.title}</h4>
-										<p class="content">${list.content}</p>
-										<p class="date">
-											<b>투표기간</b> | ${list.s_date} ~${list.e_date}
-										</p>
-										<div class="bottom">
-											<span class="item">
-												<span class="icon flaticon-user"></span>
-												참여 ${list.participation_count}
-											</span>
-											<span class="item">
-												<span class="icon flaticon-chat"></span>
-												의견 ${list.opinion_count}
-											</span>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</c:when>
-					<c:otherwise>
+			
 						<div class="grid-item col-12">
 							<div class="feat_property list" onclick="location.href='${pageContext.request.contextPath}/survey/surveyDetailPage.do?survey_idx=${list.survey_idx }'">
 								<div class="thumb">
@@ -131,8 +91,7 @@
 								</div>
 							</div>
 						</div>
-					</c:otherwise>
-				</c:choose>
+				
 			</c:forEach>
 			<%@ include file="../common/pagination.jsp"%>
 		</div>
@@ -213,8 +172,4 @@
 		location.href = '${pageContext.request.contextPath}/survey/surveyListPage.do?order=' + order + '&' + 'curPage=' + pageNum;
 	}
 
-	function loginPage() {
-		alert("로그인이 필요합니다.");
-		location.href = "${pageContext.request.contextPath}/login/loginPage.do";
-	}
 </script>
