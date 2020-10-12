@@ -25,7 +25,7 @@
 					<p>총 ${pagination.listCnt}건의 게시물이 있습니다.</p>
 					<div class="table-responsive mt0">
 						<table class="table">
-							<thead class="thead-light">
+							<thead class="thead-light hidden-sm-down">
 								<tr>
 									<th scope="col">번호</th>
 									<th scope="col">제목</th>
@@ -37,15 +37,21 @@
 							<tbody>
 								<c:forEach var="list" items="${contestNoticeList}" varStatus="idx">
 									<tr>
-										<td class="text-center">${list.num}</td>
-										<td>
+										<td class="text-center hidden-sm-down">${list.num}</td>
+										<td class="hidden-sm-down">
 											<a href="/contest/contestNoticeDetail.do?notice_idx=${list.notice_idx }">
 												<span class="status_tag outline-dark">공지</span>${ list.title}
 											</a>
 										</td>
-										<td class="text-center">${list.name }</td>
-										<td class="text-center">${list.create_date }</td>
-										<td class="text-center">${list.view_count }</td>
+										<td class="text-center hidden-sm-down">${list.name }</td>
+										<td class="text-center hidden-sm-down">${list.create_date }</td>
+										<td class="text-center hidden-sm-down">${list.view_count }</td>
+										<td class="hidden-sm-up">
+											<a href="/contest/contestNoticeDetail.do?notice_idx=${list.notice_idx }">
+												<span class="status_tag outline-dark">공지</span>${ list.title}
+											</a>
+											<p class="small mt10 mb0">${list.name} | ${list.create_date} | ${list.view_count}</p>
+										</td>
 									</tr>
 								</c:forEach>
 
@@ -55,7 +61,7 @@
 					<div class="table-nav">
 						<%@ include file="../common/pagination.jsp"%>
 
-						<div class="candidate_revew_select style2 text-center mb30-991 mt20">
+						<div class="candidate_revew_select style2 text-center mb30-991 mt20 hidden-sm-down">
 							<form id="search_form">
 								<ul class="mb0">
 									<li class="list-inline-item">

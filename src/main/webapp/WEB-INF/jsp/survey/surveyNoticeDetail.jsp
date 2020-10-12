@@ -27,9 +27,15 @@
 						<input type="hidden" id="notice_idx" value=${surveyNoticeVo.notice_idx }>
 						<table class="table">
 							<thead class="thead-light">
-								<tr>
+								<tr class="hidden-sm-down">
 									<th scope="col" class="text-left">${surveyNoticeVo.title}</th>
 									<th scope="col" class="text-right board-info">${surveyNoticeVo.name}| ${surveyNoticeVo.create_date} | 조회 ${surveyNoticeVo.view_count}</th>
+								</tr>
+								<tr class="hidden-sm-up">
+									<th scope="col" class="text-left">
+										${surveyNoticeVo.title}
+										<p class="small">${surveyNoticeVo.name}| ${surveyNoticeVo.create_date} | 조회 ${surveyNoticeVo.view_count}</p>
+									</th>
 								</tr>
 							</thead>
 							<tbody>

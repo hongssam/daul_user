@@ -4,14 +4,14 @@
 <ul class="page-navigation">
 	<c:choose>
 		<c:when test="${pagination.curPage ne 1 }">
-			<li class="page-item " onclick="fn_paging(1);">
+			<li class="page-item hidden-sm-down" onclick="fn_paging(1);">
 				<a class="page-link">
 					<span class="fa-angle-double-left"></span>
 				</a>
 			</li>
 		</c:when>
 		<c:otherwise>
-			<li class="page-item disabled">
+			<li class="page-item disabled hidden-sm-down">
 				<a class="page-link" onclick="fn_paging(1);">
 					<span class="fa-angle-double-left"></span>
 				</a>
@@ -66,14 +66,14 @@
 	</c:choose>
 	<c:choose>
 		<c:when test="${pagination.curPage ne pagination.pageCnt && pagination.pageCnt > 0}">
-			<li class="page-item">
+			<li class="page-item hidden-sm-down">
 				<a class="page-link" onclick="fn_paging('${pagination.pageCnt}');">
 					<span class="fa-angle-double-right"></span>
 				</a>
 			</li>
 		</c:when>
 		<c:otherwise>
-			<li class="page-item disabled">
+			<li class="page-item disabled hidden-sm-down">
 				<a class="page-link" onclick="fn_paging('${pagination.pageCnt}');">
 					<span class="fa-angle-double-right"></span>
 				</a>

@@ -36,8 +36,11 @@
 						</div>
 						<input type="hidden" id="survey_idx" value="${surveyVo.survey_idx }" />
 						<h4>${surveyVo.title}</h4>
-						<p class="date">
+						<p class="date hidden-sm-down">
 							<b>투표기간</b> | ${surveyVo.s_date} ~${surveyVo.e_date} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<b>참여자</b> | ${surveyVo.participation_count} 명
+						</p>
+						<p class="date hidden-sm-up">
+							<b>투표기간</b> | ${surveyVo.s_date} ~${surveyVo.e_date}<br><b>참여자</b> | ${surveyVo.participation_count} 명
 						</p>
 
 					</div>

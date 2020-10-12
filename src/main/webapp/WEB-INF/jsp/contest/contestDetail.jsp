@@ -66,7 +66,7 @@
 										</button>
 									</c:when>
 									<c:otherwise>
-										<button class="btn btn-dark btn-survey" data-toggle="modal" data-target=".contest-update-modal" id="contest-update-modal-btn">
+										<button class="btn btn-dark btn-survey" data-toggle="modal" data-target="#contest-update-modal" id="contest-update-modal-btn">
 											<i class="fa-edit"></i>
 											내 제안 보기
 										</button>
@@ -82,7 +82,7 @@
 					<p>총 ${fn:length(userContestList)}건의 공모가 있습니다.</p>
 					<div class="table-responsive mt0">
 						<table class="table">
-							<thead class="thead-light">
+							<thead class="thead-light hidden-sm-down">
 								<tr>
 									<th scope="col">번호</th>
 									<th scope="col">작성자</th>
@@ -93,10 +93,14 @@
 							<tbody>
 								<c:forEach var="list" items="${userContestList}" varStatus="idx">
 									<tr>
-										<td class="text-center">${list.num }</td>
-										<td class="text-center">${list.user_name }</td>
-										<td>${list.title }</td>
-										<td class="text-center">${list.create_date }</td>
+										<td class="text-center hidden-sm-down">${list.num }</td>
+										<td class="text-center hidden-sm-down">${list.user_name }</td>
+										<td class="hidden-sm-down">${list.title }</td>
+										<td class="text-center hidden-sm-down">${list.create_date }</td>
+										<td class="hidden-sm-up">
+											${list.title}
+											<p class="small mt0 mb0">${list.user_name} | ${list.create_date}</p>
+										</td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -191,7 +195,7 @@
 	</c:when>
 	<c:otherwise>
 		<!-- Contest Modal -->
-		<div class="contest-update-modal modal fade " tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="contest-edit-modal modal fade" id="contest-update-modal" tabindex="-1" role="dialog" aria-hidden="true">
 			<div class="modal-dialog modal-lg" role="document">
 				<div class="modal-content">
 					<div class="modal-header">

@@ -5,7 +5,7 @@
 <section id="whether" class="home-whether">
 	<div class="container">
 		<div class="row">
-			<div class="col-4" style="padding: 30px 5px;">
+			<div class="col-sm-12 col-md-7 col-lg-5 col-xl-4" style="padding: 30px 5px;">
 				<div class="whether-box">
 					<div class="icon">
 						<img class="whether-img img-fluid " src="${pageContext.request.contextPath}/images/whether/sunny.png" alt="header-logo.png"
@@ -22,9 +22,9 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-8">
+			<div class="col-sm-12 col-md-5 col-lg-7 col-xl-8 hidden-sm-down">
 				<div class="row">
-					<div class="col-4" style="padding: 30px 5px;">
+					<div class="col-md-12 col-lg-6 col-xl-4" style="padding: 30px 5px;">
 						<div class="dust-box style1">
 							<div class="icon ct-chart dust-chart-pie1">
 								<div style="height:100%; width:100%; position:absolute; left:0; top:0;">
@@ -37,7 +37,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-4"  style="padding: 30px 5px;">
+					<div class="hidden-md-down col-lg-6 col-xl-4"  style="padding: 30px 5px;">
 						<div class="dust-box style2">
 							<div class="icon ct-chart dust-chart-pie2" >
 								<div style="height:100%; width:100%; position:absolute; left:0; top:0;">
@@ -50,14 +50,14 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-4"  style="padding: 30px 5px;">
+					<div class="col-lg-4 hidden-lg-down"  style="padding: 30px 5px;">
 						<div class="dust-box style3">
 							<div class="icon ct-chart dust-chart-pie3" >
 								<div style="height:100%; width:100%; position:absolute; left:0; top:0;">
 									<span>36</span>
 								</div>
 							</div>
-							<div class="detais">
+							<div class="detais  ">
 								<p>자외선</p>
 								<p class="empty">나쁨</p>
 							</div>

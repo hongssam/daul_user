@@ -4335,7 +4335,6 @@ form.home5_advanced_search_form .form-group input.form-control::-ms-input-placeh
   background-color: #ffffff;
   border: 1px solid #ebebeb;
   border-radius: 8px;
-  margin-bottom: 30px;
   overflow: hidden;
   position: relative;
   -webkit-transition: all 0.3s ease;
@@ -9213,8 +9212,8 @@ a.btn.btn_error{
   border: 1px solid #ebebeb;
   border-radius: 8px !important;
   height: 52px;
-  margin-bottom: 20px;
-  padding: 10px 15px;
+  margin-bottom: 10px;
+  padding: 10px 10px;
 }
 .faq_according .accordion .card .card-header.active{
   background-color: #ffffff;
@@ -9227,6 +9226,7 @@ a.btn.btn_error{
   display: block;
   font-weight: bold;
   padding: 0;
+  text-align: left;
 }
 .faq_according .accordion .card .card-header .btn-link:active,
 .faq_according .accordion .card .card-header .btn-link:focus,
@@ -9270,7 +9270,7 @@ a.btn.btn_error{
   font-family: "Nunito";
   color: #484848;
   line-height: 1.714;
-  padding: 10px 0 30px;
+  padding: 0 0 10px;
 }
 .faq_according .accordion .card .card-body p{
   font-size: 14px;
@@ -16414,6 +16414,3 @@ button.gm-ui-hover-effect:focus {
 .gm-style-iw-d p span{
   margin-right: 10px;
 }
-
-
-

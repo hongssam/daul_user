@@ -30,7 +30,7 @@
 					<p>총 ${pagination.listCnt}건의 게시물이 있습니다.</p>
 					<div class="table-responsive mt0">
 						<table class="table">
-							<thead class="thead-light">
+							<thead class="thead-light hidden-sm-down">
 								<tr>
 									<th scope="col">번호</th>
 									<th scope="col">제목</th>
@@ -41,27 +41,25 @@
 							</thead>
 							<tbody>
 								<c:forEach var="list" items="${qnaList}" varStatus="idx">
-
 									<c:choose>
 										<c:when test="${empty list.parent_qna_idx }">
 											<tr>
-												<td class="text-center">${list.num}</td>
+												<td class="text-center hidden-sm-down">${list.num}</td>
 												<c:choose>
 													<c:when test="${list.lock_chk eq 'Y' }">
 														<c:choose>
 															<c:when test="${list.auth_user ne login.user_id}">
-																<td>
+																<td class="hidden-sm-down">
 																	<a href="#" data-toggle="modal" data-target=".board-password-modal">
-
-																		${ list.question}
+																		${list.question}
 																		<span class="fa-lock ml10"></span>
 																	</a>
 																</td>
 															</c:when>
 															<c:otherwise>
-																<td>
+																<td class="hidden-sm-down">
 																	<a href="/qna/qnaDetail.do?qna_idx=${list.qna_idx }">
-																		${ list.question}
+																		${list.question}
 																		<span class="fa-lock ml10"></span>
 																	</a>
 																</td>
@@ -69,24 +67,48 @@
 														</c:choose>
 													</c:when>
 													<c:otherwise>
-														<td>
+														<td class="hidden-sm-down">
 															<a href="/qna/qnaDetail.do?qna_idx=${list.qna_idx }"> ${ list.question} </a>
 														</td>
 													</c:otherwise>
 												</c:choose>
-												<td class="text-center">${list.name }</td>
-												<td class="text-center">${list.create_date }</td>
-												<td class="text-center">${list.view_count }</td>
+												<td class="text-center hidden-sm-down">${list.name }</td>
+												<td class="text-center hidden-sm-down">${list.create_date }</td>
+												<td class="text-center hidden-sm-down">${list.view_count }</td>
+												<td class="hidden-sm-up">
+													<c:choose>
+														<c:when test="${list.lock_chk eq 'Y' }">
+															<c:choose>
+																<c:when test="${list.auth_user ne login.user_id}">
+																	<a href="#" data-toggle="modal" data-target=".board-password-modal">
+																		${list.question}
+																		<span class="fa-lock ml10"></span>
+																	</a>
+																</c:when>
+																<c:otherwise>
+																	<a href="/qna/qnaDetail.do?qna_idx=${list.qna_idx }">
+																		${list.question}
+																		<span class="fa-lock ml10"></span>
+																	</a>
+																</c:otherwise>
+															</c:choose>
+														</c:when>
+														<c:otherwise>
+															<a href="/qna/qnaDetail.do?qna_idx=${list.qna_idx }"> ${ list.question} </a>
+														</c:otherwise>
+													</c:choose>
+													<p class="small mt10 mb0">${list.name} | ${list.create_date} | ${list.view_count}</p>
+												</td>
 											</tr>
 										</c:when>
 										<c:otherwise>
 											<tr>
-												<td class="text-center">${list.num}</td>
+												<td class="text-center hidden-sm-down">${list.num}</td>
 												<c:choose>
 													<c:when test="${list.lock_chk eq 'Y' }">
 														<c:choose>
 															<c:when test="${list.auth_user ne login.user_id}">
-																<td>
+																<td class="hidden-sm-down">
 																	<a href="#" data-toggle="modal" data-target=".board-password-modal">
 																		<span class="status_tag badge mr10">RE</span>${ list.question}
 																		<span class="fa-lock ml10"></span>
@@ -94,7 +116,7 @@
 																</td>
 															</c:when>
 															<c:otherwise>
-																<td>
+																<td class="hidden-sm-down">
 																	<a href="/qna/qnaDetail.do?qna_idx=${list.qna_idx }">
 																		<span class="status_tag badge mr10">RE</span>${ list.question}
 																		<span class="fa-lock ml10"></span>
@@ -104,7 +126,7 @@
 														</c:choose>
 													</c:when>
 													<c:otherwise>
-														<td>
+														<td class="hidden-sm-down">
 															<a href="/qna/qnaDetail.do?qna_idx=${list.qna_idx }">
 																<span class="status_tag badge mr10">RE</span>
 																${ list.question}
@@ -112,9 +134,36 @@
 														</td>
 													</c:otherwise>
 												</c:choose>
-												<td class="text-center">${list.name }</td>
-												<td class="text-center">${list.create_date }</td>
-												<td class="text-center">${list.view_count }</td>
+												<td class="text-center hidden-sm-down">${list.name }</td>
+												<td class="text-center hidden-sm-down">${list.create_date }</td>
+												<td class="text-center hidden-sm-down">${list.view_count }</td>
+												<td class="hidden-sm-up">
+													<c:choose>
+														<c:when test="${list.lock_chk eq 'Y' }">
+															<c:choose>
+																<c:when test="${list.auth_user ne login.user_id}">
+																	<a href="#" data-toggle="modal" data-target=".board-password-modal">
+																		<span class="status_tag badge mr10">RE</span>${ list.question}
+																		<span class="fa-lock ml10"></span>
+																	</a>
+																</c:when>
+																<c:otherwise>
+																	<a href="/qna/qnaDetail.do?qna_idx=${list.qna_idx }">
+																		<span class="status_tag badge mr10">RE</span>${ list.question}
+																		<span class="fa-lock ml10"></span>
+																	</a>
+																</c:otherwise>
+															</c:choose>
+														</c:when>
+														<c:otherwise>
+															<a href="/qna/qnaDetail.do?qna_idx=${list.qna_idx }">
+																<span class="status_tag badge mr10">RE</span>
+																${ list.question}
+															</a>
+														</c:otherwise>
+													</c:choose>
+													<p class="small mt10 mb0">${list.name} | ${list.create_date} | ${list.view_count}</p>
+												</td>
 											</tr>
 										</c:otherwise>
 									</c:choose>
@@ -122,18 +171,14 @@
 							</tbody>
 						</table>
 					</div>
-					<c:choose>
-						<c:when test="${empty login.user_id }">
-							<button type="submit" class="bottom-right-btn btn btn-primary " onclick="gotoLoginPage()">글쓰기</button>
-						</c:when>
-						<c:otherwise>
-							<button type="submit" class="bottom-right-btn btn btn-primary " onclick="location.href='/qna/qnaRegistPage.do'">글쓰기</button>
-						</c:otherwise>
-					</c:choose>
 					<div class="table-nav">
+						<button type="button" class="bottom-right-btn btn btn-primary hidden-sm-down">글쓰기</button>
 						<%@ include file="../common/pagination.jsp"%>
+						<div class="hidden-sm-up mt30 text-center">
+							<button type="submit" class="btn btn-primary px-4" onclick="location.href='qa-edit.html'">글쓰기</button>
+						</div>
 
-						<div class="candidate_revew_select style2 text-center mb30-991 mt20">
+						<div class="candidate_revew_select style2 text-center mb30-991 mt20 hidden-sm-down">
 							<form id="search_form">
 								<ul class="mb0">
 									<li class="list-inline-item">
@@ -189,11 +234,6 @@
 </div>
 
 <script type="text/javascript">
-	function loginPage() {
-		alert("로그인이 필요합니다.");
-		location.href = "${pageContext.request.contextPath}/login/loginPage.do";
-	}
-
 	var btn_search = document.getElementById("search_btn");
 
 	btn_search.addEventListener("click", function() {
@@ -202,6 +242,16 @@
 
 	function searchQnaList() {
 		var search_value = $("#search_form").serialize();
-		location.href = "${pageContext.request.contextPath}/qna/qnaListPage.do?" + search_value;
+		location.href = CTX + "/qna/qnaListPage.do?" + search_value;
 	}
+	
+	var btn_regist = document.querySelector(".bottom-right-btn");
+	
+	btn_regist.addEventListener("click", function() {
+		if (login_user_id !== "") {
+			location.href = CTX + '/qna/qnaRegistPage.do';
+		} else {
+			gotoLoginPage();
+		}
+	});
 </script>

@@ -27,9 +27,15 @@
 					<input type="hidden" id="notice_idx" value=${contestNoticeVo.notice_idx }>
 						<table class="table">
 							<thead class="thead-light">
-								<tr>
+								<tr class="hidden-sm-down">
 									<th scope="col" class="text-left">${contestNoticeVo.title}</th>
-									<th scope="col" class="text-right board-info">${contestNoticeVo.name} | ${contestNoticeVo.create_date} | 조회 ${surveyNoticeVo.view_count}</th>
+									<th scope="col" class="text-right board-info">${contestNoticeVo.name} | ${contestNoticeVo.create_date} | 조회 ${contestNoticeVo.view_count}</th>
+								</tr>
+								<tr class="hidden-sm-up">
+									<th scope="col" class="text-left">
+										${contestNoticeVo.title}
+										<p class="small">${contestNoticeVo.name} | ${contestNoticeVo.create_date} | 조회 ${contestNoticeVo.view_count}</p>
+									</th>
 								</tr>
 							</thead>
 							<tbody>

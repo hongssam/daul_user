@@ -33,9 +33,15 @@
 						<input type="hidden" id="notice_idx" value=${noticeVo.notice_idx }>
 						<table class="table">
 							<thead class="thead-light">
-								<tr>
+								<tr class="hidden-sm-down">
 									<th scope="col" class="text-left">${noticeVo.title}</th>
 									<th scope="col" class="text-right board-info">${noticeVo.name}| ${noticeVo.create_date} | 조회 ${noticeVo.view_count}</th>
+								</tr>
+								<tr class="hidden-sm-up">
+									<th scope="col" class="text-left">
+										${noticeVo.title}
+										<p class="small">${noticeVo.name}| ${noticeVo.create_date} | 조회 ${noticeVo.view_count}</p>
+									</th>
 								</tr>
 							</thead>
 							<tbody>

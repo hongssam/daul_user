@@ -36,9 +36,16 @@
 								<input type="hidden" id="qna_idx" value=${qnaVo.qna_idx }>
 								<table class="table">
 									<thead class="thead-light">
-										<tr>
+										<tr class="hidden-sm-down">
 											<th scope="col" class="text-left">${qnaVo.question }</th>
 											<th scope="col" class="text-right board-info">${qnaVo.name }|${qnaVo.create_date }| 조회 ${qnaVo.view_count }</th>
+										</tr>
+										
+										<tr class="hidden-sm-up">
+											<th scope="col" class="text-left">
+												${qnaVo.question }
+												<p class="small">${qnaVo.name }|${qnaVo.create_date }| 조회 ${qnaVo.view_count }</p>
+											</th>
 										</tr>
 									</thead>
 									<tbody>

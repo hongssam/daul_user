@@ -22,13 +22,11 @@
 </div>
 
 <!-- Listing Grid Section -->
-<section class="suggest-list-section bgc-fa mt0 pt0">
+<section class="suggest-list-section bgc-fa">
 	<div class="container mt0">
 		<div class="grid-list-header row">
-			<div class="col-lg-6">
-			</div>
-			<div class="col-lg-6">
-				<div class="candidate_revew_select text-right">
+			<div class="col-lg-6 offset-lg-6">
+				<div class="candidate_revew_select">
 					<form id="search_form">
 						<div class="select-search-type">
 							<select class="selectpicker show-tick" name="search_type" data-width="100%">

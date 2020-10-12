@@ -139,7 +139,7 @@
 	<div class="mobile-menu">
 		<div class="header stylehome1">
 			<div class="main_logo_home2 text-center">
-				<img class="nav_logo_img img-fluid mt20" style="width: 150px; margin-top: 30px;" src="${pageContext.request.contextPath}/images/logo.png" alt="header-logo.png">
+				<img class="nav_logo_img img-fluid mt20" style="width: 150px; margin-top: 30px;" src="${pageContext.request.contextPath}/images/logo.png" alt="header-logo.png" onclick="location.href='${pageContext.request.contextPath}/main/main.do'">
 			</div>
 			<ul class="menu_bar_home2">
 				<c:choose>

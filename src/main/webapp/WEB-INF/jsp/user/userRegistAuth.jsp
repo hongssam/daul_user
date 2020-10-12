@@ -48,9 +48,12 @@
 						<p class="desc">
 							본인 명의의 휴대폰으로만 인증이 가능합니다.<br>가입을 원하시면 <b>[인증하기]</b>를 클릭해주세요.
 						</p>
-						<div class="auth-btn" id="sms_auth_chk">
+						<div class="auth-btn hidden-sm-down" id="sms_auth_chk">
 							<img class="icon" src="${pageContext.request.contextPath}/images/icon-auth.png">
 							<p>인증하기</p>
+						</div>
+						<div>
+							<button type="button" class="btn btn-block btn-primary hidden-sm-up" id="sms_auth_chk_mb">인증하기</button>
 						</div>
 					</div>
 				</div>
@@ -59,10 +62,13 @@
 				<div class="auth-box">
 					<h4>SNS 회원가입</h4>
 					<div class="auth-btn-box">
-						<p class="desc">기존에 사용하시는 계정으로 간단하게 회원가입하세요.</p>
-						<div class="auth-btn kakao">
+						<p class="desc">기존에 사용하시는 카카오 계정으로 간단하게 회원가입하세요.</p>
+						<div class="auth-btn kakao hidden-sm-down" id="kakao_auth_chk">
 							<img class="icon" src="${pageContext.request.contextPath}/images/icon-auth-kakao.png">
 							<p>카카오로 가입</p>
+						</div>
+						<div>
+							<button type="button" class="btn btn-block btn-kakao hidden-sm-up" id="kakao_auth_chk_mb">카카오로 가입하기</button>
 						</div>
 					</div>
 				</div>
@@ -73,9 +79,15 @@
 
 <script src="${pageContext.request.contextPath}/js/kakao-login.js"></script>
 <script type="text/javascript">
-	var kakao_reg = document.querySelector("div.auth-btn.kakao");
+	//var kakao_reg = document.querySelector("div.auth-btn.kakao");
+	var kakao_auth_chk = document.getElementById("kakao_auth_chk");
+	var kakao_auth_chk_mb = document.getElementById("kakao_auth_chk_mb");
 
-	kakao_reg.addEventListener("click", function() {
+	kakao_auth_chk.addEventListener("click", function() {
+		kakaoLogin();
+	});
+	
+	kakao_auth_chk_mb.addEventListener("click", function() {
 		kakaoLogin();
 	});
 	
@@ -127,8 +139,13 @@
 	}
 	
 	var sms_auth_chk_div = document.getElementById("sms_auth_chk");
+	var sms_auth_chk_mb = document.getElementById("sms_auth_chk_mb");
 	
 	sms_auth_chk_div.addEventListener("click", function() {
+		smsAuthChk();
+	});
+	
+	sms_auth_chk_mb.addEventListener("click", function() {
 		smsAuthChk();
 	});
 	
