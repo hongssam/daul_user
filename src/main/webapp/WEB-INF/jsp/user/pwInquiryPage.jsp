@@ -21,8 +21,8 @@
 
 	// CheckPlus(본인인증) 처리 후, 결과 데이타를 리턴 받기위해 다음예제와 같이 http부터 입력합니다.
 	//리턴url은 인증 전 인증페이지를 호출하기 전 url과 동일해야 합니다. ex) 인증 전 url : http://www.~ 리턴 url : http://www.~
-	String sReturnUrl = "http://183.111.102.211:8084/idInquiry_success.jsp"; // 성공시 이동될 URL
-	String sErrorUrl = "http://183.111.102.211:8084/checkplus_fail.jsp"; // 실패시 이동될 URL
+	String sReturnUrl = "http://localhost:9090/idInquiry_success.jsp"; // 성공시 이동될 URL
+	String sErrorUrl = "http://localhost:9090/checkplus_fail.jsp"; // 실패시 이동될 URL
 
 	// 입력될 plain 데이타를 만든다.
 	String sPlainData = "7:REQ_SEQ" + sRequestNumber.getBytes().length + ":" + sRequestNumber + "8:SITECODE"
@@ -83,9 +83,12 @@
 						<form name="form_chk" method="post">
 							<input type="hidden" name="m" value="checkplusService">
 							<input type="hidden" name="EncodeData" value="<%=sEncData%>">
-							<div class="auth-btn" onclick="fnPopup();">
+							<div class="auth-btn hidden-sm-down" onclick="fnPopup();">
 								<img class="icon" src="${pageContext.request.contextPath}/images/icon-auth.png">
 								<p>인증하기</p>
+							</div>
+							<div>
+								<button type="button" class="btn btn-block btn-primary hidden-sm-up mt30" onclick="fnPopup();">인증하기</button>
 							</div>
 						</form>
 					</div>
@@ -94,43 +97,39 @@
 		</div>
 	</div>
 
-	<button type="button" class="" data-toggle="modal" data-target="#openModal" id="modalOpenBtn" href="#" style="display: none;"></button>
-	<button type="button" class="" data-toggle="modal" data-target="#openPwChangeModal" id="openPwChangeModalBtn" href="#" style="display: none;"></button>
+	<button type="button" class="" data-toggle="modal" data-target="#openModal" id="modalOpenBtn" style="display: none;"></button>
+	<button type="button" class="" data-toggle="modal" data-target="#openPwChangeModal" id="openPwChangeModalBtn" style="display: none;"></button>
 
 </section>
 
-<div class="modal fade" id="openModal" aria-hidden="true" aria-labelledby="faqPositionCenter" role="dialog" tabindex="-1">
+<div class="survey-result-modal modal fade" id="openModal" aria-hidden="true" aria-labelledby="faqPositionCenter" role="dialog" tabindex="-1">
 	<div class="modal-dialog modal-simple modal-center">
 		<div class="modal-content">
 			<div class="modal-header">
+				<p>비밀번호 찾기</p>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">x</span>
+					<span aria-hidden="true">&times;</span>
 				</button>
-				<h4 class="modal-title">비밀번호 찾기</h4>
 			</div>
 			<div class="modal-body">
 				<div class="example-wrap" id="modal-div"></div>
-				<div style="text-align: center">
-					<button type="button" class="btn btn-default waves-effect waves-classics" data-dismiss="modal" aria-label="Close" id="faq-modal-cancle-btn">확인</button>
-				</div>
 			</div>
 			<div class="modal-footer">
-				<!-- <button type="button" class="btn btn-default btn-pure" data-dismiss="modal">Close</button>
-       			<button type="button" class="btn btn-primary">Save changes</button> -->
+				<button type="button" class="btn btn-primary btn-pure" data-dismiss="modal" aria-label="Close">확인</button>
 			</div>
 		</div>
 	</div>
 </div>
 
 
-<div class="modal fade" id="openPwChangeModal" aria-hidden="true" aria-labelledby="faqPositionCenter" role="dialog" tabindex="-1">
+<div class="survey-result-modal modal fade" id="openPwChangeModal" aria-hidden="true" aria-labelledby="faqPositionCenter" role="dialog" tabindex="-1">
 	<div class="modal-dialog modal-simple modal-center">
 		<div class="modal-content">
 			<div class="modal-header">
+				<p>비밀번호 찾기</p>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">x</span>
+					<span aria-hidden="true">&times;</span>
 				</button>
-				<h4 class="modal-title">비밀번호 찾기</h4>
 			</div>
 			<div class="modal-body">
 				<form id="pwChange-modal-form">
@@ -142,23 +141,25 @@
 						<br>
 						<span>최소 하나의 영문,숫자,특수문자를 입력해야 합니다.</span>
 						<br>
-						<hr />
+						<br>
 						<h4 class="example-title">비밀번호 재입력</h4>
 						<input type="password" class="form-control" name="new_pw" id="pw-chk" value="" />
 						<span>위에 입력한 비밀번호를 한번 더 입력해 주십시오.</span>
 						<br>
 						<span class="text-left" id="pwChk-error" style="color: red"></span>
-						<hr />
+						<br>
 					</div>
-					<div style="text-align: center">
+					<!-- <div style="text-align: center">
 						<button type="button" class="btn btn-primary waves-effect waves-classics" id="pwChange-modal-btn" data-title="비밀번호">변경</button>
 						<button type="button" class="btn btn-default waves-effect waves-classics" data-dismiss="modal" aria-label="Close" id="faq-modal-cancle-btn">취소</button>
-					</div>
+					</div> -->
 				</form>
 			</div>
 			<div class="modal-footer">
 				<!-- <button type="button" class="btn btn-default btn-pure" data-dismiss="modal">Close</button>
        			<button type="button" class="btn btn-primary">Save changes</button> -->
+       			<button type="button" class="btn btn-primary waves-effect waves-classics" id="pwChange-modal-btn" data-title="비밀번호">변경</button>
+				<button type="button" class="btn btn-default waves-effect waves-classics" data-dismiss="modal" aria-label="Close" id="faq-modal-cancle-btn">취소</button>
 			</div>
 		</div>
 	</div>

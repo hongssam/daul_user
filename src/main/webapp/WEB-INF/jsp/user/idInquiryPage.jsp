@@ -83,9 +83,12 @@
 						<form name="form_chk" method="post">
 							<input type="hidden" name="m" value="checkplusService">
 							<input type="hidden" name="EncodeData" value="<%=sEncData%>">
-							<div class="auth-btn" onclick="fnPopup();">
+							<div class="auth-btn hidden-sm-down" onclick="fnPopup();">
 								<img class="icon" src="${pageContext.request.contextPath}/images/icon-auth.png">
 								<p>인증하기</p>
+							</div>
+							<div>
+								<button type="button" class="btn btn-block btn-primary hidden-sm-up mt30" onclick="fnPopup();">인증하기</button>
 							</div>
 						</form>
 					</div>
@@ -96,29 +99,24 @@
 	<button type="button" class="" data-toggle="modal" data-target="#openModal" id="modalOpenBtn" style="display:none;"></button>
 </section>
 
-<div class="modal fade" id="openModal" aria-hidden="true" aria-labelledby="openModal" role="dialog" tabindex="-1">
+<div class="survey-result-modal modal fade" id="openModal" aria-hidden="true" aria-labelledby="openModal" role="dialog" tabindex="-1">
 	<div class="modal-dialog modal-simple modal-center">
 		<div class="modal-content">
 			<div class="modal-header">
+				<p>아이디 찾기</p>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">x</span>
+					<span aria-hidden="true">&times;</span>
 				</button>
-				<h4 class="modal-title">아이디 찾기</h4>
 			</div>
 			<div class="modal-body">
-				<div class="example-wrap m-20"id="modal-div"></div>
-				<div class="mt-30" style="text-align: center">
-					<button type="button" class="btn btn-primary waves-effect waves-classics" data-dismiss="modal" aria-label="Close" id="faq-modal-cancle-btn">확인</button>
-				</div>
+				<div class="example-wrap m-20" id="modal-div"></div>
 			</div>
 			<div class="modal-footer">
-				<!-- <button type="button" class="btn btn-default btn-pure" data-dismiss="modal">Close</button>
-       			<button type="button" class="btn btn-primary">Save changes</button> -->
+				<button type="button" class="btn btn-primary btn-pure" data-dismiss="modal" aria-label="Close">확인</button>
 			</div>
 		</div>
 	</div>
 </div>
-
 
 <script type="text/javascript">
 	function test(di) {

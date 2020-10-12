@@ -84,6 +84,7 @@
 			 , sms_chk 
 			 </if>
 			 , auth_type
+			 , user_key
 			 )
 		VALUES 
 			 (
@@ -105,6 +106,7 @@
 			 , #{sms_chk} 
 			 </if>
 			 , #{auth_type}
+			 , #{dupInfo}
 			 )
 	</insert>
 	
