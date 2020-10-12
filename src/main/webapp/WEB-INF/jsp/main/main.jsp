@@ -211,71 +211,71 @@
 	function setWeather(data){
 		
 		var weather = JSON.parse(data);
-		
-		var str =     '	<div class="row">                                                                                                                                                                       '
-				+ '		<div class="col-4" style="padding: 30px 5px;">                                                                                                                                      '
-				+ '			<div class="whether-box">                                                                                                                                                       '
-				+ '				<div class="icon">                                                                                                                                                          '
-				+ '					<img class="whether-img img-fluid " src="' + weather.weather.icon+ '" style="position: absolute; top: 7px; width: 94px;">                         '
-				+ '				</div>                                                                                                                                                                      '
-				+ '				<div class="detais">                                                                                                                                                        '
-				+ '					<p>현재, ' + weather.weather.description_ko +'</p>                                                                                                                                                       '
-				+ '					<p class="empty">' + weather.weather.temperature + '°C</p>                                                                                                                                               '
-				+ '				</div>                                                                                                                                                                      '
-				+ '				<div class="detais-right">                                                                                                                                                      '
-				+ '					<p>강수확률: '+ weather.weather.clouds +'%</p>                                                                                                                                                        '
-				+ '					<p>습도: '+ weather.weather.humidity +'%</p>                                                                                                                                                        '
-				+ '					<p>풍속: ' + weather.weather.wind_speed + 'm/s</p>                                                                                                                                                        '
-				+ '				</div>                                                                                                                                                                      '
-				+ '			</div>                                                                                                                                                                          '
-				+ '		</div>                                                                                                                                                                              '
-				+ '		<div class="col-8">                                                                                                                                                                 '
-				+ '			<div class="row">                                                                                                                                                               '
-				+ '				<div class="col-4" style="padding: 30px 5px;">                                                                                                                              '
-				+ '					<div class="dust-box style'+weather.air_pollution.pm10.degree+'">                                                                                                                                           '
-				+ '						<div class="icon ct-chart dust-chart-pie1">                                                                                                                         '
-				+ '							<div style="height: 100%; width: 100%; position: absolute; left: 0; top: 0;">                                                                                   '
-				+ '								<span>' + weather.air_pollution.pm10.value + '</span>                                                                                                                                             '
-				+ '							</div>                                                                                                                                                          '
-				+ '						</div>                                                                                                                                                              '
-				+ '						<div class="detais">                                                                                                                                                '
-				+ '							<p>미세먼지</p>                                                                                                                                                 '
-				+ '							<p class="empty">' + weather.air_pollution.pm10.description + '</p>                                                                                                                                       '
-				+ '						</div>                                                                                                                                                              '
-				+ '					</div>                                                                                                                                                                  '
-				+ '				</div>                                                                                                                                                                      '
-				+ '				<div class="col-4" style="padding: 30px 5px;">                                                                                                                              '
-				+ '					<div class="dust-box style'+weather.air_pollution.pm25.degree+'">                                                                                                                                           '
-				+ '						<div class="icon ct-chart dust-chart-pie2">                                                                                                                         '
-				+ '							<div style="height: 100%; width: 100%; position: absolute; left: 0; top: 0;">                                                                                   '
-				+ '								<span>' + weather.air_pollution.pm25.value + '</span>                                                                                                                                             '
-				+ '							</div>                                                                                                                                                          '
-				+ '						</div>                                                                                                                                                              '
-				+ '						<div class="detais">                                                                                                                                                '
-				+ '							<p>초미세먼지</p>                                                                                                                                               '
-				+ '							<p class="empty">' + weather.air_pollution.pm25.description + '</p>                                                                                                                                       '
-				+ '						</div>                                                                                                                                                              '
-				+ '					</div>                                                                                                                                                                  '
-				+ '				</div>                                                                                                                                                                      '
-				+ '				<div class="col-4" style="padding: 30px 5px;">                                                                                                                              '
-				+ '					<div class="dust-box style'+weather.air_pollution.o3.degree+'">                                                                                                                                           '
-				+ '						<div class="icon ct-chart dust-chart-pie3">                                                                                                                         '
-				+ '							<div style="height: 100%; width: 100%; position: absolute; left: 0; top: 0;">                                                                                   '
-				+ '								<span>' + weather.air_pollution.o3.value + '</span>                                                                                                                                             '
-				+ '							</div>                                                                                                                                                          '
-				+ '						</div>                                                                                                                                                              '
-				+ '						<div class="detais">                                                                                                                                                '
-				+ '							<p>오존</p>                                                                                                                                                   '
-				+ '							<p class="empty">' + weather.air_pollution.o3.description + '</p>                                                                                                                                       '
-				+ '						</div>                                                                                                                                                              '
-				+ '					</div>                                                                                                                                                                  '
-				+ '				</div>                                                                                                                                                                      '
-				+ '			</div>                                                                                                                                                                          '
-				+ '		</div>                                                                                                                                                                              '
-				+ '	</div>                                                                                                                                                                                  ';
 				
-				$("#weather-container").append(str);
+		var str = 
+			'<div class="row">' +
+				'<div class="col-sm-12 col-md-7 col-lg-5 col-xl-4" style="padding: 30px 5px;">' +
+					'<div class="whether-box">' +
+						'<div class="icon">' +
+							'<img class="whether-img img-fluid " src="' + weather.weather.icon + '" alt="header-logo.png" style="position:absolute; top: 7px; width: 94px">' +
+						'</div>' +
+						'<div class="detais">' +
+							'<p>' + weather.weather.description_ko + '</p>' +
+							'<p class="empty">' + weather.weather.temperature + '°C</p>' +
+						'</div>' +
+						'<div class="detais-right">' +
+							'<p>강수확률: ' + weather.weather.clouds + '%</p>' +
+							'<p>습도: ' + weather.weather.humidity + '%</p>' +
+							'<p>풍속: ' + weather.weather.wind_speed + 'm/s</p>' +
+						'</div>' +
+					'</div>' +
+				'</div>' +
+				'<div class="col-sm-12 col-md-5 col-lg-7 col-xl-8 hidden-sm-down">' +
+					'<div class="row">' +
+						'<div class="col-md-12 col-lg-6 col-xl-4" style="padding: 30px 5px;">' +
+							'<div class="dust-box style' + weather.air_pollution.pm10.degree + '">' +
+								'<div class="icon ct-chart dust-chart-pie1">' +
+									'<div style="height:100%; width:100%; position:absolute; left:0; top:0;">' +
+										'<span>' + weather.air_pollution.pm10.value + '</span>' +
+									'</div>' +
+								'</div>' +
+								'<div class="detais">' +
+									'<p>미세먼지</p>' +
+									'<p class="empty">' + weather.air_pollution.pm10.description + '</p>' +
+								'</div>' +
+							'</div>' +
+						'</div>' +
+						'<div class="hidden-md-down col-lg-6 col-xl-4"  style="padding: 30px 5px;">' +
+							'<div class="dust-box style' + weather.air_pollution.pm25.degree + '">' +
+								'<div class="icon ct-chart dust-chart-pie2" >' +
+									'<div style="height:100%; width:100%; position:absolute; left:0; top:0;">' +
+										'<span>' + weather.air_pollution.pm25.value + '</span>' +
+									'</div>' +
+								'</div>' +
+								'<div class="detais">' +
+									'<p>초미세먼지</p>' +
+									'<p class="empty">' + weather.air_pollution.pm25.description + '</p>' +
+								'</div>' +
+							'</div>' +
+						'</div>' +
+						'<div class="col-lg-4 hidden-lg-down"  style="padding: 30px 5px;">' +
+							'<div class="dust-box style' + weather.air_pollution.o3.degree +'">' +
+								'<div class="icon ct-chart dust-chart-pie3" >' +
+									'<div style="height:100%; width:100%; position:absolute; left:0; top:0;">' +
+										'<span>' + weather.air_pollution.o3.value + '</span>' +
+									'</div>' +
+								'</div>' +
+								'<div class="detais">' +
+									'<p>오존</p>' +
+									'<p class="empty">' + weather.air_pollution.o3.description + '</p>' +
+								'</div>' +
+							'</div>' +
+						'</div>' +
+					'</div>' +
+				'</div>' +
+			'</div>';
 			
+		$("#weather-container").append(str);
 	}     
 </script>
 
