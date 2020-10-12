@@ -13,10 +13,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import egovframework.com.cmmn.SecurityUtil;
@@ -107,4 +109,31 @@ public class LoginController {
 	
 	
 	
+	@RequestMapping(value="/kakaoLogin.do", method=RequestMethod.GET)
+	public String kakaLogin(@RequestParam("user_key") String userKakao_key, @RequestParam("forward") String forward, HttpServletRequest request) throws Exception {
+		System.out.println("userKakaoKey = " + userKakao_key);
+		UserVo vo = new UserVo();
+		vo = loginService.selectKakaoUser(userKakao_key);
+		System.out.println("forward = " + forward);
+		if (vo != null) {
+			HttpSession httpSession = request.getSession();
+			httpSession.setAttribute("login", vo);
+			loginService.setLastLogin(vo);
+		
+		} else {
+			throw new Exception();
+		}
+		
+		return "redirect:"+forward;
+	}
+	
+	
+	@RequestMapping(value="/insertPhoneNumber.do")
+	public String insertPhoneNumber(@RequestParam("user_key") String userKakao_key, @RequestParam("forward") String forward , ModelMap model) throws Exception {
+		System.out.println( "user key = "  + userKakao_key);
+		
+		model.addAttribute("userKakao_key", userKakao_key);
+		model.addAttribute("forward", forward);
+		return "user/insertPhoneNumber";
+	}
 }

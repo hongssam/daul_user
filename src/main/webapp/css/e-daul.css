@@ -1763,6 +1763,9 @@ ul.page-navigation li.active .page-link {
 .home-whether .dust-box.style3{
   background-color: rgba(255, 126, 0, 0.1);
 }
+.home-whether .dust-box.style4{
+  background-color: rgba(255, 16, 0, 0.1);
+}
 .home-whether .dust-box .icon{
   position: relative;
   border-radius: 50%;
@@ -1784,6 +1787,9 @@ ul.page-navigation li.active .page-link {
 }
 .home-whether .dust-box.style3 .icon span{
   color: #ff7e00;
+}
+.home-whether .dust-box.style4 .icon span{
+  color: #ff1100;
 }
 .home-whether .dust-box .detais{
   padding-top: 12px;
@@ -1807,7 +1813,9 @@ ul.page-navigation li.active .page-link {
 .home-whether .dust-box.style3 .detais p.empty{
   color: #ff7e00;
 }
-
+.home-whether .dust-box.style4 .detais p.empty{
+  color: #ff1100;
+}
 /* Home - Contents Section */
 .home-contents {
   padding-top: 60px;

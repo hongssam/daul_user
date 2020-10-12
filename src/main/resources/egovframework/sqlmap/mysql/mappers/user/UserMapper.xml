@@ -372,13 +372,21 @@
 		 WHERE user_key = #{user_di}
 	</update>
 	
+	<select id="chkKakaoKey" resultType="int">
+		SELECT count(*) 
+		  FROM user 
+		 WHERE kakao_key = #{user_key}	
+	</select>
 	
+	<update id="connectKakao">
+		UPDATE user SET kakao_key = #{userKakao_key}
+		 WHERE phone = #{phone}
+	</update>
 	
-	
-	
-	
-	
-	
-	
+	<select id="chkPhoneNum" resultType="int">
+		SELECT count(*) 
+		  FROM user 
+		 WHERE phone = #{phone}	
+	</select>
 	
 </mapper>

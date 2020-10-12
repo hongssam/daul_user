@@ -37,4 +37,10 @@ public interface UserService {
 	UserVo checkUserDi(String user_di) throws Exception;
 	
 	void changeNewPw(UserVo vo) throws Exception;
+	
+	int chkKakaoKey(String user_key) throws Exception;
+	
+	void connectKakao(UserVo vo) throws Exception;
+	
+	int chkPhoneNum(UserVo vo) throws Exception;
 }

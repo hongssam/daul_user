@@ -38,8 +38,17 @@ public class UserVo {
 	private String requestNumber;
 	private String responseNumber;
 	
+	private String userKakao_key;
 	
 	
+	
+	
+	public String getUserKakao_key() {
+		return userKakao_key;
+	}
+	public void setUserKakao_key(String userKakao_key) {
+		this.userKakao_key = userKakao_key;
+	}
 	public String getUser_di() {
 		return user_di;
 	}
@@ -241,11 +250,15 @@ public class UserVo {
 				+ email + ", phone=" + phone + ", channel=" + channel + ", reg_date=" + reg_date + ", last_login_date="
 				+ last_login_date + ", email_chk=" + email_chk + ", talk_chk=" + talk_chk + ", sms_chk=" + sms_chk
 				+ ", auth_type=" + auth_type + ", user_key=" + user_key + ", contest_cnt=" + contest_cnt
-				+ ", suggestion_cnt=" + suggestion_cnt + ", participation_cnt=" + participation_cnt + ", opinion_cnt="
+				+ ", \n suggestion_cnt=" + suggestion_cnt + ", participation_cnt=" + participation_cnt + ", opinion_cnt="
 				+ opinion_cnt + ", key=" + key + ", num=" + num + ", user_di=" + user_di + ", authType=" + authType
 				+ ", birthDate=" + birthDate + ", connInfo=" + connInfo + ", dupInfo=" + dupInfo + ", gender=" + gender
 				+ ", mobileCo=" + mobileCo + ", mobileNo=" + mobileNo + ", msg=" + msg + ", nationalInfo="
-				+ nationalInfo + ", requestNumber=" + requestNumber + ", responseNumber=" + responseNumber + "]";
+				+ nationalInfo + ", requestNumber=" + requestNumber + ", responseNumber=" + responseNumber
+				+ ", userKakao_key=" + userKakao_key + "]";
 	}
+	
+	
+	
 
 }

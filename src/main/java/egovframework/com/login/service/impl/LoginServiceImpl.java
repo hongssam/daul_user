@@ -22,4 +22,9 @@ public class LoginServiceImpl implements LoginService{
 	public void setLastLogin(UserVo vo) throws Exception {
 		loginMapper.setLastLogin(vo);
 	}
+
+	@Override
+	public UserVo selectKakaoUser(String userKakao_key) throws Exception {
+		return loginMapper.selectKakaoUser(userKakao_key);
+	}
 }

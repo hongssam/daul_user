@@ -496,4 +496,31 @@ public class UserController {
 		}		
 	}
 	
+	
+	@RequestMapping(value="/connectKakao.do", method=RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity connectKakao(HttpSession session, UserVo vo, BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		try {
+		
+		       System.out.println(vo);
+		       
+		       //핸드폰번호 유무 체크
+		       String phoneNum = vo.getPhone();
+		       phoneNum.replaceAll("-", "");
+		       vo.setPhone("");
+		       
+		       int chk = userService.chkPhoneNum(vo);
+		       if(chk == 0) {
+		    	   return new ResponseEntity<>("noData", HttpStatus.OK);
+		       }else {
+		    	   userService.connectKakao(vo);
+		    	   return new ResponseEntity<>(vo, HttpStatus.OK);
+		       }
+		       
+			
+		}catch(Exception e) {
+			return new ResponseEntity<>("error.", HttpStatus.OK);
+		}		
+	}
+	
 } 

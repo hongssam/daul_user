@@ -7,4 +7,5 @@ import egovframework.rte.psl.dataaccess.mapper.Mapper;
 public interface LoginMapper {
 	UserVo selectUser(UserVo vo) throws Exception;
 	void setLastLogin(UserVo vo) throws Exception;
+	UserVo selectKakaoUser(String userKakao_key) throws Exception;
 }
