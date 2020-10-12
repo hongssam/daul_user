@@ -47,39 +47,7 @@
 							</c:forEach>
 							
 							<h3 id="suggestion-div" class="mt40">열린제안</h3>
-							<hr />
-							<c:forEach var="list" items="${faqListSuggestion}" varStatus="idx">
-								<div class="card">
-								    <div class="card-header" id="headingMain${idx.index}">
-								    	<h2 class="mb-0 ">
-								        	<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseMain${idx.index}" aria-expanded="true" aria-controls="collapseMain${idx.index}">
-								        	${list.question }</button>
-								   		</h2>
-								    </div>
-								    <div id="collapseMain${idx.index}"  class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-									    <div class="card-body">
-											<p>${list.answer }</p>
-										</div>
-								    </div>
-							    </div>
-							</c:forEach>
-							
-							
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<br>
-	<div class="container" >
-		<div class="row">
-			<div class="col-lg-12">
-				<div class="faq_content">
-					<div class="faq_according">
-						<h3>열린제안</h3>
-						<hr />
-						<div class="accordion" id="accordionExample2">
+							<hr/>
 							<c:forEach var="list" items="${faqListSuggestion}" varStatus="idx">
 								<div class="card">
 									<div class="card-header" id="headingSuggestion${idx.index}">
@@ -87,28 +55,16 @@
 											<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseSuggestion${idx.index}" aria-expanded="true" aria-controls="collapseSuggestion${idx.index}">${list.question }</button>
 										</h2>
 									</div>
-									<div id="collapseSuggestion${idx.index}" class="collapse" aria-labelledby="headingSuggestion${idx.index}" data-parent="#accordionExample2" style="">
+									<div id="collapseSuggestion${idx.index}" class="collapse" aria-labelledby="headingSuggestion${idx.index}" data-parent="#accordionExample">
 										<div class="card-body">
 											<p>${list.answer }</p>
 										</div>
 									</div>
 								</div>
 							</c:forEach>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<br>
-	<div class="container" id="survey-div">
-		<div class="row">
-			<div class="col-lg-12">
-				<div class="faq_content">
-					<div class="faq_according">
-						<h3>설문조사</h3>
-						<hr />
-						<div class="accordion" id="accordionExample3">
+							
+							<h3 id="survey-div" class="mt40">설문조사</h3>
+							<hr/>
 							<c:forEach var="list" items="${faqListSurvey}" varStatus="idx">
 								<div class="card">
 									<div class="card-header" id="headingSurvey${idx.index}">
@@ -116,28 +72,16 @@
 											<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseSurvey${idx.index}" aria-expanded="true" aria-controls="collapseSurvey${idx.index}">${list.question }</button>
 										</h2>
 									</div>
-									<div id="collapseSurvey${idx.index}" class="collapse" aria-labelledby="headingSurvey${idx.index}" data-parent="#accordionExample3" style="">
+									<div id="collapseSurvey${idx.index}" class="collapse" aria-labelledby="headingSurvey${idx.index}" data-parent="#accordionExample">
 										<div class="card-body">
 											<p>${list.answer }</p>
 										</div>
 									</div>
 								</div>
 							</c:forEach>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<br>
-	<div class="container" id="contest-div">
-		<div class="row">
-			<div class="col-lg-12">
-				<div class="faq_content">
-					<div class="faq_according">
-						<h3>나눔공모</h3>
-						<hr />
-						<div class="accordion" id="accordionExample4">
+							
+							<h3 id="contest-div" class="mt40">공모제안</h3>
+							<hr/>
 							<c:forEach var="list" items="${faqListContest}" varStatus="idx">
 								<div class="card">
 									<div class="card-header" id="headingContest${idx.index}">
@@ -145,7 +89,7 @@
 											<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseContest${idx.index}" aria-expanded="true" aria-controls="collapseContest${idx.index}">${list.question }</button>
 										</h2>
 									</div>
-									<div id="collapseContest${idx.index}" class="collapse" aria-labelledby="headingContest${idx.index}" data-parent="#accordionExample4" style="">
+									<div id="collapseContest${idx.index}" class="collapse" aria-labelledby="headingContest${idx.index}" data-parent="#accordionExample">
 										<div class="card-body">
 											<p>${list.answer }</p>
 										</div>
