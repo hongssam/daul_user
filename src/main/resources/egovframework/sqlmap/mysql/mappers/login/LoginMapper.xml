@@ -41,5 +41,6 @@
 		     , auth_type
 		  FROM daul.user
 		 WHERE kakao_key = #{userKakao_key}
+		   AND channel = 'kakao'
 	</select>
 </mapper>
