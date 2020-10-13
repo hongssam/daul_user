@@ -5,7 +5,7 @@
 <div class="nav-tabs style2 bgc-fa">
 	<div class="container">
 		<div class="wizard">
-			<div class="wizard-item first active">
+			<div class="wizard-item first">
 				<c:choose>
 					<c:when test="${empty login.user_id}">
 						<a onclick="gotoLoginPage()">제안하기</a>
@@ -16,13 +16,13 @@
 				</c:choose>
 			</div>
 			<div class="wizard-item active">
-				<a href="/suggestion/suggestionListPage.do?order=1&type=normal">열린 제안</a>
+				<a href="/suggestion/suggestionListPage.do?order=1&board_type=normal">열린 제안</a>
 			</div>
 			<div class="wizard-item">
-				<a href="/suggestion/suggestionListPage.do?order=1&type=like">공감 제안</a>
+				<a href="/suggestion/suggestionListPage.do?order=1&board_type=like">공감 제안</a>
 			</div>
 			<div class="wizard-item last">
-				<a href="/suggestion/suggestionListPage.do?order=1&type=end">종료된 제안</a>
+				<a href="/suggestion/suggestionListPage.do?order=1&board_type=end">종료된 제안</a>
 			</div>
 		</div>
 	</div>

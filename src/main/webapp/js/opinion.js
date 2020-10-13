@@ -104,7 +104,7 @@ function createOpinionElement(type, data) {
 					'<img src="../images/user.png" alt="user.png">' +
 				'</li>' +
 				'<li class="list-inline-item">' +
-					'<p>' + data.create_user + '</p>' +
+					'<p>' + data.name + '</p>' +
 					'<p class="date">' + data.create_date + '</p>' +
 				'</li>' +
 			'</ul>' +

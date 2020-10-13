@@ -7,7 +7,7 @@
 	<div class="container">
 		<div class="wizard">
 			<div class="wizard-item first active">
-				<a href="/survey/surveyListPage.do?order=1">설문하기</a>
+				<a href="/survey/surveyListPage.do?order=1">설문조사</a>
 			</div>
 			<div class="wizard-item last">
 				<a href="/survey/surveyNoticeListPage.do">공지사항</a>
@@ -52,14 +52,16 @@
 
 						<c:choose>
 							<c:when test="${login.user_id eq '' || empty login.user_id}">
-								<button class="btn btn-primary btn-survey" onclick="gotoLoginPage()">
-									<i class="fa-check-square-o"></i>
-									참여하기
-								</button>
+								<c:if test="${surveyVo.ing eq '투표중'}">
+									<button class="btn btn-primary btn-survey" onclick="gotoLoginPage()">
+										<i class="fa-check-square-o"></i>
+										참여하기
+									</button>
+								</c:if>
 							</c:when>
 							<c:otherwise>
 								<c:if test="${login.user_id ne '' && not empty login.user_id}">
-									<c:if test="${isPart eq false}">
+									<c:if test="${isPart eq false && surveyVo.ing eq '투표중'}">
 										<button class="btn btn-primary btn-survey" data-toggle="modal" data-target=".survey-modal">
 											<i class="fa-check-square-o"></i>
 											참여하기

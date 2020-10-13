@@ -16,8 +16,8 @@
 <!-- Title -->
 <title>e-다울마당</title>
 <!-- Favicon -->
-<link href="${pageContext.request.contextPath}/images/favicon.ico" sizes="128x128" rel="shortcut icon" type="image/x-icon" />
-<link href="${pageContext.request.contextPath}/images/favicon.ico" sizes="128x128" rel="shortcut icon" />
+<link href="${pageContext.request.contextPath}/images/favicon.png" sizes="128x128" rel="shortcut icon" type="image/x-icon" />
+<link href="${pageContext.request.contextPath}/images/favicon.png" sizes="128x128" rel="shortcut icon" />
 
 <!-- Script -->
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.3.1.js"></script>

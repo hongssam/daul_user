@@ -77,6 +77,8 @@ function setNext(data) {
 	
 	if (data.curPage === data.pageCnt) {
 		li.classList.add("disabled");
+	} else if (data.pageCnt === 0) {
+		li.classList.add("disabled");
 	}
 	
 	var a = 
@@ -92,6 +94,8 @@ function setDoubleNext(data) {
 	var li = getLiElement();
 	
 	if (data.curPage === data.pageCnt) {
+		li.classList.add("disabled");
+	} else if (data.pageCnt === 0) {
 		li.classList.add("disabled");
 	}
 	

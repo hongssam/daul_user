@@ -172,10 +172,10 @@
 						</table>
 					</div>
 					<div class="table-nav">
-						<button type="button" class="bottom-right-btn btn btn-primary hidden-sm-down">글쓰기</button>
+						<button type="button" class="bottom-right-btn btn btn-primary hidden-sm-down" id="qna_regist_btn">글쓰기</button>
 						<%@ include file="../common/pagination.jsp"%>
 						<div class="hidden-sm-up mt30 text-center">
-							<button type="submit" class="btn btn-primary px-4" onclick="location.href='qa-edit.html'">글쓰기</button>
+							<button type="button" class="btn btn-primary px-4" id="qna_regist_btn_mb">글쓰기</button>
 						</div>
 
 						<div class="candidate_revew_select style2 text-center mb30-991 mt20 hidden-sm-down">
@@ -245,13 +245,22 @@
 		location.href = CTX + "/qna/qnaListPage.do?" + search_value;
 	}
 	
-	var btn_regist = document.querySelector(".bottom-right-btn");
+	var qna_regist_btn = document.getElementById("qna_regist_btn");
+	var qna_regist_btn_mb = document.getElementById("qna_regist_btn_mb");
 	
-	btn_regist.addEventListener("click", function() {
+	qna_regist_btn.addEventListener("click", function() {
+		qnaRegist();	
+	});
+	
+	qna_regist_btn_mb.addEventListener("click", function() {
+		qnaRegist();	
+	});
+	
+	function qnaRegist() {
 		if (login_user_id !== "") {
 			location.href = CTX + '/qna/qnaRegistPage.do';
 		} else {
 			gotoLoginPage();
 		}
-	});
+	}
 </script>

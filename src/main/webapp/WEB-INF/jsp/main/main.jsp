@@ -184,18 +184,10 @@
 	
 	for (var j = 0; j < div_home_content_boxes.length; j++){
 		let home_content_box = div_home_content_boxes[j];
-		console.log(home_content_box);
 		
 		home_content_box.addEventListener("click", function(){
-			var session_id = "${login.user_id}";
-			console.log("session_id = " + session_id);
-			if(session_id === '' || session_id === null){
-				alert("로그인이 필요합니다.");
-				location.href = "${pageContext.request.contextPath}/login/loginPage.do";
-			}else{
-				location.href = CTX + home_content_box.id;
-			}
-		})
+			location.href = CTX + home_content_box.id;
+		});
 	}
 	
 	$(document).ready(function(){

@@ -293,25 +293,29 @@
 		}
 	}
 
+	function mypageAccountInfo() {
+		var form = document.createElement("form");
+
+		form.method = "post";
+		form.action = "/user/mypageAccountInfo.do";
+
+		var input = document.createElement("input");
+
+		input.setAttribute("type", "hidden");
+		input.setAttribute("name", "user_id");
+		input.setAttribute("value", "${login.user_id}");
+
+		form.appendChild(input);
+		document.body.appendChild(form);
+
+		form.submit();
+	}
+	
 	var mypage_btn = document.getElementById("mypage_btn");
 
 	if (mypage_btn != null) {
 		mypage_btn.addEventListener("click", function() {
-			var form = document.createElement("form");
-
-			form.method = "post";
-			form.action = "/user/mypageDetailPage.do";
-
-			var input = document.createElement("input");
-
-			input.setAttribute("type", "hidden");
-			input.setAttribute("name", "user_id");
-			input.setAttribute("value", "${login.user_id}");
-
-			form.appendChild(input);
-			document.body.appendChild(form);
-
-			form.submit();
+			mypageAccountInfo();
 		});
 	}
 
@@ -319,21 +323,7 @@
 
 	if (mypage_btn_left != null) {
 		mypage_btn_left.addEventListener("click", function() {
-			var form = document.createElement("form");
-
-			form.method = "post";
-			form.action = "/user/mypageDetailPage.do";
-
-			var input = document.createElement("input");
-
-			input.setAttribute("type", "hidden");
-			input.setAttribute("name", "user_id");
-			input.setAttribute("value", "${login.user_id}");
-
-			form.appendChild(input);
-			document.body.appendChild(form);
-
-			form.submit();
+			mypageAccountInfo();
 		});
 	}
 
@@ -341,21 +331,7 @@
 
 	if (mypage_btn3 != null) {
 		mypage_btn3.addEventListener("click", function() {
-			var form = document.createElement("form");
-
-			form.method = "post";
-			form.action = "/user/mypageDetailPage.do";
-
-			var input = document.createElement("input");
-
-			input.setAttribute("type", "hidden");
-			input.setAttribute("name", "user_id");
-			input.setAttribute("value", "${login.user_id}");
-
-			form.appendChild(input);
-			document.body.appendChild(form);
-
-			form.submit();
+			mypageAccountInfo();
 		});
 	}
 

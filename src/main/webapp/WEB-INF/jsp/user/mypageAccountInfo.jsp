@@ -1,24 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<div class="nav-tabs style2 bgc-fa">
-	<div class="container">
-		<div class="wizard">
-			<div class="wizard-item first active">
-				<a href="#">계정 정보</a>
-			</div>
-			<div class="wizard-item">
-				<a href="/user/mypageSuggestionListPage.do">나의 제안 목록</a>
-			</div>
-			<div class="wizard-item">
-				<a href="/user/mypageSurveyListPage.do">나의 투표 목록</a>
-			</div>
-			<div class="wizard-item last">
-				<a href="/user/mypageContestListPage.do">나의 공모 목록</a>
-			</div>
-		</div>
-	</div>
-</div>
 
+<%@ include file="./mypageNavTab.jsp" %>
 
 <!-- Profile Section -->
 <section class="profile-section bgc-fa">

@@ -8,7 +8,7 @@
 	<div class="container">
 		<div class="wizard">
 			<div class="wizard-item first active">
-				<a href="/contest/conestListPage.do">공모제안</a>
+				<a href="/contest/contestListPage.do?order=1">공모제안</a>
 			</div>
 			<div class="wizard-item last">
 				<a href="/contest/contestNoticeListPage.do">공지사항</a>
@@ -51,7 +51,7 @@
 					<div class="files" id="file-list"></div>
 					<div class="bottom">
 						<c:choose>
-							<c:when test="${empty login.user_id }">
+							<c:when test="${empty login.user_id && contestVo.ing eq '공모진행중'}">
 								<button class="btn btn-primary btn-survey" onclick="gotoLoginPage()">
 									<i class="fa-comments-o"></i>
 									공모 참여하기
@@ -59,11 +59,13 @@
 							</c:when>
 							<c:otherwise>
 								<c:choose>
-									<c:when test="${checkSubmit eq 0 }">
-										<button class="btn btn-primary btn-survey" data-toggle="modal" data-target=".contest-edit-modal" id="contest-edit-modal-btn">
-											<i class="fa-comments-o"></i>
-											공모 참여하기
-										</button>
+									<c:when test="${checkSubmit eq 0}">
+										<c:if test="${contestVo.ing eq '공모진행중'}">
+											<button class="btn btn-primary btn-survey" data-toggle="modal" data-target=".contest-edit-modal" id="contest-edit-modal-btn">
+												<i class="fa-comments-o"></i>
+												공모 참여하기
+											</button>
+										</c:if>
 									</c:when>
 									<c:otherwise>
 										<button class="btn btn-dark btn-survey" data-toggle="modal" data-target="#contest-update-modal" id="contest-update-modal-btn">
@@ -416,22 +418,26 @@
 		document.getElementById("regist-form").submit();
 	})
 	
-	var contestModifyBtn = document.getElementById("contestModifyBtn");
-	
-	contestModifyBtn.addEventListener("click", function() {
-	
+	if (login_user_id !== '') {
+		var contestModifyBtn = document.getElementById("contestModifyBtn");
 		
-		if($("#modify-title").val() === '' || $("#modify-title").val() === null){
-			alert("제목은 필수 입력항목 입니다.");
-			return false;
-		}
+		contestModifyBtn.addEventListener("click", function() {
+			if($("#modify-title").val() === '' || $("#modify-title").val() === null){
+				alert("제목은 필수 입력항목 입니다.");
+				return false;
+			}
+			
+			if (!submitConfirm($(contestModifyBtn))) return false;
+			
+			document.getElementById("modify-form").submit();
+		}); 
 		
+		var user_input_file = document.getElementById("userContestFile");
 		
-		if (!submitConfirm($(contestModifyBtn))) return false;
-		
-		document.getElementById("modify-form").submit();
-	}); 
-	
+		user_input_file.addEventListener("change", function() {
+			userContestFileChange();
+		});
+	}
 	
 	 <c:forEach var="userFile" items="${userFileList}">
 		var userFile = {};
@@ -459,12 +465,6 @@
 				$("#userFile-list").append(str);
 		}
 	}
-	
-	var user_input_file = document.getElementById("userContestFile");
-	
-	user_input_file.addEventListener("change", function() {
-		userContestFileChange();
-	});
 	
 	var userContestFileList = new Array();
 	
@@ -562,7 +562,7 @@
 	}
 	
 	
-	$("#contest-edit-modal-btn").click(function(){
+	$("#contest-edit-modal-btn").click(function(e){
 		$("#regist-title").val('');
 		contestFileList.pop();
 		$("p[name='regist-contest-file']").remove();
@@ -573,13 +573,6 @@
 		userContestFileList.pop();
 		$("div[name='modify-contest-file']").remove();
 	}); 
-	
-	
-	function loginPage() {
-		alert("로그인이 필요합니다.");
-		location.href = "${pageContext.request.contextPath}/login/loginPage.do";
-	}
-	
 </script>
 
 

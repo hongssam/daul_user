@@ -59,11 +59,6 @@
 		});
 	}
 	
-	$("#user_id").val("admin");
-	$("#pw").val("Ekdhf123!");
-	
-	//$("#login-btn").trigger("click");
-	
 	var kakao_login_btn = document.getElementById("kakao_login_btn");
 	
 	kakao_login_btn.addEventListener("click", function() {

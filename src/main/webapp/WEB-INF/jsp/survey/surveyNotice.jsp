@@ -7,7 +7,7 @@
 	<div class="container">
 		<div class="wizard">
 			<div class="wizard-item first">
-				<a href="/survey/surveyListPage.do?order=1">설문하기</a>
+				<a href="/survey/surveyListPage.do?order=1">설문조사</a>
 			</div>
 			<div class="wizard-item last active">
 				<a href="/survey/surveyNoticeListPage.do">공지사항</a>

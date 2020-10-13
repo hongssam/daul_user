@@ -61,18 +61,12 @@
 								</table>
 							</div>
 							<div class="board-btns text-center">
-								<c:choose>
-									<c:when test="${qnaVo.create_user eq login.user_id }">
-										<button type="submit" class="btn btn-default" onclick="location.href='/qna/qnaListPage.do'">목록</button>
-										<button type="submit" class="btn btn-default" onclick="location.href='/qna/qnaRegistPage.do'">글쓰기</button>
-										<button type="submit" class="btn btn-default" onclick="location.href='/qna/qnaModifyPage.do?qna_idx=${qnaVo.qna_idx}'">수정</button>
-										<button type="submit" class="btn btn-default" onclick="location.href='/qna/qnaDelete.do?qna_idx=${qnaVo.qna_idx}'">삭제</button>
-									</c:when>
-									<c:otherwise>
-										<button type="submit" class="btn btn-default" onclick="location.href='/qna/qnaListPage.do'">목록</button>
-										<button type="submit" class="btn btn-default" onclick="location.href='/qna/qnaRegistPage.do'">글쓰기</button>
-									</c:otherwise>
-								</c:choose>
+								<button type="button" class="btn btn-default" onclick="location.href='/qna/qnaListPage.do'">목록</button>
+								<button type="button" class="btn btn-default" id="qna_regist_btn">글쓰기</button>
+								<c:if test="${qnaVo.create_user eq login.user_id }">
+									<button type="button" class="btn btn-default" id="qna_modify_btn">수정</button>
+									<button type="button" class="btn btn-default" id="qna_delete_btn">삭제</button>
+								</c:if>
 							</div>
 						</div>
 					</div>
@@ -110,18 +104,12 @@
 										</table>
 									</div>
 									<div class="board-btns text-center">
-										<c:choose>
-											<c:when test="${qnaVo.create_user eq login.user_id }">
-												<button type="submit" class="btn btn-default" onclick="location.href='/qna/qnaListPage.do'">목록</button>
-												<button type="submit" class="btn btn-default" onclick="location.href='/qna/qnaRegistPage.do'">글쓰기</button>
-												<button type="submit" class="btn btn-default" onclick="location.href='/qna/qnaModifyPage.do?qna_idx=${qnaVo.qna_idx}'">수정</button>
-												<button type="submit" class="btn btn-default" onclick="location.href='/qna/qnaDelete.do?qna_idx=${qnaVo.qna_idx}'">삭제</button>
-											</c:when>
-											<c:otherwise>
-												<button type="submit" class="btn btn-default" onclick="location.href='/qna/qnaListPage.do'">목록</button>
-												<button type="submit" class="btn btn-default" onclick="location.href='/qna/qnaRegistPage.do'">글쓰기</button>
-											</c:otherwise>
-										</c:choose>
+										<button type="button" class="btn btn-default" onclick="location.href='/qna/qnaListPage.do'">목록</button>
+										<button type="button" class="btn btn-default" id="qna_regist_btn">글쓰기</button>
+										<c:if test="${qnaVo.create_user eq login.user_id }">
+											<button type="button" class="btn btn-default" id="qna_modify_btn">수정</button>
+											<button type="button" class="btn btn-default" id="'qna_delete_btn">삭제</button>
+										</c:if>
 									</div>
 								</div>
 							</div>
@@ -161,13 +149,11 @@
 	var idx = $("#qna_idx").val();
 
 	function getBeforeQna() {
-
 		var request = $.ajax({ url : "/qna/getBeforeQna.do?qna_idx=" + idx, method : "get", });
 
 		request.done(function(data) {
 			getAfterQna();
 			drawBeforeQna(data);
-			console.log(data);
 		});
 
 		request.fail(function(error) {
@@ -180,7 +166,6 @@
 
 		request.done(function(data) {
 			drawAfterQna(data);
-			console.log(data);
 		});
 
 		request.fail(function(error) {
@@ -218,5 +203,32 @@
 
 	function listPage() {
 		location.href = "${pageContext.request.contextPath}/qna/qnaListPage.do";
+	}
+	
+	var qna_regist_btn = document.getElementById("qna_regist_btn");
+	
+	qna_regist_btn.addEventListener("click", function() {
+		if (login_user_id !== "") {
+			location.href = CTX + '/qna/qnaRegistPage.do';
+		} else {
+			gotoLoginPage();
+		}
+	});
+	
+	var create_user = "${qnaVo.create_user}";
+	
+	if (create_user === login_user_id) {
+		var qna_modify_btn = document.getElementById("qna_modify_btn");
+		
+		qna_modify_btn.addEventListener("click", function() {
+			location.href = "/qna/qnaModifyPage.do?qna_idx=${qnaVo.qna_idx}";
+		});
+		
+		var qna_delete_btn = document.getElementById("qna_delete_btn");
+		
+		qna_delete_btn.addEventListener("click", function() {
+			if (!confirm("삭제하시겠습니까?")) return false;
+			location.href = "/qna/qnaDelete.do?qna_idx=${qnaVo.qna_idx}";
+		});
 	}
 </script>

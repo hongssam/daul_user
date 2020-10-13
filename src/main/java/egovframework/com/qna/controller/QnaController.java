@@ -36,6 +36,7 @@ public class QnaController {
 	@RequestMapping(value="/qnaListPage.do")
 	public String getQnaPage(ModelMap model, @RequestParam(defaultValue = "1") int curPage, QnaVo qnaVo) throws Exception{
 		List<QnaVo> qnaList = null;
+		
 		try {
 			int listCnt = qnaService.getQnaListCnt(qnaVo);
 			qnaVo.setPagination(listCnt, curPage);

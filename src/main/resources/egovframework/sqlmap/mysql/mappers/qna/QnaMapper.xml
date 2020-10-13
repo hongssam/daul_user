@@ -1,84 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper 
-	namespace="egovframework.com.qna.mapper.QnaMapper">
-	
+<mapper namespace="egovframework.com.qna.mapper.QnaMapper">
+	<sql id="whereByQna">
+		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'title')">
+		AND q.question LIKE CONCAT('%', #{search}, '%')
+		</if>
+		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'create_user')">
+		AND u.name LIKE CONCAT('%', #{search}, '%')
+		</if>
+	</sql>
 	<select id="getQnaList" resultType="egovframework.com.qna.vo.QnaVo">
-	SELECT * 
-	  FROM (	
-		SELECT  @rownum:=@rownum+1 						AS num,
-				qna_idx,
-				question,
-				content,
-				ref,
-				view_count,
-				create_user,
-				parent_qna_idx,
-				DATE_FORMAT(create_date, '%Y-%m-%d %H:%i:%s') as create_date,
-				del_chk,
-				lock_chk,
-				(select auth_type from `user` where user_id = create_user ) as auth_type ,
-				(select name from `user` where user_id = create_user ) as name ,
-				auth_user
-			FROM daul.daul_qna, (SELECT @rownum:=0) TMP
-			WHERE del_chk = 'N'
-			<if test="search_type == 'title'">
-			AND ref IN (select qna_idx from daul_qna where question like concat('%',#{search},'%'))
-			</if>
-	 		<if test="search_type == 'content'">
-			AND ref IN (select qna_idx from daul_qna where content like concat('%',#{search},'%'))
-			</if>
-	 		<if test="search_type == 'create_user'">
-			AND ref IN (select dq.qna_idx from daul_qna dq
-										left join user u
-										on dq.create_user = u.user_id
-										where u.name like concat('%',#{search},'%'))
-			</if>
-		 	<if test="search_s_date != null and search_s_date != ''">
-		 		<![CDATA[
-		    	AND create_date >= date_format(concat(#{search_s_date}, ' 00:00:00'), '%Y-%m-%d %H:%i:%s')
-		    	]]>
-		    </if>
-		    <if test="search_e_date != null and search_e_date != ''">
-		 		<![CDATA[
-		    	AND create_date <= date_format(concat(#{search_e_date}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
-		    	]]>
-		    </if>
-			ORDER BY ref ASC, indent desc, create_date asc 
-		) sub
-	ORDER BY sub.num desc
-	LIMIT  #{startIndex},#{pageSize}
+		SELECT *
+		  FROM (
+		  		SELECT @rownum:=@rownum+1	AS num
+		  		     , q.qna_idx
+		  		     , q.question
+		  		     , q.content
+		  		     , q.ref
+		  		     , q.view_count
+		  		     , q.create_user
+		  		     , q.parent_qna_idx
+		  		     , DATE_FORMAT(q.create_date, '%Y-%m-%d %H:%i:%s')	AS create_date
+		  		     , q.del_chk
+		  		     , q.lock_chk
+		  		     , u.auth_type
+		  		     , u.name
+		  		     , auth_user
+		  		  FROM daul.daul_qna q
+		  		  LEFT JOIN daul.user u ON u.user_id = q.create_user
+		  		     , (SELECT @rownum:=0) TMP
+		  		 WHERE q.del_chk != 'Y'
+		  		 <include refid="whereByQna"/>
+		  		 ORDER BY ref ASC
+		  		     , indent DESC
+		  		     , create_date ASC
+		  	   ) q
+		 ORDER BY q.num DESC
+		 LIMIT #{startIndex},#{pageSize}
 	</select>
 	
 	
 	<select id="getQnaListCnt" resultType="int">
 		SELECT COUNT(*)
-			FROM daul.daul_qna a
-			  LEFT JOIN daul.user b
-		    ON a.create_user = b.user_id 
-			WHERE del_chk = 'N'
-			<if test="search_type == 'title'">
-				AND ref IN (select qna_idx from daul_qna where question like concat('%',#{search},'%'))
-			</if>
-	 		<if test="search_type == 'content'">
-				AND ref IN (select qna_idx from daul_qna where content like concat('%',#{search},'%'))
-			</if>
-	 		<if test="search_type == 'create_user'">
-			AND ref IN (select dq.qna_idx from daul_qna dq
-										left join user u
-										on dq.create_user = u.user_id
-										where u.name like concat('%',#{search},'%'))
-			</if>
-		 	<if test="search_s_date != null and search_s_date != ''">
-		 		<![CDATA[
-		    	AND create_date >= date_format(concat(#{search_s_date}, ' 00:00:00'), '%Y-%m-%d %H:%i:%s')
-		    	]]>
-		    </if>
-		    <if test="search_e_date != null and search_e_date != ''">
-		 		<![CDATA[
-		    	AND create_date <= date_format(concat(#{search_e_date}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
-		    	]]>
-		    </if>
+		  FROM daul.daul_qna q
+		  LEFT JOIN daul.user u ON q.create_user = u.user_id 
+		 WHERE q.del_chk = 'N'
+		 <include refid="whereByQna"/>
 	</select>
 	
 	<insert id = "qnaRegist">

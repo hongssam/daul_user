@@ -128,8 +128,7 @@
 							 , (SELECT count(*) FROM suggestion_opinion a WHERE a.suggestion_idx = s.suggestion_idx) AS opinion_cnt
 							 , b.name
 						  FROM suggestion_main s
-						   LEFT JOIN daul.user b
-			  				  ON s.create_user = b.user_id 
+						  LEFT JOIN daul.user b ON s.create_user = b.user_id 
 						 WHERE del_chk != 'Y'
 						   <include refid="whereBySuggestion"/>
 		  		  	   ) sm

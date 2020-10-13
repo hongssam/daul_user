@@ -1,25 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<!-- Subpage Nav Tabs -->
-<div class="nav-tabs style2 bgc-fa">
-	<div class="container">
-		<div class="wizard">
-			<div class="wizard-item first">
-				<a href="#">계정 정보</a>
-			</div>
-			<div class="wizard-item active">
-				<a href="/user/mypageSuggestionListPage.do">나의 제안 목록</a>
-			</div>
-			<div class="wizard-item">
-				<a href="/user/mypageSurveyListPage.do">나의 투표 목록</a>
-			</div>
-			<div class="wizard-item last">
-				<a href="/user/mypageContestListPage.do">나의 공모 목록</a>
-			</div>
-		</div>
-	</div>
-</div>
+<%@ include file="./mypageNavTab.jsp" %>
 
 <!-- Listing Grid Section -->
 <section class="suggest-list-section bgc-fa">
@@ -30,13 +12,12 @@
 					<form id="search_form">
 						<div class="select-search-type">
 							<select class="selectpicker show-tick" name="search_type" data-width="100%">
-								<option value="title">제목</option>
-								<option value="create_user">작성자</option>
+								<option value="title" <c:if test="${pagination.search_type eq 'title'}">selected</c:if>>제목</option>
 							</select>
 						</div>
 						<div class="input-search">
 							<i class="icon input-search-close flaticon-magnifying-glass" id="search_sgst_btn" aria-hidden="true"></i>
-							<input type="text" class="form-control" name="search" id="search" placeholder="검색...">
+							<input type="text" class="form-control" name="search" id="search" value="${pagination.search}" placeholder="검색...">
 						</div>
 					</form>
 				</div>
@@ -53,7 +34,7 @@
 										<img src="${pageContext.request.contextPath}/images/user.png" alt="user.png">
 									</li>
 									<li class="list-inline-item">
-										<p>${sgst.create_user}</p>
+										<p>${sgst.name}</p>
 										<p class="date">${sgst.create_date}</p>
 									</li>
 								</ul>

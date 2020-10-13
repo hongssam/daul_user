@@ -5,7 +5,7 @@
 <div class="nav-tabs style2 bgc-fa">
 	<div class="container">
 		<div class="wizard">
-			<div class="wizard-item first active">
+			<div class="wizard-item first">
 				<c:choose>
 					<c:when test="${empty login.user_id}">
 						<a onclick="gotoLoginPage()">제안하기</a>
@@ -74,7 +74,7 @@
 										<img src="${pageContext.request.contextPath}/images/user.png" alt="user.png">
 									</li>
 									<li class="list-inline-item">
-										<p>${sgst.create_user}</p>
+										<p>${sgst.name}</p>
 										<p class="date">${sgst.create_date}</p>
 									</li>
 								</ul>
@@ -144,8 +144,7 @@
 				var div = div_wizard_child[j];
 
 				if (board_type === div.dataset.type) {
-					if (!div.classList.contains("active"))
-						div.classList.add("active");
+					if (!div.classList.contains("active")) div.classList.add("active");
 				} else {
 					div.classList.remove("active");
 				}

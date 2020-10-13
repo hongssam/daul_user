@@ -156,22 +156,6 @@
 		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'title')">
 			AND title like concat('%', #{search}, '%')
 		</if>
-		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'content')">
-			AND content like concat('%', #{search}, '%')
-		</if>
-		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'create_user')">
-			AND create_user like concat('%', #{search}, '%')
-		</if>
-		<if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(search_s_date)">
-			<![CDATA[
-			AND create_date >= date_format(concat(#{search_s_date}, ' 00:00:00'), '%Y-%m-%d %H:%i:%s')
-			]]>
-		</if>
-		<if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(search_e_date)">
-			<![CDATA[
-			AND create_date <= date_format(concat(#{search_e_date}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
-			]]>
-		</if>
 	</sql>
 	
 	<select id="selectSuggestionListCntByMypage" resultType="int">
@@ -205,6 +189,7 @@
   		     , DATE_FORMAT(sub.create_date, '%Y-%m-%d %H:%i:%s') as create_date
   		     , sub.opinion_cnt
   		     , sub.like_per
+  		     , sub.name
 		  FROM (
 		  		SELECT sm.*
 		  		     , CASE WHEN (like_count / 50 * 100) >= 100 THEN 100 ELSE (like_count / 50 * 100) END AS like_per
@@ -216,7 +201,9 @@
 							 , create_user
 							 , create_date
 							 , (SELECT count(*) FROM suggestion_opinion a WHERE a.suggestion_idx = s.suggestion_idx) AS opinion_cnt
+							 , u.name
 						  FROM suggestion_main s
+						  LEFT JOIN daul.user u ON u.user_id = s.create_user
 						 WHERE del_chk != 'Y'
 						   AND create_user = #{create_user}
 						   <include refid="whereBySuggestion"/>
@@ -232,27 +219,15 @@
 		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'title')">
 			 AND sm.title like concat('%', #{search}, '%')
 		</if>
-		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'content')">
-			 AND sm.content like concat('%', #{search}, '%')
-		</if>
 		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'create_user')">
-			 AND sm.create_user like concat('%', #{search}, '%')
-		</if>
-		<if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(search_s_date)">
-			 <![CDATA[
-			AND sm.create_date >= date_format(concat(#{search_s_date}, ' 00:00:00'), '%Y-%m-%d %H:%i:%s')
-			]]>
-		</if>
-		<if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(search_e_date)">
-			 <![CDATA[
-			AND sm.create_date <= date_format(concat(#{search_e_date}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
-			]]>
+			 AND u.name like concat('%', #{search}, '%')
 		</if>
 	</sql>
 	
 	<select id="selectSurveyListCntByMypage" resultType="int">
 		SELECT COUNT(*)
 		  FROM survey_main sm
+		  LEFT JOIN daul.user u ON u.user_id = sm.create_user
 		 INNER JOIN (
 		  			 SELECT survey_idx 
 		  			   FROM daul.survey_participation 
@@ -281,6 +256,7 @@
 			    END) AS ing
 			 ]]>
 		  FROM survey_main sm
+		  LEFT JOIN daul.user u ON u.user_id = sm.create_user
 		 INNER JOIN (
 		  			 SELECT survey_idx 
 		  			   FROM daul.survey_participation 
@@ -297,27 +273,15 @@
 		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'title')">
 			 AND ca.title like concat('%', #{search}, '%')
 		</if>
-		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'content')">
-			 AND ca.content like concat('%', #{search}, '%')
-		</if>
 		<if test="@egovframework.com.cmmn.util.StringUtil@equals(search_type, 'create_user')">
-			 AND ca.create_user like concat('%', #{search}, '%')
-		</if>
-		<if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(search_s_date)">
-			 <![CDATA[
-			AND ca.create_date >= date_format(concat(#{search_s_date}, ' 00:00:00'), '%Y-%m-%d %H:%i:%s')
-			]]>
-		</if>
-		<if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(search_e_date)">
-			 <![CDATA[
-			AND ca.create_date <= date_format(concat(#{search_e_date}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
-			]]>
+			 AND u.name like concat('%', #{search}, '%')
 		</if>
 	</sql>
 	
 	<select id="selectContestListCntByMypage" resultType="int">
 		SELECT COUNT(*)
 		  FROM daul.contest_admin ca
+		  LEFT JOIN daul.user u ON u.user_id = ca.create_user
 		 INNER JOIN (
 		 			 SELECT admin_contest_idx
 		 			   FROM daul.contest_user
@@ -348,6 +312,7 @@
 		        END) AS ing
 		     ]]>
 		  FROM daul.contest_admin ca
+		  LEFT JOIN daul.user u ON u.user_id = ca.create_user
 		 INNER JOIN (
 		 			 SELECT admin_contest_idx
 		 			   FROM daul.contest_user

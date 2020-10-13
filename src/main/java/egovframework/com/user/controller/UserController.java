@@ -93,10 +93,14 @@ public class UserController {
 			Map<String, Object> kakao_account = (Map<String, Object>) params.get("kakao_account");
 			Map<String, String> profile = (Map<String, String>) kakao_account.get("profile");
 			
+			String phone_number = (String) kakao_account.get("phone_number");
+			phone_number = phone_number.replaceAll(" ", "").replaceAll("-", "").replace("+82", "0");
+					
 			UserVo vo = new UserVo();
 			vo.setUser_key(String.valueOf(params.get("id")));
 			vo.setName(profile.get("nickname"));
 			vo.setEmail((String) kakao_account.get("email"));
+			vo.setPhone(phone_number);
 			vo.setUser_id((String) kakao_account.get("email"));
 			vo.setPw("kakao");
 			vo.setChannel("kakao");
@@ -165,8 +169,8 @@ public class UserController {
 		return "redirect:/user/userRegistCmplPage.do";
 	}
 	
-	@RequestMapping(value="/mypageDetailPage.do", method=RequestMethod.POST)
-	public String mypageDetailPage(UserVo vo, ModelMap model) throws Exception {
+	@RequestMapping(value="/mypageAccountInfo.do", method=RequestMethod.POST)
+	public String mypageAccountInfo(UserVo vo, ModelMap model) throws Exception {
 		try {
 			log.debug("[사용자] 사용자 조회");
 			vo = userService.selectUser(vo);
@@ -178,7 +182,7 @@ public class UserController {
 		model.addAttribute("userVo", vo);
 		
 		log.debug("[사용자] 사용자 조회 완료");
-		return "user/mypage";
+		return "user/mypageAccountInfo";
 	}
 	
 	@RequestMapping(value="/publicUserModify.do", method=RequestMethod.POST)
@@ -216,10 +220,8 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/mypageSuggestionListPage.do")
-	public String mypageSuggestionListpage(ModelMap model, @RequestParam(defaultValue = "1") int curPage, HttpSession session) throws Exception {
+	public String mypageSuggestionListpage(ModelMap model, SuggestionVo vo, @RequestParam(defaultValue = "1") int curPage, HttpSession session) throws Exception {
 		List<SuggestionVo> suggestionList = null;
-		SuggestionVo vo = new SuggestionVo();
-		
 		try {
 			UserVo userVo = (UserVo) session.getAttribute("login");
 			
@@ -241,9 +243,8 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/mypageSurveyListPage.do")
-	public String mypageSurveyListPage(ModelMap model, @RequestParam(defaultValue = "1") int curPage, HttpSession session) throws Exception {
+	public String mypageSurveyListPage(ModelMap model, SurveyVo vo, @RequestParam(defaultValue = "1") int curPage, HttpSession session) throws Exception {
 		List<SurveyVo> surveyList = null;
-		SurveyVo vo = new SurveyVo();
 		
 		try {
 			UserVo userVo = (UserVo) session.getAttribute("login");
@@ -266,9 +267,8 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/mypageContestListPage.do")
-	public String mypageContestListPage(ModelMap model, @RequestParam(defaultValue = "1") int curPage, HttpSession session) throws Exception {
+	public String mypageContestListPage(ModelMap model, ContestVo vo, @RequestParam(defaultValue = "1") int curPage, HttpSession session) throws Exception {
 		List<ContestVo> surveyList = null;
-		ContestVo vo = new ContestVo();
 		
 		try {
 			UserVo userVo = (UserVo) session.getAttribute("login");
@@ -478,46 +478,41 @@ public class UserController {
 		return new ResponseEntity<>(vo, HttpStatus.OK);
 	}
 	
-
 	@RequestMapping(value="/changeNewPw.do", method=RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity changeNewPw(HttpSession session, UserVo vo, BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ResponseEntity<?> changeNewPw(UserVo vo) throws Exception {
 		try {
-		
-		       System.out.println(vo);
+		    System.out.println(vo);
 		       
-		       SecurityUtil securityUtil = new SecurityUtil();
-		       String encryptPw = securityUtil.encryptSHA256(vo.getPwKey());
-		       vo.setPw(encryptPw);
-		       userService.changeNewPw(vo);
+		    SecurityUtil securityUtil = new SecurityUtil();
+		    String encryptPw = securityUtil.encryptSHA256(vo.getPwKey());
+		    vo.setPw(encryptPw);
+		    userService.changeNewPw(vo);
+		    
 			return new ResponseEntity<>("success", HttpStatus.OK);
 		}catch(Exception e) {
 			return new ResponseEntity<>("error.", HttpStatus.OK);
 		}		
 	}
 	
-	
 	@RequestMapping(value="/connectKakao.do", method=RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity connectKakao(HttpSession session, UserVo vo, BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ResponseEntity<?> connectKakao(UserVo vo) throws Exception {
 		try {
-		
-		       System.out.println(vo);
-		       
-		       //핸드폰번호 유무 체크
-		       String phoneNum = vo.getPhone();
-		       phoneNum.replaceAll("-", "");
-		       vo.setPhone(phoneNum);
-		       
-		       int chk = userService.chkPhoneNum(vo);
-		       if(chk == 0) {
-		    	   return new ResponseEntity<>("noData", HttpStatus.OK);
-		       }else {
-		    	   userService.connectKakao(vo);
-		    	   return new ResponseEntity<>(vo, HttpStatus.OK);
-		       }
-		       
+			System.out.println(vo);
 			
+			//핸드폰번호 유무 체크
+			String phoneNum = vo.getPhone();
+			phoneNum.replaceAll("-", "");
+			vo.setPhone(phoneNum);
+			
+			int chk = userService.chkPhoneNum(vo);
+			if(chk == 0) {
+				return new ResponseEntity<>("noData", HttpStatus.OK);
+			}else {
+				userService.connectKakao(vo);
+				return new ResponseEntity<>(vo, HttpStatus.OK);
+			}
 		}catch(Exception e) {
 			return new ResponseEntity<>("error.", HttpStatus.OK);
 		}		

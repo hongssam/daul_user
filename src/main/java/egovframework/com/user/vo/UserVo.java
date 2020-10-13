@@ -41,8 +41,6 @@ public class UserVo {
 	private String userKakao_key;
 	
 	
-	
-	
 	public String getUserKakao_key() {
 		return userKakao_key;
 	}
@@ -257,8 +255,4 @@ public class UserVo {
 				+ nationalInfo + ", requestNumber=" + requestNumber + ", responseNumber=" + responseNumber
 				+ ", userKakao_key=" + userKakao_key + "]";
 	}
-	
-	
-	
-
 }

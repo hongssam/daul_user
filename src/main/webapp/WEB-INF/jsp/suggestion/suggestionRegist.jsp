@@ -17,13 +17,13 @@
 				</c:choose>
 			</div>
 			<div class="wizard-item">
-				<a href="/suggestion/suggestionListPage.do?order=1&type=normal">열린 제안</a>
+				<a href="/suggestion/suggestionListPage.do?order=1&board_type=normal">열린 제안</a>
 			</div>
 			<div class="wizard-item">
-				<a href="/suggestion/suggestionListPage.do?order=1&type=like">공감 제안</a>
+				<a href="/suggestion/suggestionListPage.do?order=1&board_type=like">공감 제안</a>
 			</div>
 			<div class="wizard-item last">
-				<a href="/suggestion/suggestionListPage.do?order=1&type=end">종료된 제안</a>
+				<a href="/suggestion/suggestionListPage.do?order=1&board_type=end">종료된 제안</a>
 			</div>
 		</div>
 	</div>
