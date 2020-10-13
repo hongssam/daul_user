@@ -119,10 +119,10 @@
 		var str;
 		
 		if(typeof before_notice_title == "undefined" || before_notice_title == null || before_notice_title == ''){
-			str = 	'<a href="#">'
+			str = 	''
 			+	'<span class="fa-caret-up mr10">&nbsp;&nbsp;&nbsp;윗글</span>'
-			+	'이전 게시물이 없습니다.'
-			+'</a>'
+			+	'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;이전 게시물이 없습니다.'
+			+''
 			+'<hr>';
 		}else{
 			str = 	'<a href="/notice/noticeDetail.do?notice_idx='+before_notice_idx+'">'
@@ -140,10 +140,10 @@
 		var str;
 		
 		if(typeof after_notice_title == "undefined" || after_notice_title == null || after_notice_title == ''){
-			str = 	'<a href="#">' 
+			str = 	'' 
 			+	'<span class="fa-caret-down mr10">&nbsp;&nbsp;&nbsp;아랫글</span>'
-			+	'다음 게시물이 없습니다.'
-			+'</a>'
+			+	'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;다음 게시물이 없습니다.'
+			+''
 			+'<hr>';
 		}else{
 			str = 	'<a href="/notice/noticeDetail.do?notice_idx='+after_notice_idx+'">' 

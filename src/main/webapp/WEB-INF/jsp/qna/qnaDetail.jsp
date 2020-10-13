@@ -179,7 +179,7 @@
 		var str;
 
 		if (typeof before_qna_question == "undefined" || before_qna_question == null || before_qna_question == '') {
-			str = '<a href="#">' + '<span class="fa-caret-up mr10">&nbsp;&nbsp;&nbsp;윗글</span>' + '이전 게시물이 없습니다.' + '</a>' + '<hr>';
+			str = '' + '<span class="fa-caret-up mr10">&nbsp;&nbsp;&nbsp;윗글</span>' + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;이전 게시물이 없습니다.' + '' + '<hr>';
 		} else {
 			str = '<a href="/qna/qnaDetail.do?qna_idx=' + before_qna_idx + '">' + '<span class="fa-caret-up mr10">&nbsp;&nbsp;&nbsp;윗글</span>'
 					+ before_qna_question + '</a>' + '<hr>';
@@ -193,7 +193,7 @@
 		var str;
 
 		if (typeof after_qna_question == "undefined" || after_qna_question == null || after_qna_question == '') {
-			str = '<a href="#">' + '<span class="fa-caret-down mr10">&nbsp;&nbsp;&nbsp;아랫글</span>' + '다음 게시물이 없습니다.' + '</a>' + '<hr>';
+			str = '' + '<span class="fa-caret-down mr10">&nbsp;&nbsp;&nbsp;아랫글</span>' + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;다음 게시물이 없습니다.' + '' + '<hr>';
 		} else {
 			str = '<a href="/qna/qnaDetail.do?qna_idx=' + after_qna_idx + '">' + '<span class="fa-caret-down mr10">&nbsp;&nbsp;&nbsp;아랫글</span>'
 					+ after_qna_question + '</a>' + '<hr>';
