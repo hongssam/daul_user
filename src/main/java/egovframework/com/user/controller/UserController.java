@@ -507,7 +507,7 @@ public class UserController {
 		       //핸드폰번호 유무 체크
 		       String phoneNum = vo.getPhone();
 		       phoneNum.replaceAll("-", "");
-		       vo.setPhone("");
+		       vo.setPhone(phoneNum);
 		       
 		       int chk = userService.chkPhoneNum(vo);
 		       if(chk == 0) {
