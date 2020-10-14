@@ -119,12 +119,12 @@
 			</div>
 			<div class="modal-body">
 				<h4 class="title">${surveyVo.title }</h4>
-				<form:form method="post" modelAttribute="surveyVo">
+				<form:form method="post" modelAttribute="surveyVo" action="/survey/vote.do" id="vote-form">
 					<input type="hidden" name="survey_idx" value="${surveyVo.survey_idx }">
 					<div class="survey-box shortcode_widget_radiobox" id="survey-box"></div>
 					<hr>
 					<div class="survey-box bottom">
-						<button type="submit" class="btn btn-primary" formaction="/survey/vote.do">등록</button>
+						<button type="button" class="btn btn-primary" id="surveyVoteBtn">등록</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">취소</span>
 						</button>
@@ -316,4 +316,14 @@
 		alert("로그인이 필요합니다.");
 		location.href = "${pageContext.request.contextPath}/login/loginPage.do";
 	}
+	
+	var surveyVoteBtn = document.getElementById("surveyVoteBtn");
+	
+	surveyVoteBtn.addEventListener("click", function() {
+		
+		if (!confirm("확인 시 수정할 수 없으며, 바로 결과에 반영됩니다.")) return false;
+		
+		document.getElementById("vote-form").submit();
+	});
+	
 </script>
