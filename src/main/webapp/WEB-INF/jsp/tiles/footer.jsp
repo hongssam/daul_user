@@ -39,12 +39,12 @@
 			<div class="col-lg-6 col-xl-6">
 				<div class="footer_menu_widget home5">
 					<ul>
-						<li class="list-inline-item"><a href="#">홈</a></li>
-						<li class="list-inline-item"><a href="#">자주하는질문</a></li>
-						<li class="list-inline-item"><a href="#">공지사항</a></li>
-						<li class="list-inline-item"><a href="#">열린제안</a></li>
-						<li class="list-inline-item"><a href="#">설문조사</a></li>
-						<li class="list-inline-item"><a href="#">공모제안</a></li>
+						<li class="list-inline-item"><a href="${pageContext.request.contextPath}/main/main.do">홈</a></li>
+						<li class="list-inline-item"><a href="${pageContext.request.contextPath}/faq/faqListPage.do">자주하는질문</a></li>
+						<li class="list-inline-item"><a href="${pageContext.request.contextPath}/notice/noticeListPage.do">공지사항</a></li>
+						<li class="list-inline-item"><a href="${pageContext.request.contextPath}/suggestion/suggestionListPage.do?order=1&board_type=normal">열린제안</a></li>
+						<li class="list-inline-item"><a href="${pageContext.request.contextPath}/survey/surveyListPage.do?order=1">설문조사</a></li>
+						<li class="list-inline-item"><a href="${pageContext.request.contextPath}/contest/contestListPage.do?order=1">공모제안</a></li>
 					</ul>
 				</div>
 			</div>

@@ -108,15 +108,15 @@
 							<div class="col-lg-9">
 								<div class="ui_kit_whitchbox">
 									<div class="custom-control custom-switch">
-										<input type="checkbox" class="custom-control-input" id="email_chk" name="email_chk" value="Y"> 
+										<input type="checkbox" class="custom-control-input" id="email_chk" name="email_chk" value="Y" checked/> 
 										<label class="custom-control-label" for="email_chk">이메일</label>
 									</div>
 									<div class="custom-control custom-switch">
-										<input type="checkbox" class="custom-control-input" id="talk_chk" name="talk_chk" value="Y"/>
+										<input type="checkbox" class="custom-control-input" id="talk_chk" name="talk_chk" value="Y" checked/>
 										<label class="custom-control-label" for="talk_chk">카카오 알림톡</label>
 									</div>
 									<div class="custom-control custom-switch">
-										<input type="checkbox" class="custom-control-input" id="sms_chk" name="sms_chk" value="Y"/> 
+										<input type="checkbox" class="custom-control-input" id="sms_chk" name="sms_chk" value="Y" checked/>
 										<label class="custom-control-label" for="sms_chk">문자 메세지</label>
 									</div>
 								</div>
@@ -226,7 +226,7 @@
 				} else {
 					userIdFlag = true;
 					alert("사용가능한 아이디 입니다.");
-					$("#userIdCheck").hide();
+					//$("#userIdCheck").hide();
 					//$("#userIdCheckDiv").append("<span style='color:blue;'>사용가능한 아이디입니다.</span>");
 				}
 			});
