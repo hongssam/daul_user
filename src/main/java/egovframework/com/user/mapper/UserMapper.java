@@ -45,5 +45,15 @@ public interface UserMapper {
 	void connectKakao(UserVo vo) throws Exception;
 	
 	int chkPhoneNum(UserVo vo) throws Exception;
+
+	int selectCheckUserPhone(String phone) throws Exception;
+
+	int selectCheckUserDiPhone(Map<String, String> params) throws Exception;
+
+	void updatePublicUser(UserVo vo) throws Exception;
+
+	int selectCheckUserKakaokeyPhone(UserVo vo) throws Exception;
+
+	void updateKakaoUser(UserVo vo) throws Exception;
 }
 

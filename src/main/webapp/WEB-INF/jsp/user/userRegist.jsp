@@ -82,6 +82,7 @@
 								<form:errors style="color:red" path="name"/>
 							</div>
 						</div>
+						<%-- 
 						<div class="form-group row ">
 							<div class="col-lg-3 p0">
 								<label>이메일<span>*</span></label>
@@ -91,6 +92,7 @@
 								<form:errors style="color:red" path="email"/>
 							</div>
 						</div>
+						 --%>
 						<div class="form-group row ">
 							<div class="col-lg-3 p0">
 								<label>전화번호<span>*</span></label>

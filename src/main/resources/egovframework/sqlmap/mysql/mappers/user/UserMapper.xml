@@ -6,8 +6,8 @@
 	<select id="selectKakaoAccount" resultType="int">
 		SELECT COUNT(*)
 		  FROM daul.user
-		 WHERE channel = 'kakao'
-		   AND user_key = #{id}
+		 WHERE phone = #{phone}
+		   AND kakao_key = #{id}
 	</select>
 	
 	<insert id="insertKakaoUser">
@@ -16,9 +16,7 @@
 			   user_id
 			 , name
 			 , pw
-			 , email
 			 , phone
-			 , channel
 			 , reg_date
 			 , last_login_date
 			 <if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(email_chk)">
@@ -31,16 +29,14 @@
 			 , sms_chk 
 			 </if>
 			 , auth_type
-			 , user_key
+			 , kakao_key
 			 )
 		VALUES 
 			 (
 			   #{user_id}
 			 , #{name}
 			 , #{pw}
-			 , #{email}
 			 , #{phone}
-			 , #{channel}
 			 , SYSDATE()
 			 , SYSDATE()
 			 <if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(email_chk)">
@@ -53,7 +49,7 @@
 			 , #{sms_chk} 
 			 </if>
 			 , #{auth_type}
-			 , #{user_key}
+			 , #{kakao_key}
 			 )
 	</insert>
 	
@@ -69,9 +65,7 @@
 			   user_id
 			 , name
 			 , pw
-			 , email
 			 , phone
-			 , channel
 			 , reg_date
 			 , last_login_date
 			 <if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(email_chk)">
@@ -91,9 +85,7 @@
 			   #{user_id}
 			 , #{name}
 			 , #{pw}
-			 , #{email}
 			 , #{phone}
-			 , #{channel}
 			 , SYSDATE()
 			 , SYSDATE()
 			 <if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(email_chk)">
@@ -357,4 +349,38 @@
 		   AND channel = 'kakao'
 	</select>
 	
+	<select id="selectCheckUserPhone" resultType="int">
+		SELECT COUNT(*)
+		  FROM daul.user
+		 WHERE phone = #{phone}
+	</select>
+
+	<select id="selectCheckUserDiPhone" resultType="int">
+		SELECT COUNT(*)
+		  FROM daul.user
+		 WHERE phone = #{mobileNo}
+		   AND user_key = #{dupInfo}
+	</select>
+	
+	<update id="updatePublicUser">
+		UPDATE daul.user
+		   SET user_id = #{user_id}
+		     , pw = #{pw}
+		     , name = #{name}
+		     , user_key = #{dupInfo}
+		 WHERE phone = #{phone}  
+	</update>
+	
+	<select id="selectCheckUserKakaokeyPhone" resultType="int">
+		SELECT COUNT(*)
+		  FROM daul.user
+		 WHERE phone = #{phone}
+		   AND kakao_key = #{kakao_key}
+	</select>
+	
+	<update id="updateKakaoUser">
+		UPDATE daul.user
+		   SET kakao_key = #{kakao_key}
+		 WHERE phone = #{phone}
+	</update>
 </mapper>

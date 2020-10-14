@@ -67,21 +67,41 @@ public class UserController {
 		return "user/userRegistCmpl";
 	}
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/checkKakaoAccount.do")
 	public ResponseEntity<?> checkKakaoAccount(@RequestParam Map<String, Object> params) throws Exception {
 		Map<String, Object> resMap = new HashMap<>();
 		
 		try {
-			log.debug("[카카오 사용자] 카카오 사용자 계정 중복 확인");
-			int count = userService.selectKakaoAccount(params);
+			Map<String, Object> kakao_account = (Map<String, Object>) params.get("kakao_account");
 			
-			resMap.put("exist", count > 0 ? true : false);
+			String phone_number = (String) kakao_account.get("phone_number");
+			phone_number = phone_number.replaceAll(" ", "").replaceAll("-", "").replace("+82", "0");
+			
+			log.debug("[카카오 사용자] 카카오 사용자 핸드폰번호 중복 확인");
+			int phoneChk = userService.selectCheckUserPhone(phone_number);
+			
+			UserVo vo = new UserVo();
+			vo.setKakao_key(String.valueOf(params.get("id")));
+			vo.setPhone(phone_number);
+			
+			if (phoneChk > 0) {
+				log.debug("[카카오 사용자] 카카오 사용자 핸드폰번호 + kakaokey 중복 확인");
+				int kakaokeyChk = userService.selectCheckUserKakaokeyPhone(vo);
+				
+				resMap.put("exist", kakaokeyChk > 0 ? true : false);
+			} else {
+				resMap.put("exist", false);
+			}
+			//log.debug("[카카오 사용자] 카카오 사용자 계정 중복 확인");
+			//int count = userService.selectKakaoAccount(params);
+			//resMap.put("exist", count > 0 ? true : false);
 		} catch (Exception e) {
-			log.debug("[카카오 사용자] 카카오 사용자 계정 중복 확인 실패");
+			log.debug("[카카오 사용자] 카카오 사용자 중복 확인 실패");
 			e.printStackTrace();
 		}
 		
-		log.debug("[카카오 사용자] 카카오 사용자 계정 중복 확인 완료");
+		log.debug("[카카오 사용자] 카카오 사용자 중복 확인 완료");
 		return new ResponseEntity<>(resMap, HttpStatus.OK);
 	}
 	
@@ -97,21 +117,28 @@ public class UserController {
 			phone_number = phone_number.replaceAll(" ", "").replaceAll("-", "").replace("+82", "0");
 					
 			UserVo vo = new UserVo();
-			vo.setUser_key(String.valueOf(params.get("id")));
+			vo.setKakao_key(String.valueOf(params.get("id")));
 			vo.setName(profile.get("nickname"));
-			vo.setEmail((String) kakao_account.get("email"));
 			vo.setPhone(phone_number);
 			vo.setUser_id((String) kakao_account.get("email"));
 			vo.setPw(" ");
-			vo.setChannel("kakao");
 			vo.setAuth_type("public");
 			vo.setEmail_chk("Y");
 			vo.setSms_chk("Y");
 			vo.setTalk_chk("Y");
 			
+			int phoneChk = userService.selectCheckUserPhone(phone_number);
+			
 			log.debug("[카카오 사용자] 카카오 사용자 등록 vo" + vo);
-			log.debug("[카카오 사용자] 카카오 사용자 등록");
-			userService.insertKakaoUser(vo);
+			if (phoneChk > 0) {
+				// update
+				userService.updateKakaoUser(vo);
+			} else {
+				// insert
+				log.debug("[카카오 사용자] 카카오 사용자 등록");
+				userService.insertKakaoUser(vo);
+			}
+			
 		} catch (Exception e) {
 			log.debug("[카카오 사용자] 카카오 사용자 등록 실패");
 			e.printStackTrace();
@@ -142,7 +169,7 @@ public class UserController {
 	@RequestMapping(value="/publicUserRegist.do", method=RequestMethod.POST)
 	public String publicUserRegist(UserVo vo, BindingResult result, RedirectAttributes redirectAttributes) throws Exception {
 		try {
-			vo.setChannel("public");
+			//vo.setChannel("public");
 			vo.setAuth_type("public");
 			
 			UserValidator userValidator = new UserValidator();
@@ -159,9 +186,19 @@ public class UserController {
 			String encryptPw = securityUtil.encryptSHA256(vo.getPwKey());
 			vo.setPw(encryptPw);
 			
-			log.debug("[일반 사용자] 일반 사용자 등록 vo" + vo);
-			log.debug("[일반 사용자] 일반 사용자 등록");
-			userService.insertPublicUser(vo);
+			String phone = vo.getPhone();
+			int phoneChk = userService.selectCheckUserPhone(phone);
+			
+			log.debug("[일반 사용자] 일반 사용자 정보" + vo);
+			if (phoneChk > 0) {
+				//update
+				log.debug("[일반 사용자] 일반 사용자 수정");
+				userService.updatePublicUser(vo);
+			} else {
+				//insert
+				log.debug("[일반 사용자] 일반 사용자 등록");
+				userService.insertPublicUser(vo);
+			}
 		} catch (Exception e) {
 			log.debug("[일반 사용자] 일반 사용자 등록 실패");
 			e.printStackTrace();
@@ -521,4 +558,30 @@ public class UserController {
 		}		
 	}
 	
+	@RequestMapping(value="/checkExistUser.do" , method=RequestMethod.GET)
+	public ResponseEntity<?> checkExistUser(@RequestParam Map<String, String> params) throws Exception {
+		Map<String, Object> resMap = new HashMap<>();
+		System.out.println("-=-=-=-=-=-=-=-=-=-=-=-" + params);
+		
+		try {
+			String phone = params.get("mobileNo");
+			log.debug("[사용자] 사용자 핸드폰번호 중복 확인");
+			int phoneChk = userService.selectCheckUserPhone(phone);
+			
+			if (phoneChk > 0) {
+				log.debug("[사용자] 사용자 핸드폰번호 + dupInfo 중복 확인");
+				int diChk = userService.selectCheckUserDiPhone(params);
+				
+				resMap.put("exist", diChk > 0 ? true : false);
+			} else {
+				resMap.put("exist", false);
+			}
+		} catch (Exception e) {
+			log.debug("[사용자] 사용자 중복 확인 실패");
+			e.printStackTrace();
+		}
+		
+		log.debug("[사용자] 사용자 핸드폰번호 중복 확인 완료");
+		return new ResponseEntity<>(resMap, HttpStatus.OK);
+	}
 } 

@@ -98,7 +98,7 @@
 		});
 		
 		request.done(function(data) {
-			console.log(data);
+			//console.log(data);
 			
 			if (data.resData) {
 				var form = document.createElement("form");
@@ -150,15 +150,20 @@
 	});
 	
 	function goUserRegistPage(obj) {
-		console.log(obj);
+		//console.log(obj);
 
 		var request = $.ajax({ 
-			url : "/user/checkDI.do?user_di=" + obj.dupInfo, 
-			method : "get" 
+			url : "/user/checkExistUser.do", 
+			method : "get",
+			data : obj
 		});
 		
 		request.done(function(data) {
-			if(typeof data.user_id == "undefined"){
+			console.log(data);
+			
+			if (data.exist) {
+				alert("이미 등록된 사용자 입니다.");
+			} else {
 				var form = document.createElement("form");
 				form.action = "/user/userRegistPage.do";
 				form.method = "post";
@@ -175,13 +180,11 @@
 				document.body.append(form);
 				
 				form.submit();
-			}else{
-				alert("이미 등록된 사용자 입니다.");
 			}
 		});
 		
 		request.fail(function(error) {
-			console.log("checkDI fail", error);
+			console.log("checkExistUser fail", error);
 		});
 	}
 </script>

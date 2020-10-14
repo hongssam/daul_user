@@ -87,9 +87,13 @@ public class LoginController {
 		try {
 			Map<String, Object> kakao_account = (Map<String, Object>) params.get("kakao_account");
 			
+			String phone_number = (String) kakao_account.get("phone_number");
+			phone_number = phone_number.replaceAll(" ", "").replaceAll("-", "").replace("+82", "0");
+			
 			UserVo vo = new UserVo();
-			vo.setUser_id((String) kakao_account.get("email"));
-			vo = loginService.selectUser(vo);
+			vo.setKakao_key(String.valueOf(params.get("id")));
+			vo.setPhone(phone_number);
+			vo = loginService.selectKakaoUserForLogin(vo);
 			
 			if (vo != null) {
 				HttpSession httpSession = request.getSession();

@@ -105,6 +105,31 @@ public class UserServiceImpl extends EgovAbstractServiceImpl implements UserServ
 	public int chkPhoneNum(UserVo vo) throws Exception {
 		return userMapper.chkPhoneNum(vo);
 	}
+
+	@Override
+	public int selectCheckUserPhone(String phone) throws Exception {
+		return userMapper.selectCheckUserPhone(phone);
+	}
+
+	@Override
+	public int selectCheckUserDiPhone(Map<String, String> params) throws Exception {
+		return userMapper.selectCheckUserDiPhone(params);
+	}
+
+	@Override
+	public void updatePublicUser(UserVo vo) throws Exception {
+		userMapper.updatePublicUser(vo);
+	}
+
+	@Override
+	public int selectCheckUserKakaokeyPhone(UserVo vo) throws Exception {
+		return userMapper.selectCheckUserKakaokeyPhone(vo);
+	}
+
+	@Override
+	public void updateKakaoUser(UserVo vo) throws Exception {
+		userMapper.updateKakaoUser(vo);
+	}
 	
 	
 }

@@ -27,7 +27,7 @@
 	</update>
 	
 	<select id="selectKakaoUser" resultType="egovframework.com.user.vo.UserVo">
-			SELECT user_id
+		SELECT user_id
 		     , name
 		     , pw
 		     , email
@@ -42,5 +42,23 @@
 		  FROM daul.user
 		 WHERE kakao_key = #{userKakao_key}
 		   AND channel = 'kakao'
+	</select>
+	
+	<select id="selectKakaoUserForLogin" resultType="egovframework.com.user.vo.UserVo">
+		SELECT user_id
+		     , name
+		     , pw
+		     , email
+		     , phone
+		     , channel
+		     , reg_date
+		     , last_login_date
+		     , email_chk
+		     , talk_chk
+		     , sms_chk
+		     , auth_type
+		  FROM daul.user
+		 WHERE kakao_key = #{kakao_key}
+		   AND phone = #{phone}
 	</select>
 </mapper>

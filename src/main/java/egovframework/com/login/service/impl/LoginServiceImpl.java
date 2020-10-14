@@ -27,4 +27,9 @@ public class LoginServiceImpl implements LoginService{
 	public UserVo selectKakaoUser(String userKakao_key) throws Exception {
 		return loginMapper.selectKakaoUser(userKakao_key);
 	}
+
+	@Override
+	public UserVo selectKakaoUserForLogin(UserVo vo) throws Exception {
+		return loginMapper.selectKakaoUserForLogin(vo);
+	}
 }

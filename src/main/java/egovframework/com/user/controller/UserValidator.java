@@ -19,15 +19,15 @@ public class UserValidator implements Validator{
 		UserVo userVo = (UserVo) target;
 		
 		String user_id = userVo.getUser_id();
-		String channel = userVo.getChannel();
+		//String channel = userVo.getChannel();
 		String auth_type = userVo.getAuth_type();
 		String name = userVo.getName();
 		String pw = userVo.getPw();
-		String email = userVo.getEmail();
+		//String email = userVo.getEmail();
 		String phone = userVo.getPhone();
 		
-		String emailRegExp = "^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
-		String phoneRegExp = "^[0-9]{2,3}\\-[0-9]{3,4}\\-[0-9]{4}";
+		//String emailRegExp = "^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
+		//String phoneRegExp = "^[0-9]{2,3}\\-[0-9]{3,4}\\-[0-9]{4}";
 		String pwRegExp = "^(?=.*[a-z])(?=.*[0-9])(?=.*\\d)(?=.*[~`!@#$%\\^&*()-]).{8,15}$";
 		String idRegExp = "^[a-zA-Z0-9_]{5,15}";
 		
@@ -39,9 +39,9 @@ public class UserValidator implements Validator{
 			}
 		}
 		
-		if (channel == null || channel.trim().isEmpty()) {
-			errors.rejectValue("channel", "channel", "이 항목은 필수값 입니다.");
-		}
+//		if (channel == null || channel.trim().isEmpty()) {
+//			errors.rejectValue("channel", "channel", "이 항목은 필수값 입니다.");
+//		}
 		
 		if (auth_type == null || auth_type.trim().isEmpty()) {
 			errors.rejectValue("auth_type", "auth_type", "이 항목은 필수값 입니다.");
@@ -59,13 +59,13 @@ public class UserValidator implements Validator{
 			}
 		}
 		
-		if (email == null || email.trim().isEmpty()) {
-			errors.rejectValue("email", "email", "이 항목은 필수값 입니다.");
-		} else {
-			if (!email.matches(emailRegExp)) {
-				errors.rejectValue("email", "email", "양식에 맞는 이메일을 입력해주세요. ex) example@email.com");
-			}
-		}
+//		if (email == null || email.trim().isEmpty()) {
+//			errors.rejectValue("email", "email", "이 항목은 필수값 입니다.");
+//		} else {
+//			if (!email.matches(emailRegExp)) {
+//				errors.rejectValue("email", "email", "양식에 맞는 이메일을 입력해주세요. ex) example@email.com");
+//			}
+//		}
 		
 		if (phone == null || phone.trim().isEmpty()) {
 			errors.rejectValue("phone", "phone", "이 항목은 필수값 입니다.");
