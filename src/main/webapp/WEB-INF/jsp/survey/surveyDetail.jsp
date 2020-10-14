@@ -40,7 +40,9 @@
 							<b>투표기간</b> | ${surveyVo.s_date} ~${surveyVo.e_date} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<b>참여자</b> | ${surveyVo.participation_count} 명
 						</p>
 						<p class="date hidden-sm-up">
-							<b>투표기간</b> | ${surveyVo.s_date} ~${surveyVo.e_date}<br><b>참여자</b> | ${surveyVo.participation_count} 명
+							<b>투표기간</b> | ${surveyVo.s_date} ~${surveyVo.e_date}
+							<br>
+							<b>참여자</b> | ${surveyVo.participation_count} 명
 						</p>
 
 					</div>
@@ -49,7 +51,6 @@
 						<p>${surveyVo.content}</p>
 					</div>
 					<div class="bottom">
-
 						<c:choose>
 							<c:when test="${login.user_id eq '' || empty login.user_id}">
 								<c:if test="${surveyVo.ing eq '투표중'}">
@@ -67,17 +68,13 @@
 											참여하기
 										</button>
 									</c:if>
-									<c:if test="${isPart eq true}">
-										<button class="btn btn-dark btn-survey" data-toggle="modal" data-target=".survey-result-modal">
-											<i class="fa-pie-chart"></i>
-											결과보기
-										</button>
-									</c:if>
 								</c:if>
 							</c:otherwise>
 						</c:choose>
-
-
+						<button class="btn btn-dark btn-survey" data-toggle="modal" data-target=".survey-result-modal">
+							<i class="fa-pie-chart"></i>
+							결과보기
+						</button>
 					</div>
 				</div>
 			</div>
@@ -314,12 +311,9 @@
 	function fn_paging(curPage) {
 		getSurveyOpinionList(curPage);
 	}
-	
-	
+
 	function loginPage() {
 		alert("로그인이 필요합니다.");
 		location.href = "${pageContext.request.contextPath}/login/loginPage.do";
 	}
-	
-	
 </script>

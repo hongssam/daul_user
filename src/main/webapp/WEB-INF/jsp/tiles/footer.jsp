@@ -12,10 +12,10 @@
 				<div class="footer_contact_widget home5">
 					<ul class="list-unstyled">
 						<li><a href="${pageContext.request.contextPath}/main/privacyPage.do">개인정보처리방침</a> | <a href="${pageContext.request.contextPath}/main/provisionPage.do">이용약관</a></li>
-						<li><a href="#">55011 전라북도 전주시 완산구 아중로 33 (중노송동) 전주정보문화산업진흥원</a></li>
-						<li><a href="#">홈페이지 : www.jica.or.kr</a></li>
-						<li><a href="#">전화 : 063-286-1400</a></li>
-						<li><a href="#">팩스 : 063-281-4199</a></li>
+						<li>55011 전라북도 전주시 완산구 아중로 33 (중노송동) 전주정보문화산업진흥원</li>
+						<li>홈페이지 : www.jica.or.kr</li>
+						<li>전화 : 063-286-1400</li>
+						<li>팩스 : 063-281-4199</li>
 					</ul>
 				</div>
 			</div>
