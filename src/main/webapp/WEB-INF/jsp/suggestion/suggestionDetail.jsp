@@ -43,7 +43,7 @@
 								<img src="${pageContext.request.contextPath}/images/user.png" alt="user.png">
 							</li>
 							<li class="list-inline-item">
-								<p>${sgst.create_user}</p>
+								<p>${sgst.name}</p>
 								<p class="date">${sgst.create_date}| 공감 ${sgst.like_count} 건 | 의견 ${sgst.opinion_cnt} 건</p>
 							</li>
 						</ul>

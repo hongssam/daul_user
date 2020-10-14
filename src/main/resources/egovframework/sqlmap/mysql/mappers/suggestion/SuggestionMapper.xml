@@ -159,8 +159,10 @@
 			 , (SELECT COUNT(*) FROM daul.suggestion_opinion so WHERE so.suggestion_idx = sm.suggestion_idx) AS opinion_cnt
 			 , (SELECT COUNT(*) FROM daul.user_like where parent_idx = #{suggestion_idx}) AS like_count
 	 		 , (CASE WHEN ul.user_id IS NOT NULL THEN TRUE ELSE FALSE END) AS like_flag
+	 		 , u.name
 		  FROM daul.suggestion_main sm
 		  LEFT JOIN daul.user_like ul ON ul.parent_idx = sm.suggestion_idx AND ul.user_id = #{user_id}
+		  LEFT JOIN daul.user u ON u.user_id = sm.create_user
 		 WHERE del_chk != 'Y'
 		   AND suggestion_idx = #{suggestion_idx}
 	</select>

@@ -15,7 +15,7 @@
 					</c:otherwise>
 				</c:choose>
 			</div>
-			<div class="wizard-item" data-type="normal">
+			<div class="wizard-item active" data-type="normal">
 				<a href="/suggestion/suggestionListPage.do?order=1&board_type=normal">열린 제안</a>
 			</div>
 			<div class="wizard-item" data-type="like">
