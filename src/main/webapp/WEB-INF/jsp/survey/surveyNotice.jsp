@@ -40,7 +40,7 @@
 										<td class="text-center hidden-sm-down">${list.num}</td>
 										<td class="hidden-sm-down">
 											<a href="/survey/surveyNoticeDetail.do?notice_idx=${list.notice_idx }">
-												<span class="status_tag outline-dark">공지</span>${list.title}
+												<span class="status_tag outline-dark">설문</span>${list.title}
 											</a>
 										</td>
 										<td class="text-center hidden-sm-down">${list.name }</td>

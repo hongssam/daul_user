@@ -74,7 +74,7 @@
 										<img src="${pageContext.request.contextPath}/images/user.png" alt="user.png">
 									</li>
 									<li class="list-inline-item">
-										<p>${sgst.name}</p>
+										<p>${sgst.name}&nbsp;&nbsp;<c:if test="${sgst.auth_type eq 'pro' }"><span class="status_tag outline-primary">전문가</span></c:if></p>
 										<p class="date">${sgst.create_date}</p>
 									</li>
 								</ul>

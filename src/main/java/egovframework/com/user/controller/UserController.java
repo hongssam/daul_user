@@ -235,16 +235,16 @@ public class UserController {
 				log.debug("[사용자] 사용자 수정 validator ERROR");
 				log.debug(result.getFieldError());
 				
-				return "/user/mypage";
+				return "/user/mypageAccountInfo";
 			}
 			
-			if (vo.getEmail_chk() == null)	vo.setEmail_chk("N");
+			//if (vo.getEmail_chk() == null)	vo.setEmail_chk("N");
 			if (vo.getTalk_chk() == null)	vo.setTalk_chk("N");
 			if (vo.getSms_chk() == null)	vo.setSms_chk("N");
 			
 			SecurityUtil securityUtil = new SecurityUtil();
-			String encryptPw = securityUtil.encryptSHA256(vo.getPwKey());
-			vo.setPw(encryptPw);
+			//String encryptPw = securityUtil.encryptSHA256(vo.getPwKey());
+			//vo.setPw(encryptPw);
 			
 			log.debug("[사용자] 사용자 수정");
 			userService.updateUser(vo);
@@ -256,7 +256,7 @@ public class UserController {
 		}
 		
 		log.debug("[사용자] 사용자 수정 완료");
-		return "/user/mypage";
+		return "/user/mypageAccountInfo";
 	}
 	
 	@RequestMapping(value="/mypageSuggestionListPage.do")

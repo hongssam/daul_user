@@ -2,7 +2,7 @@ package egovframework.com.cmmn.paging;
 
 public class Pagination {
 	private int pageSize = 5;
-	private int rangeSize = 10;
+	private int rangeSize = 5;
 	private int curPage = 1;
 	private int curRange = 1;
 	private int listCnt;

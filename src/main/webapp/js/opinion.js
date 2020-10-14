@@ -96,15 +96,16 @@ function createOpinionElement(type, data) {
 	div.classList.add("item");
 	if (type === "child") div.classList.add("reply");
 	div.id = data.opinion_idx;
-	
-	var html = 
+	var html =  "";
+	if(data.auth_type == "admin"){
+	html = 
 		'<div class="meta">' +
 			'<ul class="fp_meta">' +
 				'<li class="list-inline-item float-left">' +
 					'<img src="../images/user.png" alt="user.png">' +
 				'</li>' +
 				'<li class="list-inline-item">' +
-					'<p>' + data.name + '</p>' +
+					'<p>' + data.name + '&nbsp;&nbsp;<span class="status_tag outline-admin">관리자<span></p>' +
 					'<p class="date">' + data.create_date + '</p>' +
 				'</li>' +
 			'</ul>' +
@@ -112,6 +113,39 @@ function createOpinionElement(type, data) {
 		'<div class="content">' +
 			'<p style="white-space: pre-wrap">' + opinion_content + '</p>' +
 		'</div>';
+	}else if(data.auth_type == "pro"){
+		html = 
+			'<div class="meta">' +
+				'<ul class="fp_meta">' +
+					'<li class="list-inline-item float-left">' +
+						'<img src="../images/user.png" alt="user.png">' +
+					'</li>' +
+					'<li class="list-inline-item">' +
+						'<p>' + data.name + '&nbsp;&nbsp;<span class="status_tag outline-primary">전문가<span></p>' +
+						'<p class="date">' + data.create_date + '</p>' +
+					'</li>' +
+				'</ul>' +
+			'</div>' +
+			'<div class="content">' +
+				'<p style="white-space: pre-wrap">' + opinion_content + '</p>' +
+			'</div>';
+	}else{
+		html = 
+			'<div class="meta">' +
+				'<ul class="fp_meta">' +
+					'<li class="list-inline-item float-left">' +
+						'<img src="../images/user.png" alt="user.png">' +
+					'</li>' +
+					'<li class="list-inline-item">' +
+						'<p>' + data.name + '</p>' +
+						'<p class="date">' + data.create_date + '</p>' +
+					'</li>' +
+				'</ul>' +
+			'</div>' +
+			'<div class="content">' +
+				'<p style="white-space: pre-wrap">' + opinion_content + '</p>' +
+			'</div>';
+	}
 	div.innerHTML = html;
 	
 	if (login_user_id !== "" && data.del_chk !== "Y") {
@@ -124,6 +158,7 @@ function createOpinionElement(type, data) {
 			if (login_user_id === data.create_user) {
 				html_button = 
 					'<button type="button" class="btn btn-like btn-opn-del" data-title="댓글">삭제 </button>' +
+					'&nbsp;' +
 					'<button type="button" class="btn btn-like btn-sub-opn-add">의견등록 </button>';
 			} else {
 				html_button = '<button type="button" class="btn btn-like btn-sub-opn-add">의견등록 </button>'; 

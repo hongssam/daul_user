@@ -48,7 +48,16 @@
 										<td class="text-center hidden-sm-down">${list.num}</td>
 										<td class="hidden-sm-down">
 											<a href="/notice/noticeDetail.do?notice_idx=${list.notice_idx }">
-												<span class="status_tag outline-dark">공지</span>${list.title}
+												<c:if test = "${list.notice_type eq 'main' }">
+												<span class="status_tag outline-dark">일반</span>
+												</c:if>
+												<c:if test = "${list.notice_type eq 'contest' }">
+												<span class="status_tag outline-dark">공모</span>
+												</c:if>
+												<c:if test = "${list.notice_type eq 'survey' }">
+												<span class="status_tag outline-dark">설문</span>
+												</c:if>
+												${list.title}
 											</a>
 										</td>
 										<td class="text-center hidden-sm-down">${list.name }</td>

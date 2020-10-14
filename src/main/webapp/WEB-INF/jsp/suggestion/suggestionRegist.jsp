@@ -75,7 +75,7 @@
 													<label>제안내용<span class="color-red ml5">*</span></label>
 												</div>
 												<div class="col-lg-10">
-													<form:textarea class="form-control" rows="10" style="resize: none;" path="content" />
+													<textarea class="form-control" rows="10" style="resize: none;" name="content" id="suggestion-textarea">[제안이유]&#10; &#10;[제안내용]</textarea>
 													<form:errors style="color:red" path="content" />
 												</div>
 											</div>
@@ -109,6 +109,7 @@
 
 
 <script type="text/javascript">
+
 	var input_file = document.getElementById("sgstFile");
 
 	input_file.addEventListener("change", function() {

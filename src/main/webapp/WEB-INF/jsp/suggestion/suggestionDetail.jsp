@@ -50,7 +50,6 @@
 					</div>
 					<hr />
 					<div class="content">
-						<p>[제안이유]</p>
 						<p>${sgst.content}</p>
 					</div>
 					<div class="files">

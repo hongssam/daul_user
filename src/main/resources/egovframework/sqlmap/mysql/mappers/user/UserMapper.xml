@@ -123,18 +123,18 @@
 	<update id="updateUser">
 		UPDATE daul.user
 		   SET user_id = #{user_id}
-		     <if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(pw)">
+		    <!--  <if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(pw)">
 		     , pw = #{pw}
-		     </if>
+		     </if> -->
 		     <if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(name)">
 		     , name = #{name}
 		     </if>
-		     <if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(email)">
+		    <!--  <if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(email)">
 		     , email = #{email}
 		     </if>
 		     <if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(email_chk)">
 		     , email_chk = #{email_chk}
-		     </if>
+		     </if> -->
 		     <if test="@egovframework.com.cmmn.util.StringUtil@isNotEmpty(talk_chk)">
 		     , talk_chk = #{talk_chk}
 		     </if>

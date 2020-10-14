@@ -26,9 +26,17 @@ public class SuggestionVo extends SearchVo{
 
 	private boolean like_flag;
 	private int like_per;
+	private String auth_type;
+	
+	
+	public String getAuth_type() {
+		return auth_type;
+	}
 
-	
-	
+	public void setAuth_type(String auth_type) {
+		this.auth_type = auth_type;
+	}
+
 	public String getName() {
 		return name;
 	}
