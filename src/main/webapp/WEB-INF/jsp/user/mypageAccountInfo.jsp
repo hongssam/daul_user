@@ -86,7 +86,7 @@
 						</div>
 						<div class="form-group submit custom-control">
 							<button type="button" class="btn btn-primary" id="user_modify_btn" data-title="회원정보">수정</button>
-							<button type="button" class="btn btn-danger" id="" data-title="회원탈퇴">탈퇴</button>
+							<!-- <button type="button" class="btn btn-danger" id="" data-title="회원탈퇴">탈퇴</button> -->
 						</div>
 					</form:form>
 				</div>
