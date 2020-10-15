@@ -1,11 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-
+<%@ page import="java.io.FileInputStream" %>
+<%@ page import="java.util.Properties" %>
+<%@ page import="javax.servlet.ServletContext" %>
+<%@ page import="java.net.URL" %>
 <%
 	NiceID.Check.CPClient niceCheck = new NiceID.Check.CPClient();
-
-	String sSiteCode = "BS821"; // NICE로부터 부여받은 사이트 코드
-	String sSitePassword = "FQjooBjIbgKQ"; // NICE로부터 부여받은 사이트 패스워드
+	
+	Properties prop = new Properties();
+	
+	ClassLoader cl;
+	cl = Thread.currentThread().getContextClassLoader();
+	URL url = cl.getResource("config.properties");
+	prop.load(url.openStream());
+	
+	String sSiteCode = prop.getProperty("sSiteCode");// NICE로부터 부여받은 사이트 코드
+	String sSitePassword = prop.getProperty("sSitePassword"); // NICE로부터 부여받은 사이트 패스워드
 
 	String sRequestNumber = "REQ0000000001"; // 요청 번호, 이는 성공/실패후에 같은 값으로 되돌려주게 되므로 
 												// 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.

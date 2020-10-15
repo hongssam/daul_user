@@ -138,6 +138,7 @@ public class LoginController {
 		
 		model.addAttribute("userchannel_key", userchannel_key);
 		model.addAttribute("forward", forward);
+		
 		return "user/insertPhoneNumber";
 	}
 }

@@ -1550,11 +1550,11 @@ ul.page-navigation li.active .page-link {
 .status_tag.outline-dark{
   border-radius: 3px;
   border:#1f1e2c 1px solid;
-  font-size: 14px;
+  padding: 0 3px; 
+  font-size: 13px;
   color: #1f1e2c;
   height: 25px;
-  line-height: 1.2;
-  padding: 3px 8px;
+  line-height: 25px;
   text-align: center;
   margin-right: 10px;
 }
@@ -1562,23 +1562,21 @@ ul.page-navigation li.active .page-link {
   border-radius: 3px;
   background-color: #00b8bf;
   border:#00b8bf 1px solid;
-  font-size: 14px;
+  font-size: 13px;
   color: white;
-  width: 80px;
-  height: 30px;
-  line-height: 30px;
+  height: 25px;
+  line-height: 25px;
   text-align: center;
   margin-right: 10px;
 }
 .status_tag.outline-admin{
-  border-radius: 3px;
-  background-color: #ffa8af;
-  border:#ffa8af 1px solid;
-  font-size: 14px;
+   border-radius: 3px;
+  background-color: #1f1e2c;
+  border:#1f1e2c 1px solid;
+  font-size: 13px;
   color: white;
-  width: 80px;
-  height: 30px;
-  line-height: 30px;
+  height: 25px;
+  line-height: 25px;
   text-align: center;
   margin-right: 10px;
 }
@@ -1778,7 +1776,7 @@ ul.page-navigation li.active .page-link {
 .home-whether .dust-box.style4{
   background-color: rgba(255, 16, 0, 0.1);
 }
-.home-whether .dust-box .icon{
+/* .home-whether .dust-box .icon{
   position: relative;
   border-radius: 50%;
   float: right;
@@ -1786,7 +1784,21 @@ ul.page-navigation li.active .page-link {
   line-height: 90px;
   text-align: center;
   width: 90px;
+} */
+
+.home-whether .dust-box .icon{
+  position: relative;
+  border-radius: 50%;
+  float: right;
+  height: 80px;
+  line-height: 80px;
+  text-align: center;
+  width: 80px;
+  margin-top: 5px;
+  background-color: white;
 }
+
+
 .home-whether .dust-box .icon span{
   color: #1d293e;
   font-size: 30px;

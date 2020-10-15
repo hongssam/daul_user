@@ -12,16 +12,16 @@
 	  	<put-attribute name="footer"   	value="/WEB-INF/jsp/tiles/footer.jsp" />
 	</definition>
 	
-<!-- 	<definition name="layouts-tiles_ex" template="/WEB-INF/tiles/template_ex.jsp">
+	<definition name="layouts-tiles_ex" template="/WEB-INF/tiles/template_ex.jsp">
 	  	<put-attribute name="header"    value="/WEB-INF/jsp/tiles/header.jsp" />
 	  	<put-attribute name="body"    	value="" />
-	  	<put-attribute name="footer"   	value="/WEB-INF/jsp/tiles/footer.jsp" />
-	</definition> -->
-	<!-- 
-	<definition name="*/insertPhoneNumber" extends="layouts-tiles_ex">
-	  	<put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}.jsp" />
+	  	 <put-attribute name="footer"   	value="/WEB-INF/jsp/tiles/footer.jsp" />
 	</definition>
-	 -->
+	
+	<definition name="*/insertPhoneNumber" extends="layouts-tiles_ex">
+	  	<put-attribute name="body" value="/WEB-INF/jsp/{1}/insertPhoneNumber.jsp" />
+	</definition>
+	 
 	<definition name="*" extends="layouts-tiles">
 	  	<put-attribute name="body" value="/WEB-INF/jsp/{1}.jsp" />
 	</definition>

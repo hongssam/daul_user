@@ -40,8 +40,9 @@ public class UserVo {
 	private String responseNumber;
 	
 	private String userchannel_key;
-	
 
+	
+	
 	public String getUserchannel_key() {
 		return userchannel_key;
 	}

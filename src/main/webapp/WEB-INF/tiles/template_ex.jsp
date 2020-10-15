@@ -3,13 +3,12 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <tiles:insertAttribute name="header" />
+     	<tiles:insertAttribute name="header" />
     </head>
     <body>
 	    <div class="wrapper">
 			<div class="preloader"></div>
 	        <tiles:insertAttribute name="body" />
-	        <tiles:insertAttribute name="footer" />
 		</div>
     </body>
 </html>

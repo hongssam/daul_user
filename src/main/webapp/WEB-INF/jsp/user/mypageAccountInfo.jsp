@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="./mypageNavTab.jsp" %>
 
 <!-- Profile Section -->
@@ -18,15 +18,22 @@
 								<form:input type="text" class="form-control " path="user_id" placeholder="아이디" readonly="true"/>
 							</div>
 						</div>
-						<%-- <div class="form-group row ">
+						<div class="form-group row ">
 							<div class="col-lg-3 p0">
-								<label>비밀번호<span>*</span></label>
+								<label>비밀번호<span></span></label>
 							</div>
 							<div class="col-lg-9">
-								<form:input type="password" class="form-control" path="pw" placeholder="비밀번호(영문자, 숫자 혼합 8~15자리)"/>
-								<form:errors style="color: red" path="pw"/>
+								<c:choose>
+									<c:when test ="${ login.user_key eq '' || empty login.user_key }">
+										<button type="button" class="btn btn-primary" data-toggle="modal" onclick="pw_alert();" style="font-size:14px; margin-bottom:0px;">비밀번호변경</button>
+									</c:when>
+									<c:otherwise>
+										<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#openPwChangeModal" id="openPwChangeModalBtn" style="font-size:14px; margin-bottom:0px;">비밀번호변경</button>	
+									</c:otherwise>
+								</c:choose>
 							</div>
 						</div>
+						<%-- 
 						<div class="form-group row ">
 							<div class="col-lg-3 p0">
 								<label>비밀번호 확인<span>*</span></label>
@@ -85,7 +92,7 @@
 							</div>
 						</div>
 						<div class="form-group submit custom-control">
-							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#openPwChangeModal" id="openPwChangeModalBtn" style="font-size:14px;">비밀번호변경</button>
+						
 							<button type="button" class="btn btn-primary" id="user_modify_btn" data-title="회원정보">수정</button>
 							<!-- <button type="button" class="btn btn-danger" id="" data-title="회원탈퇴">탈퇴</button> -->
 						</div>
@@ -283,5 +290,9 @@
 		var pwFlag = false;
 	}
 	
+	
+	function pw_alert(){
+		alert("카카오계정만 등록되어있는 경우 비밀번호를 변경할 수 없습니다.");
+	}
 	
 </script>

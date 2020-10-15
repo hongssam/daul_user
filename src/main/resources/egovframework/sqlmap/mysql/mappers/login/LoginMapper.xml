@@ -16,6 +16,7 @@
 		     , talk_chk
 		     , sms_chk
 		     , auth_type
+		     , user_key
 		  FROM daul.user
 		 WHERE user_id = #{user_id}
 	</select>
@@ -39,6 +40,7 @@
 		     , talk_chk
 		     , sms_chk
 		     , auth_type
+		     , user_key
 		  FROM daul.user
 		 WHERE kakaochannel_key = #{userKakao_key}
 	</select>
@@ -56,6 +58,7 @@
 		     , talk_chk
 		     , sms_chk
 		     , auth_type
+		      , user_key
 		  FROM daul.user
 		 WHERE kakao_key = #{kakao_key}
 		   AND phone = #{phone}

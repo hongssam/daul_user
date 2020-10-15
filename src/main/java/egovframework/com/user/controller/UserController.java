@@ -213,8 +213,13 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/mypageAccountInfo.do", method=RequestMethod.POST)
-	public String mypageAccountInfo(UserVo vo, ModelMap model) throws Exception {
+	public String mypageAccountInfo(UserVo vo, ModelMap model, HttpSession session) throws Exception {
 		try {
+
+			if(session.getAttribute("login") == null) {
+				 return "login/login";
+			 }
+			
 			log.debug("[사용자] 사용자 조회");
 			vo = userService.selectUser(vo);
 		} catch (Exception e) {
