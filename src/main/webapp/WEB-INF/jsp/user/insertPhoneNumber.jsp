@@ -23,7 +23,7 @@
 						<div class="form-group text-right p10">
 							<p>
 								아직 회원이 아니신가요?
-								<a class="btn-outline-primary" href="register-term.html">회원가입하기</a>
+								<a class="btn-outline-primary" href="/user/userRegistTermPage.do">회원가입하기</a>
 							</p>
 						</div>
 					</form>
