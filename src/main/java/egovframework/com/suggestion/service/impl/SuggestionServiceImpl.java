@@ -139,5 +139,4 @@ public class SuggestionServiceImpl extends EgovAbstractServiceImpl implements Su
 	public void deleteAllFile(SuggestionVo vo) throws Exception {
 		suggestionMapper.deleteAllFile(vo);
 	}
-
 }

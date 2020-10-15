@@ -162,6 +162,7 @@
 			 , (SELECT COUNT(*) FROM daul.user_like where parent_idx = #{suggestion_idx}) AS like_count
 	 		 , (CASE WHEN ul.user_id IS NOT NULL THEN TRUE ELSE FALSE END) AS like_flag
 	 		 , u.name
+	 		 , (CASE WHEN create_date >= DATE_FORMAT(DATE_SUB(SYSDATE(), INTERVAL 1 MONTH), '%Y-%m-%d') THEN 'open' ELSE 'close' END) AS isClosed
 		  FROM daul.suggestion_main sm
 		  LEFT JOIN daul.user_like ul ON ul.parent_idx = sm.suggestion_idx AND ul.user_id = #{user_id}
 		  LEFT JOIN daul.user u ON u.user_id = sm.create_user

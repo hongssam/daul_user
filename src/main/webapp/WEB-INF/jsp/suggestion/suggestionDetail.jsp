@@ -64,15 +64,17 @@
 						</a> -->
 					</div>
 					<div class="bottom">
-						<button type="button" class="btn btn-like heart">
-							<c:if test="${sgst.like_flag eq true}">
-								<i class="fa-heart mr10"></i>
-							</c:if>
-							<c:if test="${sgst.like_flag eq false}">
-								<i class="fa-heart-o mr10"></i>
-							</c:if>
-							공감 ${sgst.like_count}
-						</button>
+						<c:if test="${sgst.isClosed eq 'open'}">
+							<button type="button" class="btn btn-like heart">
+								<c:if test="${sgst.like_flag eq true}">
+									<i class="fa-heart mr10"></i>
+								</c:if>
+								<c:if test="${sgst.like_flag eq false}">
+									<i class="fa-heart-o mr10"></i>
+								</c:if>
+								공감 ${sgst.like_count}
+							</button>
+						</c:if>
 					</div>
 					<c:if test="${sgst.create_user eq login.user_id}">
 						<div class="text-right">
@@ -208,16 +210,20 @@
 			}
 		});
 	}
-
-	var btn_like = document.querySelector("button.btn.btn-like.heart");
-
-	btn_like.addEventListener("click", function(e) {
-		if (login_user_id !== "") {
-			changeUserLike();
-		} else {
-			gotoLoginPage();
-		}
-	});
+	
+	var isClosed = "${sgst.isClosed}";
+	
+	if (isClosed === "open") {
+		var btn_like = document.querySelector("button.btn.btn-like.heart");
+	
+		btn_like.addEventListener("click", function(e) {
+			if (login_user_id !== "") {
+				changeUserLike();
+			} else {
+				gotoLoginPage();
+			}
+		});
+	}
 
 	function changeUserLike() {
 		var type = "";
@@ -252,26 +258,30 @@
 		getSuggestionOpinionList(curPage);
 	}
 	
-	document.getElementById("sgst_modify_btn").addEventListener("click", function() {
-		location.href = CTX + "/suggestion/suggestionModifyPage.do?suggestion_idx=${sgst.suggestion_idx}";
-	});
+	var create_user = "${sgst.create_user}";
 	
-	document.getElementById("sgst_delete_btn").addEventListener("click", function() {
-		if (!submitConfirm($("#sgst_delete_btn"))) return false;
-		
-		var request = $.ajax({
-			url: "/suggestion/suggestionDelete.do",
-			method: "post",
-			contentType: "application/json",
-			data : JSON.stringify({suggestion_idx: "${sgst.suggestion_idx}"})
+	if (create_user === login_user_id) {
+		document.getElementById("sgst_modify_btn").addEventListener("click", function() {
+			location.href = CTX + "/suggestion/suggestionModifyPage.do?suggestion_idx=${sgst.suggestion_idx}";
 		});
 		
-		request.done(function(data) {
-			location.href = CTX + "/suggestion/suggestionListPage.do?order=1&board_type=normal";
+		document.getElementById("sgst_delete_btn").addEventListener("click", function() {
+			if (!submitConfirm($("#sgst_delete_btn"))) return false;
+			
+			var request = $.ajax({
+				url: "/suggestion/suggestionDelete.do",
+				method: "post",
+				contentType: "application/json",
+				data : JSON.stringify({suggestion_idx: "${sgst.suggestion_idx}"})
+			});
+			
+			request.done(function(data) {
+				location.href = CTX + "/suggestion/suggestionListPage.do?order=1&board_type=normal";
+			});
+			
+			request.fail(function(errer) {
+				console.log("suggestionDelete fail", error);
+			});
 		});
-		
-		request.fail(function(errer) {
-			console.log("suggestionDelete fail", error);
-		});
-	});
+	}
 </script>
