@@ -117,10 +117,13 @@ public class UserController {
 			phone_number = phone_number.replaceAll(" ", "").replaceAll("-", "").replace("+82", "0");
 					
 			UserVo vo = new UserVo();
+			
+			String kakaoUserID  = String.valueOf(params.get("id")) + "@k";
+			
 			vo.setKakao_key(String.valueOf(params.get("id")));
 			vo.setName(profile.get("nickname"));
 			vo.setPhone(phone_number);
-			vo.setUser_id((String) kakao_account.get("email"));
+			vo.setUser_id(kakaoUserID);
 			vo.setPw(" ");
 			vo.setAuth_type("public");
 			vo.setEmail_chk("Y");
