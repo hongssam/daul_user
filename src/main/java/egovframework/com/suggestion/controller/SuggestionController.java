@@ -118,6 +118,7 @@ public class SuggestionController {
 			//String suggestionIdx = suggestionService.selectSuggestionIdx();
 			String suggestionIdx = CmmnUtil.generateKeyWithPrefix("SG");
 			vo.setSuggestion_idx(suggestionIdx);
+			vo.setContent(vo.getContent().replace("\r\n", "<br>"));
 			
 			UserVo userVo = (UserVo) session.getAttribute("login");
 			vo.setCreate_user(userVo.getUser_id());
@@ -300,35 +301,6 @@ public class SuggestionController {
 		}
 	}
 
-	/*
-	 public String suggestionDetailPage(@RequestParam("suggestion_idx") String suggestion_idx, ModelMap model, HttpSession session) throws Exception {
-		try {
-			UserVo userVo = (UserVo) session.getAttribute("login");
-			
-			Map<String, String> params = new HashMap<>();
-			params.put("suggestion_idx", suggestion_idx);
-			if (userVo != null) params.put("user_id", userVo.getUser_id());
-			
-			log.debug("[열린제안] 열린제안 상세 조회");
-			SuggestionVo suggestion = suggestionService.selectSuggestion(params);
-			
-			suggestion.setCreate_date(suggestion.getCreate_date().substring(0,10));
-			
-			log.debug("[열린제안] 열린제안 상세 파일 조회");
-			List<Map<String, String>> fileList = suggestionService.selectSuggestionFileList(params);
-			log.debug("[열린제안] 열린제안 상세 파일 조회 : " + fileList);
-			
-			model.addAttribute("sgst", suggestion);
-			model.addAttribute("fileList", fileList);
-		} catch (Exception e) {
-			log.debug("[열린제안] 열린제안 상세 조회 실패");
-			e.printStackTrace();
-		}
-		
-		log.debug("[열린제안] 열린제안 상세 조회 완료");
-		return "suggestion/suggestionDetail";
-	}
-	 */
 	@RequestMapping(value="/suggestionModifyPage.do")
 	public String suggestionModifyPage(@RequestParam("suggestion_idx") String suggestion_idx, ModelMap model, HttpSession session) throws Exception {
 		try {
@@ -340,7 +312,7 @@ public class SuggestionController {
 			
 			log.debug("[열린제안] 열린제안 상세 조회");
 			SuggestionVo suggestionVo = suggestionService.selectSuggestion(params);
-			
+			suggestionVo.setContent(suggestionVo.getContent().replace("<br>", "\r\n"));
 			suggestionVo.setCreate_date(suggestionVo.getCreate_date().substring(0,10));
 			
 			log.debug("[열린제안] 열린제안 상세 파일 조회");
@@ -389,6 +361,7 @@ public class SuggestionController {
 			
 			UserVo userVo = (UserVo) session.getAttribute("login");
 			vo.setUpdate_user(userVo.getUser_id());
+			vo.setContent(vo.getContent().replace("\r\n", "<br>"));
 			
 			log.debug("[열린제안] 열린제안 수정");
 			int result = suggestionService.updateSuggestion(vo);
