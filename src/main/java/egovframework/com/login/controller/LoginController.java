@@ -114,10 +114,10 @@ public class LoginController {
 	
 	
 	@RequestMapping(value="/kakaoLogin.do", method=RequestMethod.GET)
-	public String kakaLogin(@RequestParam("user_key") String userKakao_key, @RequestParam("forward") String forward, HttpServletRequest request) throws Exception {
-		System.out.println("userKakaoKey = " + userKakao_key);
+	public String kakaLogin(@RequestParam("user_key") String userchannel_key, @RequestParam("forward") String forward, HttpServletRequest request) throws Exception {
+		System.out.println("userchannel_Key = " + userchannel_key);
 		UserVo vo = new UserVo();
-		vo = loginService.selectKakaoUser(userKakao_key);
+		vo = loginService.selectKakaoUser(userchannel_key);
 		System.out.println("forward = " + forward);
 		if (vo != null) {
 			HttpSession httpSession = request.getSession();
@@ -133,10 +133,10 @@ public class LoginController {
 	
 	
 	@RequestMapping(value="/insertPhoneNumber.do")
-	public String insertPhoneNumber(@RequestParam("user_key") String userKakao_key, @RequestParam("forward") String forward , ModelMap model) throws Exception {
-		System.out.println( "user key = "  + userKakao_key);
+	public String insertPhoneNumber(@RequestParam("user_key") String userchannel_key, @RequestParam("forward") String forward , ModelMap model) throws Exception {
+		System.out.println( "userchannel_key = "  + userchannel_key);
 		
-		model.addAttribute("userKakao_key", userKakao_key);
+		model.addAttribute("userchannel_key", userchannel_key);
 		model.addAttribute("forward", forward);
 		return "user/insertPhoneNumber";
 	}

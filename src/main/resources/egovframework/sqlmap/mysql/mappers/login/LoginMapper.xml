@@ -40,8 +40,7 @@
 		     , sms_chk
 		     , auth_type
 		  FROM daul.user
-		 WHERE kakao_key = #{userKakao_key}
-		   AND channel = 'kakao'
+		 WHERE kakaochannel_key = #{userKakao_key}
 	</select>
 	
 	<select id="selectKakaoUserForLogin" resultType="egovframework.com.user.vo.UserVo">

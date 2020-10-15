@@ -28,11 +28,9 @@ public class cmmnInterceptor extends HandlerInterceptorAdapter {
 		String requestURI = request.getRequestURI();
 		Enumeration params = request.getParameterNames();
 
-		System.out.println("----------------------------");
 		while (params.hasMoreElements()){
 		    String name = (String)params.nextElement();
 		    String idx_param = "";
-		    System.out.println(name.indexOf("_idx"));
 		    
 		    if(name.indexOf("_idx") > -1) {
 		    	 requestURI += "?"+ name + "=" +request.getParameter(name);
@@ -42,7 +40,6 @@ public class cmmnInterceptor extends HandlerInterceptorAdapter {
 		    System.out.println(idx_param);
 		    
 		    if(name.equals("ch") && request.getParameter(name).equals("kakao")) {
-		    	System.out.println("chkKakaokey Cnt  = " + userService.chkKakaoKey(request.getParameter("user_key")));
 		    	if(userService.chkKakaoKey(request.getParameter("user_key")) == 0) {
 		    		response.sendRedirect("/login/insertPhoneNumber.do?user_key=" + request.getParameter("user_key")+"&forward=" + requestURI);
 		    		return false;
@@ -53,7 +50,6 @@ public class cmmnInterceptor extends HandlerInterceptorAdapter {
 		    	}
 		    }
 		}
-		System.out.println("----------------------------");
 
 			
 		if(log.isDebugEnabled()) {

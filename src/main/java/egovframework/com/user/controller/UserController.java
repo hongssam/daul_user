@@ -535,6 +535,23 @@ public class UserController {
 		}		
 	}
 	
+	@RequestMapping(value="/changeNewPw2.do", method=RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<?> changeNewPw2(UserVo vo) throws Exception {
+		try {
+		    System.out.println(vo);
+		       
+		    SecurityUtil securityUtil = new SecurityUtil();
+		    String encryptPw = securityUtil.encryptSHA256(vo.getPwKey());
+		    vo.setPw(encryptPw);
+		    userService.changeNewPw2(vo);
+		    
+			return new ResponseEntity<>("success", HttpStatus.OK);
+		}catch(Exception e) {
+			return new ResponseEntity<>("error.", HttpStatus.OK);
+		}		
+	}
+	
 	@RequestMapping(value="/connectKakao.do", method=RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<?> connectKakao(UserVo vo) throws Exception {

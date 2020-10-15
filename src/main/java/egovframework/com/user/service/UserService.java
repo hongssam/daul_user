@@ -38,6 +38,8 @@ public interface UserService {
 	
 	void changeNewPw(UserVo vo) throws Exception;
 	
+	void changeNewPw2(UserVo vo) throws Exception;
+	
 	int chkKakaoKey(String user_key) throws Exception;
 	
 	void connectKakao(UserVo vo) throws Exception;

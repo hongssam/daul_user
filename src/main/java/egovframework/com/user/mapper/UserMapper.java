@@ -39,6 +39,8 @@ public interface UserMapper {
 	UserVo checkUserDi(String user_di) throws Exception;
 	
 	void changeNewPw(UserVo vo) throws Exception;
+	
+	void changeNewPw2(UserVo vo) throws Exception;
 
 	int chkKakaoKey(String user_key) throws Exception;
 	

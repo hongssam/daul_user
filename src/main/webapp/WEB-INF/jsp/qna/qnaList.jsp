@@ -263,4 +263,9 @@
 			gotoLoginPage();
 		}
 	}
+	
+	function fn_paging(pageNum) {
+		location.href = '${pageContext.request.contextPath}/qna/qnaListPage.do?curPage=' + pageNum;
+	}
+	
 </script>

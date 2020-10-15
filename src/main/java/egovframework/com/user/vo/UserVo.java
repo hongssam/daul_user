@@ -39,14 +39,14 @@ public class UserVo {
 	private String requestNumber;
 	private String responseNumber;
 	
-	private String userKakao_key;
+	private String userchannel_key;
 	
-	
-	public String getUserKakao_key() {
-		return userKakao_key;
+
+	public String getUserchannel_key() {
+		return userchannel_key;
 	}
-	public void setUserKakao_key(String userKakao_key) {
-		this.userKakao_key = userKakao_key;
+	public void setUserchannel_key(String userchannel_key) {
+		this.userchannel_key = userchannel_key;
 	}
 	public String getUser_di() {
 		return user_di;
@@ -260,6 +260,6 @@ public class UserVo {
 				+ ", authType=" + authType + ", birthDate=" + birthDate + ", connInfo=" + connInfo + ", dupInfo="
 				+ dupInfo + ", gender=" + gender + ", mobileCo=" + mobileCo + ", mobileNo=" + mobileNo + ", msg=" + msg
 				+ ", nationalInfo=" + nationalInfo + ", requestNumber=" + requestNumber + ", responseNumber="
-				+ responseNumber + ", userKakao_key=" + userKakao_key + "]";
+				+ responseNumber + ", userchannel_key=" + userchannel_key + "]";
 	}
 }

@@ -324,6 +324,11 @@
 		 WHERE user_key = #{user_di}
 	</select>
 	
+	<update id="changeNewPw2">
+		UPDATE user SET pw = #{pw}
+		 WHERE user_id = #{user_id}
+	</update>
+	
 	<update id="changeNewPw">
 		UPDATE user SET pw = #{pw}
 		 WHERE user_key = #{user_di}
@@ -332,21 +337,18 @@
 	<select id="chkKakaoKey" resultType="int">
 		SELECT count(*) 
 		  FROM user 
-		 WHERE kakao_key = #{user_key}
-		   and channel = 'kakao'	
+		 WHERE kakaochannel_key = #{user_key}
 	</select>
 	
 	<update id="connectKakao">
-		UPDATE user SET kakao_key = #{userKakao_key}
+		UPDATE user SET kakaochannel_key = #{userchannel_key}
 		 WHERE phone = #{phone}
-		   AND channel = 'kakao'
 	</update>
 	
 	<select id="chkPhoneNum" resultType="int">
 		SELECT count(*) 
 		  FROM user 
-		 WHERE phone = #{phone}	
-		   AND channel = 'kakao'
+		 WHERE phone = #{phone}
 	</select>
 	
 	<select id="selectCheckUserPhone" resultType="int">

@@ -90,6 +90,12 @@ public class UserServiceImpl extends EgovAbstractServiceImpl implements UserServ
 	public void changeNewPw(UserVo vo) throws Exception {
 			userMapper.changeNewPw(vo);
 	}
+	
+
+	@Override
+	public void changeNewPw2(UserVo vo) throws Exception {
+			userMapper.changeNewPw2(vo);
+	}
 
 	@Override
 	public int chkKakaoKey(String user_key) throws Exception {

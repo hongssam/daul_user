@@ -39,8 +39,9 @@ public class QnaController {
 		
 		try {
 			int listCnt = qnaService.getQnaListCnt(qnaVo);
-			qnaVo.setPagination(listCnt, curPage);
+			
 			qnaVo.setPageSize(10);
+			qnaVo.setPagination(listCnt, curPage);
 			qnaList = qnaService.getQnaList(qnaVo);
 			System.out.println("qnaList = "  + qnaList);
 			for(int i = 0; i < qnaList.size(); i++) {
