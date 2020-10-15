@@ -7,7 +7,7 @@
 	NiceID.Check.CPClient niceCheck = new NiceID.Check.CPClient();
 
 	//String propFile = "/Users/a2/config.properties"; //로컬
-	String propFile = "/home/tababa/properties/config.properties";  //운영
+	String propFile = "/home/tababa/properties/config.properties"; //운영
 	// 프로퍼티 객체 생성
 	Properties props = new Properties();
 
@@ -81,7 +81,7 @@
 
 
 <!-- Register Auth -->
-<section class="reg-auth-section bgc-fa">
+<section class="reg-auth-section bgc-fa" style="padding-bottom:100px;">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
@@ -103,13 +103,13 @@
 							<div>
 								<button type="button" class="btn btn-block btn-primary hidden-sm-up mt30" onclick="fnPopup();">인증하기</button>
 							</div>
-
+							<div class="form-group custom-control" style="padding-left: 0px; padding-top: 15px;">
+								<a class=" " href="/user/pwInquiryPage.do">비밀번호 찾기</a>
+								|
+								<a class=" " href="/user/userRegistTermPage.do">회원가입</a>
+							</div>
 						</form>
-						<div class="form-group custom-control" style="padding-left: 0px;padding-top: 15px;">
-							<a class=" " href="/user/pwInquiryPage.do">비밀번호 찾기</a>
-							|
-							<a class=" " href="/user/userRegistTermPage.do">회원가입</a>
-						</div>
+
 					</div>
 				</div>
 			</div>

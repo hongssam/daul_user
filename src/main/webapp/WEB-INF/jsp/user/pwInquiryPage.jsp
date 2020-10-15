@@ -83,7 +83,7 @@
 
 
 <!-- Register Auth -->
-<section class="reg-auth-section bgc-fa">
+<section class="reg-auth-section bgc-fa" style="padding-bottom:100px;">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
