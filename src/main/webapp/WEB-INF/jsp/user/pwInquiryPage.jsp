@@ -6,16 +6,21 @@
 <%@ page import="java.net.URL" %>
 <%
 	NiceID.Check.CPClient niceCheck = new NiceID.Check.CPClient();
-	
-	Properties prop = new Properties();
-	
-	ClassLoader cl;
-	cl = Thread.currentThread().getContextClassLoader();
-	URL url = cl.getResource("config.properties");
-	prop.load(url.openStream());
-	
-	String sSiteCode = prop.getProperty("sSiteCode");// NICE로부터 부여받은 사이트 코드
-	String sSitePassword = prop.getProperty("sSitePassword"); // NICE로부터 부여받은 사이트 패스워드
+
+	//String propFile = "/Users/a2/config.properties"; //로컬
+	String propFile = "/home/tababa/properties/config.properties";  //운영
+	// 프로퍼티 객체 생성
+ 	Properties props = new Properties();
+   
+	// 프로퍼티 파일 스트림에 담기
+	FileInputStream fis = new FileInputStream(propFile);
+   
+	// 프로퍼티 파일 로딩
+	props.load(new java.io.BufferedInputStream(fis));
+   
+
+	String sSiteCode = props.getProperty("sSiteCode"); // NICE로부터 부여받은 사이트 코드
+	String sSitePassword = props.getProperty("sSitePassword");  // NICE로부터 부여받은 사이트 패스워드
 
 	String sRequestNumber = "REQ0000000001"; // 요청 번호, 이는 성공/실패후에 같은 값으로 되돌려주게 되므로 
 												// 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
