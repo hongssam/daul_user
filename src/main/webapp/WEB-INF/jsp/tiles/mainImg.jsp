@@ -43,6 +43,18 @@
 		var div = '<div class="container">' + '<div class="breadcrumb_content">' + '<h4 class="breadcrumb_title">로그인</h4>' + '</div>' + '</div>';
 
 		main_img_section.innerHTML = div;
+	}else if (pathname.indexOf("user/idInquiryPage") > -1) {
+		main_img_section.classList.add("inner_page_breadcrumb", "style1");
+
+		var div = '<div class="container">' + '<div class="breadcrumb_content">' + '<h4 class="breadcrumb_title">아이디 찾기</h4>' + '</div>' + '</div>';
+
+		main_img_section.innerHTML = div;
+	}else if (pathname.indexOf("user/pwInquiryPage") > -1) {
+		main_img_section.classList.add("inner_page_breadcrumb", "style1");
+
+		var div = '<div class="container">' + '<div class="breadcrumb_content">' + '<h4 class="breadcrumb_title">비밀번호 찾기</h4>' + '</div>' + '</div>';
+
+		main_img_section.innerHTML = div;
 	} else if (pathname.indexOf("user") > -1) {
 		if (pathname.indexOf("mypage") > -1) {
 			main_img_section.remove();
