@@ -12,9 +12,19 @@
 		if (pathname.indexOf("privacy") > -1 || pathname.indexOf("provision") > -1) {
 			main_img_section.classList.add("inner_page_breadcrumb", "style2");
 
-			var div = '<div class="container">' + '<div class="breadcrumb_content">' + '<h4 class="fz55">' + '시민 참여 소통 플랫폼'
-					+ '<span class="focus-text">e-다울마당</span>' + '<br>여러문의 목소리가 전주시를 바꾸는 정책이 됩니다.' + '</h4>'
-					+ '<button type="button" class="btn btn-lg banner-btn" onclick="goSuggestionRegist()">제안하기</button>' + '</div>' + '</div>';
+			var div = '<div class="container">' + 
+					  	'<div class="row posr">' + 
+					  		'<div class="col-12">' + 
+			 	      			'<div class="breadcrumb_content">' + 
+			      	  				'<h4 class="fz55">' + '시민 참여 소통 플랫폼' + 
+					  					'<span class="focus-text">e-다울마당</span>' + 
+				  	  					'<br>여러문의 목소리가 전주시를 바꾸는 정책이 됩니다.' +
+				  	  				'</h4>'+
+				      				'<button type="button" class="btn btn-lg btn-thm banner-btn" onclick="goSuggestionRegist()">제안하기</button>' + 
+					 			 '</div>' + 
+					  		'</div>' + 
+				      	'</div>' + 
+					  '</div>';
 
 			main_img_section.innerHTML = div;	
 		} else {
@@ -67,11 +77,20 @@
 		}
 	} else {
 		main_img_section.classList.add("inner_page_breadcrumb", "style2");
-
-		var div = '<div class="container">' + '<div class="breadcrumb_content">' + '<h4 class="fz55">' + '시민 참여 소통 플랫폼'
-				+ '<span class="focus-text">e-다울마당</span>' + '<br>여러문의 목소리가 전주시를 바꾸는 정책이 됩니다.' + '</h4>'
-				+ '<button type="button" class="btn btn-lg banner-btn" onclick="goSuggestionRegist()">제안하기</button>' + '</div>' + '</div>';
-
+	
+		var div = '<div class="container">' + 
+				  	'<div class="row posr">' + 
+				  		'<div class="col-12">' + 
+				      			'<div class="breadcrumb_content">' + 
+			  	  				'<h4 class="fz55">' + '시민 참여 소통 플랫폼' + 
+				  					'<span class="focus-text">e-다울마당</span>' + 
+			  	  					'<br>여러문의 목소리가 전주시를 바꾸는 정책이 됩니다.' +
+			  	  				'</h4>'+
+			      				'<button type="button" class="btn btn-lg btn-thm banner-btn" onclick="goSuggestionRegist()">제안하기</button>' + 
+				 			 '</div>' + 
+				  		'</div>' + 
+			      	'</div>' + 
+				  '</div>';
 		main_img_section.innerHTML = div;
 	}
 
