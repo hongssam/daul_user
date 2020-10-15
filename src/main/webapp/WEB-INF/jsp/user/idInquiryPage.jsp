@@ -1,27 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<%@ page import="java.io.FileInputStream" %>
-<%@ page import="java.util.Properties" %>
-<%@ page import="javax.servlet.ServletContext" %>
+<%@ page import="java.io.FileInputStream"%>
+<%@ page import="java.util.Properties"%>
+<%@ page import="javax.servlet.ServletContext"%>
 <%
-
-
 	NiceID.Check.CPClient niceCheck = new NiceID.Check.CPClient();
-	
+
 	//String propFile = "/Users/a2/config.properties"; //로컬
 	String propFile = "/home/tababa/properties/config.properties";  //운영
-	 // 프로퍼티 객체 생성
-    Properties props = new Properties();
-     
-    // 프로퍼티 파일 스트림에 담기
-    FileInputStream fis = new FileInputStream(propFile);
-     
-    // 프로퍼티 파일 로딩
-    props.load(new java.io.BufferedInputStream(fis));
-     
+	// 프로퍼티 객체 생성
+	Properties props = new Properties();
+
+	// 프로퍼티 파일 스트림에 담기
+	FileInputStream fis = new FileInputStream(propFile);
+
+	// 프로퍼티 파일 로딩
+	props.load(new java.io.BufferedInputStream(fis));
 
 	String sSiteCode = props.getProperty("sSiteCode"); // NICE로부터 부여받은 사이트 코드
-	String sSitePassword = props.getProperty("sSitePassword");  // NICE로부터 부여받은 사이트 패스워드
+	String sSitePassword = props.getProperty("sSitePassword"); // NICE로부터 부여받은 사이트 패스워드
 
 	String sRequestNumber = "REQ0000000001"; // 요청 번호, 이는 성공/실패후에 같은 값으로 되돌려주게 되므로 
 												// 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
@@ -37,8 +34,8 @@
 
 	// CheckPlus(본인인증) 처리 후, 결과 데이타를 리턴 받기위해 다음예제와 같이 http부터 입력합니다.
 	//리턴url은 인증 전 인증페이지를 호출하기 전 url과 동일해야 합니다. ex) 인증 전 url : http://www.~ 리턴 url : http://www.~
-	String sReturnUrl = "http://183.111.102.211:8084/idInquiry_success.jsp";  // 성공시 이동될 URL
-	String sErrorUrl = "http://183.111.102.211:8084/checkplus_fail.jsp";  // 실패시 이동될 URL
+	String sReturnUrl = "http://183.111.102.211:8084/idInquiry_success.jsp"; // 성공시 이동될 URL
+	String sErrorUrl = "http://183.111.102.211:8084/checkplus_fail.jsp"; // 실패시 이동될 URL
 
 	// 입력될 plain 데이타를 만든다.
 	String sPlainData = "7:REQ_SEQ" + sRequestNumber.getBytes().length + ":" + sRequestNumber + "8:SITECODE"
@@ -106,13 +103,20 @@
 							<div>
 								<button type="button" class="btn btn-block btn-primary hidden-sm-up mt30" onclick="fnPopup();">인증하기</button>
 							</div>
+
 						</form>
+						<div class="form-group custom-control" style="padding-left: 0px;padding-top: 15px;">
+							<a class=" " href="/user/pwInquiryPage.do">비밀번호 찾기</a>
+							|
+							<a class=" " href="/user/userRegistTermPage.do">회원가입</a>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<button type="button" class="" data-toggle="modal" data-target="#openModal" id="modalOpenBtn" style="display:none;"></button>
+
+	<button type="button" class="" data-toggle="modal" data-target="#openModal" id="modalOpenBtn" style="display: none;"></button>
 </section>
 
 <div class="survey-result-modal modal fade" id="openModal" aria-hidden="true" aria-labelledby="openModal" role="dialog" tabindex="-1">
@@ -140,9 +144,9 @@
 		var request = $.ajax({ url : "/user/checkDI.do?user_di=" + di, method : "get" });
 		request.done(function(data) {
 			console.log(data)
-			if(typeof data.user_id == "undefined" || data.user_id == null){
+			if (typeof data.user_id == "undefined" || data.user_id == null) {
 				openModal2(data);
-			}else{
+			} else {
 				openModal(data);
 			}
 		});
@@ -151,23 +155,22 @@
 			console.log("request fail");
 		});
 	}
-	
-	function openModal(data){
+
+	function openModal(data) {
 		$("#modal-div").children().remove();
-		var str = '<span><b>' + data.name + '</b>님의 아이디는 <b>' + data.user_id+'</b> 입니다.</span>';
+		var str = '<span><b>' + data.name + '</b>님의 아이디는 <b>' + data.user_id + '</b> 입니다.</span>';
 		$("#modal-div").append(str);
-		
+
 		$("#modalOpenBtn").click();
 	}
-	
-	function openModal2(data){
+
+	function openModal2(data) {
 		$("#modal-div").children().remove();
 		var str = '<span>해당 휴대폰으로 가입된 정보가 없습니다.</span>';
 		$("#modal-div").append(str);
-		
+
 		$("#modalOpenBtn").click();
 	}
-	
 </script>
 
 

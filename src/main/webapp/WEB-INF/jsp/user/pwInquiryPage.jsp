@@ -106,6 +106,11 @@
 								<button type="button" class="btn btn-block btn-primary hidden-sm-up mt30" onclick="fnPopup();">인증하기</button>
 							</div>
 						</form>
+						<div class="form-group custom-control" style="padding-left: 0px;padding-top: 15px;">
+							<a class=" " href="/user/idInquiryPage.do">아이디 찾기</a>
+							|
+							<a class=" " href="/user/userRegistTermPage.do">회원가입</a>
+						</div>
 					</div>
 				</div>
 			</div>
