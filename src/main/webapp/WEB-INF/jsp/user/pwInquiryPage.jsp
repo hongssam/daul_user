@@ -6,7 +6,7 @@
 <%@ page import="java.net.URL" %>
 <%
 	NiceID.Check.CPClient niceCheck = new NiceID.Check.CPClient();
-
+	
 	//String propFile = "/Users/a2/config.properties"; //로컬
 	String propFile = "/home/tababa/properties/config.properties";  //운영
 	// 프로퍼티 객체 생성

@@ -1,13 +1,32 @@
 <%@ page language="java" contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.3.1.js"></script>
+
+<%@ page import="java.io.FileInputStream" %>
+<%@ page import="java.util.Properties" %>
+<%@ page import="javax.servlet.ServletContext" %>
+<%@ page import="java.net.URL" %>
+
+
 <%	//인증 후 결과값이 null로 나오는 부분은 관리담당자에게 문의 바랍니다.
     NiceID.Check.CPClient niceCheck = new  NiceID.Check.CPClient();
 
     String sEncodeData = requestReplace(request.getParameter("EncodeData"), "encodeData");
 
-    String sSiteCode = "BS821";				// NICE로부터 부여받은 사이트 코드
-    String sSitePassword = "FQjooBjIbgKQ";			// NICE로부터 부여받은 사이트 패스워드
+  	//String propFile = "/Users/a2/config.properties"; //로컬
+  	String propFile = "/home/tababa/properties/config.properties";  //운영
+  	// 프로퍼티 객체 생성
+   	Properties props = new Properties();
+     
+  	// 프로퍼티 파일 스트림에 담기
+  	FileInputStream fis = new FileInputStream(propFile);
+     
+  	// 프로퍼티 파일 로딩
+  	props.load(new java.io.BufferedInputStream(fis));
+     
+
+  	String sSiteCode = props.getProperty("sSiteCode"); // NICE로부터 부여받은 사이트 코드
+  	String sSitePassword = props.getProperty("sSitePassword");  // NICE로부터 부여받은 사이트 패스워드
 
     String sCipherTime = "";			// 복호화한 시간
     String sRequestNumber = "";			// 요청 번호
