@@ -74,6 +74,12 @@
 							공감 ${sgst.like_count}
 						</button>
 					</div>
+					<c:if test="${sgst.create_user eq login.user_id}">
+						<div class="text-right">
+							<button type="button" class="btn btn-default" id="sgst_modify_btn">수정</button>
+							<button type="button" class="btn btn-default" id="sgst_delete_btn" data-title="열린제안">삭제</button>
+						</div>
+					</c:if>
 				</div>
 			</div>
 			<div class="col-lg-10 offset-lg-1">
@@ -245,4 +251,27 @@
 	function fn_paging(curPage) {
 		getSuggestionOpinionList(curPage);
 	}
+	
+	document.getElementById("sgst_modify_btn").addEventListener("click", function() {
+		location.href = CTX + "/suggestion/suggestionModifyPage.do?suggestion_idx=${sgst.suggestion_idx}";
+	});
+	
+	document.getElementById("sgst_delete_btn").addEventListener("click", function() {
+		if (!submitConfirm($("#sgst_delete_btn"))) return false;
+		
+		var request = $.ajax({
+			url: "/suggestion/suggestionDelete.do",
+			method: "post",
+			contentType: "application/json",
+			data : JSON.stringify({suggestion_idx: "${sgst.suggestion_idx}"})
+		});
+		
+		request.done(function(data) {
+			location.href = CTX + "/suggestion/suggestionListPage.do?order=1&board_type=normal";
+		});
+		
+		request.fail(function(errer) {
+			console.log("suggestionDelete fail", error);
+		});
+	});
 </script>

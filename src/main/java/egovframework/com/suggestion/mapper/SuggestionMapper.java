@@ -48,4 +48,14 @@ public interface SuggestionMapper {
 	String selectSuggestionOpinionCount(SuggestionOpinionVo vo) throws Exception;
 
 	int selectSuggestionListCnt(SuggestionVo vo) throws Exception;
+
+	void deleteFile(FileVo fileVo) throws Exception;
+
+	int updateSuggestion(SuggestionVo vo) throws Exception;
+
+	int deleteSuggestion(SuggestionVo vo) throws Exception;
+
+	void deleteAllOpinion(SuggestionVo vo) throws Exception;
+
+	void deleteAllFile(SuggestionVo vo) throws Exception;
 }

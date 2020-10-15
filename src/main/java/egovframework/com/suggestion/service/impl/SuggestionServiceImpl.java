@@ -115,4 +115,29 @@ public class SuggestionServiceImpl extends EgovAbstractServiceImpl implements Su
 		return suggestionMapper.selectSuggestionListCnt(vo);
 	}
 
+	@Override
+	public void deleteFile(FileVo fileVo) throws Exception {
+		suggestionMapper.deleteFile(fileVo);
+	}
+
+	@Override
+	public int updateSuggestion(SuggestionVo vo) throws Exception {
+		return suggestionMapper.updateSuggestion(vo);
+	}
+
+	@Override
+	public int deleteSuggestion(SuggestionVo vo) throws Exception {
+		return suggestionMapper.deleteSuggestion(vo);
+	}
+
+	@Override
+	public void deleteAllOpinion(SuggestionVo vo) throws Exception {
+		suggestionMapper.deleteAllOpinion(vo);
+	}
+
+	@Override
+	public void deleteAllFile(SuggestionVo vo) throws Exception {
+		suggestionMapper.deleteAllFile(vo);
+	}
+
 }

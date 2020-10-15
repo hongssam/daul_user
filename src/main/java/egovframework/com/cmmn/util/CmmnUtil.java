@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class CmmnUtil {
     //private Log log = LogFactory.getLog(this.getClass());
     
-	public List<Map<String, String>> getValid(BindingResult bindingResult) {
+	public static List<Map<String, String>> getValid(BindingResult bindingResult) {
 		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
 
 		for(int i = 0; i < bindingResult.getAllErrors().size(); i++) {

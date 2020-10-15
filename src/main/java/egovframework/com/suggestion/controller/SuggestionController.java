@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -297,5 +298,147 @@ public class SuggestionController {
 			log.debug("[열린제안] 열린제안 첨부파일 다운로드 실패");
 			e.printStackTrace();
 		}
+	}
+
+	/*
+	 public String suggestionDetailPage(@RequestParam("suggestion_idx") String suggestion_idx, ModelMap model, HttpSession session) throws Exception {
+		try {
+			UserVo userVo = (UserVo) session.getAttribute("login");
+			
+			Map<String, String> params = new HashMap<>();
+			params.put("suggestion_idx", suggestion_idx);
+			if (userVo != null) params.put("user_id", userVo.getUser_id());
+			
+			log.debug("[열린제안] 열린제안 상세 조회");
+			SuggestionVo suggestion = suggestionService.selectSuggestion(params);
+			
+			suggestion.setCreate_date(suggestion.getCreate_date().substring(0,10));
+			
+			log.debug("[열린제안] 열린제안 상세 파일 조회");
+			List<Map<String, String>> fileList = suggestionService.selectSuggestionFileList(params);
+			log.debug("[열린제안] 열린제안 상세 파일 조회 : " + fileList);
+			
+			model.addAttribute("sgst", suggestion);
+			model.addAttribute("fileList", fileList);
+		} catch (Exception e) {
+			log.debug("[열린제안] 열린제안 상세 조회 실패");
+			e.printStackTrace();
+		}
+		
+		log.debug("[열린제안] 열린제안 상세 조회 완료");
+		return "suggestion/suggestionDetail";
+	}
+	 */
+	@RequestMapping(value="/suggestionModifyPage.do")
+	public String suggestionModifyPage(@RequestParam("suggestion_idx") String suggestion_idx, ModelMap model, HttpSession session) throws Exception {
+		try {
+			UserVo userVo = (UserVo) session.getAttribute("login");
+			
+			Map<String, String> params = new HashMap<>();
+			params.put("suggestion_idx", suggestion_idx);
+			if (userVo != null) params.put("user_id", userVo.getUser_id());
+			
+			log.debug("[열린제안] 열린제안 상세 조회");
+			SuggestionVo suggestionVo = suggestionService.selectSuggestion(params);
+			
+			suggestionVo.setCreate_date(suggestionVo.getCreate_date().substring(0,10));
+			
+			log.debug("[열린제안] 열린제안 상세 파일 조회");
+			List<Map<String, String>> fileList = suggestionService.selectSuggestionFileList(params);
+			log.debug("[열린제안] 열린제안 상세 파일 조회 : " + fileList);
+			
+			model.addAttribute("suggestionVo", suggestionVo);
+			model.addAttribute("fileList", fileList);
+		} catch (Exception e) {
+			log.debug("[열린제안] 열린제안 상세 조회 실패");
+			e.printStackTrace();
+		}
+		
+		log.debug("[열린제안] 열린제안 상세 조회 완료");
+		return "suggestion/suggestionModify";
+	}
+	
+	@RequestMapping(value="/suggestionAttachFileDelete.do", method=RequestMethod.POST)
+	public ResponseEntity<?> suggestionAttachFileDelete(@RequestBody Map<String, String> param) throws Exception {
+		System.out.println(param);
+		FileVo fileVo = new FileVo();
+		
+		try {
+			fileVo.setSave_file_name(param.get("file_name"));
+			
+			log.debug("[열린제안] 열린제안 파일 삭제");
+			suggestionService.deleteFile(fileVo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return new ResponseEntity<>("success", HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/suggestionModify.do", method=RequestMethod.POST)
+	public ResponseEntity<?> suggestionModify(SuggestionVo vo, HttpSession session, HttpServletRequest request, BindingResult bindingResult) throws Exception{
+		try {
+			log.debug("SuggestionVo : " + vo);
+			
+			SuggestionValidator suggestionValidator = new SuggestionValidator();
+			suggestionValidator.validate(vo, bindingResult);
+			
+			if(bindingResult.hasErrors()) {
+				return new ResponseEntity<>(CmmnUtil.getValid(bindingResult), HttpStatus.OK);
+			}			
+			
+			UserVo userVo = (UserVo) session.getAttribute("login");
+			vo.setUpdate_user(userVo.getUser_id());
+			
+			log.debug("[열린제안] 열린제안 수정");
+			int result = suggestionService.updateSuggestion(vo);
+			
+			if (result > 0) {
+				FileVo fileVo = new FileVo();
+				fileVo.setIdx(vo.getSuggestion_idx());
+				fileVo.setCreate_user(vo.getUpdate_user());
+				
+				List<FileVo> fileList = fileUtil.parseFileInfo(fileVo, request);
+				
+				for (int i = 0; i < fileList.size(); i++) {
+					log.debug("[열린제안] 열린제안 파일 등록");
+					suggestionService.insertFile(fileList.get(i));
+				}
+			}
+		} catch (Exception e) {
+			log.debug("[열린제안] 열린제안 수정 실패");
+			e.printStackTrace();
+		}
+		
+		log.debug("[열린제안] 열린제안 수정 완료");
+		return new ResponseEntity<>(vo.getSuggestion_idx(), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/suggestionDelete.do", method=RequestMethod.POST)
+	public String suggestionDelete(@RequestBody Map<String, String> params, HttpSession session) throws Exception {
+		try {
+			UserVo userVo = (UserVo) session.getAttribute("login");
+			
+			SuggestionVo vo = new SuggestionVo();
+			vo.setUpdate_user(userVo.getUser_id());
+			vo.setSuggestion_idx(params.get("suggestion_idx"));
+			
+			log.debug("[열린제안] 열린제안 삭제");
+			int result = suggestionService.deleteSuggestion(vo);
+			
+			if (result > 0) {
+				log.debug("[열린제안] 열린제안 댓글 삭제");
+				suggestionService.deleteAllOpinion(vo);
+				
+				log.debug("[열린제안] 열린제안 첨부파일 삭제");
+				suggestionService.deleteAllFile(vo);
+			}
+		} catch (Exception e) {
+			log.debug("[열린제안] 열린제안 삭제 실패");
+			e.printStackTrace();
+		}
+		
+		log.debug("[열린제안] 열린제안 삭제 완료");
+		return "redirect:/suggestion/suggestionListPage.do";
 	}
 }
