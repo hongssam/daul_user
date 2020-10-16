@@ -251,7 +251,7 @@
 	
 	<select id="getSurveyResult" resultType="Map">
 		SELECT sq.*
-		     , ROUND((sq.question_count / sq.total_question_count * 100), 2) AS question_per
+		     , IFNULL(ROUND((sq.question_count / sq.total_question_count * 100), 2), 0) AS question_per
 		  FROM (
 		  		SELECT sq.*
 				     , sp.total_question_count

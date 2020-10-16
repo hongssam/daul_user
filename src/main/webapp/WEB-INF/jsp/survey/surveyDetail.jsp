@@ -227,6 +227,7 @@
 	}
 
 	function makeSurveyResult(data) {
+		console.log("result", data);
 		var result_box_div = document.getElementById("result-box");
 
 		for (var i = 0; i < data.length; i++) {
