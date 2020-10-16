@@ -3,6 +3,7 @@ package egovframework.com.user.mapper;
 import java.util.List;
 import java.util.Map;
 
+import egovframework.com.cmmn.util.LogVo;
 import egovframework.com.contest.vo.ContestVo;
 import egovframework.com.suggestion.vo.SuggestionVo;
 import egovframework.com.survey.vo.SurveyVo;
@@ -57,5 +58,7 @@ public interface UserMapper {
 	int selectCheckUserKakaokeyPhone(UserVo vo) throws Exception;
 
 	void updateKakaoUser(UserVo vo) throws Exception;
+	
+	void saveUserLog(LogVo vo) throws Exception;
 }
 

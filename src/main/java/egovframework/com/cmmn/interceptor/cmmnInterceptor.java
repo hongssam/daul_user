@@ -9,9 +9,12 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import egovframework.com.cmmn.util.LogVo;
 import egovframework.com.user.service.UserService;
 import egovframework.com.user.vo.UserVo;
 
@@ -22,19 +25,47 @@ public class cmmnInterceptor extends HandlerInterceptorAdapter {
 	
 	@Resource(name="userService")
 	private UserService userService;
+	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		String requestURI = request.getRequestURI();
 		Enumeration params = request.getParameterNames();
 
+		HttpSession session = request.getSession();
+		UserVo userVo = (UserVo) session.getAttribute("login");
+		
+		try {
+			LogVo logVo = new LogVo();
+			
+			//로그저장 
+			HttpServletRequest req = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+			String ip = req.getHeader("X-FORWARDED-FOR");
+			
+			if (ip == null) {
+				ip = req.getRemoteAddr();
+			}
+			
+			logVo.setIp(ip);
+			logVo.setRequestURI(requestURI);
+			
+			try {
+				logVo.setUser_id(userVo.getUser_id());
+			}catch(NullPointerException e) {
+				logVo.setUser_id("-");
+			}
+			
+			userService.saveUserLog(logVo);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 		while (params.hasMoreElements()){
 		    String name = (String)params.nextElement();
 		    String idx_param = "";
 		    
 		    if(name.indexOf("_idx") > -1) {
 		    	 requestURI += "?"+ name + "=" +request.getParameter(name);
-		    	 		
 		    }
 		   
 		    System.out.println(idx_param);
@@ -89,7 +120,6 @@ public class cmmnInterceptor extends HandlerInterceptorAdapter {
 		}catch(Exception e) {
 		
 		}
-		
 		super.postHandle(request, response, handler, modelAndView);
 	}
 

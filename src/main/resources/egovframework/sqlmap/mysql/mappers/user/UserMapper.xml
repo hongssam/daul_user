@@ -3,6 +3,24 @@
 <mapper
 	namespace="egovframework.com.user.mapper.UserMapper">
 	
+	<insert id="saveUserLog">
+		INSERT INTO daul.user_log
+			 (
+			   user_id
+			 , reg_date
+			 , ip
+			 , requestURI
+			 )
+ 		VALUES
+ 		     (
+ 		       #{user_id}
+ 		     , sysdate()
+ 		     , #{ip}
+ 		     , #{requestURI}
+ 		     )
+	
+	</insert>
+	
 	<select id="selectKakaoAccount" resultType="int">
 		SELECT COUNT(*)
 		  FROM daul.user

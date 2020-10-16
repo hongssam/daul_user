@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import egovframework.com.cmmn.util.LogVo;
 import egovframework.com.contest.vo.ContestVo;
 import egovframework.com.suggestion.vo.SuggestionVo;
 import egovframework.com.survey.vo.SurveyVo;
@@ -135,6 +136,11 @@ public class UserServiceImpl extends EgovAbstractServiceImpl implements UserServ
 	@Override
 	public void updateKakaoUser(UserVo vo) throws Exception {
 		userMapper.updateKakaoUser(vo);
+	}
+
+	@Override
+	public void saveUserLog(LogVo vo) throws Exception {
+		userMapper.saveUserLog(vo);
 	}
 	
 	
