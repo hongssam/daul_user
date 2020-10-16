@@ -22,7 +22,7 @@ function getKakaoAccountInfo(res) {
 		url: "/v2/user/me",
 		success: function(response) {
 			console.log("카카오 로그인 정보 요청 성공", response);
-			response.access_token = res.access_token;
+			response.scope = res.scope;
 			
 			checkKakaoAccount(response);
 		},

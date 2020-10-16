@@ -128,7 +128,16 @@ public class UserController {
 			vo.setAuth_type("public");
 			vo.setEmail_chk("Y");
 			vo.setSms_chk("Y");
-			vo.setTalk_chk("Y");
+			vo.setTalk_chk("N");
+			
+			String scope = (String) params.get("scope");
+			String[] scopeArr = scope.split(" ");
+			
+			for (int i = 0; i < scopeArr.length; i++) {
+				if ("talk_message".equals(scopeArr[i])) {
+					vo.setTalk_chk("Y");
+				}
+			}
 			
 			int phoneChk = userService.selectCheckUserPhone(phone_number);
 			
