@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<style type="text/css">
+	.col-org {
+		color: orange;
+	}
+</style>
 <!-- Register Wizard -->
 <section class="reg-wizard-section bgc-fa">
 	<div class="container">
@@ -42,10 +46,8 @@
 	<div class="container">
 		<div class="term-box">
 			<h4>이용 약관</h4>
-			<div class="terms_condition_grid p20">
-				<textarea disabled>
-					이용 약관 텍스트
-				</textarea>
+			<div class="terms_condition_grid p20" style="overflow: scroll; height: 250px">
+				<%@ include file="./provisionContent.jsp" %>
 			</div>
 			<div class="form-group custom-control custom-checkbox text-center m10">
 				<input type="checkbox" class="custom-control-input" id="chk1" data-title="이용약관"/> <label class="custom-control-label" for="chk1">이용약관에 동의합니다.</label>
@@ -53,10 +55,8 @@
 		</div>
 		<div class="term-box mb60">
 			<h4>개인정보 수집・이용</h4>
-			<div class="terms_condition_grid p20">
-				<textarea disabled>
-					개인정보 수집・이용 텍스트
-				</textarea>
+			<div class="terms_condition_grid p20" style="overflow: scroll; height: 250px">
+				<%@ include file="./privacyContent.jsp" %>
 			</div>
 			<div class="form-group custom-control custom-checkbox text-center m10">
 				<input type="checkbox" class="custom-control-input" id="chk2" data-title="수집・이용"/> <label class="custom-control-label" for="chk2">개인정보 수집・이용에 동의합니다.</label>
