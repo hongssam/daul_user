@@ -50,7 +50,7 @@
 					</div>
 					<hr />
 					<div class="content">
-						<p>${sgst.content}</p>
+						<p style="white-space: pre-wrap">${sgst.content}</p>
 					</div>
 					<div class="files">
 						<!-- <a href="#">

@@ -58,7 +58,7 @@
 												</ul>
 												<div class="fp_content">
 													<h4 class="title">${sgst.title}</h4>
-													<p>${sgst.content}</p>
+													<p style="white-space: pre-wrap">${sgst.content}</p>
 												</div>
 											</div>
 										</div>
@@ -100,7 +100,7 @@
 												</ul>
 												<div class="fp_content">
 													<h4 class="title">${sgst.title}</h4>
-													<p>${sgst.content}</p>
+													<p style="white-space: pre-wrap">${sgst.content}</p>
 												</div>
 											</div>
 										</div>
