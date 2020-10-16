@@ -46,7 +46,7 @@
 					</div>
 					<hr />
 					<div class="content">
-						<p>${contestVo.content}</p>
+						<p style="white-space: pre-wrap">${contestVo.content}</p>
 					</div>
 					<div class="files" id="file-list"></div>
 					<div class="bottom">

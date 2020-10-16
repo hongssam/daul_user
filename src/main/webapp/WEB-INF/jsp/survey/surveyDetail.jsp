@@ -48,7 +48,7 @@
 					</div>
 					<hr />
 					<div class="content">
-						<p>${surveyVo.content}</p>
+						<p style="white-space: pre-wrap">${surveyVo.content}</p>
 					</div>
 					<div class="bottom">
 						<c:choose>

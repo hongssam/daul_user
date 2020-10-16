@@ -68,7 +68,7 @@
 									</c:if>
 								</div>
 								<h4>${list.title}</h4>
-								<p class="content">${list.content}</p>
+								<p class="content" style="white-space: pre-wrap">${list.content}</p>
 								<p class="date">
 									<b>공모기간</b> | ${list.contest_s_date} ~${list.contest_e_date}
 								</p>

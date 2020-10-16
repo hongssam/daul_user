@@ -72,7 +72,7 @@
 											</c:if>
 										</div>
 										<h4>${list.title}</h4>
-										<p class="content">${list.content}</p>
+										<p class="content" style="white-space: pre-wrap">${list.content}</p>
 										<p class="date">
 											<b>투표기간</b> | ${list.s_date} ~${list.e_date}
 										</p>
