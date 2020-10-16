@@ -21,11 +21,7 @@
 			</div>
 			<div class="col-sm-6 col-md-2 col-lg-2 col-xl-2">
 				<div class="footer_social_widget home5">
-					<ul class="mb30">
-						<li class="list-inline-item"><a href="#"><i class="fa fa-facebook"></i></a></li>
-						<li class="list-inline-item"><a href="#"><i class="fa fa-twitter"></i></a></li>
-						<li class="list-inline-item"><a href="#"><i class="fa fa-instagram"></i></a></li>
-					</ul>
+					
 				</div>
 			</div>
 		</div>

@@ -17,7 +17,7 @@
 <section class="reg-terms-section bgc-fa">
 	<div class="container">
 		<div class="term-box">
-			<div class="terms_condition_grid p20" style="overflow: scroll; height: 250px">
+			<div class="terms_condition_grid p20" style="overflow: scroll; height: 450px">
 				<%@ include file="../user/provisionContent.jsp" %>
 			</div>
 		</div>
