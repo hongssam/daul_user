@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import egovframework.com.cmmn.CallEmotionAPI;
+import egovframework.com.cmmn.CallKeywordAPI;
 import egovframework.com.contest.vo.ContestVo;
 import egovframework.com.main.service.MainService;
 import egovframework.com.notice.vo.NoticeVo;
@@ -24,6 +26,12 @@ public class MainController {
 	@Resource(name="mainService")
 	private MainService mainService;
 
+	@Resource(name="callEmotionAPI")
+	private CallEmotionAPI callEmotionAPI;
+	
+	@Resource(name="callKeywordAPI")
+	private CallKeywordAPI callKeywordAPI;
+	
 	@RequestMapping(value = "/main.do")
 	public String maingPage(ModelMap model) throws Exception{
 		List<SuggestionVo> suggestionList = null;
@@ -32,6 +40,10 @@ public class MainController {
 		List<NoticeVo> noticeList = null;
 		
 		try {
+			//callEmotionAPI.CallAPI("SG01");
+			
+			//callKeywordAPI.CallAPI("SG01");
+			
 			log.debug("[메인] 최근 열린제안 리스트 조회");
 			suggestionList = mainService.selectSuggestionListByLately();
 			log.debug("[메인] 최근 설문조사 리스트 조회");

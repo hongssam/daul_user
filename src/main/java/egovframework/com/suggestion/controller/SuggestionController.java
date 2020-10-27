@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import egovframework.com.cmmn.util.CmmnUtil;
 import egovframework.com.cmmn.util.FileUtil;
 import egovframework.com.cmmn.util.FileVo;
+import egovframework.com.mileage.controller.MileageController;
+import egovframework.com.mileage.vo.MileageVo;
 import egovframework.com.suggestion.service.SuggestionService;
 import egovframework.com.suggestion.vo.SuggestionOpinionVo;
 import egovframework.com.suggestion.vo.SuggestionVo;
@@ -39,6 +41,9 @@ public class SuggestionController {
 	
 	@Resource(name="suggestionService")
 	private SuggestionService suggestionService;
+	
+	@Resource(name="mileageController")
+	private MileageController mileageController;
 
 	@RequestMapping(value="/suggestionListPage.do")
 	public String suggestionListPage(SuggestionVo vo, @RequestParam(defaultValue = "1") int curPage, ModelMap model) throws Exception {
@@ -109,6 +114,7 @@ public class SuggestionController {
 		try {
 			SuggestionValidator suggestionValidator = new SuggestionValidator();
 			suggestionValidator.validate(vo, bindingResult);
+			MileageVo mileageVo = new MileageVo();
 			
 			if (bindingResult.hasErrors()) {
 				return "suggestion/suggestionRegist";
@@ -140,6 +146,12 @@ public class SuggestionController {
 					suggestionService.insertFile(fileList.get(i));
 				}
 			}
+			
+			mileageVo.setAction_id("SG01"); 
+			mileageVo.setBoard_id(vo.getSuggestion_idx());
+			mileageVo.setUser_id(userVo.getPhone());
+			mileageController.AccumulateMileage(mileageVo);
+			
 		} catch (Exception e) {
 			log.debug("[열린제안] 열린제안 등록 실패");
 			e.printStackTrace();
@@ -187,7 +199,7 @@ public class SuggestionController {
 			
 			SuggestionOpinionValidator suggestionOpinionValidator = new SuggestionOpinionValidator();
 			suggestionOpinionValidator.validate(vo, bindingResult);
-			
+			MileageVo mileageVo = new MileageVo();
 			
 			if(bindingResult.hasErrors()) {
 				return new ResponseEntity<>(bindingResult.getFieldError().getDefaultMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -227,6 +239,12 @@ public class SuggestionController {
 			}
 			
 			opinionCount = suggestionService.selectSuggestionOpinionCount(vo);
+			
+			mileageVo.setAction_id("SGOP01"); 
+			mileageVo.setBoard_id(vo.getOpinion_idx());
+			mileageVo.setUser_id(userVo.getPhone());
+			mileageController.AccumulateMileage(mileageVo);
+			
 		} catch (Exception e) {
 			log.debug("[열린제안] 열린제안 댓글 등록 실패");
 			e.printStackTrace();
@@ -239,8 +257,14 @@ public class SuggestionController {
 	@RequestMapping(value="/suggestionOpinionDelete", method=RequestMethod.POST)
 	public ResponseEntity<?> suggestionOpinionDelete(SuggestionOpinionVo vo) throws Exception {
 		try {
+			MileageVo mileageVo = new MileageVo();
+			
 			log.debug("[열린제안] 열린제안 댓글 삭제");
 			suggestionService.deleteSuggestionOpinion(vo);
+			
+			mileageVo.setBoard_id(vo.getOpinion_idx());
+			mileageController.deleteMileage(mileageVo);
+			
 		} catch (Exception e) {
 			log.debug("[열린제안] 열린제안 댓글 삭제 실패");
 			e.printStackTrace();
@@ -393,6 +417,8 @@ public class SuggestionController {
 			UserVo userVo = (UserVo) session.getAttribute("login");
 			
 			SuggestionVo vo = new SuggestionVo();
+			MileageVo mileageVo = new MileageVo();
+			
 			vo.setUpdate_user(userVo.getUser_id());
 			vo.setSuggestion_idx(params.get("suggestion_idx"));
 			
@@ -406,6 +432,10 @@ public class SuggestionController {
 				log.debug("[열린제안] 열린제안 첨부파일 삭제");
 				suggestionService.deleteAllFile(vo);
 			}
+			
+			mileageVo.setBoard_id(vo.getSuggestion_idx());
+			mileageController.deleteMileage(mileageVo);
+			
 		} catch (Exception e) {
 			log.debug("[열린제안] 열린제안 삭제 실패");
 			e.printStackTrace();

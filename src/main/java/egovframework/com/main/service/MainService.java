@@ -16,4 +16,6 @@ public interface MainService {
 	List<ContestVo> selectContestListByLately() throws Exception;
 
 	List<NoticeVo> selectNoticeListByLately() throws Exception;
+	
+	String getOnOff(String action_id) throws Exception;
 }

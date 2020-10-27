@@ -82,4 +82,10 @@
 		  	   ) n
 		 WHERE <![CDATA[n.num <= 5]]>
 	</select>
+	
+	<select id="getOnOff" resultType="String">
+		SELECT on_off
+		  FROM daul.mileage
+		 WHERE action_id = #{action_id}
+	</select>
 </mapper>                  

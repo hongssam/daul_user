@@ -25,6 +25,8 @@ import egovframework.com.cmmn.util.FileUtil;
 import egovframework.com.cmmn.util.FileVo;
 import egovframework.com.contest.service.ContestService;
 import egovframework.com.contest.vo.ContestVo;
+import egovframework.com.mileage.controller.MileageController;
+import egovframework.com.mileage.vo.MileageVo;
 import egovframework.com.notice.vo.NoticeVo;
 import egovframework.com.user.vo.UserVo;
 
@@ -41,6 +43,9 @@ public class ContestController {
 
 	@Resource(name = "cmmnUtil")
 	private CmmnUtil cmmnUtil;
+	
+	@Resource(name="mileageController")
+	private MileageController mileageController;
 
 	@RequestMapping(value = "/contestListPage.do")
 	public String contestListPage(ContestVo contestvo, ModelMap model, @RequestParam(defaultValue = "1") int curPage) throws Exception {
@@ -201,6 +206,7 @@ public class ContestController {
 			vo.setUser_contest_idx(user_contest_idx);
 			UserVo userVo = (UserVo) session.getAttribute("login");
 			vo.setCreate_user(userVo.getUser_id());
+			MileageVo mileageVo = new MileageVo();
 
 			int result = contestService.registUserContest(vo);
 
@@ -214,6 +220,13 @@ public class ContestController {
 			for (int i = 0; i < fileList.size(); i++) {
 				contestService.insertFile(fileList.get(i));
 			}
+			
+			mileageVo.setAction_id("CT04"); 
+			mileageVo.setBoard_id(vo.getUser_contest_idx());
+			mileageVo.setUser_id(userVo.getPhone());
+			mileageController.AccumulateMileage(mileageVo);
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import egovframework.com.cmmn.util.CmmnUtil;
 import egovframework.com.cmmn.util.FileUtil;
 import egovframework.com.cmmn.util.FileVo;
+import egovframework.com.mileage.controller.MileageController;
+import egovframework.com.mileage.vo.MileageVo;
 import egovframework.com.notice.vo.NoticeVo;
 import egovframework.com.survey.service.SurveyService;
 import egovframework.com.survey.vo.SurveyOpinionVo;
@@ -41,6 +43,9 @@ public class SurveyController {
 	
 	@Resource(name="fileUtil")
 	private FileUtil fileUtil;
+	
+	@Resource(name="mileageController")
+	private MileageController mileageController;
 	
 	@RequestMapping(value="/surveyListPage.do")
 	public String surveyListpage(SurveyVo surveyVo, ModelMap model, @RequestParam(defaultValue = "1") int curPage) throws Exception {
@@ -205,6 +210,7 @@ public class SurveyController {
 		try {
 			SurveyOpinionValidator surveyOpinionValidator = new SurveyOpinionValidator();
 			surveyOpinionValidator.validate(vo, bindingResult);
+			MileageVo mileageVo = new MileageVo();
 			
 			if(bindingResult.hasErrors()) {
 				return new ResponseEntity<>(bindingResult.getFieldError().getDefaultMessage(), HttpStatus.OK);
@@ -245,6 +251,13 @@ public class SurveyController {
 			}
 			
 			opinionCount = surveyService.selectSurveyOpinionCount(vo);
+			
+			mileageVo.setAction_id("SVOP01"); 
+			mileageVo.setBoard_id(vo.getOpinion_idx());
+			mileageVo.setUser_id(userVo.getPhone());
+			mileageController.AccumulateMileage(mileageVo);
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -255,8 +268,14 @@ public class SurveyController {
 	@RequestMapping(value="/surveyOpinionDelete.do", method=RequestMethod.POST)
 	public ResponseEntity<?> surveyOpinionDelete(SurveyOpinionVo vo) throws Exception {
 		try {
+			MileageVo mileageVo = new MileageVo();
+			
 			log.debug("[설문조사] 설문조사 댓글 삭제");
 			surveyService.deleteSurveyOpinion(vo);
+			
+			mileageVo.setBoard_id(vo.getOpinion_idx());
+			mileageController.deleteMileage(mileageVo);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -282,7 +301,7 @@ public class SurveyController {
 		try {
 			UserVo userVo = (UserVo) session.getAttribute("login");
 		    vo.setCreate_user(userVo.getUser_id());
-		    
+			MileageVo mileageVo = new MileageVo();
 		    
 		    List<String> answer_arr = vo.getAnswer_arr();
 			survey_idx = vo.getSurvey_idx();
@@ -306,6 +325,12 @@ public class SurveyController {
 				surveyService.insertVote(answerList.get(answerListCnt));
 				
 			}
+			
+			mileageVo.setAction_id("SV04"); 
+			mileageVo.setBoard_id(vo.getSurvey_idx());
+			mileageVo.setUser_id(userVo.getPhone());
+			mileageController.AccumulateMileage(mileageVo);
+			
 			
 		}catch(Exception e){
 			

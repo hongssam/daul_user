@@ -38,4 +38,9 @@ public class MainServiceImpl extends EgovAbstractServiceImpl implements MainServ
 	public List<NoticeVo> selectNoticeListByLately() throws Exception {
 		return mainMapper.selectNoticeListByLately();
 	}
+
+	@Override
+	public String getOnOff(String action_id) throws Exception {
+		return mainMapper.getOnOff(action_id);
+	}
 }
