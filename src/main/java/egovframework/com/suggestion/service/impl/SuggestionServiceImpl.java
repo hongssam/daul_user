@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import egovframework.com.cmmn.util.FileVo;
 import egovframework.com.suggestion.mapper.SuggestionMapper;
 import egovframework.com.suggestion.service.SuggestionService;
+import egovframework.com.suggestion.vo.SuggestionKeywordVo;
 import egovframework.com.suggestion.vo.SuggestionOpinionVo;
 import egovframework.com.suggestion.vo.SuggestionVo;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
@@ -138,5 +139,9 @@ public class SuggestionServiceImpl extends EgovAbstractServiceImpl implements Su
 	@Override
 	public void deleteAllFile(SuggestionVo vo) throws Exception {
 		suggestionMapper.deleteAllFile(vo);
+	}
+	
+	public void insertKeywordCnt(SuggestionKeywordVo vo) throws Exception{
+		suggestionMapper.insertKeywordCnt(vo);
 	}
 }

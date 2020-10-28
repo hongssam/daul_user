@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import egovframework.com.cmmn.CallEmotionAPI;
+import egovframework.com.cmmn.CallKeywordAPI;
 import egovframework.com.cmmn.util.CmmnUtil;
 import egovframework.com.cmmn.util.FileUtil;
 import egovframework.com.cmmn.util.FileVo;
@@ -44,6 +46,12 @@ public class SuggestionController {
 	
 	@Resource(name="mileageController")
 	private MileageController mileageController;
+	
+	@Resource(name="callEmotionAPI")
+	private CallEmotionAPI callEmotionAPI;
+
+	@Resource(name="callKeywordAPI")
+	private CallKeywordAPI callKeywordAPI;
 
 	@RequestMapping(value="/suggestionListPage.do")
 	public String suggestionListPage(SuggestionVo vo, @RequestParam(defaultValue = "1") int curPage, ModelMap model) throws Exception {
@@ -152,10 +160,19 @@ public class SuggestionController {
 			mileageVo.setUser_id(userVo.getPhone());
 			mileageController.AccumulateMileage(mileageVo);
 			
+			
+			try{
+				callKeywordAPI.CallAPI(vo.getContent());
+			}catch(Exception e) {
+				e.printStackTrace();
+				System.out.println("키워드 API호출 실패");
+			}
 		} catch (Exception e) {
 			log.debug("[열린제안] 열린제안 등록 실패");
 			e.printStackTrace();
 		}
+		
+		
 		
 		log.debug("[열린제안] 열린제안 등록 완료");
 		return "redirect:/suggestion/suggestionListPage.do";
@@ -210,6 +227,16 @@ public class SuggestionController {
 			UserVo userVo = (UserVo) session.getAttribute("login");
 			vo.setCreate_user(userVo.getUser_id());
 			
+			try {
+				Map<Object, Object> paramMap = callEmotionAPI.CallAPI(vo.getOpinion_content());
+				vo.setEmotion_type((String)paramMap.get("intent"));
+				vo.setEmotion_score( Double.toString((double) paramMap.get("confidence")));
+			} catch(Exception e) {
+				log.debug("감정분석 API호출 실패");
+				e.printStackTrace();
+			}
+			
+			
 			if (!"".equals(opinionIdx) && opinionIdx != null) {
 				// opinionIdx가 있는 경우 -> 댓글의 댓글~~~들을 등록
 				// 등록하고자 하는 댓글의 최상위 댓글 ref, indent, step 정보
@@ -244,6 +271,9 @@ public class SuggestionController {
 			mileageVo.setBoard_id(vo.getOpinion_idx());
 			mileageVo.setUser_id(userVo.getPhone());
 			mileageController.AccumulateMileage(mileageVo);
+			
+			
+			
 			
 		} catch (Exception e) {
 			log.debug("[열린제안] 열린제안 댓글 등록 실패");

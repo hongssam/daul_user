@@ -234,6 +234,8 @@
              , suggestion_ref
              , suggestion_indent
              , suggestion_step
+             , emotion_type
+             , emotion_score
 		     )
 		VALUES
 		     (
@@ -247,6 +249,8 @@
              , #{suggestion_ref}
              , #{suggestion_indent}
              , #{suggestion_step}
+             , #{emotion_type}
+             , #{emotion_score}
 		     )
 	</insert>
 	
@@ -357,4 +361,18 @@
 		 WHERE suggestion_idx = #{suggestion_idx}
 		   AND del_chk != 'Y'
 	</update>
+	
+	<insert id="insertKeywordCnt">
+		INSERT INTO daul.keyword_frequency
+		(
+			keyword
+		,	keyword_cnt
+		)
+		VALUES
+		(
+			#{word}
+		,	#{count}
+		)
+	
+	</insert>
 </mapper>                  

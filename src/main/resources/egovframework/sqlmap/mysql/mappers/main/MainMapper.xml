@@ -88,4 +88,5 @@
 		  FROM daul.mileage
 		 WHERE action_id = #{action_id}
 	</select>
+
 </mapper>                  

@@ -19,6 +19,22 @@ public class SuggestionOpinionVo extends Pagination{
 	
 	private int num;
 	
+	private String emotion_type;
+	private String emotion_score;
+	
+	
+	public String getEmotion_type() {
+		return emotion_type;
+	}
+	public void setEmotion_type(String emotion_type) {
+		this.emotion_type = emotion_type;
+	}
+	public String getEmotion_score() {
+		return emotion_score;
+	}
+	public void setEmotion_score(String emotion_score) {
+		this.emotion_score = emotion_score;
+	}
 	public String getOpinion_idx() {
 		return opinion_idx;
 	}

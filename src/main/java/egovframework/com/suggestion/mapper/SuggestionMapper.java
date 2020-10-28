@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import egovframework.com.cmmn.util.FileVo;
+import egovframework.com.suggestion.vo.SuggestionKeywordVo;
 import egovframework.com.suggestion.vo.SuggestionOpinionVo;
 import egovframework.com.suggestion.vo.SuggestionVo;
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
@@ -58,4 +59,6 @@ public interface SuggestionMapper {
 	void deleteAllOpinion(SuggestionVo vo) throws Exception;
 
 	void deleteAllFile(SuggestionVo vo) throws Exception;
+
+	void insertKeywordCnt(SuggestionKeywordVo vo) throws Exception;
 }

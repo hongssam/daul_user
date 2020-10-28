@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import egovframework.com.cmmn.util.FileVo;
+import egovframework.com.suggestion.vo.SuggestionKeywordVo;
 import egovframework.com.suggestion.vo.SuggestionOpinionVo;
 import egovframework.com.suggestion.vo.SuggestionVo;
 
@@ -56,4 +57,6 @@ public interface SuggestionService {
 	void deleteAllOpinion(SuggestionVo vo) throws Exception;
 
 	void deleteAllFile(SuggestionVo vo) throws Exception;
+	
+	void insertKeywordCnt(SuggestionKeywordVo vo) throws Exception;
 }
