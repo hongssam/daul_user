@@ -32,7 +32,7 @@ public class MainController {
 	
 	@Resource(name="callKeywordAPI")
 	private CallKeywordAPI callKeywordAPI;
-	
+
 	@RequestMapping(value = "/main.do")
 	public String maingPage(ModelMap model) throws Exception{
 		List<SuggestionVo> suggestionList = null;

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import egovframework.com.cmmn.CallNotificationTalkAPI;
 import egovframework.com.cmmn.CallEmotionAPI;
 import egovframework.com.cmmn.CallKeywordAPI;
 import egovframework.com.cmmn.util.CmmnUtil;
@@ -53,6 +54,9 @@ public class SuggestionController {
 	@Resource(name="callKeywordAPI")
 	private CallKeywordAPI callKeywordAPI;
 
+	@Resource(name="callNotificationTalkAPI")
+	private CallNotificationTalkAPI callNotificationTalkAPI;
+	
 	@RequestMapping(value="/suggestionListPage.do")
 	public String suggestionListPage(SuggestionVo vo, @RequestParam(defaultValue = "1") int curPage, ModelMap model) throws Exception {
 		try {
@@ -118,7 +122,7 @@ public class SuggestionController {
 	}
 	
 	@RequestMapping(value="/suggestionRegist.do", method=RequestMethod.POST)
-	public String suggestionRegist(SuggestionVo vo, HttpServletRequest request, BindingResult bindingResult, HttpSession session) throws Exception {
+	public String suggestionRegist(SuggestionVo vo, HttpServletRequest request,HttpServletResponse response, BindingResult bindingResult, HttpSession session) throws Exception {
 		try {
 			SuggestionValidator suggestionValidator = new SuggestionValidator();
 			suggestionValidator.validate(vo, bindingResult);
@@ -170,9 +174,9 @@ public class SuggestionController {
 		} catch (Exception e) {
 			log.debug("[열린제안] 열린제안 등록 실패");
 			e.printStackTrace();
-		}
+		} 
 		
-		
+		//callNotificationTalkAPI.CallAPI("SG01",response);
 		
 		log.debug("[열린제안] 열린제안 등록 완료");
 		return "redirect:/suggestion/suggestionListPage.do";

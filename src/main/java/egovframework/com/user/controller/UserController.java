@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import egovframework.com.cmmn.CallNotificationTalkAPI;
+import egovframework.com.cmmn.NotificationVo;
 import egovframework.com.cmmn.SecurityUtil;
 import egovframework.com.contest.vo.ContestVo;
 import egovframework.com.suggestion.vo.SuggestionVo;
@@ -37,6 +39,9 @@ public class UserController {
 	
 	@Resource(name="userService")
 	private UserService userService;
+
+	@Resource(name="callNotificationTalkAPI")
+	private CallNotificationTalkAPI callNotificationTalkAPI;
 	
 	@RequestMapping(value="/userRegistTermPage.do")
 	public String userRegistTermPage() throws Exception {
@@ -107,7 +112,7 @@ public class UserController {
 	
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/kakaoUserRegist.do", method=RequestMethod.POST)
-	public ResponseEntity<?> kakaoUserRegist(@RequestBody Map<String, Object> params) throws Exception {
+	public ResponseEntity<?> kakaoUserRegist(@RequestBody Map<String, Object> params, HttpServletResponse response) throws Exception {
 		try {
 			System.out.println(params);
 			Map<String, Object> kakao_account = (Map<String, Object>) params.get("kakao_account");
@@ -117,6 +122,7 @@ public class UserController {
 			phone_number = phone_number.replaceAll(" ", "").replaceAll("-", "").replace("+82", "0");
 					
 			UserVo vo = new UserVo();
+			NotificationVo notificationVo = new NotificationVo();
 			
 			String kakaoUserID  = String.valueOf(params.get("id")) + "@k";
 			
@@ -149,6 +155,10 @@ public class UserController {
 				// insert
 				log.debug("[카카오 사용자] 카카오 사용자 등록");
 				userService.insertKakaoUser(vo);
+				
+				notificationVo.setName(vo.getName());
+				notificationVo.setPhone(vo.getPhone());
+				callNotificationTalkAPI.CallAPI("U01", notificationVo, response);
 			}
 			
 		} catch (Exception e) {
@@ -179,12 +189,13 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/publicUserRegist.do", method=RequestMethod.POST)
-	public String publicUserRegist(UserVo vo, BindingResult result, RedirectAttributes redirectAttributes) throws Exception {
+	public String publicUserRegist(UserVo vo, BindingResult result, RedirectAttributes redirectAttributes,HttpServletResponse response) throws Exception {
 		try {
 			//vo.setChannel("public");
 			vo.setAuth_type("public");
 			
 			UserValidator userValidator = new UserValidator();
+			NotificationVo notificationVo = new NotificationVo();
 			userValidator.validate(vo, result);
 			
 			if (result.hasErrors()) {
@@ -210,6 +221,12 @@ public class UserController {
 				//insert
 				log.debug("[일반 사용자] 일반 사용자 등록");
 				userService.insertPublicUser(vo);
+				
+				
+				notificationVo.setName(vo.getName());
+				notificationVo.setPhone(vo.getPhone());
+				callNotificationTalkAPI.CallAPI("U01", notificationVo, response);
+				
 			}
 		} catch (Exception e) {
 			log.debug("[일반 사용자] 일반 사용자 등록 실패");
