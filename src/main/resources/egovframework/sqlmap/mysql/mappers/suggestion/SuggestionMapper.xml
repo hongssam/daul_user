@@ -179,6 +179,7 @@
 					 , so.opinion_content
 					 , so.create_user
 					 , so.update_user
+					 , so.emotion_type
 					 , DATE_FORMAT(so.create_date, '%Y-%m-%d %H:%i:%s')	AS create_date
 					 , DATE_FORMAT(so.update_date, '%Y-%m-%d %H:%i:%s') 	AS update_date
 					 , so.del_chk

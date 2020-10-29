@@ -91,6 +91,14 @@ function setOpinionList(data) {
 function createOpinionElement(type, data) {
 	var opinion_content = data.opinion_content;
 	if (data.del_chk === "Y") opinion_content = "삭제된 댓글입니다.";
+	var emotion = "";
+	if(data.emotion_type === "normal"){
+		emotion = "😐";
+	}else if(data.emotion_type === "negative"){
+		emotion = "😡";
+	}else if(data.emotion_type === "positive"){
+		emotion = "😊";
+	}
 	
 	var div = document.createElement("div");
 	div.classList.add("item");
@@ -106,7 +114,7 @@ function createOpinionElement(type, data) {
 				'</li>' +
 				'<li class="list-inline-item">' +
 					'<p>' + data.name + '&nbsp;&nbsp;<span class="status_tag outline-admin">관리자<span></p>' +
-					'<p class="date">' + data.create_date + '</p>' +
+					'<p class="date">' + data.create_date + ' '+emotion+'</p>' +
 				'</li>' +
 			'</ul>' +
 		'</div>' +
@@ -122,7 +130,7 @@ function createOpinionElement(type, data) {
 					'</li>' +
 					'<li class="list-inline-item">' +
 						'<p>' + data.name + '&nbsp;&nbsp;<span class="status_tag outline-primary">전문가<span></p>' +
-						'<p class="date">' + data.create_date + '</p>' +
+						'<p class="date">' + data.create_date + ' '+emotion+'</p>' +
 					'</li>' +
 				'</ul>' +
 			'</div>' +
@@ -138,7 +146,7 @@ function createOpinionElement(type, data) {
 					'</li>' +
 					'<li class="list-inline-item">' +
 						'<p>' + data.name + '</p>' +
-						'<p class="date">' + data.create_date + '</p>' +
+						'<p class="date">' + data.create_date + ' '+emotion+'</p>' +
 					'</li>' +
 				'</ul>' +
 			'</div>' +
