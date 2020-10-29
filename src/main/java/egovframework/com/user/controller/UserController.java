@@ -156,9 +156,21 @@ public class UserController {
 				log.debug("[카카오 사용자] 카카오 사용자 등록");
 				userService.insertKakaoUser(vo);
 				
-				//notificationVo.setName(vo.getName());
-				//notificationVo.setPhone(vo.getPhone());
-				//callNotificationTalkAPI.CallAPI(notificationVo);
+				//사용자 및 알람톡ON-OFF여부 확인 
+				String user_noti_yn = userService.getUserNotificationYN(vo);
+				String action_noti_yn = userService.getActionYN(notificationVo);
+				
+				if(user_noti_yn.equals("Y") && action_noti_yn.equals("Y")) {
+					System.out.println("user_noti_yn = " + user_noti_yn);
+					System.out.println("action_noti_yn = " + action_noti_yn);
+					//notificationVo.setName(vo.getName());
+					//notificationVo.setPhone(vo.getPhone());
+					//callNotificationTalkAPI.CallAPI(notificationVo);
+					
+				}else {
+					System.out.println("user_noti_yn222 = " + user_noti_yn);
+					System.out.println("action_noti_yn222 = " + action_noti_yn);
+				}
 			}
 			
 		} catch (Exception e) {
