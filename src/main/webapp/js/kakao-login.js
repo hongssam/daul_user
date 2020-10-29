@@ -65,7 +65,7 @@ function kakaoAccountRegist(kakao_res) {
 	});
 	
 	request.done(function(data) {
-		console.log(data);
+		console.log("kakaoUserRegist", data);
 		
 		if (data === "success") {
 			kakaoAccountLogin(kakao_res);
@@ -86,7 +86,7 @@ function kakaoAccountLogin(kakao_res) {
 	});
 	
 	request.done(function(data) {
-		console.log(data);	
+		console.log("kakaoUserLogin", data);	
 		if (data === "success") {
 			location.href = CTX + "/main/main.do";
 		}

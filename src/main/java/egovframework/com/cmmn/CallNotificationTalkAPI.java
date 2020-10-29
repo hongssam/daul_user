@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Component("callNotificationTalkAPI")
 public class CallNotificationTalkAPI {
-	public void CallAPI(String action_id,NotificationVo vo,HttpServletResponse response) throws Exception {
+	public void CallAPI(String action_id,NotificationVo vo) throws Exception {
 		URL url = null;
 		HttpURLConnection connection = null;
 		
@@ -81,7 +81,7 @@ public class CallNotificationTalkAPI {
 			while ((readed = input.read(buffer, 0, buffer.length)) != -1) results.write(buffer, 0, readed);
 			
 			
-			response.getWriter().print(parameters.toString());
+			//response.getWriter().print(parameters.toString());
 		} finally {
 			if (input != null) input.close();
 			if (output != null) output.close();

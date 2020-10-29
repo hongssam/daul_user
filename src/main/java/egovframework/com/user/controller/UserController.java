@@ -158,7 +158,7 @@ public class UserController {
 				
 				notificationVo.setName(vo.getName());
 				notificationVo.setPhone(vo.getPhone());
-				callNotificationTalkAPI.CallAPI("U01", notificationVo, response);
+				callNotificationTalkAPI.CallAPI("U01", notificationVo);
 			}
 			
 		} catch (Exception e) {
@@ -225,7 +225,7 @@ public class UserController {
 				
 				notificationVo.setName(vo.getName());
 				notificationVo.setPhone(vo.getPhone());
-				callNotificationTalkAPI.CallAPI("U01", notificationVo, response);
+				callNotificationTalkAPI.CallAPI("U01", notificationVo);
 				
 			}
 		} catch (Exception e) {
