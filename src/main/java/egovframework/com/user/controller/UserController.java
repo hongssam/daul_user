@@ -123,7 +123,7 @@ public class UserController {
 					
 			UserVo vo = new UserVo();
 			NotificationVo notificationVo = new NotificationVo();
-			
+			notificationVo.setAction_id("U01");
 			String kakaoUserID  = String.valueOf(params.get("id")) + "@k";
 			
 			vo.setKakao_key(String.valueOf(params.get("id")));
@@ -156,9 +156,9 @@ public class UserController {
 				log.debug("[카카오 사용자] 카카오 사용자 등록");
 				userService.insertKakaoUser(vo);
 				
-				notificationVo.setName(vo.getName());
-				notificationVo.setPhone(vo.getPhone());
-				callNotificationTalkAPI.CallAPI("U01", notificationVo);
+				//notificationVo.setName(vo.getName());
+				//notificationVo.setPhone(vo.getPhone());
+				//callNotificationTalkAPI.CallAPI(notificationVo);
 			}
 			
 		} catch (Exception e) {
@@ -196,6 +196,8 @@ public class UserController {
 			
 			UserValidator userValidator = new UserValidator();
 			NotificationVo notificationVo = new NotificationVo();
+			notificationVo.setAction_id("U01");
+			
 			userValidator.validate(vo, result);
 			
 			if (result.hasErrors()) {
@@ -222,10 +224,21 @@ public class UserController {
 				log.debug("[일반 사용자] 일반 사용자 등록");
 				userService.insertPublicUser(vo);
 				
+				//사용자 및 알람톡ON-OFF여부 확인 
+				String user_noti_yn = userService.getUserNotificationYN(vo);
+				String action_noti_yn = userService.getActionYN(notificationVo);
 				
-				notificationVo.setName(vo.getName());
-				notificationVo.setPhone(vo.getPhone());
-				callNotificationTalkAPI.CallAPI("U01", notificationVo);
+				if(user_noti_yn.equals("Y") && action_noti_yn.equals("Y")) {
+					System.out.println("user_noti_yn = " + user_noti_yn);
+					System.out.println("action_noti_yn = " + action_noti_yn);
+					//notificationVo.setName(vo.getName());
+					//notificationVo.setPhone(vo.getPhone());
+					//callNotificationTalkAPI.CallAPI(notificationVo);
+					
+				}else {
+					System.out.println("user_noti_yn = " + user_noti_yn);
+					System.out.println("action_noti_yn = " + action_noti_yn);
+				}
 				
 			}
 		} catch (Exception e) {

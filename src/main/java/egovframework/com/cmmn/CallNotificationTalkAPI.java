@@ -12,14 +12,14 @@ import org.springframework.stereotype.Component;
 
 @Component("callNotificationTalkAPI")
 public class CallNotificationTalkAPI {
-	public void CallAPI(String action_id,NotificationVo vo) throws Exception {
+	public void CallAPI(NotificationVo vo) throws Exception {
 		URL url = null;
 		HttpURLConnection connection = null;
 		
 		InputStream input = null;
 		OutputStream output = null;
 		ByteArrayOutputStream results = null;
-		
+		String action_id = vo.getAction_id();
 		String parameters = "";
 		byte[] buffer = new byte[2048];
 		int readed = 0;
@@ -130,7 +130,7 @@ public class CallNotificationTalkAPI {
 						" \"kakao_sender\": \""+ kakao_sender +"\", " +
 						" \"kakao_name\": \""+ kakao_name +"\", " +
 						" \"kakao_phone\": \""+ kakao_phone +"\", " +
-						" \"kakao_add1\": \"e-"+kakao_add1+"\", " +
+						" \"kakao_add1\": \""+kakao_add1+"\", " +
 						" \"kakao_add2\": \"\", " +
 						" \"kakao_add3\": \"\", " +
 						" \"kakao_add4\": \"\", " +

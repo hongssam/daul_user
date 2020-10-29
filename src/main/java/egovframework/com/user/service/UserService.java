@@ -3,6 +3,7 @@ package egovframework.com.user.service;
 import java.util.List;
 import java.util.Map;
 
+import egovframework.com.cmmn.NotificationVo;
 import egovframework.com.cmmn.util.LogVo;
 import egovframework.com.contest.vo.ContestVo;
 import egovframework.com.suggestion.vo.SuggestionVo;
@@ -58,4 +59,8 @@ public interface UserService {
 	void updateKakaoUser(UserVo vo) throws Exception;
 	
 	void saveUserLog(LogVo vo) throws Exception;
+	
+	String getUserNotificationYN(UserVo vo) throws Exception;
+	
+	String getActionYN(NotificationVo vo) throws Exception;
 }

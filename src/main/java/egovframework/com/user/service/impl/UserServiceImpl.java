@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import egovframework.com.cmmn.NotificationVo;
 import egovframework.com.cmmn.util.LogVo;
 import egovframework.com.contest.vo.ContestVo;
 import egovframework.com.suggestion.vo.SuggestionVo;
@@ -141,6 +142,16 @@ public class UserServiceImpl extends EgovAbstractServiceImpl implements UserServ
 	@Override
 	public void saveUserLog(LogVo vo) throws Exception {
 		userMapper.saveUserLog(vo);
+	}
+
+	@Override
+	public String getUserNotificationYN(UserVo vo) throws Exception {
+		return userMapper.getUserNotificationYN(vo);
+	}
+
+	@Override
+	public String getActionYN(NotificationVo vo) throws Exception {
+		return userMapper.getActionYN(vo);
 	}
 	
 	

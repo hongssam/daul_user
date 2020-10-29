@@ -403,4 +403,19 @@
 		   SET kakao_key = #{kakao_key}
 		 WHERE phone = #{phone}
 	</update>
+	
+	<select id="getUserNotificationYN" resultType="String">
+		SELECT talk_chk 
+		  FROM daul.user
+		 WHERE phone=#{phone}
+	</select>
+	
+	<select id="getActionYN" resultType="String">
+		SELECT on_off 
+		  FROM daul.notification_talk
+		 WHERE action_id=#{action_id}
+	</select>
+	
+	
+	
 </mapper>

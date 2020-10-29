@@ -4,8 +4,16 @@ public class NotificationVo {
 	private String user_id;
 	private String name;
 	private String phone;
+	private String action_id;
 	
 	
+	
+	public String getAction_id() {
+		return action_id;
+	}
+	public void setAction_id(String action_id) {
+		this.action_id = action_id;
+	}
 	public String getUser_id() {
 		return user_id;
 	}
