@@ -368,11 +368,13 @@
 		(
 			keyword
 		,	keyword_cnt
+		,	create_date
 		)
 		VALUES
 		(
 			#{word}
 		,	#{count}
+		,	SYSDATE()
 		)
 	
 	</insert>
