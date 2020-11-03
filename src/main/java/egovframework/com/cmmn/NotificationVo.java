@@ -5,9 +5,16 @@ public class NotificationVo {
 	private String name;
 	private String phone;
 	private String action_id;
+	private String talk_chk;
 	
 	
 	
+	public String getTalk_chk() {
+		return talk_chk;
+	}
+	public void setTalk_chk(String talk_chk) {
+		this.talk_chk = talk_chk;
+	}
 	public String getAction_id() {
 		return action_id;
 	}
@@ -31,6 +38,11 @@ public class NotificationVo {
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+	@Override
+	public String toString() {
+		return "NotificationVo [user_id=" + user_id + ", name=" + name + ", phone=" + phone + ", action_id=" + action_id
+				+ ", talk_chk=" + talk_chk + "]";
 	}
 	
 	

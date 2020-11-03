@@ -6,6 +6,7 @@ import java.util.Map;
 import egovframework.com.cmmn.NotificationVo;
 import egovframework.com.cmmn.util.LogVo;
 import egovframework.com.contest.vo.ContestVo;
+import egovframework.com.suggestion.vo.SuggestionOpinionVo;
 import egovframework.com.suggestion.vo.SuggestionVo;
 import egovframework.com.survey.vo.SurveyVo;
 import egovframework.com.user.vo.UserVo;
@@ -65,5 +66,11 @@ public interface UserMapper {
 	String getUserNotificationYN(UserVo vo) throws Exception;
 	
 	String getActionYN(NotificationVo vo) throws Exception;
+
+	String getTmpNum(String action_id) throws Exception;
+	
+	NotificationVo getNotificationVo(SuggestionOpinionVo vo) throws Exception;
+	
+	String getUserNotificationYN2(SuggestionOpinionVo vo) throws Exception;
 }
 

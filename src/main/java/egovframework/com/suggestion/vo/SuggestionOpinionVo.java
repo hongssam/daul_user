@@ -21,8 +21,17 @@ public class SuggestionOpinionVo extends Pagination{
 	
 	private String emotion_type;
 	private String emotion_score;
+
+	private String reg_user;
 	
 	
+	
+	public String getReg_user() {
+		return reg_user;
+	}
+	public void setReg_user(String reg_user) {
+		this.reg_user = reg_user;
+	}
 	public String getEmotion_type() {
 		return emotion_type;
 	}
@@ -125,7 +134,7 @@ public class SuggestionOpinionVo extends Pagination{
 		return "SuggestionOpinionVo [opinion_idx=" + opinion_idx + ", suggestion_idx=" + suggestion_idx
 				+ ", parent_opinion_idx=" + parent_opinion_idx + ", opinion_content=" + opinion_content
 				+ ", like_count=" + like_count + ", create_user=" + create_user + ", create_date=" + create_date
-				+ ", update_user=" + update_user + ", update_date=" + update_date + ", del_chk=" + del_chk
+				+ ", reg_user=" + reg_user + ", update_date=" + update_date + ", del_chk=" + del_chk
 				+ ", suggestion_ref=" + suggestion_ref + ", suggestion_indent=" + suggestion_indent
 				+ ", suggestion_step=" + suggestion_step + "]";
 	}

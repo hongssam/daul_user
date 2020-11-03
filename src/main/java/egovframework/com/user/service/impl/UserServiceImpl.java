@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import egovframework.com.cmmn.NotificationVo;
 import egovframework.com.cmmn.util.LogVo;
 import egovframework.com.contest.vo.ContestVo;
+import egovframework.com.suggestion.vo.SuggestionOpinionVo;
 import egovframework.com.suggestion.vo.SuggestionVo;
 import egovframework.com.survey.vo.SurveyVo;
 import egovframework.com.user.mapper.UserMapper;
@@ -152,6 +153,21 @@ public class UserServiceImpl extends EgovAbstractServiceImpl implements UserServ
 	@Override
 	public String getActionYN(NotificationVo vo) throws Exception {
 		return userMapper.getActionYN(vo);
+	}
+
+	@Override
+	public String getTmpNum(String action_id) throws Exception {
+		return userMapper.getTmpNum(action_id);
+	}
+
+	@Override
+	public NotificationVo getNotificationVo(SuggestionOpinionVo vo) throws Exception {
+		return userMapper.getNotificationVo(vo);
+	}
+
+	@Override
+	public String getUserNotificationYN2(SuggestionOpinionVo vo) throws Exception {
+		return userMapper.getUserNotificationYN2(vo);
 	}
 	
 	

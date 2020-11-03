@@ -416,6 +416,30 @@
 		 WHERE action_id=#{action_id}
 	</select>
 	
+	<select id="getTmpNum" resultType="String">
+		SELECT template_id 
+		  FROM notification_talk
+		 WHERE action_id = #{action_id}
+	</select>
 	
+	<select id="getUserNotificationYN2" resultType="String">
+		SELECT talk_chk 
+		  FROM daul.user
+		 WHERE user_id = (
+							SELECT create_user 
+						  	  FROM suggestion_main 
+						 	 WHERE suggestion_idx = #{suggestion_idx}
+	 					)
+	</select>
+	
+	<select id="getNotificationVo" resultType="egovframework.com.cmmn.NotificationVo">
+		SELECT name, phone, talk_chk
+		  FROM daul.user
+		 WHERE user_id = (
+							SELECT create_user 
+						  	  FROM suggestion_main 
+						 	 WHERE suggestion_idx = #{suggestion_idx}
+	 					)
+	</select>
 	
 </mapper>
