@@ -185,7 +185,7 @@ public class SuggestionController {
 		//callNotificationTalkAPI.CallAPI("SG01",response);
 		
 		log.debug("[열린제안] 열린제안 등록 완료");
-		return "redirect:/suggestion/suggestionListPage.do";
+		return "redirect:/suggestion/suggestionListPage.do?order=1&board_type=normal";
 	}
 	
 	@RequestMapping(value="/suggestionOpinionList.do")

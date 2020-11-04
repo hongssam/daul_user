@@ -28,8 +28,11 @@ public class CallKeywordAPI {
 	public void CallAPI(String content) {
 		Map<Object, Object> paramMap = null;
 		try{
-			String jsonMessage = "{\"text\":\"" +content+ "\"}";
 			
+			
+			
+			String jsonMessage = "{\"text\":\"" +content+ "\"}";
+			jsonMessage = jsonMessage.replace("\r\n", "");
 			System.out.println(jsonMessage);
 			
 			OkHttpClient client = new OkHttpClient();
@@ -48,14 +51,17 @@ public class CallKeywordAPI {
 			paramMap = new ObjectMapper().readValue(message, new TypeReference<Map<Object, Object>>(){});
 			List<Map<Object, Object>> wordList = (List<Map<Object, Object>>) paramMap.get("words");
 			
-			for(int wordListCnt = 0; wordListCnt < wordList.size(); wordListCnt++) {
-				
-				SuggestionKeywordVo suggestionKeywordVo = new SuggestionKeywordVo();
-				suggestionKeywordVo.setWord( (String) wordList.get(wordListCnt).get("word"));
-				suggestionKeywordVo.setCount( (int) wordList.get(wordListCnt).get("count"));
-				
-				suggestionService.insertKeywordCnt(suggestionKeywordVo);
-				
+			try {
+				for(int wordListCnt = 0; wordListCnt < wordList.size(); wordListCnt++) {
+					
+					SuggestionKeywordVo suggestionKeywordVo = new SuggestionKeywordVo();
+					suggestionKeywordVo.setWord( (String) wordList.get(wordListCnt).get("word"));
+					suggestionKeywordVo.setCount( (int) wordList.get(wordListCnt).get("count"));
+					
+					suggestionService.insertKeywordCnt(suggestionKeywordVo);
+				}
+			}catch(NullPointerException e) {
+				System.out.println("wordList IS NULL");
 			}
 			
 		} catch (Exception e) {
