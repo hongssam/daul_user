@@ -142,7 +142,7 @@ public class SuggestionController {
 			//String suggestionIdx = suggestionService.selectSuggestionIdx();
 			String suggestionIdx = CmmnUtil.generateKeyWithPrefix("SG");
 			vo.setSuggestion_idx(suggestionIdx);
-			vo.setContent(vo.getContent().replace("\r\n", "<br>"));
+			vo.setContent(vo.getContent());
 			
 			UserVo userVo = (UserVo) session.getAttribute("login");
 			vo.setCreate_user(userVo.getUser_id());
@@ -400,7 +400,7 @@ public class SuggestionController {
 			
 			log.debug("[열린제안] 열린제안 상세 조회");
 			SuggestionVo suggestionVo = suggestionService.selectSuggestion(params);
-			suggestionVo.setContent(suggestionVo.getContent().replace("<br>", "\r\n"));
+			suggestionVo.setContent(suggestionVo.getContent());
 			suggestionVo.setCreate_date(suggestionVo.getCreate_date().substring(0,10));
 			
 			log.debug("[열린제안] 열린제안 상세 파일 조회");
@@ -449,7 +449,7 @@ public class SuggestionController {
 			
 			UserVo userVo = (UserVo) session.getAttribute("login");
 			vo.setUpdate_user(userVo.getUser_id());
-			vo.setContent(vo.getContent().replace("\r\n", "<br>"));
+			vo.setContent(vo.getContent());
 			
 			log.debug("[열린제안] 열린제안 수정");
 			int result = suggestionService.updateSuggestion(vo);
