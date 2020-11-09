@@ -72,5 +72,7 @@ public interface UserMapper {
 	NotificationVo getNotificationVo(SuggestionOpinionVo vo) throws Exception;
 	
 	String getUserNotificationYN2(SuggestionOpinionVo vo) throws Exception;
+	
+	String getAuth(NotificationVo vo) throws Exception;
 }
 

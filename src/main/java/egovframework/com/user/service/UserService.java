@@ -71,5 +71,5 @@ public interface UserService {
 	
 	String getUserNotificationYN2(SuggestionOpinionVo vo) throws Exception;
 	
-	
+	String getAuth(NotificationVo vo) throws Exception;
 }

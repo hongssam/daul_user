@@ -171,6 +171,11 @@ public class CallNotificationTalkAPI {
 			kakao_080 = "Y";
 			tran_replace_type = "S";
 			
+			//등록자의 권한에 따른 추가정보에 관리자님의/ 전문가님의/ 00님의 추가 
+			
+			kakao_add1 = userService.getAuth(vo);
+			System.out.println("kakao_add1(권한) = " + kakao_add1);
+			
 			paramJson += "{ " +
 						" \"tmp_number\": \""+tmp_number+"\", "+
 						" \"kakao_res\": \""+kakao_res+"\", " +

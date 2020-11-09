@@ -442,4 +442,18 @@
 	 					)
 	</select>
 	
+	<select id="getAuth" resultType="String">
+		SELECT CASE 
+				WHEN auth_type = 'pro'
+				THEN '전문가'
+				WHEN auth_type = 'public'
+				THEN '일반사용자'
+				WHEN auth_type = 'admin'
+				THEN '관리자'
+			ELSE ''
+			END AS auth
+		FROM user 
+		WHERE user_id = 'admin'
+	</select>
+	
 </mapper>

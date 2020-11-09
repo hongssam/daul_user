@@ -9,4 +9,5 @@ public interface LoginMapper {
 	void setLastLogin(UserVo vo) throws Exception;
 	UserVo selectKakaoUser(String userKakao_key) throws Exception;
 	UserVo selectKakaoUserForLogin(UserVo vo) throws Exception;
+	String getLoginHistory(UserVo vo) throws Exception;
 }

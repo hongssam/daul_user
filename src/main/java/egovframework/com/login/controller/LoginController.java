@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import egovframework.com.cmmn.SecurityUtil;
 import egovframework.com.login.service.LoginService;
+import egovframework.com.mileage.controller.MileageController;
+import egovframework.com.mileage.vo.MileageVo;
 import egovframework.com.user.vo.UserVo;
 
 @Controller
@@ -32,6 +34,9 @@ public class LoginController {
 	
 	@Resource(name="loginService")
 	private LoginService loginService;
+	
+	@Resource(name="mileageController")
+	private MileageController mileageController;
 	
 	@RequestMapping(value="/loginPage.do")
 	public String loginPage() throws Exception {
@@ -60,6 +65,10 @@ public class LoginController {
 					HttpSession httpSession = request.getSession();
 					httpSession.setAttribute("login", userVo);
 					loginService.setLastLogin(userVo);
+					
+					//오늘 로그인한적 있는지 체크
+					String cnt = loginService.getLoginHistory(userVo);
+					System.out.println("cnt = " + cnt);
 					return new ResponseEntity<>("success", resHeaders, HttpStatus.OK);
 				} else {
 					// 비번 틀림 
@@ -89,7 +98,7 @@ public class LoginController {
 			
 			String phone_number = (String) kakao_account.get("phone_number");
 			phone_number = phone_number.replaceAll(" ", "").replaceAll("-", "").replace("+82", "0");
-			
+			MileageVo mileageVo = new MileageVo();
 			UserVo vo = new UserVo();
 			vo.setKakao_key(String.valueOf(params.get("id")));
 			vo.setPhone(phone_number);
@@ -100,6 +109,19 @@ public class LoginController {
 				httpSession.setAttribute("kakao_token", params.get("access_token"));
 				httpSession.setAttribute("login", vo);
 				loginService.setLastLogin(vo);
+				
+				//오늘 로그인한적 있는지 체크
+				String cnt = loginService.getLoginHistory(vo);
+				System.out.println("cnt = " + cnt);
+				if(cnt.equals("0")) {
+					//마일리지 부여
+					mileageVo.setAction_id("LOGIN01"); 
+					mileageVo.setBoard_id("-");
+					mileageVo.setUser_id(vo.getPhone());
+					mileageController.AccumulateMileage(mileageVo);
+					
+				}
+				
 			} else {
 				return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 			}

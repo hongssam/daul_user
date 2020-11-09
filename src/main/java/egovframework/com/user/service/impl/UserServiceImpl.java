@@ -169,6 +169,11 @@ public class UserServiceImpl extends EgovAbstractServiceImpl implements UserServ
 	public String getUserNotificationYN2(SuggestionOpinionVo vo) throws Exception {
 		return userMapper.getUserNotificationYN2(vo);
 	}
+
+	@Override
+	public String getAuth(NotificationVo vo) throws Exception {
+		return userMapper.getAuth(vo);
+	}
 	
 	
 }

@@ -171,10 +171,9 @@
 	</select>
 	
 	<select id="selectSuggestionOpinionList" resultType="map">
-		SELECT *
+	SELECT @rownum:=@rownum+1	AS num, sub.*
 		  FROM (
-				SELECT @rownum:=@rownum+1 								AS num
-					 , so.opinion_idx
+				SELECT so.opinion_idx
 					 , so.suggestion_idx								AS idx
 					 , so.opinion_content
 					 , so.create_user
@@ -191,12 +190,12 @@
 				  FROM daul.suggestion_opinion so
 				  LEFT JOIN daul.user u ON so.create_user = u.user_id 
 				  INNER JOIN (SELECT @rownum:=0) TMP
-				 <!-- WHERE so.del_chk != 'Y' --> 
 				 WHERE so.suggestion_idx = #{suggestion_idx}
-				 ORDER BY so.suggestion_ref
-				        , so.suggestion_step DESC
+				 ORDER BY so.suggestion_ref ASC
+				        , so.suggestion_indent DESC
+				        , create_date ASC
 		  	   ) sub
-		 ORDER BY sub.num DESC
+		 ORDER BY num DESC
 		 LIMIT #{startIndex}, #{pageSize}
 	</select>
 	

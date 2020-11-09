@@ -63,4 +63,12 @@
 		 WHERE kakao_key = #{kakao_key}
 		   AND phone = #{phone}
 	</select>
+	
+	<select id="getLoginHistory" resultType="String">
+		SELECT count(*) 
+		  FROM user_mileage
+		 WHERE action_id = 'LOGIN01'
+		   AND user_id = #{phone}
+		   AND DATE_FORMAT(reg_date,'%Y%m%d') = DATE_FORMAT(SYSDATE() ,'%Y%m%d')
+	</select>
 </mapper>

@@ -32,4 +32,9 @@ public class LoginServiceImpl implements LoginService{
 	public UserVo selectKakaoUserForLogin(UserVo vo) throws Exception {
 		return loginMapper.selectKakaoUserForLogin(vo);
 	}
+
+	@Override
+	public String getLoginHistory(UserVo vo) throws Exception {
+		return loginMapper.getLoginHistory(vo);
+	}
 }
