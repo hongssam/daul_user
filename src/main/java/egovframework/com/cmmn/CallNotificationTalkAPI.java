@@ -174,6 +174,7 @@ public class CallNotificationTalkAPI {
 			//등록자의 권한에 따른 추가정보에 관리자님의/ 전문가님의/ 00님의 추가 
 			
 			kakao_add1 = userService.getAuth(vo);
+			
 			System.out.println("kakao_add1(권한) = " + kakao_add1);
 			
 			paramJson += "{ " +
@@ -183,7 +184,7 @@ public class CallNotificationTalkAPI {
 						" \"kakao_sender\": \""+ kakao_sender +"\", " +
 						" \"kakao_name\": \""+ kakao_name +"\", " +
 						" \"kakao_phone\": \""+ kakao_phone +"\", " +
-						" \"kakao_add1\": \"\", " +
+						" \"kakao_add1\": \""+ kakao_add1 +"\", " +
 						" \"kakao_add2\": \"\", " +
 						" \"kakao_add3\": \"\", " +
 						" \"kakao_add4\": \"\", " +

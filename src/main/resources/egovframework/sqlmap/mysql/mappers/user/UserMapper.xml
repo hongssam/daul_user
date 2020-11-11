@@ -453,7 +453,7 @@
 			ELSE ''
 			END AS auth
 		FROM user 
-		WHERE user_id = 'admin'
+		WHERE user_id = #{create_user}
 	</select>
 	
 </mapper>
