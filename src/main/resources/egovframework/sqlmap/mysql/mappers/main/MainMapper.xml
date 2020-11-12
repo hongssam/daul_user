@@ -2,26 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="egovframework.com.main.mapper.MainMapper">
 	<select id="selectSuggestionListByLately" resultType="egovframework.com.suggestion.vo.SuggestionVo">
-		SELECT sm.*
+		SELECT @rownum:=@rownum+1 AS num, sm.*
 		     , CASE WHEN (sm.like_count / 50 * 100) >= 100 THEN 100 ELSE (sm.like_count / 50 * 100) END AS like_per
 		  FROM (
-		  		SELECT @rownum:=@rownum+1 						AS num
-		  		     , sm.suggestion_idx
+		  		SELECT  sm.suggestion_idx
 				     , sm.title 
 				     , sm.content 
 				     , sm.create_user
-				     , DATE_FORMAT(sm.create_date, '%Y-%m-%d')	AS create_date
+				     , DATE_FORMAT(sm.create_date, '%Y-%m-%d %H:%m:%s')	AS create_date
 				     , sm.del_chk
 		  		     , u.name									AS create_user_name
 		  		     , (SELECT COUNT(*) FROM daul.user_like where parent_idx = sm.suggestion_idx) 				AS like_count
 		  		     , (SELECT count(*) FROM suggestion_opinion a WHERE a.suggestion_idx = sm.suggestion_idx) 	AS opinion_cnt
 		  		  FROM daul.suggestion_main sm
 		  		  LEFT JOIN user u ON u.user_id = sm.create_user
-		  		     , (SELECT @rownum:=0) TMP
 		  		 WHERE sm.del_chk != 'Y'
 		  		 ORDER BY sm.create_date DESC
-		  	   ) sm
-		  WHERE <![CDATA[sm.num <= 3]]> 
+		  	   ) sm , (SELECT @rownum:=0) TMP
+		  	   limit 3
 	</select>
 	
 	<select id="selectSurveyListByLately" resultType="egovframework.com.survey.vo.SurveyVo">
