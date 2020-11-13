@@ -39,10 +39,17 @@ public class UserVo {
 	private String requestNumber;
 	private String responseNumber;
 	
+	private String mileage;
 	private String userchannel_key;
 
 	
 	
+	public String getMileage() {
+		return mileage;
+	}
+	public void setMileage(String mileage) {
+		this.mileage = mileage;
+	}
 	public String getUserchannel_key() {
 		return userchannel_key;
 	}

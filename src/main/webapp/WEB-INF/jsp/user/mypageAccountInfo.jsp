@@ -69,6 +69,14 @@
 								<form:input type="text" class="form-control" path="phone" placeholder="전화번호" readonly="true"/>
 							</div>
 						</div>
+						<div class="form-group row ">
+							<div class="col-lg-3 p0">
+								<label>내 마일리지</label>
+							</div>
+							<div class="col-lg-9">
+								<span>${userVo.mileage } M</span>
+							</div>
+						</div>
 
 						<div class="form-group row ">
 							<div class="col-lg-3 p0">

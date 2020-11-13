@@ -134,6 +134,7 @@
 		     , sms_chk
 		     , auth_type
 		     , user_key
+		     ,( select sum(mileage_value) from user_mileage um where user_id = phone) as mileage
 		  FROM daul.user
 		 WHERE user_id = #{user_id}
 	</select>
