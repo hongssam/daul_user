@@ -119,7 +119,7 @@
 				
 				form.appendChild(input2);
 				
-				document.body.append(form);
+				document.body.appendChild(form);
 				
 				if (sms_auth_pop === null) {
 					sms_auth_pop = window.open('', 'popupChk', 'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
