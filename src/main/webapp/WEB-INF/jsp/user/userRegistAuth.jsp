@@ -110,14 +110,14 @@
 				input1.name = "m";
 				input1.value = "checkplusService";
 				
-				form.append(input1);
+				form.appendChild(input1);
 				
 				var input2 = document.createElement("input");
 				input2.type = "hidden";
 				input2.name = "EncodeData";
 				input2.value = data.resData;
 				
-				form.append(input2);
+				form.appendChild(input2);
 				
 				document.body.append(form);
 				

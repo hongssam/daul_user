@@ -10,8 +10,8 @@
 	var main_img_section = document.getElementById("main_img_section");
 	if (pathname.indexOf("main") > -1 || pathname.length == 1) {
 		if (pathname.indexOf("privacy") > -1 || pathname.indexOf("provision") > -1) {
-			main_img_section.classList.add("inner_page_breadcrumb", "style2");
-
+			main_img_section.classList.add("inner_page_breadcrumb");
+			main_img_section.classList.add("style2");
 			var div = '<div class="container">' + 
 					  	'<div class="row posr">' + 
 					  		'<div class="col-12">' + 
@@ -48,20 +48,20 @@
 			main_img_section.innerHTML = div;
 		}
 	} else if (pathname.indexOf("login") > -1) {
-		main_img_section.classList.add("inner_page_breadcrumb", "style1");
-
+		main_img_section.classList.add("inner_page_breadcrumb");
+		main_img_section.classList.add("style1");
 		var div = '<div class="container">' + '<div class="breadcrumb_content">' + '<h4 class="breadcrumb_title">로그인</h4>' + '</div>' + '</div>';
 
 		main_img_section.innerHTML = div;
 	}else if (pathname.indexOf("user/idInquiryPage") > -1) {
-		main_img_section.classList.add("inner_page_breadcrumb", "style1");
-
+		main_img_section.classList.add("inner_page_breadcrumb");
+		main_img_section.classList.add("style1");
 		var div = '<div class="container">' + '<div class="breadcrumb_content">' + '<h4 class="breadcrumb_title">아이디 찾기</h4>' + '</div>' + '</div>';
 
 		main_img_section.innerHTML = div;
 	}else if (pathname.indexOf("user/pwInquiryPage") > -1) {
-		main_img_section.classList.add("inner_page_breadcrumb", "style1");
-
+		main_img_section.classList.add("inner_page_breadcrumb");
+		main_img_section.classList.add("style1");
 		var div = '<div class="container">' + '<div class="breadcrumb_content">' + '<h4 class="breadcrumb_title">비밀번호 찾기</h4>' + '</div>' + '</div>';
 
 		main_img_section.innerHTML = div;
@@ -69,8 +69,8 @@
 		if (pathname.indexOf("mypage") > -1) {
 			main_img_section.remove();
 		} else {
-			 main_img_section.classList.add("inner_page_breadcrumb", "style1");
-	
+			 main_img_section.classList.add("inner_page_breadcrumb";
+			 main_img_section.classList.add("style1");
 			var div = '<div class="container">' + '<div class="breadcrumb_content">' + '<h4 class="breadcrumb_title">회원가입</h4>' + '</div>' + '</div>';
 	
 			main_img_section.innerHTML = div;			
