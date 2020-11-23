@@ -90,8 +90,8 @@
 				<div class="col-xl-10 offset-xl-1">
 					<h3 class="text-center mb30 " style="font-size: 20px">대기환경개선과 대중교통활성화를 위한</h3>
 					<div class="row">
-						<div class="col-md-6 col-lg-4 col-xl-4">
-							<div class="why_chose_us style2" style="padding:30px 20px;">
+						<div class="col-md-6 col-lg-4 col-xl-4" style="width:400px; margin:auto;">
+							<div class="why_chose_us style2" style="padding:30px 20px;" onclick="location.href='/suggestion/suggestionListPage.do?order=1&board_type=normal';">
 								<div class="icon bgc-f4">
 									<span class="flaticon-chat"></span>
 								</div>
@@ -101,8 +101,8 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-6 col-lg-4 col-xl-4">
-							<div class="why_chose_us style2" style="padding:30px 20px;">
+						<div class="col-md-6 col-lg-4 col-xl-4" style="width:400px; margin:auto;">
+							<div class="why_chose_us style2" style="padding:30px 20px;" onclick="location.href='/survey/surveyListPage.do?order=1';">
 								<div class="icon bgc-f4">
 									<span class="flaticon-user-1"></span>
 								</div>
@@ -112,8 +112,8 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-6 col-lg-4 col-xl-4">
-							<div class="why_chose_us style2" style="padding:30px 20px;">
+						<div class="col-md-6 col-lg-4 col-xl-4" style="width:400px; margin:auto;">
+							<div class="why_chose_us style2" style="padding:30px 20px;" onclick="location.href='/contest/contestListPage.do?order=1';">
 								<div class="icon bgc-f4">
 									<span class="flaticon-high-five"></span>
 								</div>

@@ -1,13 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<div style="border-width: 5px; border-style: double; width: 85%;">
 	<p class="m10">
 		e-다울마당(이하 ‘사이트’이라 칭함)은 고객님들의 개인정보를 중요시하며, “정보통신망이용촉진 및 정보보호”에 관한 법률을 준수하고 있습니다. 개인정보취급방침을 통하여 고객님께서 제공하시는 개인정보가 어떠한 용도와 방식으로 이용되고 있으며, 개인정보보호를 위해 어떠한 조치가 취해지고 있는지 알려드립니다.<br>
 		제1조 개인정보의 수집 및 이용목적<br>
 		제2조 개인정보의 보유 및 이용기간<br>
 		제3조 수집하는 개인정보 항목 및 수집방법
 	</p>
-</div>
 <br>
 <h5>제1조 개인정보의 수집 및 이용목적</h5>
 <p>

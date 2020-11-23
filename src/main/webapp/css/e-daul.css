@@ -262,7 +262,7 @@ header.header-nav.menu_style_home_one .ace-responsive-menu .nav-item-account spa
     width: 24.9%;
     font-size: 16px;
     text-overflow: ellipsis;
-    white-space: nowrap;
+    
     overflow: hidden;
     height: 45px;
     line-height: 45px;

@@ -382,7 +382,7 @@
 	.mouse_scroll:before{bottom: 40px;}
 	.mouse_scroll:after{bottom: 20px;}
 	.home4_overlay::before{top: -75px;}
-	.inner_page_breadcrumb{margin-top: -95px;}
+	/*.inner_page_breadcrumb{margin-top: -95px;}*/
 	.checkout_form .checkout_coupon form input,.checkout_form .checkout_coupon form button.btn2{margin-right: 15px;}
 	.inbox_user_list{padding: 30px 25px 40px;}
 	.header.stylehome1.home5 a#search-button-listener2{color: #0a0a0a !important;}
