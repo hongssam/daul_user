@@ -76,8 +76,9 @@
 			main_img_section.innerHTML = div;			
 		}
 	} else {
-		main_img_section.classList.add("inner_page_breadcrumb", "style2");
-	
+		main_img_section.classList.add("inner_page_breadcrumb");
+		main_img_section.classList.add("style2");
+		
 		var div = 
 			'<div class="container">' + 
 				  	'<div class="row posr">' + 
