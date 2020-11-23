@@ -31,6 +31,7 @@
 			main_img_section.classList.add("home-seven");
 	
 			var div = 
+				'<section class="inner_page_breadcrumb style2">'+
 				'<div class="container">' + 
 					'<div class="row posr">' + 
 						'<div class="col-12">' + 
@@ -43,7 +44,8 @@
 							'</div>' +
 						'</div>' + 
 					'</div>' + 
-				'</div>';
+				'</div>'+
+				'</style>';
 	
 			main_img_section.innerHTML = div;
 		}
@@ -78,7 +80,9 @@
 	} else {
 		main_img_section.classList.add("inner_page_breadcrumb", "style2");
 	
-		var div = '<div class="container">' + 
+		var div = 
+			'<section class="inner_page_breadcrumb style2">'+
+			'<div class="container">' + 
 				  	'<div class="row posr">' + 
 				  		'<div class="col-12">' + 
 				      			'<div class="breadcrumb_content">' + 
@@ -90,7 +94,8 @@
 				 			 '</div>' + 
 				  		'</div>' + 
 			      	'</div>' + 
-				  '</div>';
+				  '</div>'+
+					'</style>';
 		main_img_section.innerHTML = div;
 	}
 
