@@ -69,7 +69,7 @@
 		if (pathname.indexOf("mypage") > -1) {
 			main_img_section.remove();
 		} else {
-			 main_img_section.classList.add("inner_page_breadcrumb";
+			 main_img_section.classList.add("inner_page_breadcrumb");
 			 main_img_section.classList.add("style1");
 			var div = '<div class="container">' + '<div class="breadcrumb_content">' + '<h4 class="breadcrumb_title">회원가입</h4>' + '</div>' + '</div>';
 	
