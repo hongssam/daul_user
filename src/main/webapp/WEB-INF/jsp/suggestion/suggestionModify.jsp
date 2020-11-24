@@ -140,7 +140,7 @@
 
 				p.innerHTML = str;
 
-				input_file.after(p);
+				input_file.parentElement.appendChild(p);
 				
 				let file_del_btn = document.querySelector("button[name='file_del_btn']");
 				

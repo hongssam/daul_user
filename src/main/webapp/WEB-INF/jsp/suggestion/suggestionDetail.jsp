@@ -165,8 +165,15 @@
 	getSuggestionOpinionList(1);
 
 	function getSuggestionOpinionList(curPage) {
-		var request = $.ajax({ url : "/suggestion/suggestionOpinionList.do", method : "get",
-			data : { suggestion_idx : "${sgst.suggestion_idx}", curPage : curPage } });
+		var request = $.ajax({ 
+			url : "/suggestion/suggestionOpinionList.do", 
+			method : "get",
+			cache : false,
+			data : { 
+				suggestion_idx : "${sgst.suggestion_idx}", 
+				curPage : curPage 
+			}
+		});
 
 		request.done(function(data) {
 			setOpinionList(data.sgstOpnList);
@@ -175,12 +182,15 @@
 	}
 
 	function registOpinion(target) {
-		if (!confirm("댓글을(를) 등록 하시겠습니까?"))
-			return false;
+		if (!confirm("댓글을(를) 등록 하시겠습니까?")) return false;
 
 		var form = target.closest("form");
 
-		var request = $.ajax({ url : "/suggestion/suggestionOpinionRegist.do", method : "post", data : $(form).serialize() });
+		var request = $.ajax({ 
+			url : "/suggestion/suggestionOpinionRegist.do", 
+			method : "post", 
+			data : $(form).serialize() 
+		});
 
 		request.done(function(data) {
 			form.querySelector("textarea[name='opinion_content']").value = "";
@@ -197,8 +207,7 @@
 	}
 
 	function deleteOpinion(target, opn) {
-		if (!submitConfirm($(target)))
-			return false;
+		if (!submitConfirm($(target))) return false;
 
 		var request = $.ajax({ url : "/suggestion/suggestionOpinionDelete.do", method : "post", data : opn });
 

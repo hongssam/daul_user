@@ -20,7 +20,7 @@ function setOpinionList(data) {
 		
 		var div = createOpinionElement(type, opn);
 		
-		reviews.append(div);
+		reviews.appendChild(div);
 		
 		if (login_user_id !== "" && opn.del_chk !== "Y") {
 			var div_top = document.getElementById(opn.opinion_idx);
@@ -174,7 +174,8 @@ function createOpinionElement(type, data) {
 
 			div_bottom.innerHTML = html_button;
 			
-			div.querySelector("div.content").after(div_bottom);
+			//div.querySelector("div.content").after(div_bottom);
+			div.appendChild(div_bottom);
 		} else {
 			if (login_user_id === data.create_user) {
 				var li = document.createElement("li");

@@ -321,7 +321,9 @@
 	</c:forEach>	
 	
 	if (fileList.length > 0) {
-		for (var file of fileList) {
+		for (var i = 0; i < fileList.length; i++) {
+			var file = fileList[i];
+			
 			if (file.attach_type.indexOf("contest") > -1) {
 				var str = 	'<a href="#this" name="file">'
 						+   '<input type="hidden" name="save_file_name" value="' + file.save_file_name + '">'
@@ -452,17 +454,19 @@
 	</c:forEach>	
 	
 	if (userFileList.length > 0) {
-		for (var file of userFileList) {
-				var str = 	'<div><a href="#this" name="file2">'
-						+   '<input type="hidden" name="save_file_name" value="' + file.save_file_name + '">'
-						+	'	<span class="fa-file-o mr10" ></span>'
-						+	file.org_file_name
-						+	'</a>'
-						+   '<button class="btn btn-pure" type="button" name="FileDelBtn">'
-						+   '<span class="fa-trash-o"></span>' 
-					    +   '</button>' 
-					    +   '<br></div>';
-				$("#userFile-list").append(str);
+		for (var j = 0; j < userFileList.length; j++) {
+			var file = userFileList[j];
+			
+			var str = 	'<div><a href="#this" name="file2">'
+					+   '<input type="hidden" name="save_file_name" value="' + file.save_file_name + '">'
+					+	'	<span class="fa-file-o mr10" ></span>'
+					+	file.org_file_name
+					+	'</a>'
+					+   '<button class="btn btn-pure" type="button" name="FileDelBtn">'
+					+   '<span class="fa-trash-o"></span>' 
+				    +   '</button>' 
+				    +   '<br></div>';
+			$("#userFile-list").append(str);
 		}
 	}
 	

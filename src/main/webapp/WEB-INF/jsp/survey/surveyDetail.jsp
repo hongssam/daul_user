@@ -264,8 +264,15 @@
 	var reviews = document.querySelector("div.reviews");
 
 	function getSurveyOpinionList(curPage) {
-		var request = $.ajax({ url : "/survey/surveyOpinionList.do", method : "get",
-			data : { survey_idx : "${surveyVo.survey_idx}", curPage : curPage } });
+		var request = $.ajax({ 
+			url : "/survey/surveyOpinionList.do", 
+			method : "get",
+			cache : false,
+			data : { 
+				survey_idx : "${surveyVo.survey_idx}", 
+				curPage : curPage 
+			} 
+		});
 
 		request.done(function(data) {
 			setOpinionList(data.surveyOpnList);

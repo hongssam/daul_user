@@ -121,7 +121,6 @@
        </mvc:interceptor>
     </mvc:interceptors>
     
-    
     <beans profile="local1">   
 		<bean id="ProfileCls" class="egovframework.com.cmmn.util.ProfileCls">
 			<property name="rootPath" value="/Users/a1/attach/"/>
@@ -132,12 +131,14 @@
 			<property name="rootPath" value="/Users/a2/attach/"/>
 		</bean>
 	</beans>
+	<beans profile="local3">   
+		<bean id="ProfileCls" class="egovframework.com.cmmn.util.ProfileCls">
+			<property name="rootPath" value="C:/Users/taehe/Desktop/work/eclipse-workspace/attach/"/>
+		</bean>
+	</beans>
 	<beans profile="prod">   
 		<bean id="ProfileCls" class="egovframework.com.cmmn.util.ProfileCls">
 			<property name="rootPath" value="/home/tababa/attach/"/>
 		</bean>
 	</beans>
-
-
-
 </beans>

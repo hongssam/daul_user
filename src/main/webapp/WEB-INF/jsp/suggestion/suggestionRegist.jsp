@@ -145,7 +145,7 @@
 
 					p.innerHTML = str;
 
-					input_file.after(p);
+					input_file.parentElement.appendChild(p);
 				}
 			}
 		}
