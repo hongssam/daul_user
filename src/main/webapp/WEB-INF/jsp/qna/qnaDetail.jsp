@@ -76,7 +76,7 @@
 	</c:when>
 	<c:otherwise>
 		<c:choose>
-			<c:when test="${login.user_id eq qnaVo.create_user }">
+			<c:when test="${login.user_id eq qnaVo.auth_user }">
 				<section class="qa-detail-section bgc-fa">
 					<div class="container">
 						<div class="row">

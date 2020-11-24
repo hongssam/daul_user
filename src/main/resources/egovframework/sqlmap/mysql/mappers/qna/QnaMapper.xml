@@ -97,6 +97,7 @@
 		       , DATE_FORMAT(a.create_date, '%Y-%m-%d %H:%i:%s') 		AS create_date
 		       ,b.name 
 		       ,a.lock_chk
+		  	   ,a.auth_user
 		  FROM daul.daul_qna a
 		  LEFT JOIN daul.user b
 		  ON a.create_user = b.user_id 
