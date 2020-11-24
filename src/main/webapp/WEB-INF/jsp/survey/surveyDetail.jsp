@@ -215,7 +215,10 @@
 
 	function getSurveyResult() {
 		var survey_idx = $("#survey_idx").val();
-		var request = $.ajax({ url : "/survey/getSurveyResult.do?survey_idx=" + survey_idx, method : "get" });
+		var request = $.ajax({ 
+			url : "/survey/getSurveyResult.do?survey_idx=" + survey_idx, 
+			method : "get"
+		});
 
 		request.done(function(data) {
 			makeSurveyResult(data);
@@ -242,7 +245,7 @@
 
 				div.innerHTML = html;
 
-				result_box_div.append(div);
+				result_box_div.appendChild(div);
 			} else {
 				var html = '<div class="item">' + '<label>' + question_data.question_content + '</label>' + '<span class="float-right">'
 						+ question_data.question_count + '표 <span class="color-red">(' + question_data.question_per + ' %)</span></span>'
