@@ -165,7 +165,7 @@ public class UserController {
 					System.out.println("action_noti_yn = " + action_noti_yn);
 					//notificationVo.setName(vo.getName());
 					//notificationVo.setPhone(vo.getPhone());
-					//callNotificationTalkAPI.CallAPI(notificationVo);
+					callNotificationTalkAPI.CallAPI(notificationVo);
 					
 				}else {
 					System.out.println("user_noti_yn222 = " + user_noti_yn);
@@ -245,7 +245,7 @@ public class UserController {
 					System.out.println("action_noti_yn = " + action_noti_yn);
 					//notificationVo.setName(vo.getName());
 					//notificationVo.setPhone(vo.getPhone());
-					//callNotificationTalkAPI.CallAPI(notificationVo);
+					callNotificationTalkAPI.CallAPI(notificationVo);
 					
 				}else {
 					System.out.println("user_noti_yn = " + user_noti_yn);

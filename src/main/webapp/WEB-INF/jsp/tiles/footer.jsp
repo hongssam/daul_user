@@ -5,7 +5,7 @@
 		<div class="row">
 			<div class="col-sm-6 col-md-4 col-lg-3 col-xl-3 pr0 pl0">
 				<div class="footer_about_widget home5">
-					<img class="logo1 img-fluid" src="${pageContext.request.contextPath}/images/logo.png" alt="header-logo.png" style="width: 180px; margin-top: 10px;">
+					<img class="logo1 img-fluid" src="${pageContext.request.contextPath}/images/logo3.png" alt="header-logo.png" style="width: 180px; margin-top: 10px;">
 				</div>
 			</div>
 			<div class="col-sm-6 col-md-6 col-lg-7 col-xl-7">
