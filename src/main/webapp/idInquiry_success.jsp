@@ -14,19 +14,19 @@
     String sEncodeData = requestReplace(request.getParameter("EncodeData"), "encodeData");
 
   	//String propFile = "/Users/a2/config.properties"; //로컬
-  	//String propFile = "/home/tababa/properties/config.properties";  //운영
+  	String propFile = "/home/tababa/properties/config.properties";  //운영
   	// 프로퍼티 객체 생성
    	Properties props = new Properties();
      
   	// 프로퍼티 파일 스트림에 담기
-  	//FileInputStream fis = new FileInputStream(propFile);
+  	FileInputStream fis = new FileInputStream(propFile);
      
   	// 프로퍼티 파일 로딩
-  	//props.load(new java.io.BufferedInputStream(fis));
+  	props.load(new java.io.BufferedInputStream(fis));
      
 
-  	String sSiteCode = "BS821"; // NICE로부터 부여받은 사이트 코드
-  	String sSitePassword = "FQjooBjIbgKQ";  // NICE로부터 부여받은 사이트 패스워드
+  	String sSiteCode = props.getProperty("sSiteCode"); // NICE로부터 부여받은 사이트 코드
+  	String sSitePassword = props.getProperty("sSitePassword");  // NICE로부터 부여받은 사이트 패스워드
 
     String sCipherTime = "";			// 복호화한 시간
     String sRequestNumber = "";			// 요청 번호
