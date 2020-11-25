@@ -163,8 +163,8 @@ public class UserController {
 				if(user_noti_yn.equals("Y") && action_noti_yn.equals("Y")) {
 					System.out.println("user_noti_yn = " + user_noti_yn);
 					System.out.println("action_noti_yn = " + action_noti_yn);
-					//notificationVo.setName(vo.getName());
-					//notificationVo.setPhone(vo.getPhone());
+					notificationVo.setName(vo.getName());
+					notificationVo.setPhone(vo.getPhone());
 					callNotificationTalkAPI.CallAPI(notificationVo);
 					
 				}else {
@@ -243,8 +243,8 @@ public class UserController {
 				if(user_noti_yn.equals("Y") && action_noti_yn.equals("Y")) {
 					System.out.println("user_noti_yn = " + user_noti_yn);
 					System.out.println("action_noti_yn = " + action_noti_yn);
-					//notificationVo.setName(vo.getName());
-					//notificationVo.setPhone(vo.getPhone());
+					notificationVo.setName(vo.getName());
+					notificationVo.setPhone(vo.getPhone());
 					callNotificationTalkAPI.CallAPI(notificationVo);
 					
 				}else {
