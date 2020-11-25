@@ -6,19 +6,19 @@
 <%
 	NiceID.Check.CPClient niceCheck = new NiceID.Check.CPClient();
 
-	//String propFile = "/Users/a2/config.properties"; //로컬
-	String propFile = "/home/tababa/properties/config.properties"; //운영
+	//String propFile = "/Users/a1/config.properties"; //로컬
+	//String propFile = "/home/tababa/properties/config.properties"; //운영
 	// 프로퍼티 객체 생성
 	Properties props = new Properties();
 
 	// 프로퍼티 파일 스트림에 담기
-	FileInputStream fis = new FileInputStream(propFile);
+	//FileInputStream fis = new FileInputStream(propFile);
 
 	// 프로퍼티 파일 로딩
-	props.load(new java.io.BufferedInputStream(fis));
+	//props.load(new java.io.BufferedInputStream(fis));
 
-	String sSiteCode = props.getProperty("sSiteCode"); // NICE로부터 부여받은 사이트 코드
-	String sSitePassword = props.getProperty("sSitePassword"); // NICE로부터 부여받은 사이트 패스워드
+	String sSiteCode = "BS821"; // NICE로부터 부여받은 사이트 코드
+	String sSitePassword = "FQjooBjIbgKQ"; // NICE로부터 부여받은 사이트 패스워드
 
 	String sRequestNumber = "REQ0000000001"; // 요청 번호, 이는 성공/실패후에 같은 값으로 되돌려주게 되므로 
 												// 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
@@ -34,8 +34,8 @@
 
 	// CheckPlus(본인인증) 처리 후, 결과 데이타를 리턴 받기위해 다음예제와 같이 http부터 입력합니다.
 	//리턴url은 인증 전 인증페이지를 호출하기 전 url과 동일해야 합니다. ex) 인증 전 url : http://www.~ 리턴 url : http://www.~
-	String sReturnUrl = "http://soslab.jica.or.kr/idInquiry_success.jsp"; // 성공시 이동될 URL
-	String sErrorUrl = "http://soslab.jica.or.kr/checkplus_fail.jsp"; // 실패시 이동될 URL
+	String sReturnUrl = "http://localhost:9090/idInquiry_success.jsp"; // 성공시 이동될 URL
+	String sErrorUrl = "http://localhost:9090/checkplus_fail.jsp"; // 실패시 이동될 URL
 
 	// 입력될 plain 데이타를 만든다.
 	String sPlainData = "7:REQ_SEQ" + sRequestNumber.getBytes().length + ":" + sRequestNumber + "8:SITECODE"

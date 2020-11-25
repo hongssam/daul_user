@@ -9,7 +9,7 @@
 		<nav>
 			<!-- Menu Toggle btn-->
 			<div class="menu-toggle">
-				<img class="nav_logo_img img-fluid" src="${pageContext.request.contextPath}/images/logo.png" alt="header-logo.png">
+				<img class="nav_logo_img img-fluid" src="${pageContext.request.contextPath}/images/logo.png" alt="header-logo.png" >
 				<button type="button" id="menu-btn">
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
@@ -17,7 +17,7 @@
 				</button>
 			</div>
 			<a href="/main/main.do" class="navbar_brand float-left dn-smd">
-				<img class="logo1 img-fluid" src="${pageContext.request.contextPath}/images/logo.png" alt="header-logo.png" style="width: 180px; margin-top: 10px;"> <img class="logo2 img-fluid" src="${pageContext.request.contextPath}/images/logo.png" alt="header-logo.png" style="width: 180px; margin-top: 10px;">
+				<img class="logo1 img-fluid" src="${pageContext.request.contextPath}/images/logo.png" alt="header-logo.png" style="width: 180px;"> <img class="logo2 img-fluid" src="${pageContext.request.contextPath}/images/logo.png" alt="header-logo.png" style="width: 180px; margin-top: 0px;">
 			</a>
 			<!-- Responsive Menu Structure-->
 			<!--Note: declare the Menu style in the data-menu-style="horizontal" (options: horizontal, vertical, accordion) -->

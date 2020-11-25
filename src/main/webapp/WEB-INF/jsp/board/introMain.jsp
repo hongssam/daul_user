@@ -128,4 +128,13 @@
 			</div>
 
 		</div>
+		<br>
+		<div class="container">
+			<div class="row">
+				<div class="col-xl-10 offset-xl-1">
+				<h3 class="text-center mb30 " style="font-size: 20px">e-다울마당 로고소개</h3>
+					<img class="" src="${pageContext.request.contextPath}/images/logoinfo.jpeg"  style="width: 100%; margin:auto;"> 
+				</div>
+			</div>
+		</div>
 	</section>
