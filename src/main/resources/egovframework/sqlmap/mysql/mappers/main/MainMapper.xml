@@ -34,9 +34,14 @@
 				     , DATE_FORMAT(sm.e_date, '%Y-%m-%d')	AS e_date
 				     , sm.create_user
 				     , del_chk
-				     , (SELECT count(*) FROM survey_participation WHERE survey_idx = sm.survey_idx) AS participation_count
+				     , COUNT(sp.participation_user)			AS participation_count
 				     , (SELECT count(*) FROM survey_opinion WHERE survey_idx = sm.survey_idx) 		AS opinion_count
 		  		  FROM daul.survey_main sm
+		  		  LEFT JOIN (
+		  		  			 SELECT *
+							   FROM daul.survey_participation
+							  GROUP BY participation_user, survey_idx
+		  		  			) sp ON sm.survey_idx = sp.survey_idx
 		  		     , (SELECT @rownum:=0) TMP
 		  		 WHERE sm.del_chk != 'Y'
 		  		 ORDER BY sm.create_date DESC

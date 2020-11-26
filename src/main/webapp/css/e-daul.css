@@ -1614,7 +1614,7 @@ ul.page-navigation li.active .page-link {
   -webkit-background-size: cover;
   background-size: cover;
   background-position: center center;
-  height: 620px;
+  height: 520px;
 }
 
 @media (max-width: 767.98px) {
@@ -1625,7 +1625,7 @@ ul.page-navigation li.active .page-link {
 
 @media (min-width: 992px) {
   .home-seven .home_content{
-    padding-top: 220px;
+    padding-top: 180px;
   }
   .home-seven .home-text{
     padding-top: 0;
