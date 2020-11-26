@@ -419,7 +419,7 @@
 				+ '°C</p>'
 				+ '</div>'
 				+ '<div class="detais-right">'
-				+ '<p>강수확률: '
+				+ '<p>구름양: '
 				+ weather.weather.clouds
 				+ '%</p>'
 				+ '<p>습도: '
