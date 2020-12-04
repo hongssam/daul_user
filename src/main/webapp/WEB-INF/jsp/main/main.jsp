@@ -125,7 +125,6 @@
 						</div>
 					</c:otherwise>
 				</c:choose>
-
 			</div>
 			<div class="col-md-6 col-lg-4">
 				<div class="main-title text-center">
