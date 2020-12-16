@@ -26,6 +26,11 @@
 		</div>
    	
 		<div class="grid-list row">
+			<c:if test="${surveyListSize eq 0}">
+				<div class="grid-item col-md-6 col-lg-12 text-center">
+					게시물이 존재하지 않습니다.
+				</div>
+			</c:if>
 			<c:forEach var="list" items="${surveyList}" varStatus="idx">
 				<div class="grid-item col-12">
 					<div class="feat_property list" onclick="location.href='${pageContext.request.contextPath}/survey/surveyDetailPage.do?survey_idx=${list.survey_idx }'">

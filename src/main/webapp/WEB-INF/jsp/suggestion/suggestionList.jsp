@@ -64,6 +64,11 @@
 			</div>
 		</div>
 		<div class="grid-list row">
+			<c:if test="${sgstListSize eq 0}">
+				<div class="grid-item col-md-6 col-lg-12 text-center">
+					게시물이 존재하지 않습니다.
+				</div>
+			</c:if>
 			<c:forEach var="sgst" items="${sgstList}">
 				<div class="grid-item col-md-6 col-lg-3">
 					<div class="content-box suggest" onclick="location.href='${pageContext.request.contextPath}/suggestion/suggestionDetailPage.do?suggestion_idx=${sgst.suggestion_idx}'">

@@ -51,7 +51,7 @@
 									<tbody>
 										<tr>
 											<td class="text-left board-content" colspan="2">
-												<div style="min-height: 224px;">${qnaVo.content }</div>
+												<div style="min-height: 224px; white-space: pre-wrap;">${qnaVo.content }</div>
 											</td>
 										</tr>
 										<tr>

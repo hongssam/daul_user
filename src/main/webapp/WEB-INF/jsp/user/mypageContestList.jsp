@@ -26,6 +26,11 @@
 			</div>
 		</div>
 		<div class="grid-list row">
+			<c:if test="${contestListSize eq 0}">
+				<div class="grid-item col-md-6 col-lg-12 text-center">
+					게시물이 존재하지 않습니다.
+				</div>
+			</c:if>
 			<c:forEach var="list" items="${contestList}" varStatus="idx">
 				<c:choose>
 					<c:when test="${empty login.user_id }">

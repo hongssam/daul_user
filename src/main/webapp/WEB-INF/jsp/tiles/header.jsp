@@ -41,7 +41,6 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/script.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/chartist.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/progressbar.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.ajax-cross-origin.min.js"></script>
 
 
 

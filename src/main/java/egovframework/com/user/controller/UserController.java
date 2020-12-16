@@ -336,6 +336,7 @@ public class UserController {
 		}
 		
 		model.addAttribute("sgstList", suggestionList);
+		model.addAttribute("sgstListSize", suggestionList.size());
 		model.addAttribute("pagination", vo);
 		
 		return "/user/mypageSuggestionList";
@@ -360,6 +361,7 @@ public class UserController {
 		}
 		
 		model.addAttribute("surveyList", surveyList);
+		model.addAttribute("surveyListSize", surveyList.size());
 		model.addAttribute("pagination", vo);
 		
 		return "/user/mypageSurveyList";
@@ -367,7 +369,7 @@ public class UserController {
 	
 	@RequestMapping(value="/mypageContestListPage.do")
 	public String mypageContestListPage(ModelMap model, ContestVo vo, @RequestParam(defaultValue = "1") int curPage, HttpSession session) throws Exception {
-		List<ContestVo> surveyList = null;
+		List<ContestVo> contestList = null;
 		
 		try {
 			UserVo userVo = (UserVo) session.getAttribute("login");
@@ -378,12 +380,13 @@ public class UserController {
 			
 			vo.setPagination(listCnt, curPage);
 			
-			surveyList = userService.selectContestListByMypage(vo);
+			contestList = userService.selectContestListByMypage(vo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		model.addAttribute("contestList", surveyList);
+		model.addAttribute("contestList", contestList);
+		model.addAttribute("contestListSize", contestList.size());
 		model.addAttribute("pagination", vo);
 		
 		return "/user/mypageContestList";

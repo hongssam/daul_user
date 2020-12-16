@@ -80,6 +80,7 @@ public class SuggestionController {
 			}
 			
 			model.addAttribute("sgstList", suggestionList);
+			model.addAttribute("sgstListSize", suggestionList.size());
 			model.addAttribute("pagination", vo);
 			model.addAttribute("board_type", vo.getBoard_type());
 		} catch (Exception e) {
