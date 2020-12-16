@@ -114,7 +114,7 @@ function createOpinionElement(type, data) {
 				'</li>' +
 				'<li class="list-inline-item">' +
 					'<p>' + data.name + '&nbsp;&nbsp;<span class="status_tag outline-admin">관리자<span></p>' +
-					'<p class="date">' + data.create_date + ' '+emotion+'</p>' +
+					'<p class="date">' + data.create_date + ' '+emotion+ ' '+ data.emotion_score + '</p>' +
 				'</li>' +
 			'</ul>' +
 		'</div>' +
@@ -130,7 +130,7 @@ function createOpinionElement(type, data) {
 					'</li>' +
 					'<li class="list-inline-item">' +
 						'<p>' + data.name + '&nbsp;&nbsp;<span class="status_tag outline-primary">전문가<span></p>' +
-						'<p class="date">' + data.create_date + ' '+emotion+'</p>' +
+						'<p class="date">' + data.create_date + ' '+emotion+ ' '+ data.emotion_score + '</p>' +
 					'</li>' +
 				'</ul>' +
 			'</div>' +
@@ -146,7 +146,7 @@ function createOpinionElement(type, data) {
 					'</li>' +
 					'<li class="list-inline-item">' +
 						'<p>' + data.name + '</p>' +
-						'<p class="date">' + data.create_date + ' '+emotion+'</p>' +
+						'<p class="date">' + data.create_date + ' '+emotion+ ' '+ data.emotion_score + '</p>' +
 					'</li>' +
 				'</ul>' +
 			'</div>' +

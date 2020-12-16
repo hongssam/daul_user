@@ -179,6 +179,7 @@
 					 , so.create_user
 					 , so.update_user
 					 , so.emotion_type
+					 , truncate(so.emotion_score,2)                     AS emotion_score
 					 , DATE_FORMAT(so.create_date, '%Y-%m-%d %H:%i:%s')	AS create_date
 					 , DATE_FORMAT(so.update_date, '%Y-%m-%d %H:%i:%s') 	AS update_date
 					 , so.del_chk
