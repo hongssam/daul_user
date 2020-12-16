@@ -65,7 +65,8 @@
 		</div>
 		<div class="grid-list row">
 			<c:if test="${sgstListSize eq 0}">
-				<div class="grid-item col-md-6 col-lg-12 text-center">
+				<div class="grid-item col-md-6 col-lg-12 text-center" style="height:150px; margin-top:50px;">
+				<br>
 					게시물이 존재하지 않습니다.
 				</div>
 			</c:if>
