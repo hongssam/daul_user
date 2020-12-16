@@ -133,7 +133,7 @@
 		</nav>
 	</div>
 </header>
-
+<c:if test="${login.ch ne 'kakao' }">
 <!-- Main Header Nav For Mobile -->
 <div id="page" class="stylehome1 h0">
 	<div class="mobile-menu">
@@ -275,7 +275,7 @@
 		</ul>
 	</nav>
 </div>
-
+</c:if>
 <script type="text/javascript">
 	function kakaoUserLogout() {
 		var channel = "${login.channel}";

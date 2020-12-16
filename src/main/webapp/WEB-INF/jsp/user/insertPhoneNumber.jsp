@@ -59,7 +59,7 @@
 			} else {
 				console.log(data.userKakao_key);
 				alert("서비스에 연동되었습니다.")
-				location.href = CTX + "/login/kakaoLogin.do?user_key=" + data.userchannel_key + "&forward=" + forward;
+				location.href = CTX + "/login/kakaoLogin.do?ch=kakao&user_key=" + data.userchannel_key + "&forward=" + forward;
 			}
 		});
 		request.fail(function(error) {

@@ -136,12 +136,14 @@ public class LoginController {
 	
 	
 	@RequestMapping(value="/kakaoLogin.do", method=RequestMethod.GET)
-	public String kakaLogin(@RequestParam("user_key") String userchannel_key, @RequestParam("forward") String forward, HttpServletRequest request) throws Exception {
-		System.out.println("userchannel_Key = " + userchannel_key);
+	public String kakaLogin(@RequestParam("ch") String ch, @RequestParam("user_key") String userchannel_key, @RequestParam("forward") String forward, HttpServletRequest request) throws Exception {
+		System.out.println("userchannel_Key = " + userchannel_key +"forward = " + forward);
 		UserVo vo = new UserVo();
 		vo = loginService.selectKakaoUser(userchannel_key);
+		
 		System.out.println("forward = " + forward);
 		if (vo != null) {
+			vo.setCh(ch);
 			HttpSession httpSession = request.getSession();
 			httpSession.setAttribute("login", vo);
 			loginService.setLastLogin(vo);

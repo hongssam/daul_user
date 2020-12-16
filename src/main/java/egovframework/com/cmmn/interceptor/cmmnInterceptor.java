@@ -76,7 +76,7 @@ public class cmmnInterceptor extends HandlerInterceptorAdapter {
 		    		return false;
 		    	}else {
 		    		//바로 로그인
-		    		response.sendRedirect("/login/kakaoLogin.do?user_key=" + request.getParameter("user_key") +"&forward=" + requestURI + idx_param);
+		    		response.sendRedirect("/login/kakaoLogin.do?ch=kakao&user_key=" + request.getParameter("user_key") +"&forward=" + requestURI + idx_param);
 		    		return false;
 		    	}
 		    }

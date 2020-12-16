@@ -42,8 +42,25 @@ public class UserVo {
 	private String mileage;
 	private String userchannel_key;
 
+	private String withdrawalPw;
+	
+	private String ch;
 	
 	
+	
+	
+	public String getCh() {
+		return ch;
+	}
+	public void setCh(String ch) {
+		this.ch = ch;
+	}
+	public String getWithdrawalPw() {
+		return withdrawalPw;
+	}
+	public void setWithdrawalPw(String withdrawalPw) {
+		this.withdrawalPw = withdrawalPw;
+	}
 	public String getMileage() {
 		return mileage;
 	}
@@ -268,6 +285,8 @@ public class UserVo {
 				+ ", authType=" + authType + ", birthDate=" + birthDate + ", connInfo=" + connInfo + ", dupInfo="
 				+ dupInfo + ", gender=" + gender + ", mobileCo=" + mobileCo + ", mobileNo=" + mobileNo + ", msg=" + msg
 				+ ", nationalInfo=" + nationalInfo + ", requestNumber=" + requestNumber + ", responseNumber="
-				+ responseNumber + ", userchannel_key=" + userchannel_key + "]";
+				+ responseNumber + ", mileage=" + mileage + ", userchannel_key=" + userchannel_key + ", withdrawalPw="
+				+ withdrawalPw + "]";
 	}
+	
 }
