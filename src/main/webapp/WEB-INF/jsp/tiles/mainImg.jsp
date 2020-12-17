@@ -18,7 +18,7 @@
 			 	      			'<div class="breadcrumb_content">' + 
 			      	  				'<h4 class="fz55">' + '시민 참여 소통 플랫폼' + 
 					  					'<span class="focus-text">e-다울마당</span>' + 
-				  	  					'<br>여러문의 목소리가 전주시를 바꾸는 정책이 됩니다.' +
+				  	  					'<br>여러분의 목소리가 전주시를 바꾸는 정책이 됩니다.' +
 				  	  				'</h4>'+
 				      				'<button type="button" class="btn btn-lg btn-thm banner-btn" onclick="goSuggestionRegist()">제안하기</button>' + 
 					 			 '</div>' + 
@@ -36,7 +36,7 @@
 						'<div class="col-12">' + 
 							'<div class="home_content home7">' + 
 								'<div class="home-text text-center">' +
-									'<h2 class="fz55 hidden-sm-down">시민 참여 소통 플랫폼 <span class="focus-text">e-다울마당</span><br><span class="sub-text">여러문의 목소리가 전주시를 바꾸는 정책이 됩니다.</span></h2>' + 
+									'<h2 class="fz55 hidden-sm-down">시민 참여 소통 플랫폼 <span class="focus-text">e-다울마당</span><br><span class="sub-text">여러분의 목소리가 전주시를 바꾸는 정책이 됩니다.</span></h2>' + 
 									'<h4 class="fz55 hidden-sm-up">시민 참여 소통 플랫폼<br><span class="focus-text">e-다울마당</span></h4>' +
 									'<button type="button" class="btn btn-lg btn-thm banner-btn" onclick="goSuggestionRegist()">제안하기</button>' + 
 								'</div>' + 
@@ -86,7 +86,7 @@
 				      			'<div class="breadcrumb_content">' + 
 			  	  				'<h4 class="fz55">' + '시민 참여 소통 플랫폼' + 
 				  					'<span class="focus-text">e-다울마당</span>' + 
-			  	  					'<br>여러문의 목소리가 전주시를 바꾸는 정책이 됩니다.' +
+			  	  					'<br>여러분의 목소리가 전주시를 바꾸는 정책이 됩니다.' +
 			  	  				'</h4>'+
 			      				'<button type="button" class="btn btn-lg btn-thm banner-btn" onclick="goSuggestionRegist()">제안하기</button>' + 
 				 			 '</div>' + 
